@@ -1,0 +1,87 @@
+nome {
+	color: #153e63;
+	font-size: 15px;
+	font-weight: bold;
+}
+
+descricao {
+	font-size: 12px;
+}
+
+nome-principal {
+	color: #FFFFFF;
+	font-size: 25px;
+	font-weight: bold;
+}
+
+.body-back {
+	background-color: #153e63;
+}
+
+.wrapper {
+	font-family: arial;
+	max-width: 1300px;
+	margin : auto;
+	padding-top: 10px;
+	padding-bottom: 20px;
+}
+
+#content {
+	padding-top: 80px;
+	padding-bottom: 30px;
+}
+
+.titulo {
+	width: 100%;
+	margin-bottom: 10px;
+	text-align: center;
+}
+
+#colunas {
+	margin: auto;
+	margin-top:50px;
+	margin-bottom:10px;
+	height: 460px;
+	width: 1280px; 
+	display: inherit;
+	border-radius: 10px;
+}
+
+.coluna {
+	background-color: #d8e2eb;
+	float: left;
+	height: 410px;
+	width: 148px;
+	margin-left: 10.5px;
+	margin-top: 10px;
+	border-radius: 10px;
+	padding-top: 2px;
+}
+
+#disciplinas {
+	background-color: #c0c0c0;
+	margin: auto;
+	margin-top: 10px;
+	width: 1280px;
+	display: inherit;
+}
+
+.disciplina {
+	background-color: #FFFFFF;
+	margin:auto;
+	margin-top:6px;
+	width: 138px;
+	border-radius: 10px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	text-align: center;
+}
+
+.disciplina:hover {
+	background-color: #b2cfe9;
+}
+
+.float-left {
+	float: left;
+	margin-left: 10px;	
+}

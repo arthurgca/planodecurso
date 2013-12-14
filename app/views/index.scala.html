@@ -1,7 +1,84 @@
-@(message: String)
+@(periodos: List[Periodo])
 
-@main("Welcome to Play") {
+@import helper._
 
-    @play20.welcome(message, style = "Java")
+@main("Meu curso") {
 
+<header class="navbar navbar-inverse navbar-fixed-top bs-docs-nav" role="banner">
+  <div class="navbar-inverse">
+    <div class="container">
+      <div class="navbar-header">
+        <a href="" class="navbar-brand">Home</a>
+      </div>
+      <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
+        <ul class="nav navbar-nav">
+          <li><a href="">Ajuda</a></li>
+          <li><a href="">Dicas</a></li>
+          <li><a href="">Overview</a></li>
+          <li class="active"><a href="https://github.com/hilquias/PlanoDeCurso">Colabore</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="">Sobre</a></li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<div class="wrapper" style="height: 100%;">
+  <div class="titulo">
+    <nome-principal>Meu Curso</nome-principal>
+  </div>
+  <br/>
+  <div id="colunas">
+    @for((periodo, index) <- periodos.zipWithIndex){
+    <div id="c@index + 1" class="coluna">
+      @for(disciplina <- periodo.getDisciplinas()){
+      <div class="disciplina">
+        <nome>@disciplina.getNome()</nome><br/>
+        <descricao>@disciplina.getCreditos() creditos</descricao>
+      </div>
+      }
+    </div>
+    }
+  </div>
+  <div class="titulo">
+    <nome-principal>Disciplinas Ofertadas</nome-principal>
+  </div>
+  <br/>
+  <div id="disciplinas">
+    <div class="disciplina float-left">
+      <nome>Disciplina 7</nome><br/>
+      <descricao>20 creditos</descricao>
+    </div>
+    <div class="disciplina float-left">
+      <nome>Disciplina 8</nome><br/>
+      <descricao>1 credito</descricao>
+    </div>
+    <div class="disciplina float-left">
+      <nome>Disciplina 9</nome><br/>
+      <descricao>20 creditos</descricao>
+    </div>
+    <div class="disciplina float-left">
+      <nome>Disciplina 10</nome><br/>
+      <descricao>1 credito</descricao>
+    </div>
+    <div class="disciplina float-left">
+      <nome>Disciplina 11</nome><br/>
+      <descricao>20 creditos</descricao>
+    </div>
+    <div class="disciplina float-left">
+      <nome>Disciplina 12</nome><br/>
+      <descricao>1 credito</descricao>
+    </div>
+    <div class="disciplina float-left">
+      <nome>Disciplina 13</nome><br/>
+      <descricao>20 creditos</descricao>
+    </div>
+    <div class="disciplina float-left">
+      <nome>Disciplina 14</nome><br/>
+      <descricao>1 credito</descricao>
+    </div>
+  </div>
+</div>
 }
