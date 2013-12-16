@@ -32,7 +32,7 @@
   <br/>
   <div id="colunas">
     @for((periodo, index) <- periodos.zipWithIndex){
-    <div id="c@index + 1" class="coluna">
+    <div id="c@{index + 1}" class="coluna">
       @for(disciplina <- periodo.getDisciplinas()){
       <div class="disciplina">
         <nome>@disciplina.getNome()</nome><br/>
