@@ -18,6 +18,7 @@ import play.libs.F.*;
 import static play.test.Helpers.*;
 import static org.fest.assertions.Assertions.*;
 
+import models.*;
 
 /**
 *
@@ -35,10 +36,11 @@ public class ApplicationTest {
 
     @Test
     public void renderTemplate() {
-        Content html = views.html.index.render("Your new application is ready.");
+        ArrayList<Periodo> periodos = new ArrayList<Periodo>();
+        periodos.add(new Periodo());
+        Content html = views.html.index.render(periodos);
         assertThat(contentType(html)).isEqualTo("text/html");
-        assertThat(contentAsString(html)).contains("Your new application is ready.");
+        assertThat(contentAsString(html)).contains("Meu curso");
     }
-
 
 }
