@@ -13,7 +13,10 @@
     @for((periodo, index) <- periodos.zipWithIndex) {
     <div class="col-md-2 coluna periodo-@{index + 1}">
       <div class="row text-center">
-        <h4>@{index + 1}º Período <small class="descricao">(24 créditos)</small></h4>
+        <h4>
+          @{index + 1}º Período
+          <small class="descricao">(@periodo.getTotalCreditos() créditos)</small>
+        </h4>
       </div>
       @for(disciplina <- periodo.getDisciplinas()) {
       <div class="row">

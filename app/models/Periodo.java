@@ -22,4 +22,16 @@ public class Periodo {
         return disciplinas;
     }
 
+    public void addDisciplina(Disciplina disciplina) {
+        this.disciplinas.add(disciplina);
+    }
+
+    public int getTotalCreditos() {
+        int sum = 0;
+        for (Disciplina disciplina : getDisciplinas()) {
+            sum += disciplina.getCreditos();
+        }
+        return sum;
+    }
+
 }

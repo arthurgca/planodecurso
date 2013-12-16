@@ -33,4 +33,19 @@ public class US1Test {
         });
     }
 
+    @Test
+    public void deveMostrarTotaldeCreditosNoPrimeiroPeriodo() {
+        running(testServer(3333, fakeApplication(inMemoryDatabase())), HTMLUNIT, new Callback<TestBrowser>() {
+            public void invoke(TestBrowser browser) {
+                browser.goTo("http://localhost:3333");
+
+                FluentWebElement periodo1 = browser.findFirst(".periodo-1");
+
+                assertThat(periodo1).isNotNull();
+
+                assertThat(periodo1.getText()).contains("24 créditos");
+            }
+        });
+    }
+
 }
