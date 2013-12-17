@@ -8,6 +8,8 @@ import play.data.validation.Constraints.*;
 
 public class PlanoDeCurso {
 
+    private static final CatalogoDeDisciplinas catalogoDeDisciplinas = new CatalogoDeDisciplinas();
+
     @Valid
     private List<Periodo> periodos;
 
@@ -25,12 +27,12 @@ public class PlanoDeCurso {
 
     public static PlanoDeCurso criarPlanoFera() {
         List<Disciplina> disciplinas = new ArrayList();
-        disciplinas.add(new Disciplina("Calculo Diferencial e Integral I", 4));
-        disciplinas.add(new Disciplina("Álgebra Vetorial e Geometria Analítica", 4));
-        disciplinas.add(new Disciplina("Leitura e Produção de Textos", 4));
-        disciplinas.add(new Disciplina("Programação I", 4));
-        disciplinas.add(new Disciplina("Introdução à Computação", 4));
-        disciplinas.add(new Disciplina("Laboratório de Programação I", 4));
+        disciplinas.add(catalogoDeDisciplinas.get("CALCULO1"));
+        disciplinas.add(catalogoDeDisciplinas.get("VETORIAL"));
+        disciplinas.add(catalogoDeDisciplinas.get("LPT"));
+        disciplinas.add(catalogoDeDisciplinas.get("P1"));
+        disciplinas.add(catalogoDeDisciplinas.get("IC"));
+        disciplinas.add(catalogoDeDisciplinas.get("LP1"));
 
         List<Periodo> periodos = new ArrayList<Periodo>();
         periodos.add(new Periodo(1, disciplinas));

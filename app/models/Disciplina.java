@@ -6,8 +6,10 @@ import javax.validation.*;
 
 import play.data.validation.Constraints.*;
 
-
 public class Disciplina {
+
+    @Required
+    private String id;
 
     @Required
     private String nome;
@@ -15,9 +17,14 @@ public class Disciplina {
     @Required
     private int creditos;
 
-    public Disciplina(String nome, int creditos) {
+    public Disciplina(String id, String nome, int creditos) {
+        this.id = id;
         this.nome = nome;
         this.creditos = creditos;
+    }
+
+    public String getId() {
+        return id;
     }
 
     public String getNome() {
@@ -38,11 +45,11 @@ public class Disciplina {
         if (!(obj instanceof Disciplina))
             return false;
 
-        return getNome().equals(((Disciplina) obj).getNome());
+        return getId().equals(((Disciplina) obj).getId());
     }
 
     public String toString() {
-        return this.nome;
+        return this.id;
     }
 
 }

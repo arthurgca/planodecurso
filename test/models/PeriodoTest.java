@@ -13,20 +13,22 @@ import models.*;
 
 public class PeriodoTest {
 
+    private static final CatalogoDeDisciplinas catalogoDeDisciplinas = new CatalogoDeDisciplinas();
+
     @Test
     public void deveCalcularTotalDeCreditos() {
         List<Disciplina> disciplinas = new ArrayList<Disciplina>();
 
-        disciplinas.add(new Disciplina("Seminários", 2));
-        disciplinas.add(new Disciplina("Teoria dos Grafos", 2));
+        disciplinas.add(catalogoDeDisciplinas.get("TC"));
+        disciplinas.add(catalogoDeDisciplinas.get("TG"));
 
         Periodo periodo = new Periodo(1, disciplinas);
 
-        assertThat(periodo.getTotalCreditos()).isEqualTo(4);
+        assertThat(periodo.getTotalCreditos()).isEqualTo(6);
 
-        periodo.addDisciplina(new Disciplina("Sistemas da Informação", 4));
+        periodo.addDisciplina(catalogoDeDisciplinas.get("LP2"));
 
-        assertThat(periodo.getTotalCreditos()).isEqualTo(8);
+        assertThat(periodo.getTotalCreditos()).isEqualTo(10);
     }
 
 }
