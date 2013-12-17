@@ -18,7 +18,7 @@ public class US1Test {
             public void invoke(TestBrowser browser) {
                 browser.goTo("http://localhost:3333");
 
-                FluentWebElement periodo1 = browser.findFirst(".periodo-1");
+                FluentWebElement periodo1 = browser.findFirst("#periodo-1");
 
                 assertThat(periodo1).isNotNull();
 
@@ -39,7 +39,7 @@ public class US1Test {
             public void invoke(TestBrowser browser) {
                 browser.goTo("http://localhost:3333");
 
-                FluentWebElement periodo1 = browser.findFirst(".periodo-1");
+                FluentWebElement periodo1 = browser.findFirst("#periodo-1");
 
                 assertThat(periodo1).isNotNull();
 

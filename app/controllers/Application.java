@@ -4,15 +4,22 @@ import java.util.*;
 
 import play.*;
 import play.mvc.*;
+import play.data.*;
 
 import models.*;
 import views.html.*;
 
 public class Application extends Controller {
 
+    public static final Form<PlanoDeCurso> planoDeCursoForm = Form.form(PlanoDeCurso.class);
+
     public static Result index() {
         PlanoDeCurso planoDeCurso = PlanoDeCurso.criarPlanoFera();
-        return ok(index.render(planoDeCurso.getPeriodos(), disciplinasOfertadas()));
+        return ok(index.render(planoDeCursoForm.fill(PlanoDeCurso.criarPlanoFera()), disciplinasOfertadas()));
+    }
+
+    public static Result submit() {
+        return null;
     }
 
     private static List<Disciplina> disciplinasOfertadas() {

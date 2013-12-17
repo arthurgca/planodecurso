@@ -2,10 +2,17 @@ package models;
 
 import java.util.*;
 
+import javax.validation.*;
+
+import play.data.validation.Constraints.*;
+
+
 public class Disciplina {
 
+    @Required
     private String nome;
 
+    @Required
     private int creditos;
 
     public Disciplina(String nome, int creditos) {

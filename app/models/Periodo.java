@@ -11,11 +11,16 @@ public class Periodo {
     @Required
     private int semestre;
 
+    @Valid
     private List<Disciplina> disciplinas;
 
     public Periodo(int semestre, List<Disciplina> disciplinas) {
         this.semestre = semestre;
         this.disciplinas = disciplinas;
+    }
+
+    public int getSemestre() {
+        return semestre;
     }
 
     public List<Disciplina> getDisciplinas() {

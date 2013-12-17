@@ -4,24 +4,26 @@
 
 .nome-principal {
     color: #FFFFFF;
+    text-align: center;
 }
 
-.coluna {
+.periodo {
     background-color: #d8e2eb;
     border-radius: 10px;
 }
 
-.disciplina {
-    background-color: #FFFFFF;
-    margin: 2px;
-    border-radius: 10px;
-    padding-top: 10px;
-    padding-bottom: 10px;
+.sumario {
     text-align: center;
 }
 
-.disciplina:hover {
-    background-color: #b2cfe9;
+.disciplina {
+    text-align: center;
+    height: 100px;
+    margin: 2px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background-color: #FFFFFF;
+    border-radius: 10px;
 }
 
 .nome {
@@ -34,12 +36,27 @@
     font-size: 12px;
 }
 
+
+#colunas {
+}
+
 #disciplinas {
     border: 2px #c0c0c0 solid;
     border-radius: 10px;
     margin-bottom: 10px;
     padding: 10px;
 }
+
+.coluna {
+    background-color: #d8e2eb;
+    border-radius: 10px;
+}
+
+
+.disciplina:hover {
+    background-color: #b2cfe9;
+}
+
 
 .float-left {
     float: left;
