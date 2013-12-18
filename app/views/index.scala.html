@@ -1,4 +1,4 @@
-@(planoDeCursoForm: Form[PlanoDeCurso], disciplinasOfertadas: List[Disciplina])
+@(planoForm: Form[PlanoDeCurso], disciplinasOfertadas: List[Disciplina])
 
 @import helper._
 
@@ -7,6 +7,7 @@
     <div class="disciplina">
       <div class="nome">@field("nome").value</div>
       <div class="descricao">@field("creditos").value créditos</div>
+      <input type="hidden" name="@field.name" value="@field.value">
     </div>
   </div>
 }
@@ -18,9 +19,13 @@
         <small>@field("totalCreditos").value créditos</small></h4>
     </div>
 
-    @repeat(field("disciplinas")) { disciplina =>
-      @disciplinaField(disciplina)
-    }
+    <input type="hidden" name="@field("semestre").name" value="@field("semestre").value">
+
+    <div class="sortable-list">
+      @repeat(field("disciplinas"), min=0) { disciplina =>
+        @disciplinaField(disciplina)
+      }
+    </div>
 
     <div class="row sumario">
       <h4>@{field("semestre").value}º Período<br/>
@@ -30,20 +35,13 @@
 }
 
 @main("Plano de Curso") {
-
 <div class="container">
   <h2 class="nome-principal">Meu Curso</h2>
-
-  @if(planoDeCursoForm.hasErrors) {
-  <div class="alert-message error">
-    <p><strong>Oops</strong> Please fix all errors</p>
-  </div>
-  }
 
   @helper.form(action = routes.Application.submit, 'id -> "form") {
   <div id="disciplinas-alocadas">
     <div class="row">
-      @repeat(planoDeCursoForm("periodos")) { periodo =>
+      @repeat(planoForm("periodos"), min=0) { periodo =>
         @periodoGroup(periodo)
       }
     </div>
@@ -68,6 +66,5 @@
     </div>
     }
   </div>
-
 </div>
 }

@@ -12,7 +12,9 @@ public class PlanoDeCurso {
     @Valid
     private List<Periodo> periodos;
 
-    public PlanoDeCurso() { }
+    public PlanoDeCurso() {
+        this.periodos = new ArrayList<Periodo>();
+    }
 
     public PlanoDeCurso(Periodo... periodos) {
         this.periodos = new ArrayList<Periodo>();

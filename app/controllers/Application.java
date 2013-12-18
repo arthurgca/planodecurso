@@ -25,7 +25,7 @@ public class Application extends Controller {
             return badRequest(index.render(filledForm, disciplinas.getAll()));
         } else {
             PlanoDeCurso plano = filledForm.get();
-            return ok(index.render(planoForm.fill(plano), disciplinas.getAll()));
+            return ok(index.render(filledForm, disciplinas.getAll()));
         }
     }
 

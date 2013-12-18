@@ -13,7 +13,9 @@ public class Periodo {
     @Valid
     private List<Disciplina> disciplinas;
 
-    public Periodo() { }
+    public Periodo() {
+        this.disciplinas = new ArrayList<Disciplina>();
+    }
 
     public Periodo(int semestre, Disciplina... disciplinas) {
         this.semestre = semestre;
