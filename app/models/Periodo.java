@@ -14,6 +14,7 @@ public class Periodo {
     private List<Disciplina> disciplinas;
 
     public Periodo() {
+        this.semestre = 1;
         this.disciplinas = new ArrayList<Disciplina>();
     }
 
@@ -30,6 +31,11 @@ public class Periodo {
     public int getSemestre() {
         return semestre;
     }
+
+    public void setSemestre(int semestre) {
+        this.semestre = semestre;
+    }
+
     public List<Disciplina> getDisciplinas() {
         return disciplinas;
     }
@@ -45,4 +51,24 @@ public class Periodo {
         return total;
     }
 
+    public boolean isEmpty() {
+        return disciplinas.isEmpty();
+    }
+
+    public boolean equals(Object obj) {
+        if (obj == null)
+            return false;
+
+        if (obj == this)
+            return true;
+
+        if (!(obj instanceof Periodo))
+            return false;
+
+        return getSemestre() == (((Periodo) obj).getSemestre());
+    }
+
+    public int hashCode() {
+        return 7 * Integer.valueOf(this.semestre).hashCode();
+    }
 }

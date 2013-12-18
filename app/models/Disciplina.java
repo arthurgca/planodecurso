@@ -6,13 +6,10 @@ import play.data.validation.Constraints.*;
 
 public class Disciplina {
 
-    @Required
     private String id;
 
-    @Required
     private String nome;
 
-    @Required
     private int creditos;
 
     public Disciplina() { }

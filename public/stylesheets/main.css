@@ -2,6 +2,34 @@
     background-color: #153e63;
 }
 
+.descricao {
+    font-size: 12px;
+}
+
+.disciplina {
+    background-color: #FFFFFF;
+    border-radius: 10px;
+    height: 100px;
+    margin: 2px 0 2px 0;
+    padding: 10px 0 10px 0;
+    text-align: center;
+}
+
+.disciplina:hover {
+    background-color: #b2cfe9;
+}
+
+.float-left {
+    float: left;
+    margin-left: 10px;
+}
+
+.nome {
+    color: #153e63;
+    font-size: 15px;
+    font-weight: bold;
+}
+
 .nome-principal {
     color: #FFFFFF;
     text-align: center;
@@ -12,53 +40,10 @@
     border-radius: 10px;
 }
 
+.periodo .sortable-list {
+    min-height: 200px;
+}
+
 .sumario {
     text-align: center;
-}
-
-.disciplina {
-    text-align: center;
-    height: 100px;
-    margin: 2px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    background-color: #FFFFFF;
-    border-radius: 10px;
-}
-
-.nome {
-    color: #153e63;
-    font-size: 15px;
-    font-weight: bold;
-}
-
-.descricao {
-    font-size: 12px;
-}
-
-
-#colunas {
-}
-
-#disciplinas {
-    border: 2px #c0c0c0 solid;
-    border-radius: 10px;
-    margin-bottom: 10px;
-    padding: 10px;
-}
-
-.coluna {
-    background-color: #d8e2eb;
-    border-radius: 10px;
-}
-
-
-.disciplina:hover {
-    background-color: #b2cfe9;
-}
-
-
-.float-left {
-    float: left;
-    margin-left: 10px;
 }

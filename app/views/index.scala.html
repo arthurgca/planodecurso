@@ -3,13 +3,11 @@
 @import helper._
 
 @disciplinaField(field: Field) = {
-  <div class="row">
-    <div class="disciplina">
-      <a href="#" class="close remove" aria-hidden="true">&times;</a>
-      <div class="nome">@field("nome").value</div>
-      <div class="descricao">@field("creditos").value créditos</div>
-      <input type="hidden" name="@field.name" value="@field.value">
-    </div>
+  <div class="row disciplina">
+    <a href="#" class="close remove" aria-hidden="true">&times;</a>
+    <div class="nome">@field("nome").value</div>
+    <div class="descricao">@field("creditos").value créditos</div>
+    <input type="hidden" name="@field.name" value="@field.value">
   </div>
 }
 
@@ -42,7 +40,7 @@
   @helper.form(action = routes.Application.submit, 'id -> "form") {
   <div id="disciplinas-alocadas">
     <div class="row">
-      @repeat(planoForm("periodos"), min=0) { periodo =>
+      @repeat(planoForm("periodos"), min=1) { periodo =>
         @periodoGroup(periodo)
       }
     </div>
@@ -56,11 +54,10 @@
     <div class="row">
       @for(disciplina <- disciplinasRow) {
       <div class="col-md-2">
-        <div class="row">
-          <div class="disciplina">
-            <div class="nome">@disciplina.getNome()</div>
-            <div class="descricao">@disciplina.getCreditos() Créditos</div>
-          </div>
+        <div class="row disciplina">
+          <div class="nome">@disciplina.getNome()</div>
+          <div class="descricao">@disciplina.getCreditos() Créditos</div>
+          <input type="hidden" name="periodos[x].disciplinas[x]" value="@disciplina.getId()">
         </div>
       </div>
       }
