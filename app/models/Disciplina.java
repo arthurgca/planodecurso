@@ -2,8 +2,6 @@ package models;
 
 import java.util.*;
 
-import javax.validation.*;
-
 import play.data.validation.Constraints.*;
 
 public class Disciplina {
@@ -16,6 +14,8 @@ public class Disciplina {
 
     @Required
     private int creditos;
+
+    public Disciplina() { }
 
     public Disciplina(String id, String nome, int creditos) {
         this.id = id;
@@ -48,8 +48,8 @@ public class Disciplina {
         return getId().equals(((Disciplina) obj).getId());
     }
 
-    public String toString() {
-        return this.id;
+    public int hashCode() {
+        return 7 * this.id.hashCode();
     }
 
 }

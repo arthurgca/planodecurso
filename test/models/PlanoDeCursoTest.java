@@ -12,15 +12,13 @@ import models.*;
 public class PlanoDeCursoTest {
 
     @Test
-    public void deveCriarPlanoPrimeiroPeriodo() {
-        PlanoDeCurso plano = PlanoDeCurso.criarPlanoFera();
-        assertThat(plano.getPeriodos().get(0).getDisciplinas()).onProperty("nome")
-            .containsOnly("Calculo Diferencial e Integral I",
-                          "Álgebra Vetorial e Geometria Analítica",
-                          "Leitura e Produção de Textos",
-                          "Programação I",
-                          "Introdução à Computação",
-                          "Laboratório de Programação I");
+    public void deveCriarPlanoInicialComDisciplinasDoPrimeiroPeriodo() {
+        PlanoDeCurso plano = PlanoDeCurso.criarPlanoInicial();
+
+        assertThat(plano.getPeriodos().size()).isEqualTo(1);
+
+        assertThat(plano.getPeriodos().get(0).getDisciplinas()).onProperty("id")
+            .containsOnly("CALCULO1", "VETORIAL", "LPT", "P1", "IC", "LP1");
     }
 
 }

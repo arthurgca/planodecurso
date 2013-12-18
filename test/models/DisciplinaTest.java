@@ -15,8 +15,9 @@ public class DisciplinaTest {
     public void deveCompararIgualdadeUsandId() {
         assertThat(new Disciplina("SEMINARIOS", "Seminários", 2))
             .isEqualTo(new Disciplina("SEMINARIOS", "Seminários", 4));
-        assertThat(new Disciplina("SEMINARIOS", "Seminários", 2))
-            .isNotEqualTo(new Disciplina("IC", "Seminários", 2));
+
+        assertThat(new Disciplina("SEMINARIO", "Seminários", 2))
+            .isNotEqualTo(new Disciplina("SEMINARIOS", "Seminários", 2));
     }
 
 }

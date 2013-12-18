@@ -13,30 +13,39 @@ import models.*;
 
 public class CatalogoDeDisciplinasTest {
 
-    private CatalogoDeDisciplinas catalogoDeDisciplinas;
+    private CatalogoDeDisciplinas disciplinas;
 
     @Before
     public void setup() {
-        catalogoDeDisciplinas = new CatalogoDeDisciplinas();
+        disciplinas = new CatalogoDeDisciplinas();
     }
 
     @Test
     public void deveRetornarDisciplinaPorId() {
-        assertThat(catalogoDeDisciplinas.get("CALCULO2"))
-            .isInstanceOf(Disciplina.class);
+        assertThat(disciplinas.get("CALCULO2")).isInstanceOf(Disciplina.class);
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void deveLancarExcecaoQuandoIdDaDisciplinaNaoExiste() {
-        catalogoDeDisciplinas.get("MINECRAFT");
+        disciplinas.get("MINECRAFT");
     }
 
     @Test
-    public void deveRetornarTodasAsDisciplinas() {
-        assertThat(catalogoDeDisciplinas.getAll()).onProperty("id")
-            .contains("CALCULO1",
-                      "CALCULO2",
-                      "PROBABILIDADE");
+    public void deveConterDisciplinasDoPrimeiroPeriodo() {
+        assertThat(disciplinas.getAll()).onProperty("id")
+            .contains("CALCULO1", "LPT", "P1", "LP1");
+    }
+
+    @Test
+    public void deveConterDisciplinasDoSegundoPeriodo() {
+        assertThat(disciplinas.getAll()).onProperty("id")
+            .contains("CALCULO2", "DISCRETA", "P2");
+    }
+
+    @Test
+    public void deveConterDisciplinasDoTerceiroPeriodo() {
+        assertThat(disciplinas.getAll()).onProperty("id")
+            .contains("LINEAR", "PROBABILIDADE", "EDA");
     }
 
 }
