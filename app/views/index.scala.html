@@ -5,6 +5,7 @@
 @disciplinaField(field: Field) = {
   <div class="row">
     <div class="disciplina">
+      <a href="#" class="close remove" aria-hidden="true">&times;</a>
       <div class="nome">@field("nome").value</div>
       <div class="descricao">@field("creditos").value créditos</div>
       <input type="hidden" name="@field.name" value="@field.value">

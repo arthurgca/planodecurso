@@ -35,4 +35,10 @@ $(function () {
       submit();
     },
   });
+
+  $(".disciplina").on('click', '.remove', function(e) {
+    $(this).parents('.disciplina').remove();
+    renumber();
+    submit();
+  });
 });
