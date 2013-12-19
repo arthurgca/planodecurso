@@ -7,9 +7,11 @@ import play.libs.F.*;
 import static play.test.Helpers.*;
 import static org.fest.assertions.Assertions.*;
 
-import static org.fluentlenium.core.filter.FilterConstructor.*;
+import org.fluentlenium.adapter.util.SharedDriver;
 import org.fluentlenium.core.domain.FluentWebElement;
+import static org.fluentlenium.core.filter.FilterConstructor.*;
 
+@SharedDriver(type = SharedDriver.SharedType.ONCE)
 public class US1Test {
 
     @Test

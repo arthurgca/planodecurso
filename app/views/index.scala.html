@@ -3,7 +3,7 @@
 @import helper._
 
 @disciplinaField(field: Field) = {
-  <div class="row disciplina">
+  <div class="row disciplina @field.value">
     <a href="#" class="close remove" aria-hidden="true">&times;</a>
     <div class="nome">@field("nome").value</div>
     <div class="descricao">@field("creditos").value créditos</div>
@@ -54,7 +54,7 @@
     <div class="row">
       @for(disciplina <- disciplinasRow) {
       <div class="col-md-2">
-        <div class="row disciplina">
+        <div class="row disciplina @disciplina.getId()">
           <div class="nome">@disciplina.getNome()</div>
           <div class="descricao">@disciplina.getCreditos() Créditos</div>
           <input type="hidden" name="periodos[x].disciplinas[x]" value="@disciplina.getId()">
