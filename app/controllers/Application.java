@@ -17,7 +17,7 @@ public class Application extends Controller {
 
     public static Result index() {
         PlanoDeCurso planoInicial = PlanoDeCurso.criarPlanoInicial();
-        planoInicial = appendOrRemoveBlanks(planoInicial);
+        planoInicial = appendOrTrimBlanks(planoInicial);
         return ok(index.render(planoForm.fill(planoInicial), disciplinas.getAll()));
     }
 
@@ -28,12 +28,12 @@ public class Application extends Controller {
             return badRequest(index.render(filledForm, disciplinas.getAll()));
         } else {
             PlanoDeCurso plano = filledForm.get();
-            plano = appendOrRemoveBlanks(plano);
+            plano = appendOrTrimBlanks(plano);
             return ok(index.render(planoForm.fill(plano), disciplinas.getAll()));
         }
     }
 
-    private static PlanoDeCurso appendOrRemoveBlanks(PlanoDeCurso plano) {
+    private static PlanoDeCurso appendOrTrimBlanks(PlanoDeCurso plano) {
         List<Periodo> blanks = new ArrayList<Periodo>();
         List<Periodo> periodos = new ArrayList<Periodo>();
 
