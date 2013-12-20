@@ -5,9 +5,10 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
-import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
+import play.data.Form;
+import play.data.validation.ValidationError;
 
 import models.Periodo;
 import models.PlanoDeCurso;
@@ -22,17 +23,19 @@ public class Application extends Controller {
 
     public static Result index() {
         PlanoDeCurso plano = PlanoDeCurso.criarPlanoInicial();
-        return ok(index.render(appendBlankForm(planoForm.fill(plano)), disciplinas));
+        return ok(index.render(appendBlankForm(planoForm.fill(plano)), disciplinas, null));
     }
 
     public static Result submit() {
         Form<PlanoDeCurso> filledForm = trimBlankForms(planoForm.bindFromRequest());
 
-        if(filledForm.hasErrors()) {
-            return badRequest(index.render(filledForm, disciplinas));
+        PlanoDeCurso plano = filledForm.get();
+        List<ValidationError> errors = plano.validateHack();
+
+        if(errors != null) {
+            return badRequest(index.render(filledForm, disciplinas, errors));
         } else {
-            PlanoDeCurso plano = filledForm.get();
-            return ok(index.render(appendBlankForm(planoForm.fill(plano)), disciplinas));
+            return ok(index.render(appendBlankForm(planoForm.fill(plano)), disciplinas, null));
         }
     }
 

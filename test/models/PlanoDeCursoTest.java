@@ -60,7 +60,7 @@ public class PlanoDeCursoTest {
                 anyData.put("periodos[0].semestre", "1");
                 anyData.put("periodos[0].disciplinas[0]", "CALCULO1");
 
-                assertThat(planoForm.bind(anyData).hasErrors()).isTrue();
+                assertThat(planoForm.bind(anyData).get().validateHack()).isNotNull();
             }});
     }
 
@@ -81,7 +81,7 @@ public class PlanoDeCursoTest {
                 anyData.put("periodos[0].disciplinas[6]", "TG");
                 anyData.put("periodos[0].disciplinas[7]", "FC");
 
-                assertThat(planoForm.bind(anyData).hasErrors()).isTrue();
+                assertThat(planoForm.bind(anyData).get().validateHack()).isNotNull();
             }});
     }
 

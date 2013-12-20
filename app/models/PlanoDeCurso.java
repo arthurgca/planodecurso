@@ -39,6 +39,13 @@ public class PlanoDeCurso {
     }
 
     public List<ValidationError> validate() {
+        return null;
+    }
+
+    // We need to do validation ourselves because Play won't resolve
+    // any custom databinder if the form has errors. As this is never
+    // saved to db this shouldn't be a problem for us.
+    public List<ValidationError> validateHack() {
         List<ValidationError> errors = new ArrayList<ValidationError>();
 
         validateMinimoCreditos(errors);
