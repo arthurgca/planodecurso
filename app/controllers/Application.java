@@ -16,47 +16,57 @@ public class Application extends Controller {
     static final Form<PlanoDeCurso> planoForm = Form.form(PlanoDeCurso.class);
 
     public static Result index() {
-        PlanoDeCurso planoInicial = PlanoDeCurso.criarPlanoInicial();
-        planoInicial = appendOrTrimBlanks(planoInicial);
-        return ok(index.render(planoForm.fill(planoInicial), disciplinas.getAll()));
+        PlanoDeCurso plano = PlanoDeCurso.criarPlanoInicial();
+        return ok(index.render(appendBlankForm(planoForm.fill(plano)), disciplinas));
     }
 
     public static Result submit() {
-        Form<PlanoDeCurso> filledForm = planoForm.bindFromRequest();
+        Form<PlanoDeCurso> filledForm = trimBlankForms(planoForm.bindFromRequest());
 
         if(filledForm.hasErrors()) {
-            return badRequest(index.render(filledForm, disciplinas.getAll()));
+            return badRequest(index.render(filledForm, disciplinas));
         } else {
             PlanoDeCurso plano = filledForm.get();
-            plano = appendOrTrimBlanks(plano);
-            return ok(index.render(planoForm.fill(plano), disciplinas.getAll()));
+            return ok(index.render(appendBlankForm(planoForm.fill(plano)), disciplinas));
         }
     }
 
-    private static PlanoDeCurso appendOrTrimBlanks(PlanoDeCurso plano) {
-        List<Periodo> blanks = new ArrayList<Periodo>();
-        List<Periodo> periodos = new ArrayList<Periodo>();
+    private static Form<PlanoDeCurso> trimBlankForms(Form<PlanoDeCurso> form) {
+        if (!form.hasErrors()) {
+            PlanoDeCurso plano = form.get();
 
-        for (Periodo periodo : plano.getPeriodos()) {
-            if (periodo.isEmpty()) {
-                blanks.add(periodo);
-            } else {
-                if (!blanks.isEmpty()) {
-                    periodos.addAll(blanks);
-                    blanks.clear();
+            List<Periodo> blanks = new ArrayList<Periodo>();
+            List<Periodo> periodos = new ArrayList<Periodo>();
+
+            for (Periodo periodo : plano.getPeriodos()) {
+                if (periodo.isEmpty()) {
+                    blanks.add(periodo);
+                } else {
+                    if (!blanks.isEmpty()) {
+                        periodos.addAll(blanks);
+                        blanks.clear();
+                    }
+                    periodos.add(periodo);
                 }
-                periodos.add(periodo);
             }
-        }
 
-        if (periodos.size() > 0) {
+            plano = new PlanoDeCurso(periodos.toArray(new Periodo[periodos.size()]));
+            return planoForm.fill(plano);
+        } else {
+            return form;
+        }
+    }
+
+    private static Form<PlanoDeCurso> appendBlankForm(Form<PlanoDeCurso> form) {
+        PlanoDeCurso plano = form.get();
+        if (plano.isEmpty()) {
+            return planoForm.fill(new PlanoDeCurso(new Periodo(1)));
+        } else {
+            List<Periodo> periodos = plano.getPeriodos();
             Periodo ultimo = periodos.get(periodos.size() - 1);
             periodos.add(new Periodo(ultimo.getSemestre() + 1));
-        } else {
-            periodos.add(new Periodo(1));
+            return planoForm.fill(new PlanoDeCurso(periodos.toArray(new Periodo[periodos.size()])));
         }
-
-        return new PlanoDeCurso(periodos.toArray(new Periodo[periodos.size()]));
     }
 
 }
