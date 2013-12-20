@@ -57,7 +57,6 @@ public class US2Test {
         });
     }
 
-
     @Test
     public void devePermitirDesalocarDisciplinasAlocadas() {
         running(testServer(3333, fakeApplication(inMemoryDatabase())), HTMLUNIT, new Callback<TestBrowser>() {
@@ -96,6 +95,8 @@ public class US2Test {
                     builder.dragAndDrop(teoriaDosGrafos.getElement(),
                                         periodo2.getElement()).perform();
 
+                    // Selenium won't wait for the self-submtting page
+                    // to load without this.
                     try {
                         Thread.sleep(5000);
                     } catch(InterruptedException ex) {
@@ -106,6 +107,65 @@ public class US2Test {
 
                     assertThat(periodo2.getText())
                         .contains("Teoria dos Grafos");
+                }
+            });
+    }
+
+    @Test
+    public void deveValidarMinimoDeCreditos() {
+        running(testServer(3333, fakeApplication(inMemoryDatabase())), HTMLUNIT, new Callback<TestBrowser>() {
+                public void invoke(TestBrowser browser) {
+                    browser.goTo("http://localhost:3333");
+
+                    FluentWebElement periodo1 = browser.findFirst("#periodo-1");
+
+                    browser.click("#periodo-1 .CALCULO1 .close");
+
+                    browser.click("#periodo-1 .VETORIAL .close");
+
+                    browser.click("#periodo-1 .LPT .close");
+
+                    assertThat(browser.pageSource())
+                        .contains("deve ter um mínimo");
+                }
+            });
+    }
+
+    @Test
+    public void deveValidarMaximoDeCreditos() {
+        running(testServer(3333, fakeApplication(inMemoryDatabase())), HTMLUNIT, new Callback<TestBrowser>() {
+                public void invoke(TestBrowser browser) {
+                    browser.goTo("http://localhost:3333");
+
+                    FluentWebElement periodo1 = browser.findFirst("#periodo-1 .sortable-list");
+                    FluentWebElement teoriaDosGrafos = browser.findFirst("#disciplinas-ofertadas .disciplina.TG");
+
+                    Actions builder = new Actions(browser.getDriver());
+                    builder.dragAndDrop(teoriaDosGrafos.getElement(),
+                                        periodo1.getElement()).perform();
+
+                    // Selenium won't wait for the self-submtting page
+                    // to load without this.
+                    try {
+                        Thread.sleep(5000);
+                    } catch(InterruptedException ex) {
+                        Thread.currentThread().interrupt();
+                    }
+
+                    periodo1 = browser.findFirst("#periodo-1 .sortable-list");
+                    FluentWebElement fisicaClassica = browser.findFirst("#disciplinas-ofertadas .disciplina.FC");
+
+                    builder.dragAndDrop(fisicaClassica.getElement(),
+                                        periodo1.getElement()).perform();
+
+                    try {
+                        Thread.sleep(5000);
+                    } catch(InterruptedException ex) {
+                        Thread.currentThread().interrupt();
+                    }
+
+                    assertThat(browser.pageSource())
+                        .contains("deve ter um máximo");
                 }
             });
     }

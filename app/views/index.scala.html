@@ -1,12 +1,16 @@
-@(planoForm: Form[PlanoDeCurso], disciplinasOfertadas: List[Disciplina])
+@(planoForm: Form[PlanoDeCurso], catalogoDeDisciplinas: CatalogoDeDisciplinas)
 
 @import helper._
 
 @disciplinaField(field: Field) = {
   <div class="row disciplina @field.value">
     <a href="#" class="close remove" aria-hidden="true">&times;</a>
-    <div class="nome">@field("nome").value</div>
-    <div class="descricao">@field("creditos").value créditos</div>
+    @**************************************************************************
+     * Play won't apply any data binder when the form has errors, so we need
+     * this to ask CatalogoDeDisciplinas for data :(
+     **************************************************************************@
+    <div class="nome">@catalogoDeDisciplinas.get(field.value.get).getNome()</div>
+    <div class="descricao">@catalogoDeDisciplinas.get(field.value.get).getCreditos() créditos</div>
     <input type="hidden" name="@field.name" value="@field.value">
   </div>
 }
@@ -37,6 +41,19 @@
 <div class="container">
   <h2 class="nome-principal">Meu Curso</h2>
 
+  @if(planoForm.hasErrors) {
+  <div class="alert alert-danger">
+    <strong>Opa!</strong> Corrija esses problemas no seu Plano de Curso:
+    <ul>
+      @for((key, value) <- planoForm.errors) {
+        @for(error <- value) {
+          <li>@error.message().toString</li>
+        }
+      }
+    </ul>
+  </div>
+  }
+
   @helper.form(action = routes.Application.submit, 'id -> "form") {
   <div id="disciplinas-alocadas">
     <div class="row">
@@ -50,7 +67,7 @@
   <h2 class="nome-principal">Disciplinas Ofertadas</h2>
 
   <div id="disciplinas-ofertadas">
-    @for(disciplinasRow <- disciplinasOfertadas.grouped(6)) {
+    @for(disciplinasRow <- catalogoDeDisciplinas.getAll().grouped(6)) {
     <div class="row">
       @for(disciplina <- disciplinasRow) {
       <div class="col-md-2">

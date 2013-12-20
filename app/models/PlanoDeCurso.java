@@ -3,9 +3,13 @@ package models;
 import java.util.*;
 import javax.validation.*;
 
-import play.data.validation.Constraints.*;
+import play.data.validation.ValidationError;
 
 public class PlanoDeCurso {
+
+    static final int MINIMO_CREDITOS = 14;
+
+    static final int MAXIMO_CREDITOS = 28;
 
     static final CatalogoDeDisciplinas disciplinas = new CatalogoDeDisciplinas();
 
@@ -27,6 +31,39 @@ public class PlanoDeCurso {
 
     public List<Periodo> getPeriodos() {
         return periodos;
+    }
+
+    public boolean isEmpty() {
+        return getPeriodos().isEmpty();
+    }
+
+    public List<ValidationError> validate() {
+        List<ValidationError> errors = new ArrayList<ValidationError>();
+
+        validateMinimoCreditos(errors);
+        validateMaximoCreditos(errors);
+
+        return errors.isEmpty() ? null : errors;
+    }
+
+    private void validateMinimoCreditos(List<ValidationError> errors) {
+        String template = "%sº Período deve ter um mínimo de %s créditos.";
+        for (Periodo periodo : periodos) {
+            if (!periodo.isEmpty() && periodo.getTotalCreditos() < MINIMO_CREDITOS) {
+                String message = String.format(template, periodo.getSemestre(), MINIMO_CREDITOS);
+                errors.add(new ValidationError("", message));
+            }
+        }
+    }
+
+    private void validateMaximoCreditos(List<ValidationError> errors) {
+        String template = "%sº Período deve ter um máximo de %s créditos.";
+        for (Periodo periodo : periodos) {
+            if (!periodo.isEmpty() && periodo.getTotalCreditos() > MAXIMO_CREDITOS) {
+                String message = String.format(template, periodo.getSemestre(), MAXIMO_CREDITOS);
+                errors.add(new ValidationError("", message));
+            }
+        }
     }
 
     public static PlanoDeCurso criarPlanoInicial() {
