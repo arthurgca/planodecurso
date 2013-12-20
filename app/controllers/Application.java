@@ -14,9 +14,9 @@ import views.html.index;
 
 public class Application extends Controller {
 
-    static final CatalogoDeDisciplinas disciplinas = new CatalogoDeDisciplinas();
+	private static final CatalogoDeDisciplinas disciplinas = new CatalogoDeDisciplinas();
 
-    static final Form<PlanoDeCurso> planoForm = Form.form(PlanoDeCurso.class);
+	private static final Form<PlanoDeCurso> planoForm = Form.form(PlanoDeCurso.class);
 
     public static Result index() {
         PlanoDeCurso plano = PlanoDeCurso.criarPlanoInicial();

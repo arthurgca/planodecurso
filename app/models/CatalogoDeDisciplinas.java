@@ -7,8 +7,10 @@ public class CatalogoDeDisciplinas {
     private static final Map<String, Disciplina> disciplinas = new HashMap<String, Disciplina>();
 
     public Disciplina get(String disciplinaId) {
-        if (!disciplinas.containsKey(disciplinaId))
+        if (!disciplinas.containsKey(disciplinaId)) {
             throw new IllegalArgumentException();
+        }
+        
         return disciplinas.get(disciplinaId);
     }
 

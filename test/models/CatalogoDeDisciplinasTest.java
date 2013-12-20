@@ -26,20 +26,17 @@ public class CatalogoDeDisciplinasTest {
 
     @Test
     public void deveConterDisciplinasDoPrimeiroPeriodo() {
-        assertThat(disciplinas.getAll()).onProperty("id")
-            .contains("CALCULO1", "LPT", "P1", "LP1");
+        assertThat(disciplinas.getAll()).onProperty("id").contains("CALCULO1", "LPT", "P1", "LP1");
     }
 
     @Test
     public void deveConterDisciplinasDoSegundoPeriodo() {
-        assertThat(disciplinas.getAll()).onProperty("id")
-            .contains("CALCULO2", "DISCRETA", "P2");
+        assertThat(disciplinas.getAll()).onProperty("id").contains("CALCULO2", "DISCRETA", "P2");
     }
 
     @Test
     public void deveConterDisciplinasDoTerceiroPeriodo() {
-        assertThat(disciplinas.getAll()).onProperty("id")
-            .contains("LINEAR", "PROBABILIDADE", "EDA");
+        assertThat(disciplinas.getAll()).onProperty("id").contains("LINEAR", "PROBABILIDADE", "EDA");
     }
 
 }

@@ -25,9 +25,6 @@ public class US1Test {
                 browser.goTo("http://localhost:3333");
 
                 FluentWebElement periodo1 = browser.findFirst("#periodo-1");
-
-                assertThat(periodo1).isNotNull();
-
                 assertThat(periodo1.getText())
                     .contains("Calculo Diferencial e Integral I")
                     .contains("Álgebra Vetorial e Geometria Analítica")
@@ -46,9 +43,6 @@ public class US1Test {
                 browser.goTo("http://localhost:3333");
 
                 FluentWebElement periodo1 = browser.findFirst("#periodo-1");
-
-                assertThat(periodo1).isNotNull();
-
                 assertThat(periodo1.getText()).contains("24 créditos");
             }
         });

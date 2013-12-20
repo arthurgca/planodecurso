@@ -7,11 +7,11 @@ import play.data.validation.ValidationError;
 
 public class PlanoDeCurso {
 
-    static final int MINIMO_CREDITOS = 14;
+    private static final int MINIMO_CREDITOS = 14;
 
-    static final int MAXIMO_CREDITOS = 28;
+    private static final int MAXIMO_CREDITOS = 28;
 
-    static final CatalogoDeDisciplinas disciplinas = new CatalogoDeDisciplinas();
+    private static final CatalogoDeDisciplinas disciplinas = new CatalogoDeDisciplinas();
 
     @Valid
     private List<Periodo> periodos;
@@ -24,8 +24,9 @@ public class PlanoDeCurso {
         this.periodos = new ArrayList<Periodo>();
 
         for (Periodo periodo : periodos) {
-            if (periodo != null)
+            if (periodo != null) {
                 this.periodos.add(periodo);
+            }
         }
     }
 

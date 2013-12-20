@@ -23,8 +23,9 @@ public class Periodo {
         this.disciplinas = new ArrayList<Disciplina>();
 
         for (Disciplina disciplina : disciplinas) {
-            if (disciplina != null)
+            if (disciplina != null) {
                 this.disciplinas.add(disciplina);
+            }
         }
     }
 
@@ -44,8 +45,9 @@ public class Periodo {
         int total = 0;
 
         for (Disciplina disciplina : getDisciplinas()) {
-            if (disciplina != null)
+            if (disciplina != null) {
                 total += disciplina.getCreditos();
+            }
         }
 
         return total;
@@ -56,14 +58,17 @@ public class Periodo {
     }
 
     public boolean equals(Object obj) {
-        if (obj == null)
+        if (obj == null) {
             return false;
-
-        if (obj == this)
+        }
+        
+        if (obj == this) {
             return true;
-
-        if (!(obj instanceof Periodo))
+        }
+        
+        if (!(obj instanceof Periodo)) {
             return false;
+        }
 
         return getSemestre() == (((Periodo) obj).getSemestre());
     }

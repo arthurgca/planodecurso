@@ -27,7 +27,6 @@ public class PlanoDeCursoTest {
         PlanoDeCurso plano = PlanoDeCurso.criarPlanoInicial();
 
         assertThat(plano.getPeriodos().size()).isEqualTo(1);
-
         assertThat(plano.getPeriodos().get(0).getDisciplinas()).onProperty("id")
             .containsOnly("CALCULO1", "VETORIAL", "LPT", "P1", "IC", "LP1");
     }

@@ -43,14 +43,17 @@ public class Disciplina {
     }
 
     public boolean equals(Object obj) {
-        if (obj == null)
+        if (obj == null) {
             return false;
+        }
 
-        if (obj == this)
+        if (obj == this) {
             return true;
+        }
 
-        if (!(obj instanceof Disciplina))
+        if (!(obj instanceof Disciplina)) {
             return false;
+        }
 
         return getId().equals(((Disciplina) obj).getId());
     }
