@@ -1,7 +1,9 @@
 package controllers;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 
 import play.data.Form;
 import play.mvc.Controller;
@@ -14,9 +16,9 @@ import views.html.index;
 
 public class Application extends Controller {
 
-	private static final CatalogoDeDisciplinas disciplinas = new CatalogoDeDisciplinas();
+    private static final CatalogoDeDisciplinas disciplinas = new CatalogoDeDisciplinas();
 
-	private static final Form<PlanoDeCurso> planoForm = Form.form(PlanoDeCurso.class);
+    private static final Form<PlanoDeCurso> planoForm = Form.form(PlanoDeCurso.class);
 
     public static Result index() {
         PlanoDeCurso plano = PlanoDeCurso.criarPlanoInicial();
@@ -38,7 +40,7 @@ public class Application extends Controller {
         if (!form.hasErrors()) {
             PlanoDeCurso plano = form.get();
 
-            List<Periodo> blanks = new ArrayList<Periodo>();
+            Queue<Periodo> blanks = new LinkedList<Periodo>();
             List<Periodo> periodos = new ArrayList<Periodo>();
 
             for (Periodo periodo : plano.getPeriodos()) {
