@@ -2,26 +2,26 @@
     background-color: #153e63;
 }
 
-.nome-principal {
-    color: #FFFFFF;
-}
-
-.coluna {
-    background-color: #d8e2eb;
-    border-radius: 10px;
+.descricao {
+    font-size: 12px;
 }
 
 .disciplina {
     background-color: #FFFFFF;
-    margin: 2px;
     border-radius: 10px;
-    padding-top: 10px;
-    padding-bottom: 10px;
+    height: 100px;
+    margin: 2px 0 2px 0;
+    padding: 10px 0 10px 0;
     text-align: center;
 }
 
 .disciplina:hover {
     background-color: #b2cfe9;
+}
+
+.float-left {
+    float: left;
+    margin-left: 10px;
 }
 
 .nome {
@@ -30,18 +30,20 @@
     font-weight: bold;
 }
 
-.descricao {
-    font-size: 12px;
+.nome-principal {
+    color: #FFFFFF;
+    text-align: center;
 }
 
-#disciplinas {
-    border: 2px #c0c0c0 solid;
+.periodo {
+    background-color: #d8e2eb;
     border-radius: 10px;
-    margin-bottom: 10px;
-    padding: 10px;
 }
 
-.float-left {
-    float: left;
-    margin-left: 10px;
+.periodo .sortable-list {
+    min-height: 200px;
+}
+
+.sumario {
+    text-align: center;
 }

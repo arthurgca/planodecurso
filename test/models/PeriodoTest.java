@@ -1,32 +1,28 @@
-import org.junit.*;
+package models;
 
-import java.util.*;
+import static org.fest.assertions.Assertions.assertThat;
 
-import play.mvc.*;
-import play.test.*;
-import play.libs.F.*;
-
-import static play.test.Helpers.*;
-import static org.fest.assertions.Assertions.*;
-
-import models.*;
+import org.junit.Test;
 
 public class PeriodoTest {
 
     @Test
     public void deveCalcularTotalDeCreditos() {
-        List<Disciplina> disciplinas = new ArrayList<Disciplina>();
+        Periodo periodo = new Periodo(1,
+                                      new Disciplina("D1", null, 4),
+                                      new Disciplina("D2", null, 3),
+                                      null,
+                                      new Disciplina("D4", null, 0));
+        assertThat(periodo.getTotalCreditos()).isEqualTo(7);
+    }
 
-        disciplinas.add(new Disciplina("Seminários", 2));
-        disciplinas.add(new Disciplina("Teoria dos Grafos", 2));
+    @Test
+    public void deveCompararIgualdadeUsandSemestre() {
+        assertThat(new Periodo(2, new Disciplina("D1", null, 4)))
+            .isEqualTo(new Periodo(2, new Disciplina("D2", null, 4)));
 
-        Periodo periodo = new Periodo(1, disciplinas);
-
-        assertThat(periodo.getTotalCreditos()).isEqualTo(4);
-
-        periodo.addDisciplina(new Disciplina("Sistemas da Informação", 4));
-
-        assertThat(periodo.getTotalCreditos()).isEqualTo(8);
+        assertThat(new Periodo(2, new Disciplina("D1", null, 4)))
+            .isNotEqualTo(new Periodo(3, new Disciplina("D1", null, 4)));;
     }
 
 }

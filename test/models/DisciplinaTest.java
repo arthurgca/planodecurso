@@ -1,20 +1,18 @@
-import org.junit.*;
+package models;
 
-import play.mvc.*;
-import play.test.*;
-import play.libs.F.*;
+import static org.fest.assertions.Assertions.assertThat;
 
-import static play.test.Helpers.*;
-import static org.fest.assertions.Assertions.*;
-
-import models.*;
+import org.junit.Test;
 
 public class DisciplinaTest {
 
     @Test
-    public void deveCompararIgualdadeUsandoNome() {
-        assertThat(new Disciplina("Seminários", 2)).isEqualTo(new Disciplina("Seminários", 4));
-        assertThat(new Disciplina("Seminários", 2)).isNotEqualTo(new Disciplina("Teoria dos Grafos", 4));
+    public void deveCompararIgualdadeUsandId() {
+        assertThat(new Disciplina("SEMINARIOS", "Seminários", 2))
+            .isEqualTo(new Disciplina("SEMINARIOS", "Seminários", 4));
+
+        assertThat(new Disciplina("SEMINARIO", "Seminários", 2))
+            .isNotEqualTo(new Disciplina("SEMINARIOS", "Seminários", 2));
     }
 
 }

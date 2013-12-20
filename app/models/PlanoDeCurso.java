@@ -1,40 +1,108 @@
 package models;
 
 import java.util.*;
-
 import javax.validation.*;
 
-import play.data.validation.Constraints.*;
+import play.data.validation.ValidationError;
 
 public class PlanoDeCurso {
 
+    private static final int MINIMO_CREDITOS = 14;
+
+    private static final int MAXIMO_CREDITOS = 28;
+
+    private static final CatalogoDeDisciplinas disciplinas = new CatalogoDeDisciplinas();
+
     @Valid
-    private List<Periodo> periodos;
+    private List<Periodo> periodos; // This could really be a Set, but
+                                    // Play won't populate it
+                                    // automatically.
 
     public PlanoDeCurso() {
         this.periodos = new ArrayList<Periodo>();
     }
 
-    public PlanoDeCurso(List<Periodo> periodos) {
-        this.periodos = periodos;
+    public PlanoDeCurso(Periodo... periodos) {
+        this.periodos = new ArrayList<Periodo>();
+
+        for (Periodo periodo : periodos) {
+            if (periodo != null) {
+                this.periodos.add(periodo);
+            }
+        }
     }
 
     public List<Periodo> getPeriodos() {
         return periodos;
     }
 
-    public static PlanoDeCurso criarPlanoFera() {
-        List<Disciplina> disciplinas = new ArrayList();
-        disciplinas.add(new Disciplina("Calculo Diferencial e Integral I", 4));
-        disciplinas.add(new Disciplina("Álgebra Vetorial e Geometria Analítica", 4));
-        disciplinas.add(new Disciplina("Leitura e Produção de Textos", 4));
-        disciplinas.add(new Disciplina("Programação I", 4));
-        disciplinas.add(new Disciplina("Introdução à Computação", 4));
-        disciplinas.add(new Disciplina("Laboratório de Programação I", 4));
-
-        List<Periodo> periodos = new ArrayList<Periodo>();
-        periodos.add(new Periodo(1, disciplinas));
-
-        return new PlanoDeCurso(periodos);
+    public boolean isEmpty() {
+        return getPeriodos().isEmpty();
     }
+
+    public List<ValidationError> validate() {
+        return null;
+    }
+
+    // We need to do validation ourselves because Play won't resolve
+    // any custom databinder if the form has errors. As this is never
+    // saved to db this shouldn't be a problem for us.
+    public List<ValidationError> validateHack() {
+        List<ValidationError> errors = new ArrayList<ValidationError>();
+
+        validateMinimoCreditos(errors);
+        validateMaximoCreditos(errors);
+        validateDependencias(errors);
+
+        return errors.isEmpty() ? null : errors;
+    }
+
+    private void validateMinimoCreditos(List<ValidationError> errors) {
+        String template = "%sº Período deve ter um mínimo de %s créditos.";
+        for (Periodo periodo : periodos) {
+            if (!periodo.isEmpty() && periodo.getTotalCreditos() < MINIMO_CREDITOS) {
+                String message = String.format(template, periodo.getSemestre(), MINIMO_CREDITOS);
+                errors.add(new ValidationError("", message));
+            }
+        }
+    }
+
+    private void validateMaximoCreditos(List<ValidationError> errors) {
+        String template = "%sº Período deve ter um máximo de %s créditos.";
+        for (Periodo periodo : periodos) {
+            if (!periodo.isEmpty() && periodo.getTotalCreditos() > MAXIMO_CREDITOS) {
+                String message = String.format(template, periodo.getSemestre(), MAXIMO_CREDITOS);
+                errors.add(new ValidationError("", message));
+            }
+        }
+    }
+
+    private void validateDependencias(List<ValidationError> errors) {
+        String template = "%s requer %s.";
+        Set<Disciplina> dependenciasSatisfeitas = new HashSet<Disciplina>();
+        for(Periodo periodo : periodos) {
+            for (Disciplina disciplina : periodo.getDisciplinas()) {
+                for (Disciplina dependencia : disciplina.getDependencias()) {
+                    if (!dependenciasSatisfeitas.contains(dependencia)) {
+                        String message = String.format(template, disciplina.getNome(), dependencia.getNome());
+                        errors.add(new ValidationError("", message));
+                    }
+                }
+            }
+
+            dependenciasSatisfeitas.addAll(periodo.getDisciplinas());
+        }
+    }
+
+    public static PlanoDeCurso criarPlanoInicial() {
+        Periodo periodoFera = new Periodo(1,
+                                          disciplinas.get("CALCULO1"),
+                                          disciplinas.get("VETORIAL"),
+                                          disciplinas.get("LPT"),
+                                          disciplinas.get("P1"),
+                                          disciplinas.get("IC"),
+                                          disciplinas.get("LP1"));
+        return new PlanoDeCurso(periodoFera);
+    }
+
 }

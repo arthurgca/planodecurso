@@ -1,53 +1,79 @@
-@(periodos: List[Periodo], disciplinasOfertadas: List[Disciplina])
+@(planoForm: Form[PlanoDeCurso], catalogoDeDisciplinas: CatalogoDeDisciplinas, errors: List[play.data.validation.ValidationError])
 
 @import helper._
 
-@main("Plano de Curso") {
-
-<div class="container">
-  <div class="page-header text-center">
-    <h1 class="nome-principal">Meu Curso</h1>
+@disciplinaField(field: Field) = {
+  <div class="row disciplina @field.value">
+    <a href="#" class="close remove" aria-hidden="true">&times;</a>
+    <div class="nome">@field("nome").value</div>
+    <div class="descricao">@field("creditos").value créditos</div>
+    <input type="hidden" name="@field.name" value="@field.value">
   </div>
+}
 
-  <div id="colunas" class="row">
-    @for((periodo, index) <- periodos.zipWithIndex) {
-    <div class="col-md-2 coluna periodo-@{index + 1}">
-      <div class="row text-center">
-        <h4>
-          @{index + 1}º Período
-          <small class="descricao">(@periodo.getTotalCreditos() créditos)</small>
-        </h4>
-      </div>
-      @for(disciplina <- periodo.getDisciplinas()) {
-      <div class="row">
-        <div class="disciplina">
+@periodoGroup(field: Field) = {
+  <div id="periodo-@{field("semestre").value}" class="col-md-2 periodo">
+    <div class="row sumario">
+      <h4>@{field("semestre").value}º Período<br/>
+        <small>@field("totalCreditos").value créditos</small></h4>
+    </div>
+
+    <input type="hidden" name="@field("semestre").name" value="@field("semestre").value">
+
+    <div class="sortable-list">
+      @repeat(field("disciplinas"), min=0) { disciplina =>
+        @disciplinaField(disciplina)
+      }
+    </div>
+
+    <div class="row sumario">
+      <h4>@{field("semestre").value}º Período<br/>
+        <small>@field("totalCreditos").value créditos</small></h4>
+    </div>
+  </div>
+}
+
+@main("Plano de Curso") {
+<div class="container">
+  <h2 class="nome-principal">Meu Curso</h2>
+
+  @if(errors != null) {
+  <div class="alert alert-danger">
+    <strong>Opa!</strong> Corrija esses problemas no seu Plano de Curso:
+    <ul>
+      @for(error <- errors) {
+        <li>@error.message</li>
+      }
+    </ul>
+  </div>
+  }
+
+  @helper.form(action = routes.Application.submit, 'id -> "form") {
+  <div id="disciplinas-alocadas">
+    <div class="row">
+      @repeat(planoForm("periodos"), min=1) { periodo =>
+        @periodoGroup(periodo)
+      }
+    </div>
+  </div>
+  }
+
+  <h2 class="nome-principal">Disciplinas Ofertadas</h2>
+
+  <div id="disciplinas-ofertadas">
+    @for(disciplinasRow <- catalogoDeDisciplinas.getAll().grouped(6)) {
+    <div class="row">
+      @for(disciplina <- disciplinasRow) {
+      <div class="col-md-2">
+        <div class="row disciplina @disciplina.getId()">
           <div class="nome">@disciplina.getNome()</div>
-          <div class="descricao">@disciplina.getCreditos() créditos</div>
+          <div class="descricao">@disciplina.getCreditos() Créditos</div>
+          <input type="hidden" name="periodos[x].disciplinas[x]" value="@disciplina.getId()">
         </div>
       </div>
       }
     </div>
     }
   </div>
-
-  <div class="text-center">
-    <h2 class="nome-principal">Disciplinas Ofertadas</h2>
-  </div>
-
-  <div id="disciplinas">
-    @for(disciplinasRow <- disciplinasOfertadas.grouped(6)) {
-      <div class="row">
-        @for(disciplina <- disciplinasRow) {
-          <div class="col-md-2">
-            <div class="disciplina">
-              <div class="nome">@disciplina.getNome()</div>
-              <div class="descricao">@disciplina.getCreditos() Créditos</div>
-            </div>
-          </div>
-        }
-      </div>
-    }
-  </div>
-
 </div>
 }
