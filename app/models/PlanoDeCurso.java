@@ -14,7 +14,9 @@ public class PlanoDeCurso {
     private static final CatalogoDeDisciplinas disciplinas = new CatalogoDeDisciplinas();
 
     @Valid
-    private List<Periodo> periodos;
+    private List<Periodo> periodos; // This could really be a Set, but
+                                    // Play won't populate it
+                                    // automatically.
 
     public PlanoDeCurso() {
         this.periodos = new ArrayList<Periodo>();
@@ -50,6 +52,7 @@ public class PlanoDeCurso {
 
         validateMinimoCreditos(errors);
         validateMaximoCreditos(errors);
+        validateDependencias(errors);
 
         return errors.isEmpty() ? null : errors;
     }
@@ -71,6 +74,23 @@ public class PlanoDeCurso {
                 String message = String.format(template, periodo.getSemestre(), MAXIMO_CREDITOS);
                 errors.add(new ValidationError("", message));
             }
+        }
+    }
+
+    private void validateDependencias(List<ValidationError> errors) {
+        String template = "%s requer %s.";
+        Set<Disciplina> dependenciasSatisfeitas = new HashSet<Disciplina>();
+        for(Periodo periodo : periodos) {
+            for (Disciplina disciplina : periodo.getDisciplinas()) {
+                for (Disciplina dependencia : disciplina.getDependencias()) {
+                    if (!dependenciasSatisfeitas.contains(dependencia)) {
+                        String message = String.format(template, disciplina.getNome(), dependencia.getNome());
+                        errors.add(new ValidationError("", message));
+                    }
+                }
+            }
+
+            dependenciasSatisfeitas.addAll(periodo.getDisciplinas());
         }
     }
 

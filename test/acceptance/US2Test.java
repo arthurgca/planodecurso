@@ -75,14 +75,14 @@ public class US2Test {
     @Test
     public void devePermitirAlocarDisciplinas() {
         running(testServer(3333, fakeApplication(inMemoryDatabase())), HTMLUNIT, new Callback<TestBrowser>() {
-        		private void forceAwait(long miliseconds) {
+                private void forceAwait(long miliseconds) {
                     try {
                         Thread.sleep(miliseconds);
                     } catch(InterruptedException ex) {
                         Thread.currentThread().interrupt();
                     }
-        		}
-        		
+                }
+
                 public void invoke(TestBrowser browser) {
                     browser.goTo("http://localhost:3333");
 
@@ -90,10 +90,10 @@ public class US2Test {
                     FluentWebElement grafos = browser.findFirst("#disciplinas-ofertadas .disciplina.TG");
 
                     new Actions(browser.getDriver())
-                    	.dragAndDrop(grafos.getElement(), periodo2.getElement()).perform();
+                        .dragAndDrop(grafos.getElement(), periodo2.getElement()).perform();
 
                     forceAwait(5000);
-                    
+
                     periodo2 = browser.findFirst("#periodo-2 .sortable-list");
                     assertThat(periodo2.getText()).contains("Teoria dos Grafos");
                 }
@@ -118,35 +118,62 @@ public class US2Test {
     @Test
     public void deveValidarMaximoDeCreditos() {
         running(testServer(3333, fakeApplication(inMemoryDatabase())), HTMLUNIT, new Callback<TestBrowser>() {
-	    		private void forceAwait(long miliseconds) {
-	                try {
-	                    Thread.sleep(miliseconds);
-	                } catch(InterruptedException ex) {
-	                    Thread.currentThread().interrupt();
-	                }
-	    		}
-	    		
-                public void invoke(TestBrowser browser) {
-                    browser.goTo("http://localhost:3333");
+               private void forceAwait(long miliseconds) {
+                   try {
+                       Thread.sleep(miliseconds);
+                   } catch(InterruptedException ex) {
+                       Thread.currentThread().interrupt();
+                   }
+               }
 
-                    FluentWebElement periodo1 = browser.findFirst("#periodo-1 .sortable-list");
-                    FluentWebElement grafos = browser.findFirst("#disciplinas-ofertadas .disciplina.TG");
+               public void invoke(TestBrowser browser) {
+                   browser.goTo("http://localhost:3333");
 
-                    new Actions(browser.getDriver())
-                    	.dragAndDrop(grafos.getElement(), periodo1.getElement()).perform();
+                   FluentWebElement periodo1 = browser.findFirst("#periodo-1 .sortable-list");
+                   FluentWebElement grafos = browser.findFirst("#disciplinas-ofertadas .disciplina.TG");
 
-                    forceAwait(5000);
+                   new Actions(browser.getDriver())
+                       .dragAndDrop(grafos.getElement(), periodo1.getElement()).perform();
 
-                    periodo1 = browser.findFirst("#periodo-1 .sortable-list");
-                    FluentWebElement fisicaClassica = browser.findFirst("#disciplinas-ofertadas .disciplina.FC");
+                   forceAwait(5000);
 
-                    new Actions(browser.getDriver())
-                		.dragAndDrop(fisicaClassica.getElement(), periodo1.getElement()).perform();
+                   periodo1 = browser.findFirst("#periodo-1 .sortable-list");
+                   FluentWebElement fisicaClassica = browser.findFirst("#disciplinas-ofertadas .disciplina.FC");
 
-                    forceAwait(5000);
+                   new Actions(browser.getDriver())
+                       .dragAndDrop(fisicaClassica.getElement(), periodo1.getElement()).perform();
 
-                    assertThat(browser.pageSource()).contains("deve ter um máximo");
-                }
+                   forceAwait(5000);
+
+                   assertThat(browser.pageSource()).contains("deve ter um máximo");
+               }
+            });
+    }
+
+    @Test
+    public void deveValidarDependencias() {
+        running(testServer(3333, fakeApplication(inMemoryDatabase())), HTMLUNIT, new Callback<TestBrowser>() {
+               private void forceAwait(long miliseconds) {
+                   try {
+                       Thread.sleep(miliseconds);
+                   } catch(InterruptedException ex) {
+                       Thread.currentThread().interrupt();
+                   }
+               }
+
+               public void invoke(TestBrowser browser) {
+                   browser.goTo("http://localhost:3333");
+
+                   FluentWebElement periodo1 = browser.findFirst("#periodo-1 .sortable-list");
+                   FluentWebElement linear = browser.findFirst("#disciplinas-ofertadas .disciplina.LINEAR");
+
+                   new Actions(browser.getDriver())
+                       .dragAndDrop(linear.getElement(), periodo1.getElement()).perform();
+
+                   forceAwait(5000);
+
+                   assertThat(browser.pageSource()).contains("requer");
+               }
             });
     }
 
