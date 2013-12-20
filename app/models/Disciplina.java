@@ -12,12 +12,19 @@ public class Disciplina {
 
     private int creditos;
 
+    private List<Disciplina> dependencias;
+
     public Disciplina() { }
 
-    public Disciplina(String id, String nome, int creditos) {
+    public Disciplina(String id, String nome, int creditos, Disciplina... dependencias) {
         this.id = id;
         this.nome = nome;
         this.creditos = creditos;
+        this.dependencias = new ArrayList<Disciplina>();
+
+        for (Disciplina dependencia : dependencias) {
+            this.dependencias.add(dependencia);
+        }
     }
 
     public String getId() {
@@ -30,6 +37,10 @@ public class Disciplina {
 
     public int getCreditos() {
         return creditos;
+    }
+
+    public List<Disciplina> getDependencias() {
+        return dependencias;
     }
 
     public boolean equals(Object obj) {
