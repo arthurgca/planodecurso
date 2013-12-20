@@ -38,5 +38,11 @@ public class CatalogoDeDisciplinasTest {
     public void deveConterDisciplinasDoTerceiroPeriodo() {
         assertThat(disciplinas.getAll()).onProperty("id").contains("LINEAR", "PROBABILIDADE", "EDA");
     }
+    
+    @Test
+    public void devePermitirCadastroDeDisciplinas() {
+    	CatalogoDeDisciplinas.register("MINECRAFT1", "Minecraft 1", 6, "SI1");
+    	disciplinas.get("MINECRAFT1");
+    }
 
 }
