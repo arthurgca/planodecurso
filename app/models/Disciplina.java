@@ -1,8 +1,7 @@
 package models;
 
-import java.util.*;
-
-import play.data.validation.Constraints.*;
+import java.util.List;
+import java.util.ArrayList;
 
 public class Disciplina {
 

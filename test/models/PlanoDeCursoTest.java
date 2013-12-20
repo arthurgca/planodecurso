@@ -1,17 +1,22 @@
-import java.util.*;
+package models;
 
-import org.junit.*;
+import java.util.Map;
+import java.util.HashMap;
 
-import play.mvc.*;
-import play.test.*;
-import play.data.*;
-import play.libs.F.*;
+import org.junit.Test;
 
-import static play.test.Helpers.*;
-import static org.fest.assertions.Assertions.*;
+import play.data.Form;
+import play.libs.F.Callback;
+import play.test.TestBrowser;
+import static play.test.Helpers.HTMLUNIT;
+import static play.test.Helpers.fakeApplication;
+import static play.test.Helpers.inMemoryDatabase;
+import static play.test.Helpers.running;
+import static play.test.Helpers.testServer;
+
 import org.fluentlenium.adapter.util.SharedDriver;
 
-import models.*;
+import static org.fest.assertions.Assertions.assertThat;
 
 public class PlanoDeCursoTest {
 

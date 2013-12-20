@@ -17,7 +17,7 @@ public class CatalogoDeDisciplinas {
     }
 
     public static void register(String id, String nome, int creditos, String... dependenciaIds) {
-        List<Disciplina> dependencias = new ArrayList();
+        List<Disciplina> dependencias = new ArrayList<Disciplina>();
 
         for (String dependenciaId : dependenciaIds) {
             dependencias.add(disciplinas.get(dependenciaId));

@@ -1,14 +1,13 @@
-import java.lang.*;
-import java.util.*;
+import java.util.Locale;
 import java.text.ParseException;
 
-import play.*;
-import play.libs.*;
-import play.data.*;
+import play.Application;
+import play.GlobalSettings;
 import play.data.format.Formatters;
-import play.data.format.Formatters.*;
+import play.data.format.Formatters.SimpleFormatter;
 
-import models.*;
+import models.CatalogoDeDisciplinas;
+import models.Disciplina;
 
 public class Global extends GlobalSettings {
 

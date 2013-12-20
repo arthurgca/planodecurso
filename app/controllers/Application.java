@@ -1,13 +1,16 @@
 package controllers;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
-import play.*;
-import play.mvc.*;
-import play.data.*;
+import play.data.Form;
+import play.mvc.Controller;
+import play.mvc.Result;
 
-import models.*;
-import views.html.*;
+import models.Periodo;
+import models.PlanoDeCurso;
+import models.CatalogoDeDisciplinas;
+import views.html.index;
 
 public class Application extends Controller {
 

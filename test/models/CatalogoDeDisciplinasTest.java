@@ -1,15 +1,9 @@
-import org.junit.*;
+package models;
 
-import java.util.*;
+import static org.fest.assertions.Assertions.assertThat;
 
-import play.mvc.*;
-import play.test.*;
-import play.libs.F.*;
-
-import static play.test.Helpers.*;
-import static org.fest.assertions.Assertions.*;
-
-import models.*;
+import org.junit.Before;
+import org.junit.Test;
 
 public class CatalogoDeDisciplinasTest {
 
