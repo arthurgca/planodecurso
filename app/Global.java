@@ -57,12 +57,24 @@ public class Global extends GlobalSettings {
         CatalogoDeDisciplinas.register("LES", "Laboratório de Engenharia de Software", 2, "ES");
         CatalogoDeDisciplinas.register("INFOSOC", "Informática e Sociedade", 2);
         
-        CatalogoDeDisciplinas.register("ADMFINC", "TECC (Administração Financeira)", 4);
-        CatalogoDeDisciplinas.register("RV", "TECC (Realidade Virtual)", 4, "SI1");
-        CatalogoDeDisciplinas.register("ADMSI", "TECC (Administração de Sistemas)", 4);
-        CatalogoDeDisciplinas.register("ANALISE1", "TECC (Análise de Dados I)", 4, "PROBABILIDADE");
-        CatalogoDeDisciplinas.register("ARQSOFT", "TECC (Arquitetura de Software)", 4, "ES", "SI1");
-        CatalogoDeDisciplinas.register("DDM", "TECC (Desenvolvimento Dirigido de Modelos)", 4, "ES");
+        //Optativas
+        CatalogoDeDisciplinas.register("OPT_FUT", "Futsal", 2);
+        CatalogoDeDisciplinas.register("OPT_BASQ", "Basquetebol", 2);
+        CatalogoDeDisciplinas.register("OPT_SOCIND", "Sociologia Industrial I", 3);
+        CatalogoDeDisciplinas.register("OPT_ADM", "Administração", 4);
+        CatalogoDeDisciplinas.register("OPT_ECON", "Economia", 4);
+        CatalogoDeDisciplinas.register("OPT_CALCULO3", "Cálculo Diferencial e Integral III", 4, "CALCULO2");
+        CatalogoDeDisciplinas.register("OPT_EQDIF", "Equações Diferenciais", 4, "CALCULO2", "LINEAR");
+        CatalogoDeDisciplinas.register("OPT_ING", "Inglês", 4);
+    
+        
+        //TECC's
+        CatalogoDeDisciplinas.register("TECC_ADMFINC", "TECC (Administração Financeira)", 4);
+        CatalogoDeDisciplinas.register("TECC_RV", "TECC (Realidade Virtual)", 4, "SI1");
+        CatalogoDeDisciplinas.register("TECC_ADMSI", "TECC (Administração de Sistemas)", 4);
+        CatalogoDeDisciplinas.register("TECC_ANALISE1", "TECC (Análise de Dados I)", 4, "PROBABILIDADE");
+        CatalogoDeDisciplinas.register("TECC_ARQSOFT", "TECC (Arquitetura de Software)", 4, "ES", "SI1");
+        CatalogoDeDisciplinas.register("TECC_DDM", "TECC (Desenvolvimento Dirigido de Modelos)", 4, "ES");
     }
 
 }
