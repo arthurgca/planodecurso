@@ -40,6 +40,29 @@ public class Global extends GlobalSettings {
         CatalogoDeDisciplinas.register("FM", "Fundamentos de Física Moderna", 4, "CALCULO2", "FC");
         CatalogoDeDisciplinas.register("GI", "Gerência da Informação", 4);
         CatalogoDeDisciplinas.register("LEDA", "Lab de Estruturas de Dados e Algoritmos", 4, "P2", "LP2", "TG");
+        
+        CatalogoDeDisciplinas.register("OAC", "Organização e Arquitetura de Computadores", 4, "EDA", "LEDA","FM");
+        CatalogoDeDisciplinas.register("LOAC", "Laboratório de Organização e Arquitetura de Computadores", 4, "EDA", "LEDA","FM");
+        CatalogoDeDisciplinas.register("PLP", "Paradigmas de Linguagens de Programação", 2, "EDA", "LEDA", "TC");
+        CatalogoDeDisciplinas.register("METODOS", "Métodos Estatísticos", 4, "LINEAR", "PROBABILIDADE");
+        CatalogoDeDisciplinas.register("LOGICA", "Lógica Matemática", 4, "TC");
+        CatalogoDeDisciplinas.register("SI1", "Sistemas de Informação I", 4, "GI");
+        CatalogoDeDisciplinas.register("ES", "Engenharia de Software I", 4, "PROBABILIDADE", "P2", "LP2");
+        
+        CatalogoDeDisciplinas.register("ATAL", "Análise e Técnicas de Algoritmos", 4, "EDA", "LEDA", "CALCULO2", "LOGICA");
+        CatalogoDeDisciplinas.register("REDES", "Redes de Computadores", 4, "OAC", "LOAC");
+        CatalogoDeDisciplinas.register("COMPILADORES", "Compiladores", 4, "OAC", "LOAC", "PLP");
+        CatalogoDeDisciplinas.register("BD1", "Bancos de Dados I", 4, "SI1");
+        CatalogoDeDisciplinas.register("SI2", "Sistemas de Informação II", 4, "SI1");
+        CatalogoDeDisciplinas.register("LES", "Laboratório de Engenharia de Software", 2, "ES");
+        CatalogoDeDisciplinas.register("INFOSOC", "Informática e Sociedade", 2);
+        
+        CatalogoDeDisciplinas.register("ADMFINC", "TECC (Administração Financeira)", 4);
+        CatalogoDeDisciplinas.register("RV", "TECC (Realidade Virtual)", 4, "SI1");
+        CatalogoDeDisciplinas.register("ADMSI", "TECC (Administração de Sistemas)", 4);
+        CatalogoDeDisciplinas.register("ANALISE1", "TECC (Análise de Dados I)", 4, "PROBABILIDADE");
+        CatalogoDeDisciplinas.register("ARQSOFT", "TECC (Arquitetura de Software)", 4, "ES", "SI1");
+        CatalogoDeDisciplinas.register("DDM", "TECC (Desenvolvimento Dirigido de Modelos)", 4, "ES");
     }
 
 }
