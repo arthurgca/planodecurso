@@ -41,6 +41,14 @@ mainApp.controller("PlanoDeCursoCtrl", function($scope, $http) {
       .disciplinas.unshift($scope.getDisciplina(disciplinaId));
   };
 
+  $scope.removeDisciplina = function(periodo, disciplinaId) {
+    periodo.disciplinas = _.filter(periodo.disciplinas, function(disciplina) {
+      return disciplina.id !== disciplinaId;
+    });
+  };
+
+  window.scope = $scope;
+
   $http({method: "GET", url: "/disciplinas.json"})
     .success(function(data, status, headers, config) {
       $scope.disciplinasOfertadas = data;
