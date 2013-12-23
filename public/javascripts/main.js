@@ -1,3 +1,7 @@
+function PlanoDeCursoCtrl($scope) {
+
+}
+
 $(function () {
   // -- renumber fields
 
