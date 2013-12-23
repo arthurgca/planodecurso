@@ -1,6 +1,6 @@
 @(title: String)(content: Html)
 <!DOCTYPE html>
-<html style="height: 100%;" ng-app>
+<html style="height: 100%;" ng-app="mainApp">
     <head>
         <title>@title</title>
         <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/main.css")">
@@ -22,6 +22,8 @@
         <!-- end bootstrap js -->
         <!-- begin AngularJS -->
         <script src="@routes.Assets.at("javascripts/angular.min.js")"></script>
+        <script src="@routes.Assets.at("javascripts/sortable.js")"></script>
+        <!-- end AngularJS -->
         <script src="@routes.Assets.at("javascripts/underscore-min.js")"></script>
         <script src="@routes.Assets.at("javascripts/main.js")" type="text/javascript"></script>
     </head>

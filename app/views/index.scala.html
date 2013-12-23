@@ -57,7 +57,7 @@
             <small>{{getTotalCreditos(periodo.semestre)}} créditos</small></h4>
         </div>
 
-        <div class="sortable-list">
+        <div ui-sortable ng-model="periodo.disciplinas" class="sortable-list">
           <div ng-repeat="disciplina in periodo.disciplinas" class="row disciplina {{ disciplina.id }}">
             <a href="#" class="close remove" aria-hidden="true">&times;</a>
             <div class="nome">{{ disciplina.nome }}</div>
