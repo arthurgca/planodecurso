@@ -1,15 +1,68 @@
-function PlanoDeCursoCtrl($scope, $http) {
+var mainApp = angular.module("mainApp", ["ui.sortable"]);
+
+mainApp.controller("PlanoDeCursoCtrl", function($scope, $http) {
+  $scope.disciplinasOfertadas = [];
+
+  $scope.disciplinasOfertadasRows = [];
+
+  $scope.periodos = [];
+
+  $scope.addPeriodo = function(semestre) {
+    $scope.periodos.unshift({
+      "semestre": semestre,
+      "disciplinas": [],
+    });
+  };
+
+  $scope.getTotalCreditos = function(semestre) {
+    return _.reduce($scope.getPeriodo(semestre).disciplinas, function(memo, disciplina) {
+      if (disciplina == null) {
+        return memo;
+      } else {
+        return memo + disciplina.creditos;
+      }
+    }, 0);
+  };
+
+  $scope.getPeriodo = function(semestre) {
+    return _.find($scope.periodos, function(periodos) {
+      return semestre === periodos.semestre;
+    });
+  };
+
+  $scope.getDisciplina = function(disciplinaId) {
+    return _.find($scope.disciplinasOfertadas, function(disciplina) {
+      return disciplina.id === disciplinaId;
+    });
+  };
+
+  $scope.addDisciplina = function(semestre, disciplinaId) {
+    $scope.getPeriodo(semestre)
+      .disciplinas.unshift($scope.getDisciplina(disciplinaId));
+  };
+
   $http({method: "GET", url: "/disciplinas.json"})
     .success(function(data, status, headers, config) {
-      $scope.disciplinasOfertadas = _.groupBy(data, function(element, index) {
+      $scope.disciplinasOfertadas = data;
+
+      $scope.disciplinasOfertadasRows = _.groupBy($scope.disciplinasOfertadas, function(element, index) {
         return Math.floor(index / 6);
       });
     })
     .error(function(data, status, headers) {
-      $scope.disciplinasOfertadas = [];
       console.error("Não foi possível reaver as Disciplinas Ofertadas.");
+    })
+    .then(function (data) {
+      $scope.addPeriodo(1);
+      $scope.addDisciplina(1, "CALCULO1");
+      $scope.addDisciplina(1, "VETORIAL");
+      $scope.addDisciplina(1, "LPT");
+      $scope.addDisciplina(1, "P1");
+      $scope.addDisciplina(1, "IC");
+      $scope.addDisciplina(1, "LP1");
     });
-}
+
+});
 
 $(function () {
   // -- renumber fields

@@ -48,20 +48,35 @@
   </div>
   }
 
-  @helper.form(action = routes.Application.submit, 'id -> "form") {
   <div id="disciplinas-alocadas">
     <div class="row">
-      @repeat(planoForm("periodos"), min=1) { periodo =>
-        @periodoGroup(periodo)
-      }
+
+      <div ng-repeat="periodo in periodos" id="periodo-{{periodo.semestre}}" class="col-md-2 periodo">
+        <div class="row sumario">
+          <h4>{{periodo.semestre}}º Período<br/>
+            <small>{{getTotalCreditos(periodo.semestre)}} créditos</small></h4>
+        </div>
+
+        <div class="sortable-list">
+          <div ng-repeat="disciplina in periodo.disciplinas" class="row disciplina {{ disciplina.id }}">
+            <a href="#" class="close remove" aria-hidden="true">&times;</a>
+            <div class="nome">{{ disciplina.nome }}</div>
+            <div class="descricao">{{ disciplina.creditos }} créditos</div>
+          </div>
+        </div>
+
+        <div class="row sumario">
+          <h4>{{periodo.semestre}}º Período<br/>
+            <small>{{getTotalCreditos(periodo.semestre)}} créditos</small></h4>
+        </div>
+      </div>
     </div>
   </div>
-  }
 
   <h2 class="nome-principal">Disciplinas Ofertadas</h2>
 
   <div id="disciplinas-ofertadas">
-    <div ng-repeat="disciplinasRow in disciplinasOfertadas" class="row">
+    <div ng-repeat="disciplinasRow in disciplinasOfertadasRows" class="row">
       <div ng-repeat="disciplina in disciplinasRow" class="col-md-2">
         <div class="row disciplina {{disciplina.id}}">
           <div class="nome">{{disciplina.nome}}</div>
