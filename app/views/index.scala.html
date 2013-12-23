@@ -61,19 +61,14 @@
   <h2 class="nome-principal">Disciplinas Ofertadas</h2>
 
   <div id="disciplinas-ofertadas">
-    @for(disciplinasRow <- catalogoDeDisciplinas.getAll().grouped(6)) {
-    <div class="row">
-      @for(disciplina <- disciplinasRow) {
-      <div class="col-md-2">
-        <div class="row disciplina @disciplina.getId()">
-          <div class="nome">@disciplina.getNome()</div>
-          <div class="descricao">@disciplina.getCreditos() Créditos</div>
-          <input type="hidden" name="periodos[x].disciplinas[x]" value="@disciplina.getId()">
+    <div ng-repeat="disciplinasRow in disciplinasOfertadas" class="row">
+      <div ng-repeat="disciplina in disciplinasRow" class="col-md-2">
+        <div class="row disciplina {{disciplina.id}}">
+          <div class="nome">{{disciplina.nome}}</div>
+          <div class="descricao">{{disciplina.creditos}} Créditos</div>
         </div>
       </div>
-      }
     </div>
-    }
   </div>
 </div>
 }

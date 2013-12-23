@@ -1,5 +1,14 @@
-function PlanoDeCursoCtrl($scope) {
-
+function PlanoDeCursoCtrl($scope, $http) {
+  $http({method: "GET", url: "/disciplinas.json"})
+    .success(function(data, status, headers, config) {
+      $scope.disciplinasOfertadas = _.groupBy(data, function(element, index) {
+        return Math.floor(index / 6);
+      });
+    })
+    .error(function(data, status, headers) {
+      $scope.disciplinasOfertadas = [];
+      console.error("Não foi possível reaver as Disciplinas Ofertadas.");
+    });
 }
 
 $(function () {
