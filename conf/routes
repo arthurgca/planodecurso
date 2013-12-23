@@ -4,6 +4,7 @@
 
 # Home page
 GET     /                           controllers.Application.index()
+GET     /disciplinas.json           controllers.Application.disciplinasJson()
 POST    /                           controllers.Application.submit()
 
 # Map static resources from the /public folder to the /assets URL path

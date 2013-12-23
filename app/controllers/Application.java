@@ -9,6 +9,7 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import play.data.Form;
 import play.data.validation.ValidationError;
+import play.libs.Json;
 
 import models.Periodo;
 import models.PlanoDeCurso;
@@ -24,6 +25,10 @@ public class Application extends Controller {
     public static Result index() {
         PlanoDeCurso plano = PlanoDeCurso.criarPlanoInicial();
         return ok(index.render(appendBlankForm(planoForm.fill(plano)), disciplinas, null));
+    }
+
+    public static Result disciplinasJson() {
+        return ok(Json.toJson(disciplinas.getAll()));
     }
 
     public static Result submit() {
