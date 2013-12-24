@@ -51,8 +51,6 @@ mainApp.controller("PlanoDeCursoCtrl", function($scope, $http) {
     connectWith: ".sortable-list"
   };
 
-  window.scope = $scope;
-
   $http({method: "GET", url: "/disciplinas.json"})
     .success(function(data, status, headers, config) {
       $scope.disciplinasOfertadas = data;
