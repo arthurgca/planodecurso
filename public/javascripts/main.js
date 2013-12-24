@@ -47,6 +47,10 @@ mainApp.controller("PlanoDeCursoCtrl", function($scope, $http) {
     });
   };
 
+  $scope.sortableOptions = {
+    connectWith: ".sortable-list"
+  };
+
   window.scope = $scope;
 
   $http({method: "GET", url: "/disciplinas.json"})

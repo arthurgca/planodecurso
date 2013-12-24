@@ -57,7 +57,7 @@
             <small>{{getTotalCreditos(periodo.semestre)}} créditos</small></h4>
         </div>
 
-        <div ui-sortable ng-model="periodo.disciplinas" class="sortable-list">
+        <div ui-sortable="sortableOptions" ng-model="periodo.disciplinas" class="sortable-list">
           <div ng-repeat="disciplina in periodo.disciplinas" class="row disciplina {{ disciplina.id }}">
             <a ng-click="removeDisciplina(periodo, disciplina.id)" class="close remove" aria-hidden="true">&times;</a>
             <div class="nome">{{ disciplina.nome }}</div>
@@ -75,13 +75,11 @@
 
   <h2 class="nome-principal">Disciplinas Ofertadas</h2>
 
-  <div id="disciplinas-ofertadas">
-    <div ng-repeat="disciplinasRow in disciplinasOfertadasRows" class="row">
-      <div ng-repeat="disciplina in disciplinasRow" class="col-md-2">
-        <div class="row disciplina {{disciplina.id}}">
-          <div class="nome">{{disciplina.nome}}</div>
-          <div class="descricao">{{disciplina.creditos}} Créditos</div>
-        </div>
+  <div id="disciplinas-ofertadas" class="row">
+    <div ui-sortable="sortableOptions" ng-model="disciplinasOfertadas" ng-repeat="disciplina in disciplinasOfertadas" class="sortable-list">
+      <div class="col-md-2 disciplina {{disciplina.id}}">
+        <div class="nome">{{disciplina.nome}}</div>
+        <div class="descricao">{{disciplina.creditos}} Créditos</div>
       </div>
     </div>
   </div>
