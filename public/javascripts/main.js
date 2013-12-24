@@ -3,12 +3,14 @@ var mainApp = angular.module("mainApp", ["ui.sortable"]);
 mainApp.controller("PlanoDeCursoCtrl", function($scope, $http) {
   $scope.disciplinasOfertadas = [];
 
-  $scope.disciplinasOfertadasRows = [];
-
   $scope.periodos = [];
 
+  $scope.sortableOptions = {
+    connectWith: ".sortable-list"
+  };
+
   $scope.addPeriodo = function(semestre) {
-    $scope.periodos.unshift({
+    $scope.periodos.push({
       "semestre": semestre,
       "disciplinas": [],
     });
@@ -38,40 +40,82 @@ mainApp.controller("PlanoDeCursoCtrl", function($scope, $http) {
 
   $scope.addDisciplina = function(semestre, disciplinaId) {
     $scope.getPeriodo(semestre)
-      .disciplinas.unshift($scope.getDisciplina(disciplinaId));
+      .disciplinas.push($scope.getDisciplina(disciplinaId));
+
+    $scope.cleanupPeriodos();
   };
 
   $scope.removeDisciplina = function(periodo, disciplinaId) {
     periodo.disciplinas = _.filter(periodo.disciplinas, function(disciplina) {
       return disciplina.id !== disciplinaId;
     });
+
+    $scope.cleanupPeriodos();
   };
 
-  $scope.sortableOptions = {
-    connectWith: ".sortable-list"
-  };
+  $scope.trimPeriodos = function() {
+    var filled = [];
+    var blanks = [];
 
-  $http({method: "GET", url: "/disciplinas.json"})
-    .success(function(data, status, headers, config) {
-      $scope.disciplinasOfertadas = data;
+    _.each($scope.periodos, function(periodo) {
+      if (periodo.disciplinas.length === 0) {
+        blanks.push(periodo);
+      } else {
+        if (blanks.length !== 0) {
+          filled = filled.concat(blanks);
+          blanks = [];
+        }
 
-      $scope.disciplinasOfertadasRows = _.groupBy($scope.disciplinasOfertadas, function(element, index) {
-        return Math.floor(index / 6);
-      });
-    })
-    .error(function(data, status, headers) {
-      console.error("Não foi possível reaver as Disciplinas Ofertadas.");
-    })
-    .then(function (data) {
-      $scope.addPeriodo(1);
-      $scope.addDisciplina(1, "CALCULO1");
-      $scope.addDisciplina(1, "VETORIAL");
-      $scope.addDisciplina(1, "LPT");
-      $scope.addDisciplina(1, "P1");
-      $scope.addDisciplina(1, "IC");
-      $scope.addDisciplina(1, "LP1");
+        filled.push(periodo);
+      }
     });
+  };
 
+  $scope.appendNextPeriodo = function() {
+    if (_.last($scope.periodos).disciplinas.length !== 0) {
+      $scope.addPeriodo(_.last($scope.periodos).semestre + 1);
+    }
+  };
+
+  $scope.cleanupPeriodos = function() {
+    $scope.trimPeriodos();
+    $scope.appendNextPeriodo();
+  };
+
+  $scope.$watch(function() {
+    return _.reduce($scope.periodos, function(memo, periodo) {
+      return memo + periodo.disciplinas.length;
+    }, 0);
+  }, function() {
+    $scope.cleanupPeriodos();
+  });
+
+  var bootstrap = function() {
+    $http({method: "GET", url: "/disciplinas.json"})
+      .success(function(data, status, headers, config) {
+        $scope.disciplinasOfertadas = data;
+
+        $scope.disciplinasOfertadasRows = _.groupBy($scope.disciplinasOfertadas, function(element, index) {
+          return Math.floor(index / 6);
+        });
+      })
+      .error(function(data, status, headers) {
+        console.error("Não foi possível reaver as Disciplinas Ofertadas.");
+      })
+      .then(function (data) {
+        $scope.addPeriodo(1);
+        $scope.addDisciplina(1, "CALCULO1");
+        $scope.addDisciplina(1, "VETORIAL");
+        $scope.addDisciplina(1, "LPT");
+        $scope.addDisciplina(1, "P1");
+        $scope.addDisciplina(1, "IC");
+        $scope.addDisciplina(1, "LP1");
+
+        $scope.cleanupPeriodos();
+      });
+  };
+
+  bootstrap();
 });
 
 $(function () {
