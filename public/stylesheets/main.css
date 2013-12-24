@@ -13,10 +13,13 @@
     margin: 2px 0 2px 0;
     padding: 10px 0 10px 0;
     text-align: center;
+    border-style:solid;
+	border-width:1px;
 }
 
+
 .disciplina:hover {
-    background-color: #b2cfe9;
+    background-color: #b2cfe9 !important;
 }
 
 .float-left {
@@ -46,4 +49,12 @@
 
 .sumario {
     text-align: center;
+}
+
+.tecc {
+    background-color: #BEBEBE;
+}
+
+.optativa {
+    background-color: #FFFACD;
 }

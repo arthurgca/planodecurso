@@ -13,12 +13,25 @@ public class Disciplina {
 
     private List<Disciplina> dependencias;
 
+	private boolean isTecc;
+
+	private boolean isOptativa; 
+
     public Disciplina() {
         this.dependencias = new ArrayList<Disciplina>();
     }
 
     public Disciplina(String id, String nome, int creditos, Disciplina... dependencias) {
         this.id = id;
+        
+        if(id.contains("OPT")) {
+        	this.isOptativa = true;
+        }
+        
+        if(id.contains("TECC")) {
+        	this.isTecc = true;
+        }
+        
         this.nome = nome;
         this.creditos = creditos;
         this.dependencias = new ArrayList<Disciplina>();
@@ -38,6 +51,14 @@ public class Disciplina {
 
     public int getCreditos() {
         return creditos;
+    }
+    
+    public boolean isOptativa() { 
+    	return isOptativa;
+    }
+    
+    public boolean isTECC() { 
+    	return isTecc;
     }
 
     public List<Disciplina> getDependencias() {

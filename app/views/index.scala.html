@@ -1,79 +1,56 @@
-@(planoForm: Form[PlanoDeCurso], catalogoDeDisciplinas: CatalogoDeDisciplinas, errors: List[play.data.validation.ValidationError])
+@()
 
 @import helper._
-
-@disciplinaField(field: Field) = {
-  <div class="row disciplina @field.value">
-    <a href="#" class="close remove" aria-hidden="true">&times;</a>
-    <div class="nome">@field("nome").value</div>
-    <div class="descricao">@field("creditos").value créditos</div>
-    <input type="hidden" name="@field.name" value="@field.value">
-  </div>
-}
-
-@periodoGroup(field: Field) = {
-  <div id="periodo-@{field("semestre").value}" class="col-md-2 periodo">
-    <div class="row sumario">
-      <h4>@{field("semestre").value}º Período<br/>
-        <small>@field("totalCreditos").value créditos</small></h4>
-    </div>
-
-    <input type="hidden" name="@field("semestre").name" value="@field("semestre").value">
-
-    <div class="sortable-list">
-      @repeat(field("disciplinas"), min=0) { disciplina =>
-        @disciplinaField(disciplina)
-      }
-    </div>
-
-    <div class="row sumario">
-      <h4>@{field("semestre").value}º Período<br/>
-        <small>@field("totalCreditos").value créditos</small></h4>
-    </div>
-  </div>
-}
 
 @main("Plano de Curso") {
 <div class="container">
   <h2 class="nome-principal">Meu Curso</h2>
 
-  @if(errors != null) {
-  <div class="alert alert-danger">
+  <div ng-if="hasErrors()" class="alert alert-danger">
     <strong>Opa!</strong> Corrija esses problemas no seu Plano de Curso:
     <ul>
-      @for(error <- errors) {
-        <li>@error.message</li>
-      }
+      <li ng-repeat="error in errors">{{error}}</li>
     </ul>
   </div>
-  }
 
-  @helper.form(action = routes.Application.submit, 'id -> "form") {
   <div id="disciplinas-alocadas">
     <div class="row">
-      @repeat(planoForm("periodos"), min=1) { periodo =>
-        @periodoGroup(periodo)
-      }
+
+      <div ng-repeat="periodo in periodos" id="periodo-{{periodo.semestre}}" class="col-md-2 periodo">
+        <div class="row sumario">
+          <h4>{{periodo.semestre}}º Período<br/>
+            <small>{{getTotalCreditos(periodo.semestre)}} créditos</small></h4>
+        </div>
+
+        <div ui-sortable="sortableOptions" ng-model="periodo.disciplinas" class="sortable-list">
+          <div ng-repeat="disciplina in periodo.disciplinas"
+               class="row disciplina {{ disciplina.id }}"
+               ng-class="{optativa: disciplina.optativa, tecc: disciplina.tecc}">
+            <a ng-click="removeDisciplina(periodo, disciplina.id)" class="close remove" aria-hidden="true">&times;</a>
+            <div class="nome">{{ disciplina.nome }}</div>
+            <div class="descricao">{{ disciplina.creditos }} créditos</div>
+          </div>
+        </div>
+
+        <div class="row sumario">
+          <h4>{{periodo.semestre}}º Período<br/>
+            <small>{{getTotalCreditos(periodo.semestre)}} créditos</small></h4>
+        </div>
+      </div>
     </div>
   </div>
-  }
 
   <h2 class="nome-principal">Disciplinas Ofertadas</h2>
 
-  <div id="disciplinas-ofertadas">
-    @for(disciplinasRow <- catalogoDeDisciplinas.getAll().grouped(6)) {
-    <div class="row">
-      @for(disciplina <- disciplinasRow) {
-      <div class="col-md-2">
-        <div class="row disciplina @disciplina.getId()">
-          <div class="nome">@disciplina.getNome()</div>
-          <div class="descricao">@disciplina.getCreditos() Créditos</div>
-          <input type="hidden" name="periodos[x].disciplinas[x]" value="@disciplina.getId()">
-        </div>
+  <div id="disciplinas-ofertadas" class="row">
+    <div ui-sortable="sortableOptions" ng-model="disciplinasOfertadas" class="sortable-list">
+      <div class="col-md-2 disciplina {{disciplina.id}}"
+           ng-repeat="disciplina in disciplinasOfertadas"
+           ng-class="{optativa: disciplina.optativa, tecc: disciplina.tecc}">
+        <div class="nome">{{disciplina.nome}}</div>
+        <div class="descricao">{{disciplina.creditos}} Créditos</div>
       </div>
-      }
     </div>
-    }
   </div>
 </div>
 }
