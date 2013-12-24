@@ -1,17 +1,8 @@
-import java.util.Locale;
-import java.text.ParseException;
-
+import models.CatalogoDeDisciplinas;
 import play.Application;
 import play.GlobalSettings;
-import play.data.format.Formatters;
-import play.data.format.Formatters.SimpleFormatter;
-
-import models.CatalogoDeDisciplinas;
-import models.Disciplina;
 
 public class Global extends GlobalSettings {
-
-    private static final CatalogoDeDisciplinas catalogoDeDisciplinas = new CatalogoDeDisciplinas();
 
     public void onStart(Application app) {
         configureDisciplinas();
