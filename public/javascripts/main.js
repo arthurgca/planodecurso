@@ -52,9 +52,33 @@ mainApp.controller("PlanoDeCursoCtrl", function($scope, $http) {
   };
 
   $scope.removeDisciplina = function(periodo, disciplinaId) {
-    periodo.disciplinas = _.filter(periodo.disciplinas, function(disciplina) {
-      return disciplina.id !== disciplinaId;
+    var toDelete = [];
+
+    _.each($scope.periodos, function(periodo) {
+      _.each(periodo.disciplinas, function(disciplina) {
+        if (disciplina.id === disciplinaId) {
+          toDelete.push(disciplina)
+        } else if (_.contains(_.pluck(disciplina.dependencias, "id"), disciplinaId)) {
+          toDelete.push(disciplina);
+        }
+      });
     });
+
+    if (toDelete.length > 1) {
+      if (!confirm("Apagar essa e as disciplinas que dependem dessa também?")) {
+        return;
+      }
+    }
+
+    var toDeleteIds = _.pluck(toDelete, "id");
+
+    _.each($scope.periodos, function(periodo) {
+      periodo.disciplinas = _.filter(periodo.disciplinas, function(disciplina) {
+        return !_.contains(toDeleteIds, disciplina.id);
+      });
+    });
+
+    $scope.disciplinasOfertadas = $scope.disciplinasOfertadas.concat(toDelete);
 
     $scope.cleanupPeriodos();
   };
@@ -148,7 +172,6 @@ mainApp.controller("PlanoDeCursoCtrl", function($scope, $http) {
     $http({method: "GET", url: "/disciplinas.json"})
       .success(function(data, status, headers, config) {
         $scope.disciplinasOfertadas = data;
-        console.log(data);
       })
       .error(function(data, status, headers) {
         console.error("Não foi possível reaver as Disciplinas Ofertadas.");

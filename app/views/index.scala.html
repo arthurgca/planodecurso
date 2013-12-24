@@ -45,7 +45,7 @@
   <div id="disciplinas-ofertadas" class="row">
     <div ui-sortable="sortableOptions" ng-model="disciplinasOfertadas" class="sortable-list">
       <div class="col-md-2 disciplina {{disciplina.id}}"
-           ng-repeat="disciplina in disciplinasOfertadas"
+           ng-repeat="disciplina in disciplinasOfertadas track by $index"
            ng-class="{optativa: disciplina.optativa, tecc: disciplina.tecc}">
         <div class="nome">{{disciplina.nome}}</div>
         <div class="descricao">{{disciplina.creditos}} Créditos</div>
