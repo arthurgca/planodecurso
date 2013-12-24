@@ -119,9 +119,19 @@ mainApp.controller("PlanoDeCursoCtrl", function($scope, $http) {
   };
 
   $scope.validateRequisitos = function() {
+    var satisfied = [];
     _.each($scope.periodos, function(periodo) {
       if (periodo.disciplinas.length !== 0) {
+        _.each(periodo.disciplinas, function(disciplina){
+          _.each(disciplina.dependencias, function (dependencia) {
+            if (!_.contains(satisfied, dependencia.id)) {
+              $scope.errors.push(disciplina.nome + " requer " + dependencia.nome);
+            }
+          });
+        });
       }
+
+      satisfied = satisfied.concat(_.pluck(periodo.disciplinas, "id"));
     });
   };
 

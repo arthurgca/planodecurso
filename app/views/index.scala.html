@@ -72,8 +72,8 @@
   <h2 class="nome-principal">Disciplinas Ofertadas</h2>
 
   <div id="disciplinas-ofertadas" class="row">
-    <div ui-sortable="sortableOptions" ng-model="disciplinasOfertadas" ng-repeat="disciplina in disciplinasOfertadas" class="sortable-list">
-      <div class="col-md-2 disciplina {{disciplina.id}}">
+    <div ui-sortable="sortableOptions" ng-model="disciplinasOfertadas" class="sortable-list">
+      <div class="col-md-2 disciplina {{disciplina.id}}" ng-repeat="disciplina in disciplinasOfertadas">
         <div class="nome">{{disciplina.nome}}</div>
         <div class="descricao">{{disciplina.creditos}} Créditos</div>
       </div>
