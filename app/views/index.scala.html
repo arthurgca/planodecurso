@@ -1,37 +1,6 @@
-@(planoForm: Form[PlanoDeCurso], catalogoDeDisciplinas: CatalogoDeDisciplinas, errors: List[play.data.validation.ValidationError])
+@()
 
 @import helper._
-
-@disciplinaField(field: Field) = {
-  <div class="row disciplina @field.value">
-    <a href="#" class="close remove" aria-hidden="true">&times;</a>
-    <div class="nome">@field("nome").value</div>
-    <div class="descricao">@field("creditos").value créditos</div>
-    <input type="hidden" name="@field.name" value="@field.value">
-  </div>
-}
-
-@periodoGroup(field: Field) = {
-  <div id="periodo-@{field("semestre").value}" class="col-md-2 periodo">
-    <div class="row sumario">
-      <h4>@{field("semestre").value}º Período<br/>
-        <small>@field("totalCreditos").value créditos</small></h4>
-    </div>
-
-    <input type="hidden" name="@field("semestre").name" value="@field("semestre").value">
-
-    <div class="sortable-list">
-      @repeat(field("disciplinas"), min=0) { disciplina =>
-        @disciplinaField(disciplina)
-      }
-    </div>
-
-    <div class="row sumario">
-      <h4>@{field("semestre").value}º Período<br/>
-        <small>@field("totalCreditos").value créditos</small></h4>
-    </div>
-  </div>
-}
 
 @main("Plano de Curso") {
 <div class="container">
