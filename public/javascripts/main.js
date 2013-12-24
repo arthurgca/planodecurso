@@ -1,9 +1,15 @@
 var mainApp = angular.module("mainApp", ["ui.sortable"]);
 
 mainApp.controller("PlanoDeCursoCtrl", function($scope, $http) {
+  var MINIMO_CREDITOS = 14;
+
+  var MAXIMO_CREDITOS = 28;
+
   $scope.disciplinasOfertadas = [];
 
   $scope.periodos = [];
+
+  $scope.errors = [];
 
   $scope.sortableOptions = {
     connectWith: ".sortable-list"
@@ -72,8 +78,10 @@ mainApp.controller("PlanoDeCursoCtrl", function($scope, $http) {
   };
 
   $scope.appendNextPeriodo = function() {
-    if (_.last($scope.periodos).disciplinas.length !== 0) {
-      $scope.addPeriodo(_.last($scope.periodos).semestre + 1);
+    if ($scope.periodos.length !== 0) {
+      if (_.last($scope.periodos).disciplinas.length !== 0) {
+        $scope.addPeriodo(_.last($scope.periodos).semestre + 1);
+      }
     }
   };
 
@@ -82,12 +90,48 @@ mainApp.controller("PlanoDeCursoCtrl", function($scope, $http) {
     $scope.appendNextPeriodo();
   };
 
+  $scope.hasErrors = function() {
+    return $scope.errors.length !== 0;
+  };
+
+  $scope.validate = function() {
+    $scope.errors = [];
+
+    $scope.validateMininumCreditos();
+    $scope.validateMaximumCreditos();
+    $scope.validateRequisitos();
+  };
+
+  $scope.validateMininumCreditos = function() {
+    _.each($scope.periodos, function(periodo) {
+      if (periodo.disciplinas.length !== 0 && $scope.getTotalCreditos(periodo.semestre) < MINIMO_CREDITOS) {
+        $scope.errors.push(periodo.semestre + "º Período deve ter um mínimo de " + MINIMO_CREDITOS + " créditos.");
+      }
+    });
+  };
+
+  $scope.validateMaximumCreditos = function() {
+    _.each($scope.periodos, function(periodo) {
+      if (periodo.disciplinas.length !== 0 && $scope.getTotalCreditos(periodo.semestre) > MAXIMO_CREDITOS) {
+        $scope.errors.push(periodo.semestre + "º Período deve ter um máximo de " + MAXIMO_CREDITOS + " créditos.");
+      }
+    });
+  };
+
+  $scope.validateRequisitos = function() {
+    _.each($scope.periodos, function(periodo) {
+      if (periodo.disciplinas.length !== 0) {
+      }
+    });
+  };
+
   $scope.$watch(function() {
     return _.reduce($scope.periodos, function(memo, periodo) {
       return memo + periodo.disciplinas.length;
     }, 0);
   }, function() {
     $scope.cleanupPeriodos();
+    $scope.validate();
   });
 
   var bootstrap = function() {

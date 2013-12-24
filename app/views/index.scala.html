@@ -37,16 +37,12 @@
 <div class="container">
   <h2 class="nome-principal">Meu Curso</h2>
 
-  @if(errors != null) {
-  <div class="alert alert-danger">
+  <div ng-if="hasErrors()" class="alert alert-danger">
     <strong>Opa!</strong> Corrija esses problemas no seu Plano de Curso:
     <ul>
-      @for(error <- errors) {
-        <li>@error.message</li>
-      }
+      <li ng-repeat="error in errors">{{error}}</li>
     </ul>
   </div>
-  }
 
   <div id="disciplinas-alocadas">
     <div class="row">
