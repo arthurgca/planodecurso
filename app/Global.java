@@ -14,29 +14,7 @@ public class Global extends GlobalSettings {
     private static final CatalogoDeDisciplinas catalogoDeDisciplinas = new CatalogoDeDisciplinas();
 
     public void onStart(Application app) {
-        configureFormatters();
         configureDisciplinas();
-    }
-
-    private void configureFormatters() {
-        Formatters.register(Disciplina.class, new SimpleFormatter<Disciplina>() {
-          @Override
-          public Disciplina parse(String input, Locale l) throws ParseException {
-              Disciplina disciplina = null;
-
-              try {
-                  disciplina = catalogoDeDisciplinas.get(input);
-              } catch (IllegalArgumentException e) {
-                  throw new ParseException("No valid input", 0);
-              }
-
-              return disciplina;
-          }
-
-          @Override
-          public String print(Disciplina disciplina, Locale l) {
-              return disciplina.getId();
-          }});
     }
 
     private void configureDisciplinas() {
