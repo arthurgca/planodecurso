@@ -23,7 +23,9 @@
         </div>
 
         <div ui-sortable="sortableOptions" ng-model="periodo.disciplinas" class="sortable-list">
-          <div ng-repeat="disciplina in periodo.disciplinas" class="row disciplina {{ disciplina.id }}">
+          <div ng-repeat="disciplina in periodo.disciplinas"
+               class="row disciplina {{ disciplina.id }}"
+               ng-class="{optativa: disciplina.optativa, tecc: disciplina.tecc}">
             <a ng-click="removeDisciplina(periodo, disciplina.id)" class="close remove" aria-hidden="true">&times;</a>
             <div class="nome">{{ disciplina.nome }}</div>
             <div class="descricao">{{ disciplina.creditos }} créditos</div>
@@ -42,7 +44,9 @@
 
   <div id="disciplinas-ofertadas" class="row">
     <div ui-sortable="sortableOptions" ng-model="disciplinasOfertadas" class="sortable-list">
-      <div class="col-md-2 disciplina {{disciplina.id}}" ng-repeat="disciplina in disciplinasOfertadas">
+      <div class="col-md-2 disciplina {{disciplina.id}}"
+           ng-repeat="disciplina in disciplinasOfertadas"
+           ng-class="{optativa: disciplina.optativa, tecc: disciplina.tecc}">
         <div class="nome">{{disciplina.nome}}</div>
         <div class="descricao">{{disciplina.creditos}} Créditos</div>
       </div>

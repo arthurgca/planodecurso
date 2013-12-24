@@ -148,6 +148,7 @@ mainApp.controller("PlanoDeCursoCtrl", function($scope, $http) {
     $http({method: "GET", url: "/disciplinas.json"})
       .success(function(data, status, headers, config) {
         $scope.disciplinasOfertadas = data;
+        console.log(data);
       })
       .error(function(data, status, headers) {
         console.error("Não foi possível reaver as Disciplinas Ofertadas.");
