@@ -29,6 +29,9 @@ public class CatalogoDeDisciplinasTest {
 				new Disciplina(1, "Programação I", 4, 1, 4),
 				new Disciplina(5, "Int. à Computacação", 4, 1, 5),
 				new Disciplina(6, "Lab. de Programação I", 4, 1, 4)));
+		assertEquals(true, catalogo.get(1).getDependencias().isEmpty());
+		assertEquals(false, catalogo.get(7).getDependencias().isEmpty());
+
 	}
 
 	@Test
