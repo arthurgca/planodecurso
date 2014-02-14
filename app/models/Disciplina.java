@@ -5,26 +5,29 @@ import java.util.ArrayList;
 
 public class Disciplina {
 
-    private String id;
+    private int id;
 
     private String nome;
 
     private int creditos;
 
+    private int periodo;
+    
+    private int dificuldade;
+
     private List<Disciplina> dependencias;
-
-
 
     public Disciplina() {
         this.dependencias = new ArrayList<Disciplina>();
     }
 
-    public Disciplina(String id, String nome, int creditos, Disciplina... dependencias) {
+    public Disciplina(int id, String nome, int creditos, int periodo, int dificuldade,
+			Disciplina... dependencias) {
         this.id = id;
-        
-        
         this.nome = nome;
         this.creditos = creditos;
+        this.periodo = periodo;
+        this.dificuldade = dificuldade;
         this.dependencias = new ArrayList<Disciplina>();
 
         for (Disciplina dependencia : dependencias) {
@@ -32,7 +35,7 @@ public class Disciplina {
         }
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
@@ -44,6 +47,13 @@ public class Disciplina {
         return creditos;
     }
     
+    public int getPeriodo() {
+		return periodo;
+    }
+
+    public int getDificuldade() {
+    	return dificuldade;
+    }
 
     public List<Disciplina> getDependencias() {
         return dependencias;
@@ -62,11 +72,11 @@ public class Disciplina {
             return false;
         }
 
-        return getId().equals(((Disciplina) obj).getId());
+        return getId() == ((Disciplina) obj).getId();
     }
 
     public int hashCode() {
-        return 7 * this.id.hashCode();
+        return 7 * this.getId();
     }
 
 }
