@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plano>
+	<cadeira nome="Programação I" id="1">
+		<dificuldade>4</dificuldade>
+		<creditos>4</creditos>
+		<periodo>1</periodo>
+		<requisitos quantidade="0">
+		</requisitos>
+	</cadeira>
+	
+	<cadeira nome="Leitura e Prod. de Textos" id="2">
+		<dificuldade>2</dificuldade>
+		<creditos>4</creditos>
+		<periodo>1</periodo>
+		<requisitos quantidade="0">
+		</requisitos>
+	</cadeira>
+	
+	<cadeira nome="Cálculo I" id="3">
+		<dificuldade>7</dificuldade>
+		<creditos>4</creditos>
+		<periodo>1</periodo>
+		<requisitos quantidade="0">
+		</requisitos>
+	</cadeira>
+	
+	<cadeira nome="Algebra Vetorial" id="4">
+		<dificuldade>3</dificuldade>
+		<creditos>4</creditos>
+		<periodo>1</periodo>
+		<requisitos quantidade="0">
+		</requisitos>
+	</cadeira>
+	
+	<cadeira nome="Int. à Computacação" id="5">
+		<dificuldade>5</dificuldade>
+		<creditos>4</creditos>
+		<periodo>1</periodo>
+		<requisitos quantidade="0">
+		</requisitos>
+	</cadeira>
+	
+	<cadeira nome="Lab. de Programação I" id="6">
+		<dificuldade>4</dificuldade>
+		<creditos>4</creditos>
+		<periodo>1</periodo>
+		<requisitos quantidade="0">
+		</requisitos>
+	</cadeira>
+	
+	<cadeira nome="Programação II" id="7">
+		<dificuldade>5</dificuldade>
+		<creditos>4</creditos>
+		<periodo>2</periodo>
+		<requisitos quantidade="3">
+			<id>1</id>
+			<id>5</id>
+			<id>6</id>
+		</requisitos>
+	</cadeira>	
+</plano>
