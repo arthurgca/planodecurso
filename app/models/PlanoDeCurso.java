@@ -2,29 +2,20 @@ package models;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class PlanoDeCurso {
 
 	private Map<Integer, Periodo> periodos;
 	private CatalogoDeDisciplinas catalogo;
-	private List<Disciplina> disciplinasAlocadas;
-	private List<Disciplina> disciplinasNaoAlocadas;
 
 	public PlanoDeCurso(CatalogoDeDisciplinas catalogo) {
 		this.catalogo = catalogo;
-		disciplinasNaoAlocadas = new ArrayList<Disciplina>();
-		disciplinasAlocadas = new ArrayList<Disciplina>();
 		periodos = new HashMap<Integer, Periodo>();
 		inicializaMapPeriodos();
-		inicializarPlanoDeCurso();
-	}
-
-	private void inicializarPlanoDeCurso() {
-		for (Disciplina disciplina : catalogo.getDisciplinas()) {
-			disciplinasNaoAlocadas.add(disciplina);
-		}
 	}
 
 	private void inicializaMapPeriodos() {
@@ -33,11 +24,11 @@ public class PlanoDeCurso {
 		}
 	}
 
-
-	public void alocar(int semestre, Disciplina disciplina) throws ErroDeAlocacaoException {
+	public void alocar(int semestre, Disciplina disciplina)
+			throws ErroDeAlocacaoException {
 		if (!disciplina.getDependencias().isEmpty()) {
 			for (Disciplina dependencia : disciplina.getDependencias()) {
-				if (!disciplinasAlocadas.contains(dependencia)) {
+				if (!getDisciplinasAlocadas().contains(dependencia)) {
 					throw new ErroDeAlocacaoException(
 							"Pre requisitos da disciplina não cumpridos");
 				}
@@ -53,8 +44,6 @@ public class PlanoDeCurso {
 				throw new ErroDeAlocacaoException("Disciplina duplicada");
 			}
 		}
-		disciplinasAlocadas.add(disciplina);
-		disciplinasNaoAlocadas.remove(disciplina);
 		periodos.get(semestre).alocar(disciplina);
 	}
 
@@ -63,8 +52,6 @@ public class PlanoDeCurso {
 			Periodo periodo = periodos.get(i);
 			if (periodo.getDisciplinas().contains(disciplina)) {
 				periodo.desalocar(disciplina);
-				disciplinasAlocadas.remove(disciplina);
-				disciplinasNaoAlocadas.add(disciplina);
 				removerDependencias(disciplina);
 			}
 		}
@@ -84,16 +71,27 @@ public class PlanoDeCurso {
 			}
 		}
 	}
-	
+
 	public Periodo getPeriodo(int i) {
 		return periodos.get(i);
 	}
 
-	public List<Disciplina> getDisciplinasAlocadas() {
+	public Set<Disciplina> getDisciplinasAlocadas() {
+		Set<Disciplina> disciplinasAlocadas = new HashSet<Disciplina>();
+		;
+		for (int i : periodos.keySet()) {
+			Periodo periodo = periodos.get(i);
+			for (Disciplina disciplina : periodo.getDisciplinas()) {
+				disciplinasAlocadas.add(disciplina);
+			}
+		}
 		return disciplinasAlocadas;
 	}
 
-	public List<Disciplina> getDisciplinasNaoAlocadas() {
+	public Set<Disciplina> getDisciplinasNaoAlocadas() {
+		Set<Disciplina> disciplinasNaoAlocadas = new HashSet<Disciplina>();
+		disciplinasNaoAlocadas.addAll(catalogo.getDisciplinas());
+		disciplinasNaoAlocadas.removeAll(getDisciplinasAlocadas());
 		return disciplinasNaoAlocadas;
 	}
 
