@@ -22,11 +22,13 @@ public class PlanoDeCursoTest {
 	Disciplina d5; // Int. à Computação 
 	Disciplina d6; // Lab. de programação I
 	Disciplina d7; // Programação II
+
+	private CatalogoDeDisciplinas catalogo;
 	
 	@Before
 	public void setUp() throws JDOMException, IOException {
 		FileReader disciplinasXML = new FileReader("test/support/disciplinas_testing.xml");
-		CatalogoDeDisciplinas catalogo = new CatalogoDeDisciplinas(disciplinasXML);
+		catalogo = new CatalogoDeDisciplinas(disciplinasXML);
 		
 		d1 = catalogo.get(1);
 		d2 = catalogo.get(2);
@@ -40,32 +42,32 @@ public class PlanoDeCursoTest {
 	}
 
 	@Test
-	public void deveAlocarDisciplina() {
+	public void deveAlocarDisciplina() throws ErroDeAlocacaoException {
 		assertFalse(plano.getPeriodo(1).getDisciplinas().contains(d1));
 		plano.alocar(1, d1);
 		assertTrue(plano.getPeriodo(1).getDisciplinas().contains(d1));
 	}
 	
 	@Test(expected = ErroDeAlocacaoException.class)
-	public void naoDeveAlocarDisciplinaRepetida() {
+	public void naoDeveAlocarDisciplinaRepetida() throws ErroDeAlocacaoException {
 		plano.alocar(1, d1);
 		plano.alocar(2, d1);
 	}
 
 	@Test(expected = ErroDeAlocacaoException.class)
-	public void naoDeveAlocarDisciplinasEmPeriodosCom28Creditos() {
+	public void naoDeveAlocarDisciplinasEmPeriodosCom28Creditos() throws ErroDeAlocacaoException {
 		plano.alocar(3, new Disciplina(998, "teste1", 20, 2, 200));
 		plano.alocar(3, new Disciplina(999, "teste2", 20, 2, 200));
 	}
 	
 	@Test(expected = ErroDeAlocacaoException.class)
-	public void naoDeveAlocarDisciplinasComRequisitosNaoSatisfeitos() {
+	public void naoDeveAlocarDisciplinasComRequisitosNaoSatisfeitos() throws ErroDeAlocacaoException {
 		plano.alocar(1, d1);
 		plano.alocar(2, d7);
 	}
 	
 	@Test
-	public void deveDesalocarDisciplina() {
+	public void deveDesalocarDisciplina() throws ErroDeAlocacaoException {
 		plano.alocar(1, d1);
 		assertTrue(plano.getPeriodo(1).getDisciplinas().contains(d1));
 		plano.desalocar(d1);
@@ -73,7 +75,7 @@ public class PlanoDeCursoTest {
 	}
 	
 	@Test
-	public void deveDesalocarDisciplinasDependentesAoDesalocarDisciplina() {
+	public void deveDesalocarDisciplinasDependentesAoDesalocarDisciplina() throws ErroDeAlocacaoException {
 		plano.alocar(1, d1);
 		plano.alocar(1, d5);
 		plano.alocar(1, d6);
@@ -85,16 +87,16 @@ public class PlanoDeCursoTest {
 	}
 	
 	@Test
-	public void deveRetornarDisciplinasAlocadas() {
+	public void deveRetornarDisciplinasAlocadas() throws ErroDeAlocacaoException {
 		assertTrue(plano.getDisciplinasAlocadas().isEmpty());
 		
 		plano.alocar(1, d1);
 		
-		assertFalse(plano.getDisciplinasAlocadas().contains(d1));
+		assertTrue(plano.getDisciplinasAlocadas().contains(d1));
 	}
 	
 	@Test
-	public void deveRetornarDisciplinasNaoAlocadas() {
+	public void deveRetornarDisciplinasNaoAlocadas() throws ErroDeAlocacaoException {
 		assertTrue(plano.getDisciplinasNaoAlocadas().contains(d1));
 		assertTrue(plano.getDisciplinasNaoAlocadas().contains(d2));
 		assertTrue(plano.getDisciplinasNaoAlocadas().contains(d3));
@@ -109,8 +111,8 @@ public class PlanoDeCursoTest {
 	}
 	
 	@Test
-	public void deveRetornarPlanoInicial() {
-		PlanoDeCurso plano = PlanoDeCurso.getPlanoInicial();
+	public void deveRetornarPlanoInicial() throws ErroDeAlocacaoException {
+		PlanoDeCurso plano = PlanoDeCurso.getPlanoInicial(catalogo);
 		List<Disciplina> p1 = plano.getPeriodo(1).getDisciplinas(); 
 		assertTrue((p1).contains(d1));
 		assertTrue((p1).contains(d2));
@@ -118,7 +120,7 @@ public class PlanoDeCursoTest {
 		assertTrue((p1).contains(d4));
 		assertTrue((p1).contains(d5));
 		assertTrue((p1).contains(d6));
-		assertTrue((p1).contains(d7));
+		assertFalse((p1).contains(d7));
 		assertTrue(plano.getPeriodo(2).getDisciplinas().isEmpty());
 	}
 
