@@ -1,10 +1,15 @@
 package models;
 
 import static org.fest.assertions.Assertions.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
+
+import java.util.Iterator;
 
 import org.junit.Test;
+
+import play.libs.Json;
+
+import com.fasterxml.jackson.databind.JsonNode;
 
 public class DisciplinaTest {
 
@@ -53,5 +58,21 @@ public class DisciplinaTest {
 		assertThat(d1).isEqualTo(new Disciplina(1, "Programação I", 8, 1, 4));
 		assertThat(d1)
 				.isNotEqualTo(new Disciplina(2, "Programação I", 4, 1, 4));
+	}
+	
+	@Test
+	public void deveSerializarCorretamente() {
+		JsonNode node = Json.toJson(d4);
+		assertEquals(7, node.get("id").intValue());
+		assertEquals("Programação II", node.get("nome").textValue());
+		assertEquals(4, node.get("creditos").intValue());
+		assertEquals(2, node.get("periodo").intValue());
+		assertEquals(8, node.get("dificuldade").intValue());
+
+		Iterator<JsonNode> dependencias = node.get("dependencias").elements();
+		assertEquals("Programação I", dependencias.next().get("nome").textValue());
+		assertEquals("Int. à Computacação", dependencias.next().get("nome").textValue());
+		assertEquals("Lab. de Programação I", dependencias.next().get("nome").textValue());
+		assertFalse(dependencias.hasNext());
 	}
 }
