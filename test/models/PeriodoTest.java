@@ -2,10 +2,15 @@ package models;
 
 import static org.junit.Assert.*;
 
+import java.util.Iterator;
 import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import play.libs.Json;
+
+import com.fasterxml.jackson.databind.JsonNode;
 
 public class PeriodoTest {
 
@@ -68,4 +73,17 @@ public class PeriodoTest {
 		assertEquals(periodo.getTotalDificuldade(), 4);
 	}
 
+	@Test
+	public void deveSerializarCorretamente() {
+		periodo.alocar(disciplina);
+
+		JsonNode node = Json.toJson(periodo);
+		assertEquals(2, node.get("semestre").intValue());
+		assertEquals(4, node.get("totalCreditos").intValue());
+		assertEquals(4, node.get("totalDificuldade").intValue());
+
+		Iterator<JsonNode> disciplinas = node.get("disciplinas").elements();
+		assertEquals("Teste", disciplinas.next().get("nome").textValue());
+		assertFalse(disciplinas.hasNext());
+	}
 }
