@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import java.util.Collections;
+
 public class PlanoDeCurso {
 
 	private Map<Integer, Periodo> periodos;
@@ -98,6 +100,10 @@ public class PlanoDeCurso {
 		return disciplinasNaoAlocadas;
 	}
 
+	public List<Periodo> getPeriodos() {
+		return Collections.unmodifiableList(new ArrayList<Periodo>(periodos.values()));
+	}
+	
 	public static PlanoDeCurso getPlanoInicial(
 			CatalogoDeDisciplinas catalogoNovo) throws ErroDeAlocacaoException {
 		PlanoDeCurso planoInicial = new PlanoDeCurso(catalogoNovo);
@@ -108,5 +114,4 @@ public class PlanoDeCurso {
 		}
 		return planoInicial;
 	}
-
 }

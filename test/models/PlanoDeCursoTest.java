@@ -41,12 +41,23 @@ public class PlanoDeCursoTest {
 	}
 
 	@Test
+	public void deveRetornarPeriodos() throws ErroDeAlocacaoException {
+		assertEquals(15, plano.getPeriodos().size());
+	}
+	
+	@Test
+	public void deveRetornarPeriodo() throws ErroDeAlocacaoException {
+		plano = PlanoDeCurso.getPlanoInicial(catalogo);
+		assertTrue(plano.getPeriodo(1).getDisciplinas().contains(d1));
+	}
+	
 	@Test(expected = IllegalArgumentException.class)
 	public void naoDeveRetornarPeriodoZero() throws ErroDeAlocacaoException {
 		plano = PlanoDeCurso.getPlanoInicial(catalogo);
 		plano.getPeriodo(0);
 	}	
 	
+	@Test
 	public void deveAlocarDisciplina() throws ErroDeAlocacaoException {
 		assertFalse(plano.getPeriodo(1).getDisciplinas().contains(d1));
 		plano.alocar(1, d1);
