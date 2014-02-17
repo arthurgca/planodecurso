@@ -20,7 +20,7 @@ public class PlanoDeCurso {
 
 	private void inicializaMapPeriodos() {
 		for (int i = 0; i < 15; i++) {
-			periodos.put(i, new Periodo());
+			periodos.put(i, new Periodo(i + 1));
 		}
 	}
 

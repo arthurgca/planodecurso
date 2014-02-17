@@ -2,14 +2,23 @@ package models;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import java.util.Collections;
 
 public class Periodo {
+	private int semestre;
 	private List<Disciplina> disciplinas;
-
-	public Periodo() {
-		disciplinas = new ArrayList<Disciplina>();
+	
+	public Periodo(int semestre) {
+		if (semestre < 1) {
+			throw new IllegalArgumentException("o semestre deve ser >= 1");
+		}
+		
+		this.semestre = semestre;
+		this.disciplinas = new ArrayList<Disciplina>();
+	}
+	
+	public int getSemestre() {
+		return semestre;
 	}
 
 	public void alocar(Disciplina disciplina) {

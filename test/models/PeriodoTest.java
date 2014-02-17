@@ -14,7 +14,17 @@ public class PeriodoTest {
 
 	@Before
 	public void setUp() {
-		periodo = new Periodo(); 
+		periodo = new Periodo(2);
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void naoDevePermitirSemestreZero() {
+		new Periodo(0);
+	}
+	
+	@Test
+	public void deveRetornarSemestre() {
+		assertEquals(2, periodo.getSemestre());
 	}
 
 	@Test
