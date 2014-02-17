@@ -20,7 +20,7 @@ public class PlanoDeCurso {
 
 	private void inicializaMapPeriodos() {
 		for (int i = 0; i < 15; i++) {
-			periodos.put(i, new Periodo(i + 1));
+			periodos.put(i + 1, new Periodo(i + 1));
 		}
 	}
 
@@ -72,8 +72,11 @@ public class PlanoDeCurso {
 		}
 	}
 
-	public Periodo getPeriodo(int i) {
-		return periodos.get(i);
+	public Periodo getPeriodo(int semestre) {
+		if (semestre < 1) {
+			throw new IllegalArgumentException("o semestre deve ser >= 1");
+		}
+		return periodos.get(semestre);
 	}
 
 	public Set<Disciplina> getDisciplinasAlocadas() {

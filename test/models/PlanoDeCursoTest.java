@@ -1,7 +1,6 @@
 package models;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -42,6 +41,12 @@ public class PlanoDeCursoTest {
 	}
 
 	@Test
+	@Test(expected = IllegalArgumentException.class)
+	public void naoDeveRetornarPeriodoZero() throws ErroDeAlocacaoException {
+		plano = PlanoDeCurso.getPlanoInicial(catalogo);
+		plano.getPeriodo(0);
+	}	
+	
 	public void deveAlocarDisciplina() throws ErroDeAlocacaoException {
 		assertFalse(plano.getPeriodo(1).getDisciplinas().contains(d1));
 		plano.alocar(1, d1);
