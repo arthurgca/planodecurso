@@ -10,6 +10,10 @@ import org.jdom2.JDOMException;
 import org.junit.Before;
 import org.junit.Test;
 
+import play.libs.Json;
+
+import com.fasterxml.jackson.databind.JsonNode;
+
 public class PlanoDeCursoTest {
 
 	private PlanoDeCurso plano;
@@ -140,4 +144,11 @@ public class PlanoDeCursoTest {
 		assertTrue(plano.getPeriodo(2).getDisciplinas().isEmpty());
 	}
 
+	@Test
+	public void deveSerializarCorretamente() throws ErroDeAlocacaoException {
+		JsonNode node = Json.toJson(PlanoDeCurso.getPlanoInicial(catalogo));
+		assertTrue(node.get("disciplinasAlocadas").isArray());
+		assertTrue(node.get("disciplinasNaoAlocadas").isArray());
+		assertTrue(node.get("periodos").isArray());
+	}
 }
