@@ -1,11 +1,27 @@
 package controllers;
 
-import org.junit.*;
+import static org.fest.assertions.Assertions.assertThat;
+import static org.junit.Assert.assertEquals;
+import static play.mvc.Http.Status.OK;
+import static play.test.Helpers.callAction;
+import static play.test.Helpers.charset;
+import static play.test.Helpers.contentType;
+import static play.test.Helpers.fakeApplication;
+import static play.test.Helpers.status;
 
-import play.mvc.*;
+import java.util.HashMap;
+import java.util.Map;
+
+import models.CatalogoDeDisciplinas;
+import models.Periodo;
+import models.PlanoDeCurso;
+
+import org.junit.Before;
+import org.junit.Test;
+
+import play.data.Form;
+import play.mvc.Result;
 import play.test.WithApplication;
-import static play.test.Helpers.*;
-import static org.fest.assertions.Assertions.*;
 
 public class PlanoDeCursoAppTest extends WithApplication {
 	@Before
@@ -19,5 +35,46 @@ public class PlanoDeCursoAppTest extends WithApplication {
 		assertThat(status(result)).isEqualTo(OK);
 		assertThat(contentType(result)).isEqualTo("application/json");
 		assertThat(charset(result)).isEqualTo("utf-8");
+	}
+	
+	@Test
+	public void deveVincularPeriodoCorretamente() {
+		Map<String,String> anyData = new HashMap<String, String>();
+		anyData.put("semestre", "3");
+		anyData.put("disciplinas[0]", "1");
+		anyData.put("disciplinas[1]", "7");
+		
+		Periodo periodo = Form.form(Periodo.class).bind(anyData).get();
+		
+		assertEquals(3, periodo.getSemestre());
+		
+		CatalogoDeDisciplinas catalogo = config.Global.getCatalogoDeDisciplinas();
+		assertEquals(catalogo.get(1), periodo.getDisciplinas().get(0));
+		assertEquals(catalogo.get(7), periodo.getDisciplinas().get(1));
+	}
+	
+	@Test
+	public void deveVincularPlanoDeCursoCorretamente() {
+		Map<String,String> anyData = new HashMap<String, String>();
+		anyData.put("periodos[0].semestre", "1");
+		anyData.put("periodos[0].disciplinas[0]", "1");
+		anyData.put("periodos[0].disciplinas[1]", "5");
+		anyData.put("periodos[0].disciplinas[2]", "6");
+		anyData.put("periodos[1].semestre", "2");
+		anyData.put("periodos[1].disciplinas[0]", "7");
+		
+		PlanoDeCurso plano = Form.form(PlanoDeCurso.class).bind(anyData).get();
+		Periodo periodo1 = plano.getPeriodo(1);
+		Periodo periodo2 = plano.getPeriodo(2);
+		
+		assertEquals(1, periodo1.getSemestre());
+		assertEquals(2, periodo2.getSemestre());
+		
+		CatalogoDeDisciplinas catalogo = config.Global.getCatalogoDeDisciplinas();
+		
+		assertEquals(catalogo.get(1), periodo1.getDisciplinas().get(0));
+		assertEquals(catalogo.get(5), periodo1.getDisciplinas().get(1));
+		assertEquals(catalogo.get(6), periodo1.getDisciplinas().get(2));
+		assertEquals(catalogo.get(7), periodo2.getDisciplinas().get(0));
 	}
 }
