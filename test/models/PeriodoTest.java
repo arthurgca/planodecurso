@@ -16,11 +16,12 @@ import com.fasterxml.jackson.databind.JsonNode;
 public class PeriodoTest {
 
 	private Periodo periodo;
-	private Disciplina disciplina = new Disciplina(1, "Teste", 4, 1, 4);
+	private Disciplina disciplina;
 
 	@Before
 	public void setUp() {
 		periodo = new Periodo(2);
+		disciplina = new Disciplina(1, "Teste", 4, 1, 4);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
@@ -63,7 +64,7 @@ public class PeriodoTest {
 	}
 
 	@Test
-	public void deveRetornarDificuldadeSemestre() {
+	public void deveRetornarDificuldade() {
 		periodo.alocar(disciplina);
 		assertEquals(periodo.getTotalDificuldade(), 4);
 	}

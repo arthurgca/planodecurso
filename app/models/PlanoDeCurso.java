@@ -125,8 +125,8 @@ public class PlanoDeCurso {
 
 	public static void registraDisciplina(int id, String nome, int creditos,
 			int periodo, int dificuldade) {
-		registraDisciplina(id, nome, creditos, periodo, dificuldade, null);
-
+		disciplinas.put(id, new Disciplina(id, nome, creditos, periodo,
+				dificuldade));
 	}
 
 	public static void registraDisciplina(int id, String nome, int creditos,

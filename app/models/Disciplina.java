@@ -3,26 +3,24 @@ package models;
 import java.util.List;
 import java.util.ArrayList;
 
-public class Disciplina {
+public final class Disciplina {
 
-	private int id;
+	private final int id;
 
-	private String nome;
+	private final String nome;
 
-	private int creditos;
+	private final int creditos;
 
-	private int periodo;
+	private final int periodo;
 
-	private int dificuldade;
+	private final int dificuldade;
 
-	private List<Disciplina> dependencias;
-
-	public Disciplina() {
-	}
+	private final List<Disciplina> dependencias;
 
 	public Disciplina(int id, String nome, int creditos, int periodo,
 			int dificuldade) {
-		this(id, nome, creditos, periodo, dificuldade, new ArrayList<Disciplina>());
+		this(id, nome, creditos, periodo, dificuldade,
+				new ArrayList<Disciplina>());
 	}
 
 	public Disciplina(int id, String nome, int creditos, int periodo,
@@ -34,10 +32,8 @@ public class Disciplina {
 		this.dificuldade = dificuldade;
 		this.dependencias = new ArrayList<Disciplina>();
 
-		if (dependencias != null) {
-			for (Disciplina dependencia : dependencias) {
-				this.dependencias.add(dependencia);
-			}
+		for (Disciplina dependencia : dependencias) {
+			this.dependencias.add(dependencia);
 		}
 	}
 
