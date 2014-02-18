@@ -67,6 +67,19 @@ public class PlanoDeCursoAppTest extends WithApplication {
 	}
 	
 	@Test
+	public void deveDesalocarDisciplinas() {
+		HashMap<String,String> anyData = new HashMap<String, String>();
+		anyData.put("periodos[0].semestre", "1");
+		anyData.put("periodos[0].disciplinas[0]", "1");
+		anyData.put("periodos[0].disciplinas[1]", "5");
+		Result result = callAction(controllers.routes.ref.PlanoDeCursoApp.desalocarDisciplina(5),
+				new FakeRequest().withFormUrlEncodedBody(anyData));
+		assertEquals(Http.Status.OK, status(result));
+		assertEquals("application/json", contentType(result));
+		assertEquals("utf-8", charset(result));
+	}
+
+	@Test
 	public void deveVincularPeriodoCorretamente() {
 		Map<String,String> anyData = new HashMap<String, String>();
 		anyData.put("semestre", "3");

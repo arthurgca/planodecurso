@@ -28,6 +28,13 @@ public class PlanoDeCursoApp extends Controller {
 		}
 	}
 	
+	public static Result desalocarDisciplina(int disciplinaId) {
+		Disciplina disciplina = getCatalogoDeDisciplinas().get(disciplinaId);
+		PlanoDeCurso planoDeCurso = planoDeCursoForm.bindFromRequest().get();
+		planoDeCurso.desalocar(disciplina);
+		return ok(Json.toJson(disciplina));
+	}
+	
 	public static CatalogoDeDisciplinas getCatalogoDeDisciplinas() {
 		return config.Global.getCatalogoDeDisciplinas();
 	}
