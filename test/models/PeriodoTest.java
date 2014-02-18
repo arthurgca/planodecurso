@@ -1,9 +1,10 @@
 package models;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Iterator;
-import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -51,13 +52,6 @@ public class PeriodoTest {
 		assertTrue(periodo.getDisciplinas().isEmpty());
 		periodo.alocar(disciplina);
 		assertTrue(periodo.getDisciplinas().contains(disciplina));
-	}
-	
-	@Test(expected=UnsupportedOperationException.class)
-	public void deveRetornarDisciplinasComoListaImutavel() {
-		periodo.alocar(disciplina);
-		List<Disciplina> disciplinas = periodo.getDisciplinas();
-		disciplinas.add(new Disciplina(2, "Teste2", 4, 4, 4));
 	}
 	
 	@Test

@@ -2,7 +2,6 @@ package models;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Collections;
 
 public class Periodo {
 	private int semestre;
@@ -18,11 +17,15 @@ public class Periodo {
 		this.semestre = semestre;
 		this.disciplinas = new ArrayList<Disciplina>();
 	}
-	
+
 	public int getSemestre() {
 		return semestre;
 	}
 
+	public void setSemestre(int semestre) {
+		this.semestre = semestre;
+	}
+	
 	public void alocar(Disciplina disciplina) {
 		disciplinas.add(disciplina);
 	}
@@ -32,9 +35,13 @@ public class Periodo {
 	}
 
 	public List<Disciplina> getDisciplinas() {
-		return Collections.unmodifiableList(disciplinas);
+		return disciplinas;
 	}
 
+	public void setDisciplinas(List<Disciplina> disciplinas) {
+		this.disciplinas = disciplinas;
+	}
+	
 	public int getTotalCreditos() {
 		int totalCreditos = 0;
 		for (Disciplina disciplina : disciplinas) {
