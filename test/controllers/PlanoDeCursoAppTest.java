@@ -20,7 +20,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import play.data.Form;
+import play.mvc.Http;
 import play.mvc.Result;
+import play.test.FakeRequest;
 import play.test.WithApplication;
 
 public class PlanoDeCursoAppTest extends WithApplication {
@@ -35,6 +37,33 @@ public class PlanoDeCursoAppTest extends WithApplication {
 		assertThat(status(result)).isEqualTo(OK);
 		assertThat(contentType(result)).isEqualTo("application/json");
 		assertThat(charset(result)).isEqualTo("utf-8");
+	}
+	
+	@Test
+	public void deveAlocarDisciplinas() {
+		HashMap<String,String> anyData = new HashMap<String, String>();
+		anyData.put("periodos[0].semestre", "1");
+		anyData.put("periodos[0].disciplinas[0]", "1");
+		anyData.put("periodos[0].disciplinas[1]", "5");
+		anyData.put("periodos[0].disciplinas[2]", "6");
+		Result result = callAction(controllers.routes.ref.PlanoDeCursoApp.alocarDisciplina(2,7),
+				new FakeRequest().withFormUrlEncodedBody(anyData));
+		assertEquals(OK, status(result));
+		assertEquals("application/json", contentType(result));
+		assertEquals("utf-8", charset(result));
+	}
+
+	@Test
+	public void naoDeveAlocarDisciplinasSemRequisitos() {
+		HashMap<String,String> anyData = new HashMap<String, String>();
+		anyData.put("periodos[0].semestre", "1");
+		anyData.put("periodos[0].disciplinas[0]", "1");
+		anyData.put("periodos[0].disciplinas[1]", "5");
+		Result result = callAction(controllers.routes.ref.PlanoDeCursoApp.alocarDisciplina(2,7),
+				new FakeRequest().withFormUrlEncodedBody(anyData));
+		assertEquals(Http.Status.BAD_REQUEST, status(result));
+		assertEquals("application/json", contentType(result));
+		assertEquals("utf-8", charset(result));
 	}
 	
 	@Test

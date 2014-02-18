@@ -3,9 +3,10 @@
 # ~~~~
 
 # Home page
-# GET     /                           controllers.Application.index()
+# GET     /                           			controllers.Application.index()
 
-GET     /planoInicial               controllers.PlanoDeCursoApp.planoInicial()
+GET     /planoInicial              				controllers.PlanoDeCursoApp.planoInicial()
+POST    /alocarDisciplina/:semestre/:disciplina	controllers.PlanoDeCursoApp.alocarDisciplina(semestre: Integer, disciplina: Integer)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
