@@ -24,11 +24,12 @@ public class CatalogoDeDisciplinasTest {
 
 	@Test
 	public void deveImportarDisciplinasXML() {
-		assertEquals(catalogo.get(6), new Disciplina(6, "Lab. de Programação I", 4, 1, 4));
-		assertEquals(catalogo.get(7), new Disciplina(7, "Programação II", 4, 2, 8,
-				new Disciplina(1, "Programação I", 4, 1, 4),
-				new Disciplina(5, "Int. à Computacação", 4, 1, 5),
-				new Disciplina(6, "Lab. de Programação I", 4, 1, 4)));
+		assertEquals(catalogo.get(6), new Disciplina(6,
+				"Lab. de Programação I", 4, 1, 4));
+		assertEquals(catalogo.get(7), new Disciplina(7, "Programação II", 4, 2,
+				8, new Disciplina(1, "Programação I", 4, 1, 4), new Disciplina(
+						5, "Int. à Computacação", 4, 1, 5), new Disciplina(6,
+						"Lab. de Programação I", 4, 1, 4)));
 		assertEquals(true, catalogo.get(1).getDependencias().isEmpty());
 		assertEquals(false, catalogo.get(7).getDependencias().isEmpty());
 
@@ -44,8 +45,8 @@ public class CatalogoDeDisciplinasTest {
 	public void deveLancarExcecaoQuandoIdDaDisciplinaNaoExiste() {
 		catalogo.get(9999);
 	}
-	
-	@Test(expected=UnsupportedOperationException.class)
+
+	@Test(expected = UnsupportedOperationException.class)
 	public void deveRetornarDisciplinasComoListaImutavel() {
 		Collection<Disciplina> disciplinas = catalogo.getDisciplinas();
 		disciplinas.add(new Disciplina(2, "Teste", 4, 4, 4));

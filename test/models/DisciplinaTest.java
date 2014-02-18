@@ -45,21 +45,21 @@ public class DisciplinaTest {
 		assertEquals(4, d1.getDificuldade());
 		assertEquals(8, d4.getDificuldade());
 	}
-	
+
 	@Test
 	public void deveRetornarDependencias() {
 		assertTrue(d4.getDependencias().contains(d1));
 		assertTrue(d4.getDependencias().contains(d2));
 		assertTrue(d4.getDependencias().contains(d3));
 	}
-	
+
 	@Test
 	public void deveCompararIgualdadeUsandId() {
 		assertThat(d1).isEqualTo(new Disciplina(1, "Programação I", 8, 1, 4));
 		assertThat(d1)
 				.isNotEqualTo(new Disciplina(2, "Programação I", 4, 1, 4));
 	}
-	
+
 	@Test
 	public void deveSerializarCorretamente() {
 		JsonNode node = Json.toJson(d4);
@@ -70,9 +70,12 @@ public class DisciplinaTest {
 		assertEquals(8, node.get("dificuldade").intValue());
 
 		Iterator<JsonNode> dependencias = node.get("dependencias").elements();
-		assertEquals("Programação I", dependencias.next().get("nome").textValue());
-		assertEquals("Int. à Computacação", dependencias.next().get("nome").textValue());
-		assertEquals("Lab. de Programação I", dependencias.next().get("nome").textValue());
+		assertEquals("Programação I", dependencias.next().get("nome")
+				.textValue());
+		assertEquals("Int. à Computacação", dependencias.next().get("nome")
+				.textValue());
+		assertEquals("Lab. de Programação I", dependencias.next().get("nome")
+				.textValue());
 		assertFalse(dependencias.hasNext());
 	}
 }

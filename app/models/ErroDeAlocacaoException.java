@@ -8,13 +8,13 @@ public class ErroDeAlocacaoException extends Exception {
 		super(msg);
 		this.msg = msg;
 	}
-	
+
 	public String getMsg() {
 		return msg;
 	}
-	
+
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 

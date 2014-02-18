@@ -17,11 +17,11 @@ import play.data.format.Formatters;
 import play.data.format.Formatters.*;
 
 public class Global extends GlobalSettings {
-	
+
 	private static String CADEIRAS_XML = "conf/cadeiras.xml";
-	
+
 	private static CatalogoDeDisciplinas catalogoDeDisciplinas;
-	
+
 	@Override
 	public void onStart(Application app) {
 		configuraCatalogoDeDisciplinas();
@@ -34,7 +34,8 @@ public class Global extends GlobalSettings {
 
 	private void configuraCatalogoDeDisciplinas() {
 		try {
-			catalogoDeDisciplinas = new CatalogoDeDisciplinas(new FileReader(CADEIRAS_XML));
+			catalogoDeDisciplinas = new CatalogoDeDisciplinas(new FileReader(
+					CADEIRAS_XML));
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -46,21 +47,23 @@ public class Global extends GlobalSettings {
 			e.printStackTrace();
 		}
 	}
-	
-	private void configuraDataBinds() {
-		Formatters.register(Disciplina.class, new SimpleFormatter<Disciplina>() {
-			@Override
-			public Disciplina parse(String input, Locale locale)
-					throws ParseException {
-				return getCatalogoDeDisciplinas().get(Integer.valueOf(input));
-			}
 
-			@Override
-			public String print(Disciplina disciplina, Locale locale) {
-				return String.valueOf(disciplina.getId());
-			}
-			
-		});
+	private void configuraDataBinds() {
+		Formatters.register(Disciplina.class,
+				new SimpleFormatter<Disciplina>() {
+					@Override
+					public Disciplina parse(String input, Locale locale)
+							throws ParseException {
+						return getCatalogoDeDisciplinas().get(
+								Integer.valueOf(input));
+					}
+
+					@Override
+					public String print(Disciplina disciplina, Locale locale) {
+						return String.valueOf(disciplina.getId());
+					}
+
+				});
 	}
-	
+
 }

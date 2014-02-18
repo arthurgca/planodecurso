@@ -5,76 +5,77 @@ import java.util.ArrayList;
 
 public class Disciplina {
 
-    private int id;
+	private int id;
 
-    private String nome;
+	private String nome;
 
-    private int creditos;
+	private int creditos;
 
-    private int periodo;
-    
-    private int dificuldade;
+	private int periodo;
 
-    private List<Disciplina> dependencias;
+	private int dificuldade;
 
-    public Disciplina() {}
+	private List<Disciplina> dependencias;
 
-    public Disciplina(int id, String nome, int creditos, int periodo, int dificuldade,
-			Disciplina... dependencias) {
-        this.id = id;
-        this.nome = nome;
-        this.creditos = creditos;
-        this.periodo = periodo;
-        this.dificuldade = dificuldade;
-        this.dependencias = new ArrayList<Disciplina>();
+	public Disciplina() {
+	}
 
-        for (Disciplina dependencia : dependencias) {
-            this.dependencias.add(dependencia);
-        }
-    }
+	public Disciplina(int id, String nome, int creditos, int periodo,
+			int dificuldade, Disciplina... dependencias) {
+		this.id = id;
+		this.nome = nome;
+		this.creditos = creditos;
+		this.periodo = periodo;
+		this.dificuldade = dificuldade;
+		this.dependencias = new ArrayList<Disciplina>();
 
-    public int getId() {
-        return id;
-    }
+		for (Disciplina dependencia : dependencias) {
+			this.dependencias.add(dependencia);
+		}
+	}
 
-    public String getNome() {
-        return nome;
-    }
+	public int getId() {
+		return id;
+	}
 
-    public int getCreditos() {
-        return creditos;
-    }
-    
-    public int getPeriodo() {
+	public String getNome() {
+		return nome;
+	}
+
+	public int getCreditos() {
+		return creditos;
+	}
+
+	public int getPeriodo() {
 		return periodo;
-    }
+	}
 
-    public int getDificuldade() {
-    	return dificuldade;
-    }
+	public int getDificuldade() {
+		return dificuldade;
+	}
 
-    public List<Disciplina> getDependencias() {
-        return dependencias;
-    }
+	public List<Disciplina> getDependencias() {
+		return dependencias;
+	}
 
-    public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
+	public boolean equals(Object obj) {
+		if (obj == null) {
+			return false;
+		}
 
-        if (obj == this) {
-            return true;
-        }
+		if (obj == this) {
+			return true;
+		}
 
-        if (!(obj instanceof Disciplina)) {
-            return false;
-        }
+		if (!(obj instanceof Disciplina)) {
+			return false;
+		}
 
-        return getId() == ((Disciplina) obj).getId();
-    }
+		return getId() == ((Disciplina) obj).getId();
+	}
 
-    public int hashCode() {
-        return 7 * this.getId();
-    }
+	public int hashCode() {
+		return 7 * this.getId();
+	}
 
 }

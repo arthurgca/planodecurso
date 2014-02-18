@@ -17,7 +17,7 @@ public class PlanoDeCurso {
 	public PlanoDeCurso() {
 		this(config.Global.getCatalogoDeDisciplinas());
 	}
-	
+
 	public PlanoDeCurso(CatalogoDeDisciplinas catalogo) {
 		this.catalogo = catalogo;
 		periodos = new HashMap<Integer, Periodo>();
@@ -105,9 +105,10 @@ public class PlanoDeCurso {
 	}
 
 	public List<Periodo> getPeriodos() {
-		return Collections.unmodifiableList(new ArrayList<Periodo>(periodos.values()));
+		return Collections.unmodifiableList(new ArrayList<Periodo>(periodos
+				.values()));
 	}
-	
+
 	public static PlanoDeCurso getPlanoInicial(
 			CatalogoDeDisciplinas catalogoNovo) throws ErroDeAlocacaoException {
 		PlanoDeCurso planoInicial = new PlanoDeCurso(catalogoNovo);
