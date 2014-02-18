@@ -18,7 +18,6 @@ import models.PlanoDeCurso;
 import org.junit.Before;
 import org.junit.Test;
 
-import config.RegistroDeDisciplinas;
 import play.data.Form;
 import play.mvc.Http;
 import play.mvc.Result;
@@ -94,9 +93,9 @@ public class PlanoDeCursoAppTest extends WithApplication {
 
 		assertEquals(3, periodo.getSemestre());
 
-		assertEquals(RegistroDeDisciplinas.get(1), periodo.getDisciplinas()
+		assertEquals(PlanoDeCurso.getDisciplina(1), periodo.getDisciplinas()
 				.get(0));
-		assertEquals(RegistroDeDisciplinas.get(7), periodo.getDisciplinas()
+		assertEquals(PlanoDeCurso.getDisciplina(7), periodo.getDisciplinas()
 				.get(1));
 	}
 
@@ -117,13 +116,13 @@ public class PlanoDeCursoAppTest extends WithApplication {
 		assertEquals(1, periodo1.getSemestre());
 		assertEquals(2, periodo2.getSemestre());
 
-		assertEquals(RegistroDeDisciplinas.get(1), periodo1.getDisciplinas()
+		assertEquals(PlanoDeCurso.getDisciplina(1), periodo1.getDisciplinas()
 				.get(0));
-		assertEquals(RegistroDeDisciplinas.get(5), periodo1.getDisciplinas()
+		assertEquals(PlanoDeCurso.getDisciplina(5), periodo1.getDisciplinas()
 				.get(1));
-		assertEquals(RegistroDeDisciplinas.get(6), periodo1.getDisciplinas()
+		assertEquals(PlanoDeCurso.getDisciplina(6), periodo1.getDisciplinas()
 				.get(2));
-		assertEquals(RegistroDeDisciplinas.get(7), periodo2.getDisciplinas()
+		assertEquals(PlanoDeCurso.getDisciplina(7), periodo2.getDisciplinas()
 				.get(0));
 	}
 }

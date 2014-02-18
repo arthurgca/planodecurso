@@ -1,6 +1,5 @@
 package controllers;
 
-import config.RegistroDeDisciplinas;
 import models.Disciplina;
 import models.ErroDeAlocacaoException;
 import models.PlanoDeCurso;
@@ -19,7 +18,7 @@ public class PlanoDeCursoApp extends Controller {
 	}
 
 	public static Result alocarDisciplina(int semestre, int disciplinaId) {
-		Disciplina disciplina = RegistroDeDisciplinas.get(disciplinaId);
+		Disciplina disciplina = PlanoDeCurso.getDisciplina(disciplinaId);
 		PlanoDeCurso planoDeCurso = planoDeCursoForm.bindFromRequest().get();
 		try {
 			planoDeCurso.alocar(semestre, disciplina);
@@ -30,7 +29,7 @@ public class PlanoDeCursoApp extends Controller {
 	}
 
 	public static Result desalocarDisciplina(int disciplinaId) {
-		Disciplina disciplina = RegistroDeDisciplinas.get(disciplinaId);
+		Disciplina disciplina = PlanoDeCurso.getDisciplina(disciplinaId);
 		PlanoDeCurso planoDeCurso = planoDeCursoForm.bindFromRequest().get();
 		planoDeCurso.desalocar(disciplina);
 		return ok(Json.toJson(disciplina));

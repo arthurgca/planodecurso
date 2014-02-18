@@ -3,8 +3,11 @@ package models;
 import static org.fest.assertions.Assertions.assertThat;
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import play.libs.Json;
@@ -16,7 +19,16 @@ public class DisciplinaTest {
 	Disciplina d1 = new Disciplina(1, "Programação I", 4, 1, 4);
 	Disciplina d2 = new Disciplina(5, "Int. à Computacação", 4, 1, 2);
 	Disciplina d3 = new Disciplina(6, "Lab. de Programação I", 4, 1, 4);
-	Disciplina d4 = new Disciplina(7, "Programação II", 4, 2, 8, d1, d2, d3);
+	Disciplina d4;
+
+	@Before
+	public void setUp() {
+		List<Disciplina> requisitos = new ArrayList<Disciplina>();
+		requisitos.add(d1);
+		requisitos.add(d2);
+		requisitos.add(d3);
+		d4 = new Disciplina(7, "Programação II", 4, 2, 8, requisitos);
+	}
 
 	@Test
 	public void deveRetornarId() {

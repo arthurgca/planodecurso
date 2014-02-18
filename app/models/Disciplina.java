@@ -21,7 +21,12 @@ public class Disciplina {
 	}
 
 	public Disciplina(int id, String nome, int creditos, int periodo,
-			int dificuldade, Disciplina... dependencias) {
+			int dificuldade) {
+		this(id, nome, creditos, periodo, dificuldade, new ArrayList<Disciplina>());
+	}
+
+	public Disciplina(int id, String nome, int creditos, int periodo,
+			int dificuldade, List<Disciplina> dependencias) {
 		this.id = id;
 		this.nome = nome;
 		this.creditos = creditos;
@@ -29,8 +34,10 @@ public class Disciplina {
 		this.dificuldade = dificuldade;
 		this.dependencias = new ArrayList<Disciplina>();
 
-		for (Disciplina dependencia : dependencias) {
-			this.dependencias.add(dependencia);
+		if (dependencias != null) {
+			for (Disciplina dependencia : dependencias) {
+				this.dependencias.add(dependencia);
+			}
 		}
 	}
 

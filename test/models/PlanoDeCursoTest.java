@@ -4,8 +4,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.jdom2.JDOMException;
@@ -13,12 +13,11 @@ import org.junit.Before;
 import org.junit.Test;
 
 import play.libs.Json;
+import play.test.WithApplication;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
-import config.RegistroDeDisciplinas;
-
-public class PlanoDeCursoTest {
+public class PlanoDeCursoTest extends WithApplication {
 
 	private PlanoDeCurso plano;
 
@@ -32,16 +31,29 @@ public class PlanoDeCursoTest {
 
 	@Before
 	public void setUp() throws JDOMException, IOException {
-		RegistroDeDisciplinas.registraDoArquivo(new FileReader(
-				"test/support/disciplinas_testing.xml"));
+		PlanoDeCurso.registraDisciplina(1, "Programação I", 4, 1, 4);
+		PlanoDeCurso
+				.registraDisciplina(2, "Leitura e Prod. de Textos", 4, 1, 2);
+		PlanoDeCurso.registraDisciplina(3, "Cálculo I", 4, 1, 7);
+		PlanoDeCurso.registraDisciplina(4, "Algebra Vetorial", 4, 1, 3);
+		PlanoDeCurso.registraDisciplina(5, "Int. à Computação", 4, 1, 5);
+		PlanoDeCurso.registraDisciplina(6, "Lab. de Programação I", 4, 1, 4);
 
-		d1 = RegistroDeDisciplinas.get(1);
-		d2 = RegistroDeDisciplinas.get(2);
-		d3 = RegistroDeDisciplinas.get(3);
-		d4 = RegistroDeDisciplinas.get(4);
-		d5 = RegistroDeDisciplinas.get(5);
-		d6 = RegistroDeDisciplinas.get(6);
-		d7 = RegistroDeDisciplinas.get(7);
+		d1 = PlanoDeCurso.getDisciplina(1);
+		d2 = PlanoDeCurso.getDisciplina(2);
+		d3 = PlanoDeCurso.getDisciplina(3);
+		d4 = PlanoDeCurso.getDisciplina(4);
+		d5 = PlanoDeCurso.getDisciplina(5);
+		d6 = PlanoDeCurso.getDisciplina(6);
+		d7 = PlanoDeCurso.getDisciplina(7);
+
+		List<Disciplina> requisitos = new ArrayList<Disciplina>();
+		requisitos.add(d1);
+		requisitos.add(d5);
+		requisitos.add(d6);
+
+		PlanoDeCurso.registraDisciplina(7, "Programação II", 4, 2, 5,
+				requisitos);
 
 		plano = new PlanoDeCurso();
 	}

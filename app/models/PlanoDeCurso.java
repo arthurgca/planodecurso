@@ -1,6 +1,7 @@
 package models;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -8,9 +9,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Collections;
 
-import config.RegistroDeDisciplinas;
-
 public class PlanoDeCurso {
+
+	private static Map<Integer, Disciplina> disciplinas = new HashMap<Integer, Disciplina>();
 
 	private Map<Integer, Periodo> periodos;
 
@@ -94,7 +95,7 @@ public class PlanoDeCurso {
 
 	public Set<Disciplina> getDisciplinasNaoAlocadas() {
 		Set<Disciplina> disciplinasNaoAlocadas = new HashSet<Disciplina>();
-		disciplinasNaoAlocadas.addAll(RegistroDeDisciplinas.getDisciplinas());
+		disciplinasNaoAlocadas.addAll(getDisciplinas());
 		disciplinasNaoAlocadas.removeAll(getDisciplinasAlocadas());
 		return disciplinasNaoAlocadas;
 	}
@@ -106,11 +107,31 @@ public class PlanoDeCurso {
 
 	public static PlanoDeCurso getPlanoInicial() throws ErroDeAlocacaoException {
 		PlanoDeCurso planoInicial = new PlanoDeCurso();
-		for (Disciplina disciplina : RegistroDeDisciplinas.getDisciplinas()) {
+		for (Disciplina disciplina : getDisciplinas()) {
 			if (disciplina.getPeriodo() == 1) {
 				planoInicial.alocar(1, disciplina);
 			}
 		}
 		return planoInicial;
+	}
+
+	public static Disciplina getDisciplina(int i) {
+		return disciplinas.get(i);
+	}
+
+	public static Collection<Disciplina> getDisciplinas() {
+		return Collections.unmodifiableCollection(disciplinas.values());
+	}
+
+	public static void registraDisciplina(int id, String nome, int creditos,
+			int periodo, int dificuldade) {
+		registraDisciplina(id, nome, creditos, periodo, dificuldade, null);
+
+	}
+
+	public static void registraDisciplina(int id, String nome, int creditos,
+			int periodo, int dificuldade, List<Disciplina> dependencias) {
+		disciplinas.put(id, new Disciplina(id, nome, creditos, periodo,
+				dificuldade, dependencias));
 	}
 }
