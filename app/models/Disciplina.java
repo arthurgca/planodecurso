@@ -17,9 +17,7 @@ public class Disciplina {
 
     private List<Disciplina> dependencias;
 
-    public Disciplina() {
-        this.dependencias = new ArrayList<Disciplina>();
-    }
+    public Disciplina() {}
 
     public Disciplina(int id, String nome, int creditos, int periodo, int dificuldade,
 			Disciplina... dependencias) {

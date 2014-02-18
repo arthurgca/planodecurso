@@ -14,6 +14,10 @@ public class PlanoDeCurso {
 	private Map<Integer, Periodo> periodos;
 	private CatalogoDeDisciplinas catalogo;
 
+	public PlanoDeCurso() {
+		this(config.Global.getCatalogoDeDisciplinas());
+	}
+	
 	public PlanoDeCurso(CatalogoDeDisciplinas catalogo) {
 		this.catalogo = catalogo;
 		periodos = new HashMap<Integer, Periodo>();

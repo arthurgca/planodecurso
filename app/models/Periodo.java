@@ -8,6 +8,8 @@ public class Periodo {
 	private int semestre;
 	private List<Disciplina> disciplinas;
 	
+	public Periodo() {}
+	
 	public Periodo(int semestre) {
 		if (semestre < 1) {
 			throw new IllegalArgumentException("o semestre deve ser >= 1");
