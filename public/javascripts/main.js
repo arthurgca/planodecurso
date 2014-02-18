@@ -1,4 +1,4 @@
-var mainApp = angular.module("mainApp", ["ui.sortable"]);
+var mainApp = angular.module("mainApp");
 
 mainApp.controller("PlanoDeCursoCtrl", function($scope, $http) {
   var MINIMO_CREDITOS = 14;
