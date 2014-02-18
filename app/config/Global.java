@@ -18,13 +18,11 @@ import play.data.format.Formatters.*;
 
 public class Global extends GlobalSettings {
 
-	private static String CADEIRAS_XML = "conf/cadeiras.xml";
-
 	private static CatalogoDeDisciplinas catalogoDeDisciplinas;
 
 	@Override
 	public void onStart(Application app) {
-		configuraCatalogoDeDisciplinas();
+		configuraCatalogoDeDisciplinas(app);
 		configuraDataBinds();
 	}
 
@@ -32,10 +30,10 @@ public class Global extends GlobalSettings {
 		return catalogoDeDisciplinas;
 	}
 
-	private void configuraCatalogoDeDisciplinas() {
+	private void configuraCatalogoDeDisciplinas(Application app) {
 		try {
 			catalogoDeDisciplinas = new CatalogoDeDisciplinas(new FileReader(
-					CADEIRAS_XML));
+					app.configuration().getString("planoDeCurso.disciplinasXML")));
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
