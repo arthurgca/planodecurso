@@ -12,13 +12,13 @@ import static play.test.Helpers.status;
 import java.util.HashMap;
 import java.util.Map;
 
-import models.CatalogoDeDisciplinas;
 import models.Periodo;
 import models.PlanoDeCurso;
 
 import org.junit.Before;
 import org.junit.Test;
 
+import config.RegistroDeDisciplinas;
 import play.data.Form;
 import play.mvc.Http;
 import play.mvc.Result;
@@ -94,10 +94,10 @@ public class PlanoDeCursoAppTest extends WithApplication {
 
 		assertEquals(3, periodo.getSemestre());
 
-		CatalogoDeDisciplinas catalogo = config.Global
-				.getCatalogoDeDisciplinas();
-		assertEquals(catalogo.get(1), periodo.getDisciplinas().get(0));
-		assertEquals(catalogo.get(7), periodo.getDisciplinas().get(1));
+		assertEquals(RegistroDeDisciplinas.get(1), periodo.getDisciplinas()
+				.get(0));
+		assertEquals(RegistroDeDisciplinas.get(7), periodo.getDisciplinas()
+				.get(1));
 	}
 
 	@Test
@@ -117,12 +117,13 @@ public class PlanoDeCursoAppTest extends WithApplication {
 		assertEquals(1, periodo1.getSemestre());
 		assertEquals(2, periodo2.getSemestre());
 
-		CatalogoDeDisciplinas catalogo = config.Global
-				.getCatalogoDeDisciplinas();
-
-		assertEquals(catalogo.get(1), periodo1.getDisciplinas().get(0));
-		assertEquals(catalogo.get(5), periodo1.getDisciplinas().get(1));
-		assertEquals(catalogo.get(6), periodo1.getDisciplinas().get(2));
-		assertEquals(catalogo.get(7), periodo2.getDisciplinas().get(0));
+		assertEquals(RegistroDeDisciplinas.get(1), periodo1.getDisciplinas()
+				.get(0));
+		assertEquals(RegistroDeDisciplinas.get(5), periodo1.getDisciplinas()
+				.get(1));
+		assertEquals(RegistroDeDisciplinas.get(6), periodo1.getDisciplinas()
+				.get(2));
+		assertEquals(RegistroDeDisciplinas.get(7), periodo2.getDisciplinas()
+				.get(0));
 	}
 }

@@ -1,12 +1,10 @@
 package config;
 
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.Locale;
 
-import models.CatalogoDeDisciplinas;
 import models.Disciplina;
 
 import org.jdom2.JDOMException;
@@ -14,29 +12,21 @@ import org.jdom2.JDOMException;
 import play.Application;
 import play.GlobalSettings;
 import play.data.format.Formatters;
-import play.data.format.Formatters.*;
+import play.data.format.Formatters.SimpleFormatter;
 
 public class Global extends GlobalSettings {
 
-	private static CatalogoDeDisciplinas catalogoDeDisciplinas;
-
 	@Override
 	public void onStart(Application app) {
-		configuraCatalogoDeDisciplinas(app);
+		configuraRegistroDeDisciplinas(app);
 		configuraDataBinds();
 	}
 
-	public static CatalogoDeDisciplinas getCatalogoDeDisciplinas() {
-		return catalogoDeDisciplinas;
-	}
-
-	private void configuraCatalogoDeDisciplinas(Application app) {
+	private void configuraRegistroDeDisciplinas(Application app) {
 		try {
-			catalogoDeDisciplinas = new CatalogoDeDisciplinas(new FileReader(
-					app.configuration().getString("planoDeCurso.disciplinasXML")));
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			FileReader disciplinasXML = new FileReader(
+					app.configuration().getString("planoDeCurso.disciplinasXML"));
+			RegistroDeDisciplinas.registraDoArquivo(disciplinasXML);
 		} catch (JDOMException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -52,7 +42,7 @@ public class Global extends GlobalSettings {
 					@Override
 					public Disciplina parse(String input, Locale locale)
 							throws ParseException {
-						return getCatalogoDeDisciplinas().get(
+						return RegistroDeDisciplinas.get(
 								Integer.valueOf(input));
 					}
 

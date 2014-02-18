@@ -6,20 +6,15 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
 import java.util.Collections;
+
+import config.RegistroDeDisciplinas;
 
 public class PlanoDeCurso {
 
 	private Map<Integer, Periodo> periodos;
-	private CatalogoDeDisciplinas catalogo;
 
 	public PlanoDeCurso() {
-		this(config.Global.getCatalogoDeDisciplinas());
-	}
-
-	public PlanoDeCurso(CatalogoDeDisciplinas catalogo) {
-		this.catalogo = catalogo;
 		periodos = new HashMap<Integer, Periodo>();
 		inicializaMapPeriodos();
 	}
@@ -99,7 +94,7 @@ public class PlanoDeCurso {
 
 	public Set<Disciplina> getDisciplinasNaoAlocadas() {
 		Set<Disciplina> disciplinasNaoAlocadas = new HashSet<Disciplina>();
-		disciplinasNaoAlocadas.addAll(catalogo.getDisciplinas());
+		disciplinasNaoAlocadas.addAll(RegistroDeDisciplinas.getDisciplinas());
 		disciplinasNaoAlocadas.removeAll(getDisciplinasAlocadas());
 		return disciplinasNaoAlocadas;
 	}
@@ -109,10 +104,9 @@ public class PlanoDeCurso {
 				.values()));
 	}
 
-	public static PlanoDeCurso getPlanoInicial(
-			CatalogoDeDisciplinas catalogoNovo) throws ErroDeAlocacaoException {
-		PlanoDeCurso planoInicial = new PlanoDeCurso(catalogoNovo);
-		for (Disciplina disciplina : catalogoNovo.getDisciplinas()) {
+	public static PlanoDeCurso getPlanoInicial() throws ErroDeAlocacaoException {
+		PlanoDeCurso planoInicial = new PlanoDeCurso();
+		for (Disciplina disciplina : RegistroDeDisciplinas.getDisciplinas()) {
 			if (disciplina.getPeriodo() == 1) {
 				planoInicial.alocar(1, disciplina);
 			}

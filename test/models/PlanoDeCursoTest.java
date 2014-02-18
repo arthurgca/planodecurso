@@ -1,6 +1,8 @@
 package models;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -14,6 +16,8 @@ import play.libs.Json;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
+import config.RegistroDeDisciplinas;
+
 public class PlanoDeCursoTest {
 
 	private PlanoDeCurso plano;
@@ -26,23 +30,20 @@ public class PlanoDeCursoTest {
 	Disciplina d6; // Lab. de programação I
 	Disciplina d7; // Programação II
 
-	private CatalogoDeDisciplinas catalogo;
-
 	@Before
 	public void setUp() throws JDOMException, IOException {
-		FileReader disciplinasXML = new FileReader(
-				"test/support/disciplinas_testing.xml");
-		catalogo = new CatalogoDeDisciplinas(disciplinasXML);
+		RegistroDeDisciplinas.registraDoArquivo(new FileReader(
+				"test/support/disciplinas_testing.xml"));
 
-		d1 = catalogo.get(1);
-		d2 = catalogo.get(2);
-		d3 = catalogo.get(3);
-		d4 = catalogo.get(4);
-		d5 = catalogo.get(5);
-		d6 = catalogo.get(6);
-		d7 = catalogo.get(7);
+		d1 = RegistroDeDisciplinas.get(1);
+		d2 = RegistroDeDisciplinas.get(2);
+		d3 = RegistroDeDisciplinas.get(3);
+		d4 = RegistroDeDisciplinas.get(4);
+		d5 = RegistroDeDisciplinas.get(5);
+		d6 = RegistroDeDisciplinas.get(6);
+		d7 = RegistroDeDisciplinas.get(7);
 
-		plano = new PlanoDeCurso(catalogo);
+		plano = new PlanoDeCurso();
 	}
 
 	@Test
@@ -52,13 +53,13 @@ public class PlanoDeCursoTest {
 
 	@Test
 	public void deveRetornarPeriodo() throws ErroDeAlocacaoException {
-		plano = PlanoDeCurso.getPlanoInicial(catalogo);
+		plano = PlanoDeCurso.getPlanoInicial();
 		assertTrue(plano.getPeriodo(1).getDisciplinas().contains(d1));
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void naoDeveRetornarPeriodoZero() throws ErroDeAlocacaoException {
-		plano = PlanoDeCurso.getPlanoInicial(catalogo);
+		plano = PlanoDeCurso.getPlanoInicial();
 		plano.getPeriodo(0);
 	}
 
@@ -139,7 +140,7 @@ public class PlanoDeCursoTest {
 
 	@Test
 	public void deveRetornarPlanoInicial() throws ErroDeAlocacaoException {
-		PlanoDeCurso plano = PlanoDeCurso.getPlanoInicial(catalogo);
+		PlanoDeCurso plano = PlanoDeCurso.getPlanoInicial();
 		List<Disciplina> p1 = plano.getPeriodo(1).getDisciplinas();
 		assertTrue((p1).contains(d1));
 		assertTrue((p1).contains(d2));
@@ -153,7 +154,7 @@ public class PlanoDeCursoTest {
 
 	@Test
 	public void deveSerializarCorretamente() throws ErroDeAlocacaoException {
-		JsonNode node = Json.toJson(PlanoDeCurso.getPlanoInicial(catalogo));
+		JsonNode node = Json.toJson(PlanoDeCurso.getPlanoInicial());
 		assertTrue(node.get("disciplinasAlocadas").isArray());
 		assertTrue(node.get("disciplinasNaoAlocadas").isArray());
 		assertTrue(node.get("periodos").isArray());
