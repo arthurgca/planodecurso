@@ -1,6 +1,5 @@
 package controllers;
 
-import models.Disciplina;
 import models.ErroDeAlocacaoException;
 import models.PlanoDeCurso;
 import play.data.Form;
@@ -10,18 +9,16 @@ import play.mvc.Result;
 
 public class PlanoDeCursoApp extends Controller {
 
-	private static Form<PlanoDeCurso> planoDeCursoForm = Form
-			.form(PlanoDeCurso.class);
+	private static Form<PlanoDeCurso> form = Form.form(PlanoDeCurso.class);
 
 	public static Result planoInicial() throws ErroDeAlocacaoException {
 		return ok(Json.toJson(PlanoDeCurso.getPlanoInicial()));
 	}
 
 	public static Result alocarDisciplina(int semestre, int disciplinaId) {
-		Disciplina disciplina = PlanoDeCurso.getDisciplina(disciplinaId);
-		PlanoDeCurso planoDeCurso = planoDeCursoForm.bindFromRequest().get();
+		PlanoDeCurso planoDeCurso = form.bindFromRequest().get();
 		try {
-			planoDeCurso.alocar(semestre, disciplina);
+			planoDeCurso.alocar(semestre, disciplinaId);
 			return ok(Json.toJson(planoDeCurso));
 		} catch (ErroDeAlocacaoException e) {
 			return badRequest(Json.toJson(e.getMessage()));
@@ -29,10 +26,9 @@ public class PlanoDeCursoApp extends Controller {
 	}
 
 	public static Result desalocarDisciplina(int disciplinaId) {
-		Disciplina disciplina = PlanoDeCurso.getDisciplina(disciplinaId);
-		PlanoDeCurso planoDeCurso = planoDeCursoForm.bindFromRequest().get();
-		planoDeCurso.desalocar(disciplina);
-		return ok(Json.toJson(disciplina));
+		PlanoDeCurso planoDeCurso = form.bindFromRequest().get();
+		planoDeCurso.desalocar(disciplinaId);
+		return ok(Json.toJson(planoDeCurso));
 	}
 
 }

@@ -26,6 +26,11 @@ public class PlanoDeCurso {
 		}
 	}
 
+	public void alocar(int semestre, int disciplina)
+			throws ErroDeAlocacaoException {
+		alocar(semestre, getDisciplina(disciplina));
+	}
+
 	public void alocar(int semestre, Disciplina disciplina)
 			throws ErroDeAlocacaoException {
 		if (!disciplina.getDependencias().isEmpty()) {
@@ -47,6 +52,10 @@ public class PlanoDeCurso {
 			}
 		}
 		periodos.get(semestre).alocar(disciplina);
+	}
+
+	public void desalocar(int disciplina) {
+		desalocar(getDisciplina(disciplina));
 	}
 
 	public void desalocar(Disciplina disciplina) {
