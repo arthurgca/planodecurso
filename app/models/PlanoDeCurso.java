@@ -37,18 +37,18 @@ public class PlanoDeCurso {
 			for (Disciplina dependencia : disciplina.getDependencias()) {
 				if (!getDisciplinasAlocadas().contains(dependencia)) {
 					throw new ErroDeAlocacaoException(
-							"Pre requisitos da disciplina não cumpridos");
+							"Pré-requisitos da disciplina não foram satisfeitos.");
 				}
 			}
 		}
 		if ((periodos.get(semestre).getTotalCreditos() + disciplina
 				.getCreditos()) > 28) {
 			throw new ErroDeAlocacaoException(
-					"Periodo terá mais de 28 créditos");
+					"Período deve ter menos de 28 créditos.");
 		}
 		for (int i : periodos.keySet()) {
 			if (periodos.get(i).getDisciplinas().contains(disciplina)) {
-				throw new ErroDeAlocacaoException("Disciplina duplicada");
+				throw new ErroDeAlocacaoException("Disciplina já alocada.");
 			}
 		}
 		periodos.get(semestre).alocar(disciplina);

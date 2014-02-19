@@ -1,5 +1,7 @@
 package controllers;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
+
 import models.ErroDeAlocacaoException;
 import models.PlanoDeCurso;
 import play.data.Form;
@@ -21,7 +23,9 @@ public class PlanoDeCursoApp extends Controller {
 			planoDeCurso.alocar(semestre, disciplinaId);
 			return ok(Json.toJson(planoDeCurso));
 		} catch (ErroDeAlocacaoException e) {
-			return badRequest(Json.toJson(e.getMessage()));
+			ObjectNode result = Json.newObject();
+			result.put("message", e.getMessage());
+			return badRequest(result);
 		}
 	}
 
