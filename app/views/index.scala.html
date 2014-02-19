@@ -3,54 +3,63 @@
 @import helper._
 
 @main("Plano de Curso") {
+
 <div class="container">
-  <h2 class="nome-principal">Meu Curso</h2>
-
-  <div ng-if="hasErrors()" class="alert alert-danger">
-    <strong>Opa!</strong> Corrija esses problemas no seu Plano de Curso:
-    <ul>
-      <li ng-repeat="error in errors">{{error}}</li>
-    </ul>
-  </div>
-
-  <div id="disciplinas-alocadas">
-    <div class="row">
-
-      <div ng-repeat="periodo in periodos" id="periodo-{{periodo.semestre}}" class="col-md-2 periodo">
-        <div class="row sumario">
-          <h4>{{periodo.semestre}}º Período<br/>
-            <small>{{getTotalCreditos(periodo.semestre)}} créditos</small></h4>
-        </div>
-
-        <div ui-sortable="sortableOptions" ng-model="periodo.disciplinas" class="sortable-list">
-          <div ng-repeat="disciplina in periodo.disciplinas"
-               class="row disciplina {{ disciplina.id }}"
-               ng-class="{optativa: disciplina.optativa, tecc: disciplina.tecc}">
-            <a ng-click="removeDisciplina(periodo, disciplina.id)" class="close remove" aria-hidden="true">&times;</a>
-            <div class="nome">{{ disciplina.nome }}</div>
-            <div class="descricao">{{ disciplina.creditos }} créditos</div>
-          </div>
-        </div>
-
-        <div class="row sumario">
-          <h4>{{periodo.semestre}}º Período<br/>
-            <small>{{getTotalCreditos(periodo.semestre)}} créditos</small></h4>
-        </div>
-      </div>
+  <div class="col-md-12">
+    <div class="header">
+      <h1>Plano de Curso</h1>
+      <alert ng-if="ui.mensagem" type="ui.mensagem.type" close="fecharMensagem()">
+        {{ui.mensagem.text}}
+      </alert>
     </div>
-  </div>
-
-  <h2 class="nome-principal">Disciplinas Ofertadas</h2>
-
-  <div id="disciplinas-ofertadas" class="row">
-    <div ui-sortable="sortableOptions" ng-model="disciplinasOfertadas" class="sortable-list">
-      <div class="col-md-2 disciplina {{disciplina.id}}"
-           ng-repeat="disciplina in disciplinasOfertadas track by $index"
-           ng-class="{optativa: disciplina.optativa, tecc: disciplina.tecc}">
-        <div class="nome">{{disciplina.nome}}</div>
-        <div class="descricao">{{disciplina.creditos}} Créditos</div>
+    <div class="row">
+      <div class="col-md-6">
+        <h3>Disciplinas Ofertadas</h3>
+        <accordion close-others="false">
+          <accordion-group heading="{{periodo.semestre}}º Período"
+                           ng-repeat="periodo in ui.disciplinasNaoAlocadas"
+                           is-open="true">
+            <button tooltip-html-unsafe="{{disciplina.tooltip}}"
+                    popover-animation="false"
+                    popover-trigger="mouseenter"
+                    class="btn btn-default btn-disciplina"
+                    ng-repeat="disciplina in periodo.disciplinas"
+                    ng-model="ui.btnSelecionado"
+                    btn-checkbox
+                    btn-checkbox-true="{{disciplina}}"
+                    btn-checkbox-false="undefined">
+              {{disciplina.nome}}
+            </button>
+          </accordion-group>
+        </accordion>
+      </div>
+      <div class="col-md-6">
+        <h3>Disciplinas Alocadas</h3>
+        <accordion close-others="false">
+          <accordion-group ng-repeat="periodo in ui.planoDeCurso"
+                           is-open="true">
+            <accordion-heading>
+              {{periodo.semestre}}º Período ({{periodo.totalCreditos}} Créditos)
+              <button ng-if="ui.btnSelecionado"
+                      ng-click="alocar(periodo.semestre,$event)"
+                      type="button"
+                      class="btn btn-primary btn-xs pull-right">
+                Alocar Aqui
+              </button>
+            </accordion-heading>
+            <button tooltip-html-unsafe="{{disciplina.tooltip}}"
+                    popover-animation="false"
+                    popover-trigger="mouseenter"
+                    class="btn btn-default btn-disciplina"
+                    ng-click="desalocar(disciplina)"
+                    ng-repeat="disciplina in periodo.disciplinas">
+              {{disciplina.nome}}
+            </button>
+          </accordion-group>
+        </accordion>
       </div>
     </div>
   </div>
 </div>
+
 }

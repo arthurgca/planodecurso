@@ -1,2 +1,4 @@
 /* Required by Angular Bootstrap */
 .nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
+
+.btn-disciplina { margin: 5px; }

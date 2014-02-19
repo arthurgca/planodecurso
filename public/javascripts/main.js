@@ -1,191 +1,191 @@
 var mainApp = angular.module("mainApp", ["ui.bootstrap"]);
 
 mainApp.controller("PlanoDeCursoCtrl", function($scope, $http) {
-  var MINIMO_CREDITOS = 14;
+  $scope.ui = {
+    planoDeCurso: [],
 
-  var MAXIMO_CREDITOS = 28;
+    disciplinasNaoAlocadas: [],
 
-  $scope.disciplinasOfertadas = [];
+    btnSelecionado: undefined,
 
-  $scope.periodos = [];
-
-  $scope.errors = [];
-
-  $scope.sortableOptions = {
-    connectWith: ".sortable-list"
+    mensagem: undefined,
   };
 
-  $scope.addPeriodo = function(semestre) {
-    $scope.periodos.push({
+  $scope.fecharMensagem = function() {
+    $scope.ui.mensagem = undefined;
+  };
+
+  var criarPayload = function() {
+    var payload = [];
+
+    _.each($scope.ui.planoDeCurso, function(periodo) {
+      payload.push({
+        semestre: periodo.semestre,
+        disciplinas: _.map(periodo.disciplinas, function(disciplina) {
+          return disciplina.id;
+        }),
+      });
+    });
+
+    return payload;
+  };
+
+  var playTransformRequest = function(data) {
+    var result = [];
+    var i = 0;
+    var j = 0;
+    _.each(data, function(periodo) {
+      result.push("periodos[" + i + "].semestre=" + periodo.semestre);
+      _.each(periodo.disciplinas, function(id) {
+        result.push("periodos[" + i + "].disciplinas[" + j + "]=" + id);
+        j = j + 1;
+      });
+      i = i + 1;
+      j = 0;
+    });
+    return result.join("&");
+  }
+
+  $scope.alocar = function(semestre, e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    var postURL = alocarURLTemplate({
       "semestre": semestre,
-      "disciplinas": [],
+      "disciplina": $scope.ui.btnSelecionado.id,
+    });
+
+    var config = {
+      "method": "POST",
+      "url": postURL,
+      "data": criarPayload(),
+      "headers": {'Content-Type': 'application/x-www-form-urlencoded'},
+      "transformRequest": playTransformRequest,
+    };
+
+    $http(config).
+      success(function(data, status, headers, config) {
+        popularDisciplinasNaoAlocadas(data.disciplinasNaoAlocadas);
+        popularPlanoDeCurso(data.periodos);
+        exibirMensagem("success", "Disciplina alocada com sucesso!")
+      }).
+      error(function(data, status, headers) {
+        exibirMensagem("danger", "Houve um problema ao alocar a disciplina: " + data.message);
+      });
+  };
+
+  $scope.desalocar = function(disciplina) {
+    if (!confirm("Tem certeza que deseja desalocar \"" + disciplina.nome + "\", e todas que dependem desta?"))
+      return;
+
+    var postURL = desalocarURLTemplate({
+      "disciplina": disciplina.id,
+    });
+
+    var config = {
+      "method": "POST",
+      "url": postURL,
+      "data": criarPayload(),
+      "headers": {'Content-Type': 'application/x-www-form-urlencoded'},
+      "transformRequest": playTransformRequest,
+    };
+
+    $http(config).
+      success(function(data, status, headers, config) {
+        popularDisciplinasNaoAlocadas(data.disciplinasNaoAlocadas);
+        popularPlanoDeCurso(data.periodos);
+        exibirMensagem("success", "Disciplina desalocada com sucesso!")
+      }).
+      error(function(data, status, headers) {
+        exibirMensagem("danger", "Houve um problema ao desalocar. Bug?");
+      });
+  };
+
+  var alocarURLTemplate = _.template(
+    "/alocarDisciplina/<%= semestre %>/<%= disciplina %>"
+  );
+
+  var desalocarURLTemplate = _.template(
+    "/desalocarDisciplina/<%= disciplina %>"
+  );
+
+  var tipTemplate = _.template(
+    ["<b>Créditos</b>: <%= creditos %>",
+     "<b>Dificuldade</b>: <%= dificuldade %>",
+     "<b>Requisitos</b>: <%= requisitos %>"].join("<br/>"));
+
+  var criarTipDisciplina = function(disciplina) {
+    return tipTemplate({
+      "creditos": disciplina.creditos,
+      "dificuldade": disciplina.dificuldade,
+      "requisitos": _.map(disciplina.dependencias, function(dep) {
+        return dep.nome
+      }).join() || "Nenhum",
     });
   };
 
-  $scope.getTotalCreditos = function(semestre) {
-    return _.reduce($scope.getPeriodo(semestre).disciplinas, function(memo, disciplina) {
-      if (disciplina == null) {
-        return memo;
-      } else {
-        return memo + disciplina.creditos;
-      }
-    }, 0);
+  var criarBtnDisciplina = function(disciplina){
+    return _.extend({
+        "tooltip": criarTipDisciplina(disciplina),
+      }, disciplina);
   };
 
-  $scope.getPeriodo = function(semestre) {
-    return _.find($scope.periodos, function(periodos) {
-      return semestre === periodos.semestre;
+  var popularDisciplinasNaoAlocadas = function(disciplinasNaoAlocadas) {
+    var disciplinas = _.sortBy(disciplinasNaoAlocadas, function(disciplina) {
+      return disciplina.periodo;
     });
-  };
 
-  $scope.getDisciplina = function(disciplinaId) {
-    return _.find($scope.disciplinasOfertadas, function(disciplina) {
-      return disciplina.id === disciplinaId;
-    });
-  };
+    var periodos = _.groupBy(_.map(disciplinas, function(disciplina) {
+      return criarBtnDisciplina(disciplina);
+    }), "periodo");
 
-  $scope.addDisciplina = function(semestre, disciplinaId) {
-    $scope.getPeriodo(semestre)
-      .disciplinas.push($scope.getDisciplina(disciplinaId));
+    $scope.ui.disciplinasNaoAlocadas = [];
 
-    $scope.cleanupPeriodos();
-  };
-
-  $scope.removeDisciplina = function(periodo, disciplinaId) {
-    var toDelete = [];
-
-    _.each($scope.periodos, function(periodo) {
-      _.each(periodo.disciplinas, function(disciplina) {
-        if (disciplina.id === disciplinaId) {
-          toDelete.push(disciplina)
-        } else if (_.contains(_.pluck(disciplina.dependencias, "id"), disciplinaId)) {
-          toDelete.push(disciplina);
-        }
+    _.each(periodos, function(disciplinas, semestre){
+      $scope.ui.disciplinasNaoAlocadas.push({
+        "semestre": semestre,
+        "disciplinas": disciplinas,
       });
     });
+  };
 
-    if (toDelete.length > 1) {
-      if (!confirm("Apagar essa e as disciplinas que dependem dessa também?")) {
-        return;
-      }
-    }
+  var popularPlanoDeCurso = function(planoDeCurso) {
+    var periodos = _.sortBy(planoDeCurso, function(periodo) {
+      return periodo.semestre;
+    });
 
-    var toDeleteIds = _.pluck(toDelete, "id");
+    $scope.ui.planoDeCurso = [];
 
-    _.each($scope.periodos, function(periodo) {
-      periodo.disciplinas = _.filter(periodo.disciplinas, function(disciplina) {
-        return !_.contains(toDeleteIds, disciplina.id);
+    _.each(periodos, function(periodo) {
+      periodo.disciplinas = _.map(periodo.disciplinas, function(disciplina) {
+        return criarBtnDisciplina(disciplina);
       });
-    });
 
-    $scope.disciplinasOfertadas = $scope.disciplinasOfertadas.concat(toDelete);
-
-    $scope.cleanupPeriodos();
-  };
-
-  $scope.trimPeriodos = function() {
-    var filled = [];
-    var blanks = [];
-
-    _.each($scope.periodos, function(periodo) {
-      if (periodo.disciplinas.length === 0) {
-        blanks.push(periodo);
-      } else {
-        if (blanks.length !== 0) {
-          filled = filled.concat(blanks);
-          blanks = [];
-        }
-
-        filled.push(periodo);
-      }
+      $scope.ui.planoDeCurso.push(periodo);
     });
   };
 
-  $scope.appendNextPeriodo = function() {
-    if ($scope.periodos.length !== 0) {
-      if (_.last($scope.periodos).disciplinas.length !== 0) {
-        $scope.addPeriodo(_.last($scope.periodos).semestre + 1);
-      }
-    }
+  var exibirMensagem = function(type, text) {
+    $scope.ui.mensagem = {
+      "type": type,
+      "text": text,
+    };
   };
-
-  $scope.cleanupPeriodos = function() {
-    $scope.trimPeriodos();
-    $scope.appendNextPeriodo();
-  };
-
-  $scope.hasErrors = function() {
-    return $scope.errors.length !== 0;
-  };
-
-  $scope.validate = function() {
-    $scope.errors = [];
-
-    $scope.validateMininumCreditos();
-    $scope.validateMaximumCreditos();
-    $scope.validateRequisitos();
-  };
-
-  $scope.validateMininumCreditos = function() {
-    _.each($scope.periodos, function(periodo) {
-      if (periodo.disciplinas.length !== 0 && $scope.getTotalCreditos(periodo.semestre) < MINIMO_CREDITOS) {
-        $scope.errors.push(periodo.semestre + "º Período deve ter um mínimo de " + MINIMO_CREDITOS + " créditos.");
-      }
-    });
-  };
-
-  $scope.validateMaximumCreditos = function() {
-    _.each($scope.periodos, function(periodo) {
-      if (periodo.disciplinas.length !== 0 && $scope.getTotalCreditos(periodo.semestre) > MAXIMO_CREDITOS) {
-        $scope.errors.push(periodo.semestre + "º Período deve ter um máximo de " + MAXIMO_CREDITOS + " créditos.");
-      }
-    });
-  };
-
-  $scope.validateRequisitos = function() {
-    var satisfied = [];
-    _.each($scope.periodos, function(periodo) {
-      if (periodo.disciplinas.length !== 0) {
-        _.each(periodo.disciplinas, function(disciplina){
-          _.each(disciplina.dependencias, function (dependencia) {
-            if (!_.contains(satisfied, dependencia.id)) {
-              $scope.errors.push(disciplina.nome + " requer " + dependencia.nome);
-            }
-          });
-        });
-      }
-
-      satisfied = satisfied.concat(_.pluck(periodo.disciplinas, "id"));
-    });
-  };
-
-  $scope.$watch(function() {
-    return _.reduce($scope.periodos, function(memo, periodo) {
-      return memo + periodo.disciplinas.length;
-    }, 0);
-  }, function() {
-    $scope.cleanupPeriodos();
-    $scope.validate();
-  });
 
   var bootstrap = function() {
-    $http({method: "GET", url: "/disciplinas.json"})
+    $http({method: "GET", url: "/planoInicial"})
       .success(function(data, status, headers, config) {
-        $scope.disciplinasOfertadas = data;
+        popularDisciplinasNaoAlocadas(data.disciplinasNaoAlocadas);
+        popularPlanoDeCurso(data.periodos);
       })
       .error(function(data, status, headers) {
-        console.error("Não foi possível reaver as Disciplinas Ofertadas.");
+        console.error("Não foi possível acessar o Plano de Curso inicial.");
       })
       .then(function (data) {
-        $scope.addPeriodo(1);
-        $scope.addDisciplina(1, "CALCULO1");
-        $scope.addDisciplina(1, "VETORIAL");
-        $scope.addDisciplina(1, "LPT");
-        $scope.addDisciplina(1, "P1");
-        $scope.addDisciplina(1, "IC");
-        $scope.addDisciplina(1, "LP1");
-
-        $scope.cleanupPeriodos();
+        exibirMensagem(
+          "info",
+          "Dica: Escolha e clique em um botão da coluna \"Disciplinas Ofertadas\"."
+        );
       });
   };
 
