@@ -115,6 +115,7 @@ public class PlanoDeCursoTest {
 	@Test
 	public void deveDesalocarDisciplinasDependentesAoDesalocarDisciplina()
 			throws ErroDeAlocacaoException {
+		
 		plano.alocar(1, d1);
 		plano.alocar(1, d5);
 		plano.alocar(1, d6);
@@ -125,6 +126,39 @@ public class PlanoDeCursoTest {
 		plano.desalocar(d1);
 
 		assertFalse(plano.getPeriodo(2).getDisciplinas().contains(d7));
+	}
+	
+	@Test
+	public void deveDesalocarDisciplinasRecursivamente() throws ErroDeAlocacaoException {
+		List<Disciplina> depsD8 = new ArrayList<Disciplina>();
+		depsD8.add(d3);
+		PlanoDeCurso.registraDisciplina(8, "Cálculo 2", 4, 2, 5, depsD8);
+		Disciplina d8 = PlanoDeCurso.getDisciplina(8);
+		
+		List<Disciplina> depsD9 = new ArrayList<Disciplina>();
+		depsD9.add(d3);
+		depsD9.add(d4);
+		PlanoDeCurso.registraDisciplina(9, "Fund. de Fisica Classica", 4, 2, 5, depsD9);
+		Disciplina d9 = PlanoDeCurso.getDisciplina(9);
+		
+		List<Disciplina> depsD10 = new ArrayList<Disciplina>();
+		depsD10.add(d8);
+		depsD10.add(d9);
+		PlanoDeCurso.registraDisciplina(10, "Fund. de Fisica Moderna", 4, 2, 5, depsD10);
+		Disciplina d10 = PlanoDeCurso.getDisciplina(10);
+		
+		plano.alocar(1, d3);
+		plano.alocar(1, d4);
+		plano.alocar(2, d8);
+		plano.alocar(2, d9);
+		plano.alocar(3, d10);
+		
+		assertTrue(plano.getPeriodo(3).getDisciplinas().contains(d10));
+		plano.desalocar(d3);
+		assertFalse(plano.getPeriodo(1).getDisciplinas().contains(d3));
+		assertFalse(plano.getPeriodo(2).getDisciplinas().contains(d8));
+		assertFalse(plano.getPeriodo(2).getDisciplinas().contains(d9));
+		assertFalse(plano.getPeriodo(3).getDisciplinas().contains(d10));
 	}
 
 	@Test

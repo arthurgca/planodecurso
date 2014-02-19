@@ -15,6 +15,9 @@ public class PlanoDeCurso {
 
 	private Map<Integer, Periodo> periodos;
 
+	/**
+	 * Construtor de um Plano De Curso
+	 */
 	public PlanoDeCurso() {
 		periodos = new HashMap<Integer, Periodo>();
 		inicializaMapPeriodos();
@@ -26,11 +29,21 @@ public class PlanoDeCurso {
 		}
 	}
 
+	/** Aloca disciplina no semestre desejado com o id da disciplina
+	 * @param semestre
+	 * @param disciplina
+	 * @throws ErroDeAlocacaoException
+	 */
 	public void alocar(int semestre, int disciplina)
 			throws ErroDeAlocacaoException {
 		alocar(semestre, getDisciplina(disciplina));
 	}
 
+	/** Aloca disciplina no semestre desejado com um objeto Disciplina
+	 * @param semestre
+	 * @param disciplina
+	 * @throws ErroDeAlocacaoException
+	 */
 	public void alocar(int semestre, Disciplina disciplina)
 			throws ErroDeAlocacaoException {
 		if (!disciplina.getDependencias().isEmpty()) {
@@ -54,10 +67,16 @@ public class PlanoDeCurso {
 		periodos.get(semestre).alocar(disciplina);
 	}
 
+	/** Desaloca disciplina baseado no id da mesma
+	 * @param disciplina
+	 */
 	public void desalocar(int disciplina) {
 		desalocar(getDisciplina(disciplina));
 	}
 
+	/** Desaloca disciplina recebendo como parametro a disciplina
+	 * @param disciplina
+	 */
 	public void desalocar(Disciplina disciplina) {
 		for (int i : periodos.keySet()) {
 			Periodo periodo = periodos.get(i);
@@ -78,11 +97,15 @@ public class PlanoDeCurso {
 				}
 			}
 			for (Disciplina dependencia : dependencias) {
-				periodo.desalocar(dependencia);
+				desalocar(dependencia);
 			}
 		}
 	}
 
+	/**
+	 * @param semestre
+	 * @return Retorna periodo baseado no numero do semestre
+	 */
 	public Periodo getPeriodo(int semestre) {
 		if (semestre < 1) {
 			throw new IllegalArgumentException("o semestre deve ser >= 1");
@@ -90,6 +113,9 @@ public class PlanoDeCurso {
 		return periodos.get(semestre);
 	}
 
+	/** 
+	 * @return Retorna Set de disciplinas alocadas
+	 */
 	public Set<Disciplina> getDisciplinasAlocadas() {
 		Set<Disciplina> disciplinasAlocadas = new HashSet<Disciplina>();
 		;
@@ -102,6 +128,9 @@ public class PlanoDeCurso {
 		return disciplinasAlocadas;
 	}
 
+	/** 
+	 * @return Retorna Set de disciplinas nao alocadas
+	 */
 	public Set<Disciplina> getDisciplinasNaoAlocadas() {
 		Set<Disciplina> disciplinasNaoAlocadas = new HashSet<Disciplina>();
 		disciplinasNaoAlocadas.addAll(getDisciplinas());
@@ -109,11 +138,18 @@ public class PlanoDeCurso {
 		return disciplinasNaoAlocadas;
 	}
 
+	/**
+	 * @return Retorna lista de periodos
+	 */
 	public List<Periodo> getPeriodos() {
 		return Collections.unmodifiableList(new ArrayList<Periodo>(periodos
 				.values()));
 	}
 
+	/**
+	 * @return Retorna PlanoDeCurso com as disciplinas do primeiro periodo alocadas
+	 * @throws ErroDeAlocacaoException
+	 */
 	public static PlanoDeCurso getPlanoInicial() throws ErroDeAlocacaoException {
 		PlanoDeCurso planoInicial = new PlanoDeCurso();
 		for (Disciplina disciplina : getDisciplinas()) {
@@ -124,20 +160,42 @@ public class PlanoDeCurso {
 		return planoInicial;
 	}
 
+	/** 
+	 * @param i
+	 * @return Retorna disciplina
+	 */
 	public static Disciplina getDisciplina(int i) {
 		return disciplinas.get(i);
 	}
 
+	/**
+	 * @return Retorna colecao imutavel de disciplinas
+	 */
 	public static Collection<Disciplina> getDisciplinas() {
 		return Collections.unmodifiableCollection(disciplinas.values());
 	}
 
+	/** Registra disciplina sem dependencias
+	 * @param id
+	 * @param nome
+	 * @param creditos
+	 * @param periodo
+	 * @param dificuldade
+	 */
 	public static void registraDisciplina(int id, String nome, int creditos,
 			int periodo, int dificuldade) {
 		disciplinas.put(id, new Disciplina(id, nome, creditos, periodo,
 				dificuldade));
 	}
 
+	/** Registra disciplina com dependencias
+	 * @param id
+	 * @param nome
+	 * @param creditos
+	 * @param periodo
+	 * @param dificuldade
+	 * @param dependencias
+	 */
 	public static void registraDisciplina(int id, String nome, int creditos,
 			int periodo, int dificuldade, List<Disciplina> dependencias) {
 		disciplinas.put(id, new Disciplina(id, nome, creditos, periodo,
