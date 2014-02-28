@@ -5,17 +5,17 @@ import java.util.ArrayList;
 
 public final class Disciplina {
 
-    private final int id;
+    public int id;
 
-    private final String nome;
+    public String nome;
 
-    private final int creditos;
+    public int creditos;
 
-    private final int periodo;
+    public int periodo;
 
-    private final int dificuldade;
+    public int dificuldade;
 
-    private final List<Disciplina> dependencias;
+    public List<Disciplina> dependencias;
 
     public Disciplina(int id, String nome, int creditos, int periodo,
                       int dificuldade) {
@@ -37,30 +37,6 @@ public final class Disciplina {
         }
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public int getCreditos() {
-        return creditos;
-    }
-
-    public int getPeriodo() {
-        return periodo;
-    }
-
-    public int getDificuldade() {
-        return dificuldade;
-    }
-
-    public List<Disciplina> getDependencias() {
-        return dependencias;
-    }
-
     public boolean equals(Object obj) {
         if (obj == null) {
             return false;
@@ -74,11 +50,11 @@ public final class Disciplina {
             return false;
         }
 
-        return getId() == ((Disciplina) obj).getId();
+        return this.id == ((Disciplina) obj).id;
     }
 
     public int hashCode() {
-        return 7 * this.getId();
+        return 7 * this.id;
     }
 
 }

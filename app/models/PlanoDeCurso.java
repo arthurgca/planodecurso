@@ -13,7 +13,7 @@ public class PlanoDeCurso {
 
     private static Map<Integer, Disciplina> disciplinas = new HashMap<Integer, Disciplina>();
 
-    private Map<Integer, Periodo> periodos;
+    public Map<Integer, Periodo> periodos;
 
     public PlanoDeCurso() {
         periodos = new HashMap<Integer, Periodo>();
@@ -33,21 +33,20 @@ public class PlanoDeCurso {
 
     public void alocar(int semestre, Disciplina disciplina)
         throws ErroDeAlocacaoException {
-        if (!disciplina.getDependencias().isEmpty()) {
-            for (Disciplina dependencia : disciplina.getDependencias()) {
+        if (!disciplina.dependencias.isEmpty()) {
+            for (Disciplina dependencia : disciplina.dependencias) {
                 if (!getDisciplinasAlocadas().contains(dependencia)) {
                     throw new ErroDeAlocacaoException(
                                                       "Pré-requisitos da disciplina não foram satisfeitos.");
                 }
             }
         }
-        if ((periodos.get(semestre).getTotalCreditos() + disciplina
-             .getCreditos()) > 28) {
+        if ((periodos.get(semestre).getTotalCreditos() + disciplina.creditos) > 28) {
             throw new ErroDeAlocacaoException(
                                               "Período deve ter menos de 28 créditos.");
         }
         for (int i : periodos.keySet()) {
-            if (periodos.get(i).getDisciplinas().contains(disciplina)) {
+            if (periodos.get(i).disciplinas.contains(disciplina)) {
                 throw new ErroDeAlocacaoException("Disciplina já alocada.");
             }
         }
@@ -61,7 +60,7 @@ public class PlanoDeCurso {
     public void desalocar(Disciplina disciplina) {
         for (int i : periodos.keySet()) {
             Periodo periodo = periodos.get(i);
-            if (periodo.getDisciplinas().contains(disciplina)) {
+            if (periodo.disciplinas.contains(disciplina)) {
                 periodo.desalocar(disciplina);
                 removerDependencias(disciplina);
             }
@@ -72,8 +71,8 @@ public class PlanoDeCurso {
         for (int i : periodos.keySet()) {
             Periodo periodo = periodos.get(i);
             List<Disciplina> dependencias = new ArrayList<Disciplina>();
-            for (Disciplina disc : periodo.getDisciplinas()) {
-                if (disc.getDependencias().contains(disciplina)) {
+            for (Disciplina disc : periodo.disciplinas) {
+                if (disc.dependencias.contains(disciplina)) {
                     dependencias.add(disc);
                 }
             }
@@ -95,7 +94,7 @@ public class PlanoDeCurso {
         ;
         for (int i : periodos.keySet()) {
             Periodo periodo = periodos.get(i);
-            for (Disciplina disciplina : periodo.getDisciplinas()) {
+            for (Disciplina disciplina : periodo.disciplinas) {
                 disciplinasAlocadas.add(disciplina);
             }
         }
@@ -117,7 +116,7 @@ public class PlanoDeCurso {
     public static PlanoDeCurso getPlanoInicial() throws ErroDeAlocacaoException {
         PlanoDeCurso planoInicial = new PlanoDeCurso();
         for (Disciplina disciplina : getDisciplinas()) {
-            if (disciplina.getPeriodo() == 1) {
+            if (disciplina.periodo == 1) {
                 planoInicial.alocar(1, disciplina);
             }
         }

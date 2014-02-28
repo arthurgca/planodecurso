@@ -37,39 +37,6 @@ public class DisciplinaTest {
     }
 
     @Test
-    public void deveRetornarId() {
-        assertEquals(1, d1.getId());
-    }
-
-    @Test
-    public void deveRetornarNome() {
-        assertEquals("Programação I", d1.getNome());
-    }
-
-    @Test
-    public void deveRetornarCreditos() {
-        assertEquals(4, d1.getCreditos());
-    }
-
-    @Test
-    public void deveRetornarPeriodo() {
-        assertEquals(1, d1.getPeriodo());
-    }
-
-    @Test
-    public void deveRetornarDificuldade() {
-        assertEquals(4, d1.getDificuldade());
-    }
-
-    @Test
-    public void deveRetornarDependencias() {
-        assertTrue(d1.getDependencias().isEmpty());
-        assertTrue(d7.getDependencias().contains(d1));
-        assertTrue(d7.getDependencias().contains(d2));
-        assertTrue(d7.getDependencias().contains(d3));
-    }
-
-    @Test
     public void deveCompararIgualdadeUsandId() {
         assertTrue(d1.equals(d1));
         assertTrue(d1.equals(new Disciplina(1, "Fake", 7, 7, 7)));

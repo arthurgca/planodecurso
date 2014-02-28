@@ -87,7 +87,7 @@ public class Global extends GlobalSettings {
 
                                 @Override
                                     public String print(Disciplina disciplina, Locale locale) {
-                                    return String.valueOf(disciplina.getId());
+                                    return String.valueOf(disciplina.id);
                                 }
 
                             });

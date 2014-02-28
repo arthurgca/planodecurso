@@ -64,7 +64,7 @@ public class PlanoDeCursoTest {
 
     @Test
     public void deveRetornarPeriodo() throws ErroDeAlocacaoException {
-        assertEquals(2, plano.getPeriodo(2).getSemestre());
+        assertEquals(2, plano.getPeriodo(2).semestre);
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -74,11 +74,11 @@ public class PlanoDeCursoTest {
 
     @Test
     public void deveAlocarDisciplina() throws ErroDeAlocacaoException {
-        assertFalse(plano.getPeriodo(1).getDisciplinas().contains(d1));
+        assertFalse(plano.getPeriodo(1).disciplinas.contains(d1));
 
         plano.alocar(1, d1);
 
-        assertTrue(plano.getPeriodo(1).getDisciplinas().contains(d1));
+        assertTrue(plano.getPeriodo(1).disciplinas.contains(d1));
     }
 
     @Test(expected = ErroDeAlocacaoException.class)
@@ -105,11 +105,11 @@ public class PlanoDeCursoTest {
     @Test
     public void deveDesalocarDisciplina() throws ErroDeAlocacaoException {
         plano.alocar(1, d1);
-        assertTrue(plano.getPeriodo(1).getDisciplinas().contains(d1));
+        assertTrue(plano.getPeriodo(1).disciplinas.contains(d1));
 
         plano.desalocar(d1);
 
-        assertFalse(plano.getPeriodo(1).getDisciplinas().contains(d1));
+        assertFalse(plano.getPeriodo(1).disciplinas.contains(d1));
     }
 
     @Test
@@ -121,11 +121,11 @@ public class PlanoDeCursoTest {
         plano.alocar(1, d6);
         plano.alocar(2, d7);
 
-        assertTrue(plano.getPeriodo(2).getDisciplinas().contains(d7));
+        assertTrue(plano.getPeriodo(2).disciplinas.contains(d7));
 
         plano.desalocar(d1);
 
-        assertFalse(plano.getPeriodo(2).getDisciplinas().contains(d7));
+        assertFalse(plano.getPeriodo(2).disciplinas.contains(d7));
     }
 
     @Test
@@ -153,12 +153,12 @@ public class PlanoDeCursoTest {
         plano.alocar(2, d9);
         plano.alocar(3, d10);
 
-        assertTrue(plano.getPeriodo(3).getDisciplinas().contains(d10));
+        assertTrue(plano.getPeriodo(3).disciplinas.contains(d10));
         plano.desalocar(d3);
-        assertFalse(plano.getPeriodo(1).getDisciplinas().contains(d3));
-        assertFalse(plano.getPeriodo(2).getDisciplinas().contains(d8));
-        assertFalse(plano.getPeriodo(2).getDisciplinas().contains(d9));
-        assertFalse(plano.getPeriodo(3).getDisciplinas().contains(d10));
+        assertFalse(plano.getPeriodo(1).disciplinas.contains(d3));
+        assertFalse(plano.getPeriodo(2).disciplinas.contains(d8));
+        assertFalse(plano.getPeriodo(2).disciplinas.contains(d9));
+        assertFalse(plano.getPeriodo(3).disciplinas.contains(d10));
     }
 
     @Test
@@ -190,7 +190,7 @@ public class PlanoDeCursoTest {
     @Test
     public void deveRetornarPlanoInicial() throws ErroDeAlocacaoException {
         PlanoDeCurso plano = PlanoDeCurso.getPlanoInicial();
-        List<Disciplina> p1 = plano.getPeriodo(1).getDisciplinas();
+        List<Disciplina> p1 = plano.getPeriodo(1).disciplinas;
 
         assertTrue((p1).contains(d1));
         assertTrue((p1).contains(d2));
@@ -201,7 +201,7 @@ public class PlanoDeCursoTest {
 
         assertFalse((p1).contains(d7));
 
-        assertTrue(plano.getPeriodo(2).getDisciplinas().isEmpty());
+        assertTrue(plano.getPeriodo(2).disciplinas.isEmpty());
     }
 
     @Test

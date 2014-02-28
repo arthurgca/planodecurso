@@ -30,30 +30,18 @@ public class PeriodoTest {
     }
 
     @Test
-    public void deveRetornarSemestre() {
-        assertEquals(2, periodo.getSemestre());
-    }
-
-    @Test
     public void deveAlocarDisciplina() {
         periodo.alocar(disciplina);
-        assertTrue(periodo.getDisciplinas().contains(
+        assertTrue(periodo.disciplinas.contains(
                                                      new Disciplina(1, "Teste", 4, 1, 4)));
     }
 
     @Test
     public void deveDesalocarDisciplina() {
         periodo.alocar(disciplina);
-        assertTrue(periodo.getDisciplinas().contains(disciplina));
+        assertTrue(periodo.disciplinas.contains(disciplina));
         periodo.desalocar(disciplina);
-        assertFalse(periodo.getDisciplinas().contains(disciplina));
-    }
-
-    @Test
-    public void deveRetornarDisciplinas() {
-        assertTrue(periodo.getDisciplinas().isEmpty());
-        periodo.alocar(disciplina);
-        assertTrue(periodo.getDisciplinas().contains(disciplina));
+        assertFalse(periodo.disciplinas.contains(disciplina));
     }
 
     @Test

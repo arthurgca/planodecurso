@@ -91,11 +91,11 @@ public class PlanoDeCursoAppTest extends WithApplication {
 
         Periodo periodo = Form.form(Periodo.class).bind(anyData).get();
 
-        assertEquals(3, periodo.getSemestre());
+        assertEquals(3, periodo.semestre);
 
-        assertEquals(PlanoDeCurso.getDisciplina(1), periodo.getDisciplinas()
+        assertEquals(PlanoDeCurso.getDisciplina(1), periodo.disciplinas
                      .get(0));
-        assertEquals(PlanoDeCurso.getDisciplina(7), periodo.getDisciplinas()
+        assertEquals(PlanoDeCurso.getDisciplina(7), periodo.disciplinas
                      .get(1));
     }
 
@@ -113,16 +113,16 @@ public class PlanoDeCursoAppTest extends WithApplication {
         Periodo periodo1 = plano.getPeriodo(1);
         Periodo periodo2 = plano.getPeriodo(2);
 
-        assertEquals(1, periodo1.getSemestre());
-        assertEquals(2, periodo2.getSemestre());
+        assertEquals(1, periodo1.semestre);
+        assertEquals(2, periodo2.semestre);
 
-        assertEquals(PlanoDeCurso.getDisciplina(1), periodo1.getDisciplinas()
+        assertEquals(PlanoDeCurso.getDisciplina(1), periodo1.disciplinas
                      .get(0));
-        assertEquals(PlanoDeCurso.getDisciplina(5), periodo1.getDisciplinas()
+        assertEquals(PlanoDeCurso.getDisciplina(5), periodo1.disciplinas
                      .get(1));
-        assertEquals(PlanoDeCurso.getDisciplina(6), periodo1.getDisciplinas()
+        assertEquals(PlanoDeCurso.getDisciplina(6), periodo1.disciplinas
                      .get(2));
-        assertEquals(PlanoDeCurso.getDisciplina(7), periodo2.getDisciplinas()
+        assertEquals(PlanoDeCurso.getDisciplina(7), periodo2.disciplinas
                      .get(0));
     }
 }
