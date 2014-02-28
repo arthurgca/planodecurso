@@ -2,20 +2,20 @@ package models;
 
 public class ErroDeAlocacaoException extends Exception {
 
-	private String msg;
+    private String msg;
 
-	public ErroDeAlocacaoException(String msg) {
-		super(msg);
-		this.msg = msg;
-	}
+    public ErroDeAlocacaoException(String msg) {
+        super(msg);
+        this.msg = msg;
+    }
 
-	public String getMsg() {
-		return msg;
-	}
+    public String getMsg() {
+        return msg;
+    }
 
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = 1L;
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
 
 }

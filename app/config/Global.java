@@ -23,74 +23,73 @@ import play.data.format.Formatters.SimpleFormatter;
 
 public class Global extends GlobalSettings {
 
-	@Override
-	public void onStart(Application app) {
-		try {
-			configuraRegistroDeDisciplinas(app);
-		} catch (JDOMException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+    @Override
+    public void onStart(Application app) {
+        try {
+            configuraRegistroDeDisciplinas(app);
+        } catch (JDOMException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-		configuraDataBinds();
-	}
+        configuraDataBinds();
+    }
 
-	private void configuraRegistroDeDisciplinas(Application app)
-			throws JDOMException, IOException {
-		FileReader disciplinasXML = new FileReader(app.configuration()
-				.getString("planoDeCurso.disciplinasXML"));
+    private void configuraRegistroDeDisciplinas(Application app)
+        throws JDOMException, IOException {
+        FileReader disciplinasXML = new FileReader(app.configuration()
+                                                   .getString("planoDeCurso.disciplinasXML"));
 
-		SAXBuilder builder = new SAXBuilder();
-		Document document = builder.build(disciplinasXML);
+        SAXBuilder builder = new SAXBuilder();
+        Document document = builder.build(disciplinasXML);
 
-		Element root = document.getRootElement();
-		List<Element> disciplinaElements = root.getChildren();
+        Element root = document.getRootElement();
+        List<Element> disciplinaElements = root.getChildren();
 
-		Iterator<Element> it = disciplinaElements.iterator();
-		while (it.hasNext()) {
-			Element element = (Element) it.next();
+        Iterator<Element> it = disciplinaElements.iterator();
+        while (it.hasNext()) {
+            Element element = (Element) it.next();
 
-			int id = Integer.parseInt(element.getAttributeValue("id"));
+            int id = Integer.parseInt(element.getAttributeValue("id"));
 
-			String nome = element.getAttributeValue("nome");
+            String nome = element.getAttributeValue("nome");
 
-			int creditos = Integer.parseInt(element.getChildText("creditos"));
+            int creditos = Integer.parseInt(element.getChildText("creditos"));
 
-			int periodo = Integer.parseInt(element.getChildText("periodo"));
+            int periodo = Integer.parseInt(element.getChildText("periodo"));
 
-			int dificuldade = Integer.parseInt(element
-					.getChildText("dificuldade"));
+            int dificuldade = Integer.parseInt(element
+                                               .getChildText("dificuldade"));
 
-			List<Disciplina> dependencias = new ArrayList<Disciplina>();
+            List<Disciplina> dependencias = new ArrayList<Disciplina>();
 
-			for (Element requisitoIdElement : element.getChild("requisitos")
-					.getChildren("id")) {
-				dependencias.add(PlanoDeCurso.getDisciplina(Integer
-						.valueOf(requisitoIdElement.getValue())));
-			}
+            for (Element requisitoIdElement : element.getChild("requisitos")
+                     .getChildren("id")) {
+                dependencias.add(PlanoDeCurso.getDisciplina(Integer
+                                                            .valueOf(requisitoIdElement.getValue())));
+            }
 
-			PlanoDeCurso.registraDisciplina(id, nome, creditos, periodo,
-					dificuldade, dependencias);
-		}
-	}
+            PlanoDeCurso.registraDisciplina(id, nome, creditos, periodo,
+                                            dificuldade, dependencias);
+        }
+    }
 
-	private void configuraDataBinds() {
-		Formatters.register(Disciplina.class,
-				new SimpleFormatter<Disciplina>() {
-					@Override
-					public Disciplina parse(String input, Locale locale)
-							throws ParseException {
-						return PlanoDeCurso.getDisciplina(Integer
-								.valueOf(input));
-					}
+    private void configuraDataBinds() {
+        Formatters.register(Disciplina.class,
+                            new SimpleFormatter<Disciplina>() {
+                                @Override
+                                    public Disciplina parse(String input, Locale locale)
+                                    throws ParseException {
+                                    return PlanoDeCurso.getDisciplina(Integer
+                                                                      .valueOf(input));
+                                }
 
-					@Override
-					public String print(Disciplina disciplina, Locale locale) {
-						return String.valueOf(disciplina.getId());
-					}
+                                @Override
+                                    public String print(Disciplina disciplina, Locale locale) {
+                                    return String.valueOf(disciplina.getId());
+                                }
 
-				});
-	}
-
+                            });
+    }
 }
