@@ -103,11 +103,12 @@ public class PlanoDeCurso {
 
     public static PlanoDeCurso getPlanoInicial() throws ErroDeAlocacaoException {
         PlanoDeCurso planoInicial = new PlanoDeCurso();
-        for (Disciplina disciplina : Disciplina.Registro.getAll()) {
-            if (disciplina.periodo == 1) {
-                planoInicial.alocar(1, disciplina);
-            }
-        }
+        planoInicial.alocar(1, Disciplina.Registro.get("Programação I"));
+        planoInicial.alocar(1, Disciplina.Registro.get("Leitura e Prod. de Textos"));
+        planoInicial.alocar(1, Disciplina.Registro.get("Cálculo I"));
+        planoInicial.alocar(1, Disciplina.Registro.get("Algebra Vetorial"));
+        planoInicial.alocar(1, Disciplina.Registro.get("Int. à Computacação"));
+        planoInicial.alocar(1, Disciplina.Registro.get("Lab. de Programação I"));
         return planoInicial;
     }
 }

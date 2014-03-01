@@ -56,8 +56,6 @@ public class Global extends GlobalSettings {
 
             int creditos = Integer.parseInt(element.getChildText("creditos"));
 
-            int periodo = Integer.parseInt(element.getChildText("periodo"));
-
             List<Disciplina> dependencias = new ArrayList<Disciplina>();
 
             for (Element requisitoIdElement : element.getChild("requisitos")
@@ -68,7 +66,6 @@ public class Global extends GlobalSettings {
             Disciplina.Registro.registrarDisciplina(id,
                                                     nome,
                                                     creditos,
-                                                    periodo,
                                                     dependencias);
         }
     }

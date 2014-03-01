@@ -21,7 +21,7 @@ public class PeriodoTest {
     @Before
     public void setUp() {
         periodo = new Periodo(2);
-        disciplina = new Disciplina(1, "Teste", 4, 1);
+        disciplina = new Disciplina(1, "Teste", 4);
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -32,7 +32,7 @@ public class PeriodoTest {
     @Test
     public void deveAlocarDisciplina() {
         periodo.alocar(disciplina);
-        assertTrue(periodo.disciplinas.contains( new Disciplina(1, "Teste", 4, 1)));
+        assertTrue(periodo.disciplinas.contains( new Disciplina(1, "Teste", 4)));
     }
 
     @Test

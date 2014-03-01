@@ -10,19 +10,16 @@ public final class Disciplina {
 
     public int creditos;
 
-    public int periodo;
-
     public List<Disciplina> dependencias;
 
-    public Disciplina(int id, String nome, int creditos, int periodo) {
-        this(id, nome, creditos, periodo, new ArrayList<Disciplina>());
+    public Disciplina(int id, String nome, int creditos) {
+        this(id, nome, creditos, new ArrayList<Disciplina>());
     }
 
-    public Disciplina(int id, String nome, int creditos, int periodo, List<Disciplina> dependencias) {
+    public Disciplina(int id, String nome, int creditos, List<Disciplina> dependencias) {
         this.id = id;
         this.nome = nome;
         this.creditos = creditos;
-        this.periodo = periodo;
 
         this.dependencias = new ArrayList<Disciplina>();
 
@@ -58,16 +55,25 @@ public final class Disciplina {
             return disciplinas.get(i);
         }
 
+        public static Disciplina get(String nome) {
+            for (Disciplina disciplina : getAll()) {
+                if (disciplina.nome.equals(nome))
+                    return disciplina;
+            }
+
+            throw new IllegalArgumentException(nome);
+        }
+
         public static Collection<Disciplina> getAll() {
             return Collections.unmodifiableCollection(disciplinas.values());
         }
 
-        public static void registrarDisciplina(int id, String nome, int creditos, int periodo) {
-            disciplinas.put(id, new Disciplina(id, nome, creditos, periodo));
+        public static void registrarDisciplina(int id, String nome, int creditos) {
+            disciplinas.put(id, new Disciplina(id, nome, creditos));
         }
 
-        public static void registrarDisciplina(int id, String nome, int creditos, int periodo, List<Disciplina> dependencias) {
-            disciplinas.put(id, new Disciplina(id, nome, creditos, periodo, dependencias));
+        public static void registrarDisciplina(int id, String nome, int creditos, List<Disciplina> dependencias) {
+            disciplinas.put(id, new Disciplina(id, nome, creditos, dependencias));
         }
     }
 
