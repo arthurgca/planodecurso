@@ -105,8 +105,8 @@ public class PlanoDeCurso {
         planoInicial.alocar(1, Disciplina.Registro.get("Programação I"));
         planoInicial.alocar(1, Disciplina.Registro.get("Leitura e Prod. de Textos"));
         planoInicial.alocar(1, Disciplina.Registro.get("Cálculo I"));
-        planoInicial.alocar(1, Disciplina.Registro.get("Algebra Vetorial"));
-        planoInicial.alocar(1, Disciplina.Registro.get("Int. à Computacação"));
+        planoInicial.alocar(1, Disciplina.Registro.get("Álgebra Vetorial"));
+        planoInicial.alocar(1, Disciplina.Registro.get("Int. à Computação"));
         planoInicial.alocar(1, Disciplina.Registro.get("Lab. de Programação I"));
         return planoInicial;
     }

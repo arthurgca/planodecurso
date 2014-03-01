@@ -37,10 +37,10 @@ public class PlanoDeCursoTest {
         Disciplina.Registro.registrarDisciplina(3, "Cálculo I", 4);
         d3 = Disciplina.Registro.get(3);
 
-        Disciplina.Registro.registrarDisciplina(4, "Algebra Vetorial", 4);
+        Disciplina.Registro.registrarDisciplina(4, "Álgebra Vetorial", 4);
         d4 = Disciplina.Registro.get(4);
 
-        Disciplina.Registro.registrarDisciplina(5, "Int. à Computacação", 4);
+        Disciplina.Registro.registrarDisciplina(5, "Int. à Computação", 4);
         d5 = Disciplina.Registro.get(5);
 
         Disciplina.Registro.registrarDisciplina(6, "Lab. de Programação I", 4);
