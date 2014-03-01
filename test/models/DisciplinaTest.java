@@ -4,9 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -28,7 +26,7 @@ public class DisciplinaTest {
         d2 = new Disciplina(5, "Int. à Computacação", 4);
         d3 = new Disciplina(6, "Lab. de Programação I", 4);
 
-        List<Disciplina> deps = new ArrayList<Disciplina>();
+        Set<Disciplina> deps = new HashSet<Disciplina>();
         deps.add(d1);
         deps.add(d2);
         deps.add(d3);
@@ -53,10 +51,16 @@ public class DisciplinaTest {
         assertEquals(4, node.get("creditos").intValue());
 
         Iterator<JsonNode> deps = node.get("requisitos").elements();
-        assertEquals("Programação I", deps.next().get("nome").textValue());
-        assertEquals("Int. à Computacação", deps.next().get("nome").textValue());
-        assertEquals("Lab. de Programação I", deps.next().get("nome")
-                     .textValue());
+
+        Set<String> requisitos = new HashSet<String>();
+        requisitos.add(deps.next().get("nome").textValue());
+        requisitos.add(deps.next().get("nome").textValue());
+        requisitos.add(deps.next().get("nome").textValue());
+
+        assertTrue(requisitos.contains("Programação I"));
+        assertTrue(requisitos.contains("Int. à Computacação"));
+        assertTrue(requisitos.contains("Lab. de Programação I"));
+
         assertFalse(deps.hasNext());
     }
 }

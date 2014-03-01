@@ -10,18 +10,17 @@ public final class Disciplina {
 
     public int creditos;
 
-    public List<Disciplina> requisitos = new ArrayList<Disciplina>();
+    public Set<Disciplina> requisitos = new HashSet<Disciplina>();
 
     public Disciplina(int id, String nome, int creditos) {
-        this(id, nome, creditos, new ArrayList<Disciplina>());
+        this(id, nome, creditos, new HashSet<Disciplina>());
     }
 
-    public Disciplina(int id, String nome, int creditos, List<Disciplina> requisitos) {
+    public Disciplina(int id, String nome, int creditos, Set<Disciplina> requisitos) {
         this.id = id;
         this.nome = nome;
         this.creditos = creditos;
         this.requisitos = requisitos;
-
     }
 
     public boolean equals(Object obj) {
@@ -68,7 +67,7 @@ public final class Disciplina {
             disciplinas.put(id, new Disciplina(id, nome, creditos));
         }
 
-        public static void registrarDisciplina(int id, String nome, int creditos, List<Disciplina> requisitos) {
+        public static void registrarDisciplina(int id, String nome, int creditos, Set<Disciplina> requisitos) {
             disciplinas.put(id, new Disciplina(id, nome, creditos, requisitos));
         }
     }

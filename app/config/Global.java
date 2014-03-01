@@ -3,10 +3,7 @@ package config;
 import java.io.FileReader;
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 import models.Disciplina;
 
@@ -56,7 +53,7 @@ public class Global extends GlobalSettings {
 
             int creditos = Integer.parseInt(element.getChildText("creditos"));
 
-            List<Disciplina> dependencias = new ArrayList<Disciplina>();
+            Set<Disciplina> dependencias = new HashSet<Disciplina>();
 
             for (Element requisitoIdElement : element.getChild("requisitos")
                      .getChildren("id")) {

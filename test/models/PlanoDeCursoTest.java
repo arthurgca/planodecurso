@@ -5,8 +5,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import org.jdom2.JDOMException;
 import org.junit.Before;
@@ -47,7 +46,7 @@ public class PlanoDeCursoTest {
         Disciplina.Registro.registrarDisciplina(6, "Lab. de Programação I", 4);
         d6 = Disciplina.Registro.get(6);
 
-        List<Disciplina> deps = new ArrayList<Disciplina>();
+        Set<Disciplina> deps = new HashSet<Disciplina>();
         deps.add(d1);
         deps.add(d5);
         deps.add(d6);
@@ -130,18 +129,18 @@ public class PlanoDeCursoTest {
 
     @Test
     public void deveDesalocarDisciplinasRecursivamente() throws ErroDeAlocacaoException {
-        List<Disciplina> depsD8 = new ArrayList<Disciplina>();
+        Set<Disciplina> depsD8 = new HashSet<Disciplina>();
         depsD8.add(d3);
         Disciplina.Registro.registrarDisciplina(8, "Cálculo 2", 4, depsD8);
         Disciplina d8 = Disciplina.Registro.get(8);
 
-        List<Disciplina> depsD9 = new ArrayList<Disciplina>();
+        Set<Disciplina> depsD9 = new HashSet<Disciplina>();
         depsD9.add(d3);
         depsD9.add(d4);
         Disciplina.Registro.registrarDisciplina(9, "Fund. de Fisica Classica", 4, depsD9);
         Disciplina d9 = Disciplina.Registro.get(9);
 
-        List<Disciplina> depsD10 = new ArrayList<Disciplina>();
+        Set<Disciplina> depsD10 = new HashSet<Disciplina>();
         depsD10.add(d8);
         depsD10.add(d9);
         Disciplina.Registro.registrarDisciplina(10, "Fund. de Fisica Moderna", 4, depsD10);
