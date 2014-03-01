@@ -1,73 +1,46 @@
 package config;
 
-import java.io.FileReader;
-import java.io.IOException;
-import java.text.ParseException;
 import java.util.*;
+import java.text.*;
 
-import models.Disciplina;
+import play.*;
+import play.libs.*;
+import play.data.format.*;
+import play.data.format.Formatters.*;
 
-import org.jdom2.Document;
-import org.jdom2.Element;
-import org.jdom2.JDOMException;
-import org.jdom2.input.SAXBuilder;
-
-import play.Application;
-import play.GlobalSettings;
-import play.data.format.Formatters;
-import play.data.format.Formatters.SimpleFormatter;
+import models.*;
 
 public class Global extends GlobalSettings {
 
     @Override
     public void onStart(Application app) {
-        try {
-            configuraRegistroDeDisciplinas(app);
-        } catch (JDOMException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        configuraDataBinds();
+        configurarDadosIniciais(app);
+        configurarDataBinds(app);
     }
 
-    private void configuraRegistroDeDisciplinas(Application app)
-        throws JDOMException, IOException {
-        FileReader disciplinasXML = new FileReader(app.configuration()
-                                                   .getString("planoDeCurso.disciplinasXML"));
+    private void configurarDadosIniciais(Application app) {
+        @SuppressWarnings("unchecked")
+        Map<String,List<Object>> all = (Map<String,List<Object>>) Yaml.load("initial-data.yml");
 
-        SAXBuilder builder = new SAXBuilder();
-        Document document = builder.build(disciplinasXML);
+        for(Object obj : all.get("disciplinas")) {
+            Disciplina disciplina = (Disciplina) obj;
 
-        Element root = document.getRootElement();
-        List<Element> disciplinaElements = root.getChildren();
+            Set<Disciplina> requisitos = new HashSet<Disciplina>();
 
-        Iterator<Element> it = disciplinaElements.iterator();
-        while (it.hasNext()) {
-            Element element = (Element) it.next();
-
-            int id = Integer.parseInt(element.getAttributeValue("id"));
-
-            String nome = element.getAttributeValue("nome");
-
-            int creditos = Integer.parseInt(element.getChildText("creditos"));
-
-            Set<Disciplina> dependencias = new HashSet<Disciplina>();
-
-            for (Element requisitoIdElement : element.getChild("requisitos")
-                     .getChildren("id")) {
-                dependencias.add(Disciplina.Registro.get(Integer.valueOf(requisitoIdElement.getValue())));
+            if (disciplina.requisitos != null) {
+                for (Disciplina requisito : disciplina.requisitos) {
+                    requisitos.add(Disciplina.Registro.get(requisito.id));
+                }
             }
 
-            Disciplina.Registro.registrarDisciplina(id,
-                                                    nome,
-                                                    creditos,
-                                                    dependencias);
+            Disciplina.Registro.registrarDisciplina(disciplina.id,
+                                                    disciplina.nome,
+                                                    disciplina.creditos,
+                                                    requisitos);
         }
     }
 
-    private void configuraDataBinds() {
+    private void configurarDataBinds(Application app) {
         Formatters.register(Disciplina.class,
                             new SimpleFormatter<Disciplina>() {
                                 @Override

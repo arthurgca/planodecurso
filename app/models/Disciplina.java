@@ -12,6 +12,9 @@ public final class Disciplina {
 
     public Set<Disciplina> requisitos = new HashSet<Disciplina>();
 
+    public Disciplina() {
+    }
+
     public Disciplina(int id, String nome, int creditos) {
         this(id, nome, creditos, new HashSet<Disciplina>());
     }

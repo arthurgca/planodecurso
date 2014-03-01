@@ -1,0 +1,389 @@
+disciplinas:
+  - !!models.Disciplina
+      id:         1
+      nome:       Programação I
+      creditos:   4
+
+  - !!models.Disciplina
+      id:         2
+      nome:       Leitura e Prod. de Textos
+      creditos:   4
+
+  - !!models.Disciplina
+      id:         3
+      nome:       Cálculo I
+      creditos:   4
+
+  - !!models.Disciplina
+      id:         4
+      nome:       Álgebra Vetorial
+      creditos:   4
+
+  - !!models.Disciplina
+      id:         5
+      nome:       Int. à Computação
+      creditos:   4
+
+  - !!models.Disciplina
+      id:         6
+      nome:       Lab. de Programação I
+      creditos:   4
+
+  - !!models.Disciplina
+      id:         7
+      nome:       Programação II
+      creditos:   4
+      requisitos:
+        - !!models.Disciplina
+            id:   1
+        - !!models.Disciplina
+            id:   5
+        - !!models.Disciplina
+            id:   6
+
+  - !!models.Disciplina
+      id:         8
+      nome:       Lab. de Programação II
+      creditos:   4
+      requisitos:
+        - !!models.Disciplina
+            id:   1
+        - !!models.Disciplina
+            id:   5
+        - !!models.Disciplina
+            id:   6
+
+  - !!models.Disciplina
+      id:         9
+      nome:       Matemática Discreta
+      creditos:   4
+
+  - !!models.Disciplina
+      id:         10
+      nome:       Metodologia Científica
+      creditos:   4
+
+  - !!models.Disciplina
+      id:         11
+      nome:       Teoria dos Grafos
+      creditos:   2
+      requisitos:
+        - !!models.Disciplina
+            id:   1
+        - !!models.Disciplina
+            id:   6
+
+  - !!models.Disciplina
+      id:         12
+      nome:       Fund. de Física Clássica
+      creditos:   4
+      requisitos:
+        - !!models.Disciplina
+            id:   3
+        - !!models.Disciplina
+            id:   4
+
+  - !!models.Disciplina
+      id:         13
+      nome:       Cálculo II
+      creditos:   4
+      requisitos:
+        - !!models.Disciplina
+            id:   3
+
+  - !!models.Disciplina
+      id:         14
+      nome:       Estrutura de Dados
+      creditos:   4
+      requisitos:
+        - !!models.Disciplina
+            id:   7
+        - !!models.Disciplina
+            id:   8
+        - !!models.Disciplina
+            id:   11
+
+  - !!models.Disciplina
+      id:         15
+      nome:       Lab. de Estrutura de Dados
+      creditos:   4
+      requisitos:
+        - !!models.Disciplina
+            id:   7
+        - !!models.Disciplina
+            id:   8
+        - !!models.Disciplina
+            id:   9
+
+  - !!models.Disciplina
+      id:         16
+      nome:       Álgebra Linear
+      creditos:   4
+      requisitos:
+        - !!models.Disciplina
+            id:   4
+
+  - !!models.Disciplina
+      id:         17
+      nome:       Probabilidade e Est.
+      creditos:   4
+      requisitos:
+        - !!models.Disciplina
+            id:   13
+
+  - !!models.Disciplina
+      id:         18
+      nome:       Teoria da Computação
+      creditos:   4
+      requisitos:
+        - !!models.Disciplina
+            id:   5
+        - !!models.Disciplina
+            id:   9
+        - !!models.Disciplina
+            id:   11
+
+  - !!models.Disciplina
+      id:         19
+      nome:       Fund. de Física Moderna
+      creditos:   4
+      requisitos:
+        - !!models.Disciplina
+            id:   12
+        - !!models.Disciplina
+            id:   13
+
+  - !!models.Disciplina
+      id:         20
+      nome:       Gerência da Informação
+      creditos:   4
+      requisitos:
+
+  - !!models.Disciplina
+      id:         21
+      nome:       Métodos Estatísticos
+      creditos:   4
+      requisitos:
+        - !!models.Disciplina
+            id:   16
+        - !!models.Disciplina
+            id:   17
+
+  - !!models.Disciplina
+      id:         22
+      nome:       Paradigmas de Linguagens de Programação
+      creditos:   4
+      requisitos:
+        - !!models.Disciplina
+            id:   14
+        - !!models.Disciplina
+            id:   15
+        - !!models.Disciplina
+            id:   18
+
+  - !!models.Disciplina
+      id:         23
+      nome:       Org. e Arquitetura de Computadores I
+      creditos:   4
+      requisitos:
+        - !!models.Disciplina
+            id:   14
+        - !!models.Disciplina
+            id:   15
+        - !!models.Disciplina
+            id:   19
+
+  - !!models.Disciplina
+      id:         24
+      nome:       Lab. de Org. e Arquitetura de Computadores
+      creditos:   4
+      requisitos:
+        - !!models.Disciplina
+            id:   14
+        - !!models.Disciplina
+            id:   15
+        - !!models.Disciplina
+            id:   19
+
+  - !!models.Disciplina
+      id:         25
+      nome:       Lógica Matemática
+      creditos:   4
+      requisitos:
+        - !!models.Disciplina
+            id:   18
+
+  - !!models.Disciplina
+      id:         26
+      nome:       Sistemas de Informação I
+      creditos:   4
+      requisitos:
+        - !!models.Disciplina
+            id:   20
+
+  - !!models.Disciplina
+      id:         27
+      nome:       Engenharia de Software I
+      creditos:   4
+      requisitos:
+        - !!models.Disciplina
+            id:   7
+        - !!models.Disciplina
+            id:   8
+        - !!models.Disciplina
+            id:   17
+
+  - !!models.Disciplina
+      id:         28
+      nome:       Análise e Técnicas de Algoritmos
+      creditos:   4
+      requisitos:
+        - !!models.Disciplina
+            id:   13
+        - !!models.Disciplina
+            id:   14
+        - !!models.Disciplina
+            id:   15
+        - !!models.Disciplina
+            id:   25
+
+  - !!models.Disciplina
+      id:         29
+      nome:       Redes de Computadores
+      creditos:   4
+      requisitos:
+        - !!models.Disciplina
+            id:   23
+        - !!models.Disciplina
+            id:   24
+
+  - !!models.Disciplina
+      id:         30
+      nome:       Compiladores
+      creditos:   4
+      requisitos:
+        - !!models.Disciplina
+            id:   22
+        - !!models.Disciplina
+            id:   23
+        - !!models.Disciplina
+            id:   24
+
+  - !!models.Disciplina
+      id:         31
+      nome:       Banco de Dados I
+      creditos:   4
+      requisitos:
+        - !!models.Disciplina
+            id:   26
+
+  - !!models.Disciplina
+      id:         32
+      nome:       Sistemas de Informação II
+      creditos:   4
+      requisitos:
+        - !!models.Disciplina
+            id:   26
+
+  - !!models.Disciplina
+      id:         33
+      nome:       Laboratório de Engenharia de Software
+      creditos:   4
+      requisitos:
+        - !!models.Disciplina
+            id:   27
+
+  - !!models.Disciplina
+      id:         34
+      nome:       Informática e Sociedade
+      creditos:   2
+
+  - !!models.Disciplina
+      id:         35
+      nome:       Sistemas Operacionais
+      creditos:   4
+      requisitos:
+        - !!models.Disciplina
+            id:   23
+        - !!models.Disciplina
+            id:   24
+
+  - !!models.Disciplina
+      id:         36
+      nome:       Interconexão de Redes de Computadores
+      creditos:   4
+      requisitos:
+        - !!models.Disciplina
+            id:   29
+
+  - !!models.Disciplina
+      id:         37
+      nome:       Lab. de Interconexão de Redes de Computadores
+      creditos:   4
+      requisitos:
+        - !!models.Disciplina
+            id:   29
+
+  - !!models.Disciplina
+      id:         38
+      nome:       Inteligência Artificial I
+      creditos:   4
+      requisitos:
+        - !!models.Disciplina
+            id:   21
+        - !!models.Disciplina
+            id:   22
+        - !!models.Disciplina
+            id:   21
+
+  - !!models.Disciplina
+      id:         39
+      nome:       Banco de Dados II
+      creditos:   4
+      requisitos:
+        - !!models.Disciplina
+            id:   31
+        - !!models.Disciplina
+            id:   32
+
+  - !!models.Disciplina
+      id:         40
+      nome:       Direito e Cidadania
+      creditos:   4
+      requisitos:
+
+  - !!models.Disciplina
+      id:         41
+      nome:       Métodos e Software Númericos
+      creditos:   4
+      requisitos:
+        - !!models.Disciplina
+            id:   16
+        - !!models.Disciplina
+            id:   28
+
+  - !!models.Disciplina
+      id:         42
+      nome:       Aval. de Desempenho de Sist. Discretos
+      creditos:   4
+      requisitos:
+        - !!models.Disciplina
+            id:   17
+
+  - !!models.Disciplina
+      id:         43
+      nome:       Projeto em Computação I
+      creditos:   4
+      requisitos:
+        - !!models.Disciplina
+            id:   10
+        - !!models.Disciplina
+            id:   33
+
+  - !!models.Disciplina
+      id:         44
+      nome:       Projeto em Computação II
+      creditos:   6
+      requisitos:
+        - !!models.Disciplina
+            id:   43
