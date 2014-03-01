@@ -35,10 +35,6 @@ public class PlanoDeCurso {
         return totalCreditos;
     }
 
-    public void alocarDisciplina(int semestre, int disciplina) throws ErroDeAlocacaoException {
-        alocarDisciplina(semestre, Disciplina.Registro.get(disciplina));
-    }
-
     public void alocarDisciplina(int semestre, Disciplina disciplina) throws ErroDeAlocacaoException {
         if (!disciplina.requisitos.isEmpty()) {
             for (Disciplina requisito : disciplina.requisitos) {
@@ -55,10 +51,6 @@ public class PlanoDeCurso {
         }
 
         alocacoes.add(new Alocacao(semestre, disciplina));
-    }
-
-    public void desalocarDisciplina(int disciplina) {
-        desalocarDisciplina(Disciplina.Registro.get(disciplina));
     }
 
     public void desalocarDisciplina(Disciplina disciplina) {
