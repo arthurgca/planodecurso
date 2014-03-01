@@ -21,7 +21,7 @@ public class PeriodoTest {
     @Before
     public void setUp() {
         periodo = new Periodo(2);
-        disciplina = new Disciplina(1, "Teste", 4, 1, 4);
+        disciplina = new Disciplina(1, "Teste", 4, 1);
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -32,8 +32,7 @@ public class PeriodoTest {
     @Test
     public void deveAlocarDisciplina() {
         periodo.alocar(disciplina);
-        assertTrue(periodo.disciplinas.contains(
-                                                     new Disciplina(1, "Teste", 4, 1, 4)));
+        assertTrue(periodo.disciplinas.contains( new Disciplina(1, "Teste", 4, 1)));
     }
 
     @Test
@@ -52,19 +51,12 @@ public class PeriodoTest {
     }
 
     @Test
-    public void deveRetornarDificuldade() {
-        periodo.alocar(disciplina);
-        assertEquals(periodo.getTotalDificuldade(), 4);
-    }
-
-    @Test
     public void deveSerializarCorretamente() {
         periodo.alocar(disciplina);
 
         JsonNode node = Json.toJson(periodo);
         assertEquals(2, node.get("semestre").intValue());
         assertEquals(4, node.get("totalCreditos").intValue());
-        assertEquals(4, node.get("totalDificuldade").intValue());
 
         Iterator<JsonNode> disciplinas = node.get("disciplinas").elements();
         assertEquals("Teste", disciplinas.next().get("nome").textValue());

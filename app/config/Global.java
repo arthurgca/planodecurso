@@ -58,9 +58,6 @@ public class Global extends GlobalSettings {
 
             int periodo = Integer.parseInt(element.getChildText("periodo"));
 
-            int dificuldade = Integer.parseInt(element
-                                               .getChildText("dificuldade"));
-
             List<Disciplina> dependencias = new ArrayList<Disciplina>();
 
             for (Element requisitoIdElement : element.getChild("requisitos")
@@ -72,7 +69,6 @@ public class Global extends GlobalSettings {
                                                     nome,
                                                     creditos,
                                                     periodo,
-                                                    dificuldade,
                                                     dependencias);
         }
     }

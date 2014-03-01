@@ -12,23 +12,18 @@ public final class Disciplina {
 
     public int periodo;
 
-    public int dificuldade;
-
     public List<Disciplina> dependencias;
 
-    public Disciplina(int id, String nome, int creditos, int periodo,
-                      int dificuldade) {
-        this(id, nome, creditos, periodo, dificuldade,
-             new ArrayList<Disciplina>());
+    public Disciplina(int id, String nome, int creditos, int periodo) {
+        this(id, nome, creditos, periodo, new ArrayList<Disciplina>());
     }
 
-    public Disciplina(int id, String nome, int creditos, int periodo,
-                      int dificuldade, List<Disciplina> dependencias) {
+    public Disciplina(int id, String nome, int creditos, int periodo, List<Disciplina> dependencias) {
         this.id = id;
         this.nome = nome;
         this.creditos = creditos;
         this.periodo = periodo;
-        this.dificuldade = dificuldade;
+
         this.dependencias = new ArrayList<Disciplina>();
 
         for (Disciplina dependencia : dependencias) {
@@ -67,16 +62,12 @@ public final class Disciplina {
             return Collections.unmodifiableCollection(disciplinas.values());
         }
 
-        public static void registrarDisciplina(int id, String nome, int creditos,
-                                              int periodo, int dificuldade) {
-            disciplinas.put(id, new Disciplina(id, nome, creditos, periodo,
-                                               dificuldade));
+        public static void registrarDisciplina(int id, String nome, int creditos, int periodo) {
+            disciplinas.put(id, new Disciplina(id, nome, creditos, periodo));
         }
 
-        public static void registrarDisciplina(int id, String nome, int creditos,
-                                              int periodo, int dificuldade, List<Disciplina> dependencias) {
-            disciplinas.put(id, new Disciplina(id, nome, creditos, periodo,
-                                               dificuldade, dependencias));
+        public static void registrarDisciplina(int id, String nome, int creditos, int periodo, List<Disciplina> dependencias) {
+            disciplinas.put(id, new Disciplina(id, nome, creditos, periodo, dependencias));
         }
     }
 

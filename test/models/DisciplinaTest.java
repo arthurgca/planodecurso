@@ -24,22 +24,22 @@ public class DisciplinaTest {
 
     @Before
     public void setUp() {
-        d1 = new Disciplina(1, "Programação I", 4, 1, 4);
-        d2 = new Disciplina(5, "Int. à Computacação", 4, 1, 2);
-        d3 = new Disciplina(6, "Lab. de Programação I", 4, 1, 4);
+        d1 = new Disciplina(1, "Programação I", 4, 1);
+        d2 = new Disciplina(5, "Int. à Computacação", 4, 1);
+        d3 = new Disciplina(6, "Lab. de Programação I", 4, 1);
 
         List<Disciplina> deps = new ArrayList<Disciplina>();
         deps.add(d1);
         deps.add(d2);
         deps.add(d3);
 
-        d7 = new Disciplina(7, "Programação II", 4, 2, 8, deps);
+        d7 = new Disciplina(7, "Programação II", 4, 2, deps);
     }
 
     @Test
     public void deveCompararIgualdadeUsandId() {
         assertTrue(d1.equals(d1));
-        assertTrue(d1.equals(new Disciplina(1, "Fake", 7, 7, 7)));
+        assertTrue(d1.equals(new Disciplina(1, "Fake", 7, 7)));
     }
 
     @Test
@@ -53,8 +53,6 @@ public class DisciplinaTest {
         assertEquals(4, node.get("creditos").intValue());
 
         assertEquals(2, node.get("periodo").intValue());
-
-        assertEquals(8, node.get("dificuldade").intValue());
 
         Iterator<JsonNode> deps = node.get("dependencias").elements();
         assertEquals("Programação I", deps.next().get("nome").textValue());

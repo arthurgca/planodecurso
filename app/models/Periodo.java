@@ -39,11 +39,4 @@ public class Periodo {
         return totalCreditos;
     }
 
-    public int getTotalDificuldade() {
-        int totalDificuldade = 0;
-        for (Disciplina disciplina : disciplinas) {
-            totalDificuldade += disciplina.dificuldade;
-        }
-        return totalDificuldade;
-    }
 }
