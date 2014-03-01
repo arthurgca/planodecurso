@@ -62,8 +62,8 @@ public final class Disciplina {
             throw new IllegalArgumentException(nome);
         }
 
-        public static Collection<Disciplina> getAll() {
-            return Collections.unmodifiableCollection(disciplinas.values());
+        public static Set<Disciplina> getAll() {
+            return new HashSet<Disciplina>(disciplinas.values());
         }
 
         public static void registrarDisciplina(int id, String nome, int creditos) {
