@@ -1,26 +1,14 @@
 package models;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.Collections;
+import java.util.*;
 
 public class PlanoDeCurso {
-
-    private static Map<Integer, Disciplina> disciplinas = new HashMap<Integer, Disciplina>();
 
     public Map<Integer, Periodo> periodos;
 
     public PlanoDeCurso() {
         periodos = new HashMap<Integer, Periodo>();
-        inicializaMapPeriodos();
-    }
 
-    private void inicializaMapPeriodos() {
         for (int i = 0; i < 15; i++) {
             periodos.put(i + 1, new Periodo(i + 1));
         }
@@ -28,7 +16,7 @@ public class PlanoDeCurso {
 
     public void alocar(int semestre, int disciplina)
         throws ErroDeAlocacaoException {
-        alocar(semestre, getDisciplina(disciplina));
+        alocar(semestre, Disciplina.Registro.get(disciplina));
     }
 
     public void alocar(int semestre, Disciplina disciplina)
@@ -54,7 +42,7 @@ public class PlanoDeCurso {
     }
 
     public void desalocar(int disciplina) {
-        desalocar(getDisciplina(disciplina));
+        desalocar(Disciplina.Registro.get(disciplina));
     }
 
     public void desalocar(Disciplina disciplina) {
@@ -103,7 +91,7 @@ public class PlanoDeCurso {
 
     public Set<Disciplina> getDisciplinasNaoAlocadas() {
         Set<Disciplina> disciplinasNaoAlocadas = new HashSet<Disciplina>();
-        disciplinasNaoAlocadas.addAll(getDisciplinas());
+        disciplinasNaoAlocadas.addAll(Disciplina.Registro.getAll());
         disciplinasNaoAlocadas.removeAll(getDisciplinasAlocadas());
         return disciplinasNaoAlocadas;
     }
@@ -115,31 +103,11 @@ public class PlanoDeCurso {
 
     public static PlanoDeCurso getPlanoInicial() throws ErroDeAlocacaoException {
         PlanoDeCurso planoInicial = new PlanoDeCurso();
-        for (Disciplina disciplina : getDisciplinas()) {
+        for (Disciplina disciplina : Disciplina.Registro.getAll()) {
             if (disciplina.periodo == 1) {
                 planoInicial.alocar(1, disciplina);
             }
         }
         return planoInicial;
-    }
-
-    public static Disciplina getDisciplina(int i) {
-        return disciplinas.get(i);
-    }
-
-    public static Collection<Disciplina> getDisciplinas() {
-        return Collections.unmodifiableCollection(disciplinas.values());
-    }
-
-    public static void registraDisciplina(int id, String nome, int creditos,
-                                          int periodo, int dificuldade) {
-        disciplinas.put(id, new Disciplina(id, nome, creditos, periodo,
-                                           dificuldade));
-    }
-
-    public static void registraDisciplina(int id, String nome, int creditos,
-                                          int periodo, int dificuldade, List<Disciplina> dependencias) {
-        disciplinas.put(id, new Disciplina(id, nome, creditos, periodo,
-                                           dificuldade, dependencias));
     }
 }

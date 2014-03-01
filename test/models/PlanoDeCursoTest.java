@@ -29,30 +29,30 @@ public class PlanoDeCursoTest {
 
     @Before
     public void setUp() throws JDOMException, IOException {
-        PlanoDeCurso.registraDisciplina(1, "Programação I", 4, 1, 4);
-        d1 = PlanoDeCurso.getDisciplina(1);
+        Disciplina.Registro.registrarDisciplina(1, "Programação I", 4, 1, 4);
+        d1 = Disciplina.Registro.get(1);
 
-        PlanoDeCurso.registraDisciplina(2, "Prod. de Textos", 4, 1, 2);
-        d2 = PlanoDeCurso.getDisciplina(2);
+        Disciplina.Registro.registrarDisciplina(2, "Prod. de Textos", 4, 1, 2);
+        d2 = Disciplina.Registro.get(2);
 
-        PlanoDeCurso.registraDisciplina(3, "Cálculo I", 4, 1, 7);
-        d3 = PlanoDeCurso.getDisciplina(3);
+        Disciplina.Registro.registrarDisciplina(3, "Cálculo I", 4, 1, 7);
+        d3 = Disciplina.Registro.get(3);
 
-        PlanoDeCurso.registraDisciplina(4, "Algebra Vetorial", 4, 1, 3);
-        d4 = PlanoDeCurso.getDisciplina(4);
+        Disciplina.Registro.registrarDisciplina(4, "Algebra Vetorial", 4, 1, 3);
+        d4 = Disciplina.Registro.get(4);
 
-        PlanoDeCurso.registraDisciplina(5, "Int. à Computação", 4, 1, 5);
-        d5 = PlanoDeCurso.getDisciplina(5);
+        Disciplina.Registro.registrarDisciplina(5, "Int. à Computação", 4, 1, 5);
+        d5 = Disciplina.Registro.get(5);
 
-        PlanoDeCurso.registraDisciplina(6, "Lab. de Programação I", 4, 1, 4);
-        d6 = PlanoDeCurso.getDisciplina(6);
+        Disciplina.Registro.registrarDisciplina(6, "Lab. de Programação I", 4, 1, 4);
+        d6 = Disciplina.Registro.get(6);
 
         List<Disciplina> deps = new ArrayList<Disciplina>();
         deps.add(d1);
         deps.add(d5);
         deps.add(d6);
-        PlanoDeCurso.registraDisciplina(7, "Programação II", 4, 2, 5, deps);
-        d7 = PlanoDeCurso.getDisciplina(7);
+        Disciplina.Registro.registrarDisciplina(7, "Programação II", 4, 2, 5, deps);
+        d7 = Disciplina.Registro.get(7);
 
         plano = new PlanoDeCurso();
     }
@@ -132,20 +132,20 @@ public class PlanoDeCursoTest {
     public void deveDesalocarDisciplinasRecursivamente() throws ErroDeAlocacaoException {
         List<Disciplina> depsD8 = new ArrayList<Disciplina>();
         depsD8.add(d3);
-        PlanoDeCurso.registraDisciplina(8, "Cálculo 2", 4, 2, 5, depsD8);
-        Disciplina d8 = PlanoDeCurso.getDisciplina(8);
+        Disciplina.Registro.registrarDisciplina(8, "Cálculo 2", 4, 2, 5, depsD8);
+        Disciplina d8 = Disciplina.Registro.get(8);
 
         List<Disciplina> depsD9 = new ArrayList<Disciplina>();
         depsD9.add(d3);
         depsD9.add(d4);
-        PlanoDeCurso.registraDisciplina(9, "Fund. de Fisica Classica", 4, 2, 5, depsD9);
-        Disciplina d9 = PlanoDeCurso.getDisciplina(9);
+        Disciplina.Registro.registrarDisciplina(9, "Fund. de Fisica Classica", 4, 2, 5, depsD9);
+        Disciplina d9 = Disciplina.Registro.get(9);
 
         List<Disciplina> depsD10 = new ArrayList<Disciplina>();
         depsD10.add(d8);
         depsD10.add(d9);
-        PlanoDeCurso.registraDisciplina(10, "Fund. de Fisica Moderna", 4, 2, 5, depsD10);
-        Disciplina d10 = PlanoDeCurso.getDisciplina(10);
+        Disciplina.Registro.registrarDisciplina(10, "Fund. de Fisica Moderna", 4, 2, 5, depsD10);
+        Disciplina d10 = Disciplina.Registro.get(10);
 
         plano.alocar(1, d3);
         plano.alocar(1, d4);

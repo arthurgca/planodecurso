@@ -1,28 +1,18 @@
 package controllers;
 
+import java.util.*;
+
+import models.*;
+
+import org.junit.*;
 import static org.fest.assertions.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
-import static play.mvc.Http.Status.OK;
-import static play.test.Helpers.callAction;
-import static play.test.Helpers.charset;
-import static play.test.Helpers.contentType;
-import static play.test.Helpers.fakeApplication;
-import static play.test.Helpers.status;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import models.Periodo;
-import models.PlanoDeCurso;
-
-import org.junit.Before;
-import org.junit.Test;
-
-import play.data.Form;
-import play.mvc.Http;
-import play.mvc.Result;
-import play.test.FakeRequest;
-import play.test.WithApplication;
+import play.mvc.*;
+import static play.mvc.Http.Status.*;
+import play.data.*;
+import play.test.*;
+import static play.test.Helpers.*;
 
 public class PlanoDeCursoAppTest extends WithApplication {
     @Before
@@ -93,9 +83,9 @@ public class PlanoDeCursoAppTest extends WithApplication {
 
         assertEquals(3, periodo.semestre);
 
-        assertEquals(PlanoDeCurso.getDisciplina(1), periodo.disciplinas
+        assertEquals(Disciplina.Registro.get(1), periodo.disciplinas
                      .get(0));
-        assertEquals(PlanoDeCurso.getDisciplina(7), periodo.disciplinas
+        assertEquals(Disciplina.Registro.get(7), periodo.disciplinas
                      .get(1));
     }
 
@@ -116,13 +106,13 @@ public class PlanoDeCursoAppTest extends WithApplication {
         assertEquals(1, periodo1.semestre);
         assertEquals(2, periodo2.semestre);
 
-        assertEquals(PlanoDeCurso.getDisciplina(1), periodo1.disciplinas
+        assertEquals(Disciplina.Registro.get(1), periodo1.disciplinas
                      .get(0));
-        assertEquals(PlanoDeCurso.getDisciplina(5), periodo1.disciplinas
+        assertEquals(Disciplina.Registro.get(5), periodo1.disciplinas
                      .get(1));
-        assertEquals(PlanoDeCurso.getDisciplina(6), periodo1.disciplinas
+        assertEquals(Disciplina.Registro.get(6), periodo1.disciplinas
                      .get(2));
-        assertEquals(PlanoDeCurso.getDisciplina(7), periodo2.disciplinas
+        assertEquals(Disciplina.Registro.get(7), periodo2.disciplinas
                      .get(0));
     }
 }

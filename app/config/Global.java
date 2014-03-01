@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Locale;
 
 import models.Disciplina;
-import models.PlanoDeCurso;
 
 import org.jdom2.Document;
 import org.jdom2.Element;
@@ -66,12 +65,15 @@ public class Global extends GlobalSettings {
 
             for (Element requisitoIdElement : element.getChild("requisitos")
                      .getChildren("id")) {
-                dependencias.add(PlanoDeCurso.getDisciplina(Integer
-                                                            .valueOf(requisitoIdElement.getValue())));
+                dependencias.add(Disciplina.Registro.get(Integer.valueOf(requisitoIdElement.getValue())));
             }
 
-            PlanoDeCurso.registraDisciplina(id, nome, creditos, periodo,
-                                            dificuldade, dependencias);
+            Disciplina.Registro.registrarDisciplina(id,
+                                                    nome,
+                                                    creditos,
+                                                    periodo,
+                                                    dificuldade,
+                                                    dependencias);
         }
     }
 
@@ -81,8 +83,7 @@ public class Global extends GlobalSettings {
                                 @Override
                                     public Disciplina parse(String input, Locale locale)
                                     throws ParseException {
-                                    return PlanoDeCurso.getDisciplina(Integer
-                                                                      .valueOf(input));
+                                    return Disciplina.Registro.get(Integer.valueOf(input));
                                 }
 
                                 @Override

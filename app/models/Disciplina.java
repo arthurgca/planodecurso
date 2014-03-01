@@ -1,7 +1,6 @@
 package models;
 
-import java.util.List;
-import java.util.ArrayList;
+import java.util.*;
 
 public final class Disciplina {
 
@@ -55,6 +54,30 @@ public final class Disciplina {
 
     public int hashCode() {
         return 7 * this.id;
+    }
+
+    public static class Registro {
+        private static Map<Integer, Disciplina> disciplinas = new HashMap<Integer, Disciplina>();
+
+        public static Disciplina get(int i) {
+            return disciplinas.get(i);
+        }
+
+        public static Collection<Disciplina> getAll() {
+            return Collections.unmodifiableCollection(disciplinas.values());
+        }
+
+        public static void registrarDisciplina(int id, String nome, int creditos,
+                                              int periodo, int dificuldade) {
+            disciplinas.put(id, new Disciplina(id, nome, creditos, periodo,
+                                               dificuldade));
+        }
+
+        public static void registrarDisciplina(int id, String nome, int creditos,
+                                              int periodo, int dificuldade, List<Disciplina> dependencias) {
+            disciplinas.put(id, new Disciplina(id, nome, creditos, periodo,
+                                               dificuldade, dependencias));
+        }
     }
 
 }
