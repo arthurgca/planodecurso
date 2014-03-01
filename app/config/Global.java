@@ -1,21 +1,16 @@
 package config;
 
 import java.util.*;
-import java.text.*;
 
 import play.*;
 import play.libs.*;
-import play.data.format.*;
-import play.data.format.Formatters.*;
 
 import models.*;
 
 public class Global extends GlobalSettings {
-
     @Override
     public void onStart(Application app) {
         configurarDadosIniciais(app);
-        configurarDataBinds(app);
     }
 
     private void configurarDadosIniciais(Application app) {
@@ -38,22 +33,5 @@ public class Global extends GlobalSettings {
                                                     disciplina.creditos,
                                                     requisitos);
         }
-    }
-
-    private void configurarDataBinds(Application app) {
-        Formatters.register(Disciplina.class,
-                            new SimpleFormatter<Disciplina>() {
-                                @Override
-                                    public Disciplina parse(String input, Locale locale)
-                                    throws ParseException {
-                                    return Disciplina.Registro.get(Integer.valueOf(input));
-                                }
-
-                                @Override
-                                    public String print(Disciplina disciplina, Locale locale) {
-                                    return String.valueOf(disciplina.id);
-                                }
-
-                            });
     }
 }
