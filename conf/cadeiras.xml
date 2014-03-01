@@ -16,7 +16,7 @@
 		</requisitos>
 	</cadeira>
 	
-	<cadeira nome="Cáĺculo I " id="3">
+	<cadeira nome="Cálculo I" id="3">
 		<dificuldade>7</dificuldade>
 		<creditos>4</creditos>
 		<periodo>1</periodo>
