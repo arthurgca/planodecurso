@@ -93,14 +93,18 @@ public class PlanoDeCurso {
         return null;
     }
 
-    public static PlanoDeCurso getPlanoInicial() throws ErroDeAlocacaoException {
+    public static PlanoDeCurso getPlanoInicial() {
         PlanoDeCurso planoInicial = new PlanoDeCurso();
-        planoInicial.alocarDisciplina(1, Disciplina.Registro.get("Programação I"));
-        planoInicial.alocarDisciplina(1, Disciplina.Registro.get("Leitura e Prod. de Textos"));
-        planoInicial.alocarDisciplina(1, Disciplina.Registro.get("Cálculo I"));
-        planoInicial.alocarDisciplina(1, Disciplina.Registro.get("Álgebra Vetorial"));
-        planoInicial.alocarDisciplina(1, Disciplina.Registro.get("Int. à Computação"));
-        planoInicial.alocarDisciplina(1, Disciplina.Registro.get("Lab. de Programação I"));
+        try {
+            planoInicial.alocarDisciplina(1, Disciplina.Registro.get("Programação I"));
+            planoInicial.alocarDisciplina(1, Disciplina.Registro.get("Leitura e Prod. de Textos"));
+            planoInicial.alocarDisciplina(1, Disciplina.Registro.get("Cálculo I"));
+            planoInicial.alocarDisciplina(1, Disciplina.Registro.get("Álgebra Vetorial"));
+            planoInicial.alocarDisciplina(1, Disciplina.Registro.get("Int. à Computação"));
+            planoInicial.alocarDisciplina(1, Disciplina.Registro.get("Lab. de Programação I"));
+        } catch (ErroDeAlocacaoException e) {
+            assert false; // nota: apenas um bug pode causar essa exceção
+        }
         return planoInicial;
     }
 }

@@ -133,7 +133,7 @@ public class PlanoDeCursoTest extends test.TestBase {
     }
 
     @Test
-    public void serializaCorretamente() throws ErroDeAlocacaoException {
+    public void serializaCorretamente() {
         JsonNode node = Json.toJson(PlanoDeCurso.getPlanoInicial());
         assertTrue(node.get("disciplinas").isArray());
         assertTrue(node.get("alocacoes").isArray());
