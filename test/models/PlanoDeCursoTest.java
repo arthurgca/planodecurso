@@ -1,17 +1,11 @@
 package models;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
-import java.io.IOException;
 import java.util.*;
 
-import org.jdom2.JDOMException;
-import org.junit.Before;
-import org.junit.Test;
+import static org.junit.Assert.*;
+import org.junit.*;
 
-import play.libs.Json;
+import play.libs.*;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
@@ -27,7 +21,7 @@ public class PlanoDeCursoTest {
     private PlanoDeCurso plano;
 
     @Before
-    public void setUp() throws JDOMException, IOException {
+    public void setUp()  {
         Disciplina.Registro.registrarDisciplina(1, "Programação I", 4);
         d1 = Disciplina.Registro.get(1);
 
@@ -171,22 +165,6 @@ public class PlanoDeCursoTest {
     }
 
     @Test
-    public void deveRetornarDisciplinasNaoAlocadas()
-        throws ErroDeAlocacaoException {
-        assertTrue(plano.getDisciplinasNaoAlocadas().contains(d1));
-        assertTrue(plano.getDisciplinasNaoAlocadas().contains(d2));
-        assertTrue(plano.getDisciplinasNaoAlocadas().contains(d3));
-        assertTrue(plano.getDisciplinasNaoAlocadas().contains(d4));
-
-        plano.alocar(1, d1);
-
-        assertFalse(plano.getDisciplinasNaoAlocadas().contains(d1));
-        assertTrue(plano.getDisciplinasNaoAlocadas().contains(d2));
-        assertTrue(plano.getDisciplinasNaoAlocadas().contains(d3));
-        assertTrue(plano.getDisciplinasNaoAlocadas().contains(d4));
-    }
-
-    @Test
     public void deveRetornarPlanoInicial() throws ErroDeAlocacaoException {
         PlanoDeCurso plano = PlanoDeCurso.getPlanoInicial();
         List<Disciplina> p1 = plano.getPeriodo(1).disciplinas;
@@ -207,7 +185,6 @@ public class PlanoDeCursoTest {
     public void deveSerializarCorretamente() throws ErroDeAlocacaoException {
         JsonNode node = Json.toJson(PlanoDeCurso.getPlanoInicial());
         assertTrue(node.get("disciplinasAlocadas").isArray());
-        assertTrue(node.get("disciplinasNaoAlocadas").isArray());
         assertTrue(node.get("periodos").isArray());
     }
 }

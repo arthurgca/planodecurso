@@ -88,13 +88,6 @@ public class PlanoDeCurso {
         return disciplinasAlocadas;
     }
 
-    public Set<Disciplina> getDisciplinasNaoAlocadas() {
-        Set<Disciplina> disciplinasNaoAlocadas = new HashSet<Disciplina>();
-        disciplinasNaoAlocadas.addAll(Disciplina.Registro.getAll());
-        disciplinasNaoAlocadas.removeAll(getDisciplinasAlocadas());
-        return disciplinasNaoAlocadas;
-    }
-
     public List<Periodo> getPeriodos() {
         return Collections.unmodifiableList(new ArrayList<Periodo>(periodos
                                                                    .values()));
