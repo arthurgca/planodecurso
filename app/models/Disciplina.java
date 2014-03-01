@@ -10,22 +10,18 @@ public final class Disciplina {
 
     public int creditos;
 
-    public List<Disciplina> dependencias;
+    public List<Disciplina> requisitos = new ArrayList<Disciplina>();
 
     public Disciplina(int id, String nome, int creditos) {
         this(id, nome, creditos, new ArrayList<Disciplina>());
     }
 
-    public Disciplina(int id, String nome, int creditos, List<Disciplina> dependencias) {
+    public Disciplina(int id, String nome, int creditos, List<Disciplina> requisitos) {
         this.id = id;
         this.nome = nome;
         this.creditos = creditos;
+        this.requisitos = requisitos;
 
-        this.dependencias = new ArrayList<Disciplina>();
-
-        for (Disciplina dependencia : dependencias) {
-            this.dependencias.add(dependencia);
-        }
     }
 
     public boolean equals(Object obj) {
@@ -72,8 +68,8 @@ public final class Disciplina {
             disciplinas.put(id, new Disciplina(id, nome, creditos));
         }
 
-        public static void registrarDisciplina(int id, String nome, int creditos, List<Disciplina> dependencias) {
-            disciplinas.put(id, new Disciplina(id, nome, creditos, dependencias));
+        public static void registrarDisciplina(int id, String nome, int creditos, List<Disciplina> requisitos) {
+            disciplinas.put(id, new Disciplina(id, nome, creditos, requisitos));
         }
     }
 

@@ -21,11 +21,10 @@ public class PlanoDeCurso {
 
     public void alocar(int semestre, Disciplina disciplina)
         throws ErroDeAlocacaoException {
-        if (!disciplina.dependencias.isEmpty()) {
-            for (Disciplina dependencia : disciplina.dependencias) {
-                if (!getDisciplinasAlocadas().contains(dependencia)) {
-                    throw new ErroDeAlocacaoException(
-                                                      "Pré-requisitos da disciplina não foram satisfeitos.");
+        if (!disciplina.requisitos.isEmpty()) {
+            for (Disciplina requisito : disciplina.requisitos) {
+                if (!getDisciplinasAlocadas().contains(requisito)) {
+                    throw new ErroDeAlocacaoException("Pré-requisitos da disciplina não foram satisfeitos.");
                 }
             }
         }
@@ -50,22 +49,22 @@ public class PlanoDeCurso {
             Periodo periodo = periodos.get(i);
             if (periodo.disciplinas.contains(disciplina)) {
                 periodo.desalocar(disciplina);
-                removerDependencias(disciplina);
+                removerRequisitos(disciplina);
             }
         }
     }
 
-    private void removerDependencias(Disciplina disciplina) {
+    private void removerRequisitos(Disciplina disciplina) {
         for (int i : periodos.keySet()) {
             Periodo periodo = periodos.get(i);
-            List<Disciplina> dependencias = new ArrayList<Disciplina>();
+            List<Disciplina> requisitos = new ArrayList<Disciplina>();
             for (Disciplina disc : periodo.disciplinas) {
-                if (disc.dependencias.contains(disciplina)) {
-                    dependencias.add(disc);
+                if (disc.requisitos.contains(disciplina)) {
+                    requisitos.add(disc);
                 }
             }
-            for (Disciplina dependencia : dependencias) {
-                desalocar(dependencia);
+            for (Disciplina requisito : requisitos) {
+                desalocar(requisito);
             }
         }
     }

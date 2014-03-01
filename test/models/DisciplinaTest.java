@@ -52,7 +52,7 @@ public class DisciplinaTest {
 
         assertEquals(4, node.get("creditos").intValue());
 
-        Iterator<JsonNode> deps = node.get("dependencias").elements();
+        Iterator<JsonNode> deps = node.get("requisitos").elements();
         assertEquals("Programação I", deps.next().get("nome").textValue());
         assertEquals("Int. à Computacação", deps.next().get("nome").textValue());
         assertEquals("Lab. de Programação I", deps.next().get("nome")
