@@ -2,187 +2,126 @@ package models;
 
 import java.util.*;
 
-import static org.junit.Assert.*;
 import org.junit.*;
+import static org.junit.Assert.*;
 
 import play.libs.*;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
-public class PlanoDeCursoTest {
+public class PlanoDeCursoTest extends test.TestBase {
 
-    private Disciplina d1;
-    private Disciplina d2;
-    private Disciplina d3;
-    private Disciplina d4;
-    private Disciplina d5;
-    private Disciplina d6;
-    private Disciplina d7;
-    private PlanoDeCurso plano;
+    PlanoDeCurso plano0;
+    PlanoDeCurso plano1;
+    PlanoDeCurso plano2;
 
     @Before
-    public void setUp()  {
-        Disciplina.Registro.registrarDisciplina(1, "Programação I", 4);
-        d1 = Disciplina.Registro.get(1);
+    public void setUp() throws ErroDeAlocacaoException {
+        plano0 = new PlanoDeCurso();
 
-        Disciplina.Registro.registrarDisciplina(2, "Leitura e Prod. de Textos", 4);
-        d2 = Disciplina.Registro.get(2);
+        plano1 = new PlanoDeCurso();
+        plano1.alocarDisciplina(1, disciplina("Programação I"));
+        plano1.alocarDisciplina(1, disciplina("Leitura e Prod. de Textos"));
+        plano1.alocarDisciplina(1, disciplina("Cálculo I"));
+        plano1.alocarDisciplina(1, disciplina("Álgebra Vetorial"));
+        plano1.alocarDisciplina(1, disciplina("Int. à Computação"));
+        plano1.alocarDisciplina(1, disciplina("Lab. de Programação I"));
 
-        Disciplina.Registro.registrarDisciplina(3, "Cálculo I", 4);
-        d3 = Disciplina.Registro.get(3);
-
-        Disciplina.Registro.registrarDisciplina(4, "Álgebra Vetorial", 4);
-        d4 = Disciplina.Registro.get(4);
-
-        Disciplina.Registro.registrarDisciplina(5, "Int. à Computação", 4);
-        d5 = Disciplina.Registro.get(5);
-
-        Disciplina.Registro.registrarDisciplina(6, "Lab. de Programação I", 4);
-        d6 = Disciplina.Registro.get(6);
-
-        Set<Disciplina> deps = new HashSet<Disciplina>();
-        deps.add(d1);
-        deps.add(d5);
-        deps.add(d6);
-        Disciplina.Registro.registrarDisciplina(7, "Programação II", 4, deps);
-        d7 = Disciplina.Registro.get(7);
-
-        plano = new PlanoDeCurso();
+        plano2 = new PlanoDeCurso();
+        plano2.alocarDisciplina(1, disciplina("Programação I"));
+        plano2.alocarDisciplina(1, disciplina("Leitura e Prod. de Textos"));
+        plano2.alocarDisciplina(1, disciplina("Cálculo I"));
+        plano2.alocarDisciplina(1, disciplina("Álgebra Vetorial"));
+        plano2.alocarDisciplina(1, disciplina("Int. à Computação"));
+        plano2.alocarDisciplina(1, disciplina("Lab. de Programação I"));
+        plano2.alocarDisciplina(2, disciplina("Programação II"));
+        plano2.alocarDisciplina(2, disciplina("Lab. de Programação II"));
+        plano2.alocarDisciplina(2, disciplina("Matemática Discreta"));
+        plano2.alocarDisciplina(2, disciplina("Teoria dos Grafos"));
+        plano2.alocarDisciplina(2, disciplina("Fund. de Física Clássica"));
+        plano2.alocarDisciplina(2, disciplina("Cálculo II"));
     }
 
     @Test
-    public void deveRetornarPeriodos() throws ErroDeAlocacaoException {
-        assertEquals(15, plano.getPeriodos().size());
+    public void retornarDisciplinas() {
+        assertEquals(0, plano0.getDisciplinas().size());
+        assertEquals(6, plano1.getDisciplinas().size());
+        assertEquals(12, plano2.getDisciplinas().size());
     }
 
     @Test
-    public void deveRetornarPeriodo() throws ErroDeAlocacaoException {
-        assertEquals(2, plano.getPeriodo(2).semestre);
-    }
+    public void retornarDisciplinasSemestre() {
+        assertEquals(0, plano0.getDisciplinas(1).size());
 
-    @Test(expected = IllegalArgumentException.class)
-    public void naoDeveRetornarPeriodoZero() throws ErroDeAlocacaoException {
-        plano.getPeriodo(0);
+        assertEquals(6, plano1.getDisciplinas(1).size());
+        assertEquals(0, plano1.getDisciplinas(2).size());
+
+        assertEquals(6, plano2.getDisciplinas(1).size());
+        assertEquals(6, plano2.getDisciplinas(2).size());
+        assertEquals(0, plano2.getDisciplinas(3).size());
     }
 
     @Test
-    public void deveAlocarDisciplina() throws ErroDeAlocacaoException {
-        assertFalse(plano.getPeriodo(1).disciplinas.contains(d1));
+    public void alocarDisciplina() throws ErroDeAlocacaoException {
+        plano0.alocarDisciplina(1, disciplina("Programação I"));
+        assertTrue(plano0.getDisciplinas(1).contains(disciplina("Programação I")));
 
-        plano.alocar(1, d1);
+        plano1.alocarDisciplina(2, disciplina("Programação II"));
+        assertTrue(plano1.getDisciplinas(2).contains(disciplina("Programação II")));
 
-        assertTrue(plano.getPeriodo(1).disciplinas.contains(d1));
+        plano2.alocarDisciplina(3, disciplina("Estrutura de Dados"));
+        assertTrue(plano2.getDisciplinas(3).contains(disciplina("Estrutura de Dados")));
     }
 
     @Test(expected = ErroDeAlocacaoException.class)
-    public void naoDeveAlocarDisciplinaRepetida()
-        throws ErroDeAlocacaoException {
-        plano.alocar(1, d1);
-        plano.alocar(2, d1);
+    public void alocarDisciplinaMaximoCreditos() throws ErroDeAlocacaoException {
+        plano2.alocarDisciplina(2, disciplina("Gerência da Informação"));
+        plano2.alocarDisciplina(2, disciplina("Metodologia Científica"));
     }
 
     @Test(expected = ErroDeAlocacaoException.class)
-    public void naoDeveAlocarDisciplinasEmPeriodosCom28Creditos()
-        throws ErroDeAlocacaoException {
-        plano.alocar(3, new Disciplina(998, "teste1", 20));
-        plano.alocar(3, new Disciplina(999, "teste2", 20));
+    public void alocarDisciplinaPreRequisitosInsatisfeitos() throws ErroDeAlocacaoException {
+        plano2.alocarDisciplina(3, disciplina("Projeto em Computação II"));
     }
 
     @Test(expected = ErroDeAlocacaoException.class)
-    public void naoDeveAlocarDisciplinasComRequisitosNaoSatisfeitos()
-        throws ErroDeAlocacaoException {
-        plano.alocar(1, d1);
-        plano.alocar(2, d7);
+    public void alocarDisciplinaRepetida() throws ErroDeAlocacaoException {
+        plano0.alocarDisciplina(1, disciplina("Programação I"));
+        plano0.alocarDisciplina(2, disciplina("Programação I"));
     }
 
     @Test
-    public void deveDesalocarDisciplina() throws ErroDeAlocacaoException {
-        plano.alocar(1, d1);
-        assertTrue(plano.getPeriodo(1).disciplinas.contains(d1));
+    public void desalocarDisciplina() {
+        plano1.desalocarDisciplina(disciplina("Programação I"));
+        assertFalse(plano1.getDisciplinas().contains(disciplina("Programação I")));
 
-        plano.desalocar(d1);
-
-        assertFalse(plano.getPeriodo(1).disciplinas.contains(d1));
+        plano2.desalocarDisciplina(disciplina("Programação II"));
+        assertFalse(plano2.getDisciplinas().contains(disciplina("Programação II")));
     }
 
     @Test
-    public void deveDesalocarDisciplinasDependentesAoDesalocarDisciplina()
-        throws ErroDeAlocacaoException {
+    public void desalocarDisciplinaRecursivamente() throws ErroDeAlocacaoException {
+        PlanoDeCurso plano = new PlanoDeCurso();
 
-        plano.alocar(1, d1);
-        plano.alocar(1, d5);
-        plano.alocar(1, d6);
-        plano.alocar(2, d7);
+        plano.alocarDisciplina(1, disciplina("Cálculo I"));
+        plano.alocarDisciplina(1, disciplina("Álgebra Vetorial"));
+        plano.alocarDisciplina(2, disciplina("Fund. de Física Clássica"));
+        plano.alocarDisciplina(2, disciplina("Cálculo II"));
+        plano.alocarDisciplina(3, disciplina("Fund. de Física Moderna"));
+        plano.alocarDisciplina(3, disciplina("Gerência da Informação"));
 
-        assertTrue(plano.getPeriodo(2).disciplinas.contains(d7));
+        plano.desalocarDisciplina(disciplina("Cálculo I"));
 
-        plano.desalocar(d1);
+        assertFalse(plano.getDisciplinas().contains(disciplina("Cálculo I")));
+        assertFalse(plano.getDisciplinas().contains(disciplina("Fund. de Física Clássica")));
+        assertFalse(plano.getDisciplinas().contains(disciplina("Cálculo II")));
+        assertFalse(plano.getDisciplinas().contains(disciplina("Fund. de Física Moderna")));
 
-        assertFalse(plano.getPeriodo(2).disciplinas.contains(d7));
+        assertTrue(plano.getDisciplinas().contains(disciplina("Gerência da Informação")));
     }
 
     @Test
-    public void deveDesalocarDisciplinasRecursivamente() throws ErroDeAlocacaoException {
-        Set<Disciplina> depsD8 = new HashSet<Disciplina>();
-        depsD8.add(d3);
-        Disciplina.Registro.registrarDisciplina(8, "Cálculo 2", 4, depsD8);
-        Disciplina d8 = Disciplina.Registro.get(8);
-
-        Set<Disciplina> depsD9 = new HashSet<Disciplina>();
-        depsD9.add(d3);
-        depsD9.add(d4);
-        Disciplina.Registro.registrarDisciplina(9, "Fund. de Fisica Classica", 4, depsD9);
-        Disciplina d9 = Disciplina.Registro.get(9);
-
-        Set<Disciplina> depsD10 = new HashSet<Disciplina>();
-        depsD10.add(d8);
-        depsD10.add(d9);
-        Disciplina.Registro.registrarDisciplina(10, "Fund. de Fisica Moderna", 4, depsD10);
-        Disciplina d10 = Disciplina.Registro.get(10);
-
-        plano.alocar(1, d3);
-        plano.alocar(1, d4);
-        plano.alocar(2, d8);
-        plano.alocar(2, d9);
-        plano.alocar(3, d10);
-
-        assertTrue(plano.getPeriodo(3).disciplinas.contains(d10));
-        plano.desalocar(d3);
-        assertFalse(plano.getPeriodo(1).disciplinas.contains(d3));
-        assertFalse(plano.getPeriodo(2).disciplinas.contains(d8));
-        assertFalse(plano.getPeriodo(2).disciplinas.contains(d9));
-        assertFalse(plano.getPeriodo(3).disciplinas.contains(d10));
-    }
-
-    @Test
-    public void deveRetornarDisciplinasAlocadas()
-        throws ErroDeAlocacaoException {
-        assertTrue(plano.getDisciplinas().isEmpty());
-
-        plano.alocar(1, d1);
-
-        assertTrue(plano.getDisciplinas().contains(d1));
-    }
-
-    @Test
-    public void deveRetornarPlanoInicial() throws ErroDeAlocacaoException {
-        PlanoDeCurso plano = PlanoDeCurso.getPlanoInicial();
-        List<Disciplina> p1 = plano.getPeriodo(1).disciplinas;
-
-        assertTrue((p1).contains(d1));
-        assertTrue((p1).contains(d2));
-        assertTrue((p1).contains(d3));
-        assertTrue((p1).contains(d4));
-        assertTrue((p1).contains(d5));
-        assertTrue((p1).contains(d6));
-
-        assertFalse((p1).contains(d7));
-
-        assertTrue(plano.getPeriodo(2).disciplinas.isEmpty());
-    }
-
-    @Test
-    public void deveSerializarCorretamente() throws ErroDeAlocacaoException {
+    public void serializaCorretamente() throws ErroDeAlocacaoException {
         JsonNode node = Json.toJson(PlanoDeCurso.getPlanoInicial());
         assertTrue(node.get("disciplinas").isArray());
         assertTrue(node.get("periodos").isArray());
