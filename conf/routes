@@ -3,11 +3,14 @@
 # ~~~~
 
 # Home page
-GET	/						controllers.Application.index()
+GET     /                                               controllers.PlanoDeCursoApp.index()
 
-GET	/planoInicial					controllers.PlanoDeCursoApp.planoInicial()
-POST	/alocarDisciplina/:semestre/:disciplina	controllers.PlanoDeCursoApp.alocarDisciplina(semestre: Integer, disciplina: Integer)
-POST	/desalocarDisciplina/:disciplina		controllers.PlanoDeCursoApp.desalocarDisciplina(disciplina: Integer)
+# Disciplinas
+GET     /disciplinas                                    controllers.DisciplinasCtrl.listar()
+# Curso
+GET     /curso                                          controllers.PlanoDeCursoCtrl.exibir()
+POST    /curso/:semestre/:disciplina                    controllers.AlocacoesCtrl.criar(semestre: Integer, disciplina: Integer)
+DELETE  /curso/:semestre/:disciplina                    controllers.AlocacoesCtrl.deletar(semestre: Integer, disciplina: Integer)
 
-# Map static resources from the /public folder to the /assets URL path
-GET	/assets/*file					controllers.Assets.at(path="/public", file)
+# Recursos estáticos
+GET     /assets/*file                                   controllers.Assets.at(path="/public", file)
