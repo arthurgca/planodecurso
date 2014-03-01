@@ -20,7 +20,7 @@ public class PlanoDeCursoApp extends Controller {
     public static Result alocarDisciplina(int semestre, int disciplinaId) {
         PlanoDeCurso planoDeCurso = form.bindFromRequest().get();
         try {
-            planoDeCurso.alocar(semestre, disciplinaId);
+            planoDeCurso.alocarDisciplina(semestre, disciplinaId);
             return ok(Json.toJson(planoDeCurso));
         } catch (ErroDeAlocacaoException e) {
             ObjectNode result = Json.newObject();
@@ -31,7 +31,7 @@ public class PlanoDeCursoApp extends Controller {
 
     public static Result desalocarDisciplina(int disciplinaId) {
         PlanoDeCurso planoDeCurso = form.bindFromRequest().get();
-        planoDeCurso.desalocar(disciplinaId);
+        planoDeCurso.desalocarDisciplina(disciplinaId);
         return ok(Json.toJson(planoDeCurso));
     }
 

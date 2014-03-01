@@ -14,16 +14,35 @@ public class PlanoDeCurso {
         }
     }
 
-    public void alocar(int semestre, int disciplina)
-        throws ErroDeAlocacaoException {
-        alocar(semestre, Disciplina.Registro.get(disciplina));
+    public Set<Disciplina> getDisciplinas() {
+        Set<Disciplina> disciplinas = new HashSet<Disciplina>();
+        for (int i : periodos.keySet()) {
+            Periodo periodo = periodos.get(i);
+            for (Disciplina disciplina : periodo.disciplinas) {
+                disciplinas.add(disciplina);
+            }
+        }
+        return disciplinas;
     }
 
-    public void alocar(int semestre, Disciplina disciplina)
+   public Set<Disciplina> getDisciplinas(int semestre) {
+        Set<Disciplina> disciplinas = new HashSet<Disciplina>();
+        for (Disciplina disciplina : periodos.get(semestre).disciplinas) {
+            disciplinas.add(disciplina);
+        }
+        return disciplinas;
+    }
+
+    public void alocarDisciplina(int semestre, int disciplina)
+        throws ErroDeAlocacaoException {
+        alocarDisciplina(semestre, Disciplina.Registro.get(disciplina));
+    }
+
+    public void alocarDisciplina(int semestre, Disciplina disciplina)
         throws ErroDeAlocacaoException {
         if (!disciplina.requisitos.isEmpty()) {
             for (Disciplina requisito : disciplina.requisitos) {
-                if (!getDisciplinasAlocadas().contains(requisito)) {
+                if (!getDisciplinas().contains(requisito)) {
                     throw new ErroDeAlocacaoException("Pré-requisitos da disciplina não foram satisfeitos.");
                 }
             }
@@ -40,11 +59,11 @@ public class PlanoDeCurso {
         periodos.get(semestre).alocar(disciplina);
     }
 
-    public void desalocar(int disciplina) {
-        desalocar(Disciplina.Registro.get(disciplina));
+    public void desalocarDisciplina(int disciplina) {
+        desalocarDisciplina(Disciplina.Registro.get(disciplina));
     }
 
-    public void desalocar(Disciplina disciplina) {
+    public void desalocarDisciplina(Disciplina disciplina) {
         for (int i : periodos.keySet()) {
             Periodo periodo = periodos.get(i);
             if (periodo.disciplinas.contains(disciplina)) {
@@ -64,7 +83,7 @@ public class PlanoDeCurso {
                 }
             }
             for (Disciplina requisito : requisitos) {
-                desalocar(requisito);
+                desalocarDisciplina(requisito);
             }
         }
     }
@@ -76,18 +95,6 @@ public class PlanoDeCurso {
         return periodos.get(semestre);
     }
 
-    public Set<Disciplina> getDisciplinasAlocadas() {
-        Set<Disciplina> disciplinasAlocadas = new HashSet<Disciplina>();
-        ;
-        for (int i : periodos.keySet()) {
-            Periodo periodo = periodos.get(i);
-            for (Disciplina disciplina : periodo.disciplinas) {
-                disciplinasAlocadas.add(disciplina);
-            }
-        }
-        return disciplinasAlocadas;
-    }
-
     public List<Periodo> getPeriodos() {
         return Collections.unmodifiableList(new ArrayList<Periodo>(periodos
                                                                    .values()));
@@ -95,12 +102,12 @@ public class PlanoDeCurso {
 
     public static PlanoDeCurso getPlanoInicial() throws ErroDeAlocacaoException {
         PlanoDeCurso planoInicial = new PlanoDeCurso();
-        planoInicial.alocar(1, Disciplina.Registro.get("Programação I"));
-        planoInicial.alocar(1, Disciplina.Registro.get("Leitura e Prod. de Textos"));
-        planoInicial.alocar(1, Disciplina.Registro.get("Cálculo I"));
-        planoInicial.alocar(1, Disciplina.Registro.get("Álgebra Vetorial"));
-        planoInicial.alocar(1, Disciplina.Registro.get("Int. à Computação"));
-        planoInicial.alocar(1, Disciplina.Registro.get("Lab. de Programação I"));
+        planoInicial.alocarDisciplina(1, Disciplina.Registro.get("Programação I"));
+        planoInicial.alocarDisciplina(1, Disciplina.Registro.get("Leitura e Prod. de Textos"));
+        planoInicial.alocarDisciplina(1, Disciplina.Registro.get("Cálculo I"));
+        planoInicial.alocarDisciplina(1, Disciplina.Registro.get("Álgebra Vetorial"));
+        planoInicial.alocarDisciplina(1, Disciplina.Registro.get("Int. à Computação"));
+        planoInicial.alocarDisciplina(1, Disciplina.Registro.get("Lab. de Programação I"));
         return planoInicial;
     }
 }

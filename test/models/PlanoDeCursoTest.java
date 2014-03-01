@@ -157,11 +157,11 @@ public class PlanoDeCursoTest {
     @Test
     public void deveRetornarDisciplinasAlocadas()
         throws ErroDeAlocacaoException {
-        assertTrue(plano.getDisciplinasAlocadas().isEmpty());
+        assertTrue(plano.getDisciplinas().isEmpty());
 
         plano.alocar(1, d1);
 
-        assertTrue(plano.getDisciplinasAlocadas().contains(d1));
+        assertTrue(plano.getDisciplinas().contains(d1));
     }
 
     @Test
@@ -184,7 +184,7 @@ public class PlanoDeCursoTest {
     @Test
     public void deveSerializarCorretamente() throws ErroDeAlocacaoException {
         JsonNode node = Json.toJson(PlanoDeCurso.getPlanoInicial());
-        assertTrue(node.get("disciplinasAlocadas").isArray());
+        assertTrue(node.get("disciplinas").isArray());
         assertTrue(node.get("periodos").isArray());
     }
 }
