@@ -4,33 +4,27 @@ import java.util.*;
 
 public class PlanoDeCurso {
 
-    public Map<Integer, Periodo> periodos;
+    public Set<Alocacao> alocacoes = new HashSet<Alocacao>();
 
     public PlanoDeCurso() {
-        periodos = new HashMap<Integer, Periodo>();
-
-        for (int i = 0; i < 15; i++) {
-            periodos.put(i + 1, new Periodo(i + 1));
-        }
     }
 
     public Set<Disciplina> getDisciplinas() {
         Set<Disciplina> disciplinas = new HashSet<Disciplina>();
-        for (int i : periodos.keySet()) {
-            Periodo periodo = periodos.get(i);
-            for (Disciplina disciplina : periodo.disciplinas) {
-                disciplinas.add(disciplina);
-            }
+        for (Alocacao alocacao : alocacoes) {
+            disciplinas.add(alocacao.disciplina);
         }
         return disciplinas;
     }
 
    public Set<Disciplina> getDisciplinas(int semestre) {
-        Set<Disciplina> disciplinas = new HashSet<Disciplina>();
-        for (Disciplina disciplina : periodos.get(semestre).disciplinas) {
-            disciplinas.add(disciplina);
-        }
-        return disciplinas;
+       Set<Disciplina> disciplinas = new HashSet<Disciplina>();
+       for (Alocacao alocacao : alocacoes) {
+           if (alocacao.semestre == semestre) {
+               disciplinas.add(alocacao.disciplina);
+           }
+       }
+       return disciplinas;
     }
 
     public int getTotalCreditos(int semestre) {
@@ -41,13 +35,11 @@ public class PlanoDeCurso {
         return totalCreditos;
     }
 
-    public void alocarDisciplina(int semestre, int disciplina)
-        throws ErroDeAlocacaoException {
+    public void alocarDisciplina(int semestre, int disciplina) throws ErroDeAlocacaoException {
         alocarDisciplina(semestre, Disciplina.Registro.get(disciplina));
     }
 
-    public void alocarDisciplina(int semestre, Disciplina disciplina)
-        throws ErroDeAlocacaoException {
+    public void alocarDisciplina(int semestre, Disciplina disciplina) throws ErroDeAlocacaoException {
         if (!disciplina.requisitos.isEmpty()) {
             for (Disciplina requisito : disciplina.requisitos) {
                 if (!getDisciplinas().contains(requisito)) {
@@ -58,12 +50,11 @@ public class PlanoDeCurso {
         if ((getTotalCreditos(semestre) + disciplina.creditos) > 28) {
             throw new ErroDeAlocacaoException("Período deve ter menos de 28 créditos.");
         }
-        for (int i : periodos.keySet()) {
-            if (periodos.get(i).disciplinas.contains(disciplina)) {
-                throw new ErroDeAlocacaoException("Disciplina já alocada.");
-            }
+        if (getAlocacao(disciplina) != null) {
+            throw new ErroDeAlocacaoException("Disciplina já alocada.");
         }
-        periodos.get(semestre).alocar(disciplina);
+
+        alocacoes.add(new Alocacao(semestre, disciplina));
     }
 
     public void desalocarDisciplina(int disciplina) {
@@ -71,40 +62,35 @@ public class PlanoDeCurso {
     }
 
     public void desalocarDisciplina(Disciplina disciplina) {
-        for (int i : periodos.keySet()) {
-            Periodo periodo = periodos.get(i);
-            if (periodo.disciplinas.contains(disciplina)) {
-                periodo.desalocar(disciplina);
-                removerRequisitos(disciplina);
-            }
+        Alocacao alocacao = getAlocacao(disciplina);
+        if (alocacao != null) {
+            desalocarDisciplinaRecursivamente(alocacao);
         }
     }
 
-    private void removerRequisitos(Disciplina disciplina) {
-        for (int i : periodos.keySet()) {
-            Periodo periodo = periodos.get(i);
-            List<Disciplina> requisitos = new ArrayList<Disciplina>();
-            for (Disciplina disc : periodo.disciplinas) {
-                if (disc.requisitos.contains(disciplina)) {
-                    requisitos.add(disc);
-                }
+    private void desalocarDisciplinaRecursivamente(Alocacao alocacao) {
+        alocacoes.remove(alocacao);
+
+        List<Alocacao> filaRemocao = new ArrayList<Alocacao>();
+
+        for (Alocacao i : alocacoes) {
+            if (i.disciplina.requisitos.contains(alocacao.disciplina)) {
+                filaRemocao.add(i);
             }
-            for (Disciplina requisito : requisitos) {
-                desalocarDisciplina(requisito);
-            }
+        }
+
+        for (Alocacao i : filaRemocao) {
+            desalocarDisciplinaRecursivamente(i);
         }
     }
 
-    public Periodo getPeriodo(int semestre) {
-        if (semestre < 1) {
-            throw new IllegalArgumentException("o semestre deve ser >= 1");
+    private Alocacao getAlocacao(Disciplina disciplina) {
+        for (Alocacao alocacao : alocacoes) {
+            if (alocacao.disciplina.equals(disciplina)) {
+                return alocacao;
+            }
         }
-        return periodos.get(semestre);
-    }
-
-    public List<Periodo> getPeriodos() {
-        return Collections.unmodifiableList(new ArrayList<Periodo>(periodos
-                                                                   .values()));
+        return null;
     }
 
     public static PlanoDeCurso getPlanoInicial() throws ErroDeAlocacaoException {
