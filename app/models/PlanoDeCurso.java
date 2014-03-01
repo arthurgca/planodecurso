@@ -33,6 +33,14 @@ public class PlanoDeCurso {
         return disciplinas;
     }
 
+    public int getTotalCreditos(int semestre) {
+        int totalCreditos = 0;
+        for (Disciplina disciplina : getDisciplinas(semestre)) {
+            totalCreditos += disciplina.creditos;
+        }
+        return totalCreditos;
+    }
+
     public void alocarDisciplina(int semestre, int disciplina)
         throws ErroDeAlocacaoException {
         alocarDisciplina(semestre, Disciplina.Registro.get(disciplina));
@@ -47,9 +55,8 @@ public class PlanoDeCurso {
                 }
             }
         }
-        if ((periodos.get(semestre).getTotalCreditos() + disciplina.creditos) > 28) {
-            throw new ErroDeAlocacaoException(
-                                              "Período deve ter menos de 28 créditos.");
+        if ((getTotalCreditos(semestre) + disciplina.creditos) > 28) {
+            throw new ErroDeAlocacaoException("Período deve ter menos de 28 créditos.");
         }
         for (int i : periodos.keySet()) {
             if (periodos.get(i).disciplinas.contains(disciplina)) {

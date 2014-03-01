@@ -62,6 +62,18 @@ public class PlanoDeCursoTest extends test.TestBase {
     }
 
     @Test
+    public void retornarTotalCreditos() {
+        assertEquals(0, plano0.getTotalCreditos(1));
+
+        assertEquals(24, plano1.getTotalCreditos(1));
+        assertEquals(0, plano1.getTotalCreditos(2));
+
+        assertEquals(24, plano2.getTotalCreditos(1));
+        assertEquals(22, plano2.getTotalCreditos(2));
+        assertEquals(0, plano2.getTotalCreditos(3));
+    }
+
+    @Test
     public void alocarDisciplina() throws ErroDeAlocacaoException {
         plano0.alocarDisciplina(1, disciplina("Programação I"));
         assertTrue(plano0.getDisciplinas(1).contains(disciplina("Programação I")));

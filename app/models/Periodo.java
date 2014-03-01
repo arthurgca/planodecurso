@@ -31,12 +31,4 @@ public class Periodo {
         this.disciplinas = disciplinas;
     }
 
-    public int getTotalCreditos() {
-        int totalCreditos = 0;
-        for (Disciplina disciplina : disciplinas) {
-            totalCreditos += disciplina.creditos;
-        }
-        return totalCreditos;
-    }
-
 }
