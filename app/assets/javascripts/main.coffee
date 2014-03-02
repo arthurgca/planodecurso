@@ -37,8 +37,8 @@ mainApp.service "PlanoDeCurso", ($http, Disciplina) ->
   @alocarDisciplina = (semestre, disciplina) ->
     $http method: "POST", url: "/curso/#{semestre}/#{disciplina.id}"
 
-  @moverDisciplina = (semestreOrigem, disciplina, semestreDestino) ->
-    $http method: "PUT", url: "/curso/#{semestreDestino}/#{disciplina.id}"
+  @moverDisciplina = (semestre, disciplina) ->
+    $http method: "PUT", url: "/curso/#{semestre}/#{disciplina.id}"
 
   @desalocarDisciplina = (semestre, disciplina) ->
     $http(method: "DELETE", url: "/curso/#{semestre}/#{disciplina.id}")
@@ -91,12 +91,12 @@ mainApp.controller "ModalAlocarDisciplinaCtrl", ($scope, $modalInstance, semestr
   $scope.cancelar = ->
     $modalInstance.dismiss 'cancelar'
 
-mainApp.controller "PlanoDeCursoCtrl", ($scope, $modal, PlanoDeCurso, Disciplina) ->
+mainApp.controller "PlanoDeCursoCtrl", ($scope, $modal, $sce, PlanoDeCurso, Disciplina) ->
 
   $scope.alertas = []
 
   criarAlerta = (type, msg) ->
-    $scope.alertas[0] = {type: type, msg: msg}
+    $scope.alertas[0] = type: type, msg: $sce.trustAsHtml msg
 
   $scope.fecharAlerta = (index) ->
     $scope.alertas.splice(index)
@@ -112,14 +112,7 @@ mainApp.controller "PlanoDeCursoCtrl", ($scope, $modal, PlanoDeCurso, Disciplina
         disciplinas: -> PlanoDeCurso.disciplinasDisponiveis()
     modalInstance.result
       .then (disciplina) ->
-        PlanoDeCurso.alocarDisciplina(semestre, disciplina)
-          .success ->
-            PlanoDeCurso.query()
-            criarAlerta "success", "A disciplina #{disciplina.nome} foi alocada"
-          .error (data) ->
-            criarAlerta "danger", "Ocorreu um problema ao alocar a disciplina #{disciplina.nome}: #{data.message}"
-      , ->
-        console.log "alocação de disciplina cancelada"
+        processaRequisicao (PlanoDeCurso.alocarDisciplina semestre, disciplina)
 
   $scope.desalocarDisciplina = (semestre, disciplina) ->
     requisitoIds = []
@@ -128,13 +121,19 @@ mainApp.controller "PlanoDeCursoCtrl", ($scope, $modal, PlanoDeCurso, Disciplina
     if _.contains requisitoIds, disciplina.id
       if !confirm "Isso vai desalocar disciplinas que tem #{disciplina.nome} como pré-requisito. Tem certeza?"
         return
-    PlanoDeCurso.desalocarDisciplina(semestre, disciplina)
-      .success ->
-        PlanoDeCurso.query()
-        criarAlerta "success", "A disciplina #{disciplina.nome} foi desalocada."
+    processaRequisicao (PlanoDeCurso.desalocarDisciplina semestre, disciplina)
 
   $scope.sortableOptions =
     connectWith: ".periodo .list-group"
+
+  processaRequisicao = (promise) ->
+    promise.success (data) ->
+      PlanoDeCurso.query()
+      criarAlerta "success", data.message
+    promise.error (data) ->
+      PlanoDeCurso.query()
+      criarAlerta "danger", data.message
+    promise
 
   criaMovimento = (origem, disciplina, destino) ->
     origem: origem
@@ -156,22 +155,9 @@ mainApp.controller "PlanoDeCursoCtrl", ($scope, $modal, PlanoDeCurso, Disciplina
 
   processaMovimentos = ->
     _.map coletaMovimentos(), (movimento) ->
-      semestre = movimento.destino
-      disciplina = movimento.disciplina
-      PlanoDeCurso.moverDisciplina(
-        movimento.origem,
-        movimento.disciplina,
-        movimento.destino)
-        .success ->
-          PlanoDeCurso.query()
-          criarAlerta(
-            "success",
-            "A disciplina #{disciplina.nome} foi movida para o #{semestre}º semestre.")
-        .error (data) ->
-          PlanoDeCurso.query()
-          criarAlerta(
-            "danger",
-            "Ocorreu um problema ao mover #{disciplina.nome}: #{data.message}")
+      console.log "movendo", movimento
+      processaRequisicao (
+        PlanoDeCurso.moverDisciplina movimento.destino, movimento.disciplina)
 
   $scope.$watch observaMovimentos, processaMovimentos
 

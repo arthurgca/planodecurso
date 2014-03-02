@@ -19,7 +19,7 @@
   <alert ng-repeat="alerta in alertas"
          type="alerta.type"
          close="fecharAlerta($index)">
-    {{alerta.msg}}
+    <span ng-bind-html="alerta.msg"></span>
   </alert>
   <div class="periodo panel panel-default"
        ng-repeat="periodo in planoDeCurso.periodos">

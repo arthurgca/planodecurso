@@ -96,39 +96,64 @@ public class PlanoDeCurso extends Model {
         return null;
     }
 
-    private void validaAlocacao(int semestre, Disciplina disciplina, boolean isMovimento) throws ErroDeAlocacaoException {
-        String msg;
+    private void validaAlocacao(
+          int semestre,
+          Disciplina disciplina,
+          boolean isMovimento) throws ErroDeAlocacaoException {
+
+        String template;
+        String message;
 
         if (semestre < 1 || semestre > MAX_NUMERO_SEMESTRES) {
-            msg = String.format("O semestre deve estar entre %s e %s", 1, MAX_NUMERO_SEMESTRES);
-            throw new ErroDeAlocacaoException(msg);
+            template = "O período precisa estar entre %s e %s.";
+            message = String.format(template, 1, MAX_NUMERO_SEMESTRES);
+            throw new ErroDeAlocacaoException(message);
         }
 
-        if (getTotalCreditos(semestre) + disciplina.creditos > MAX_CREDITOS_SEMESTRE) {
-            msg = String.format("Número máximo de créditos excedido: %s", MAX_CREDITOS_SEMESTRE);
-            throw new ErroDeAlocacaoException(msg);
+        int totalCreditos = getTotalCreditos(semestre) + disciplina.creditos;
+
+        if (totalCreditos > MAX_CREDITOS_SEMESTRE) {
+            template = "<b>%s</b> ultrapassa o limite do <b>%sº período.</b>";
+            message = String.format(template, disciplina.nome, semestre);
+            throw new ErroDeAlocacaoException(message);
         }
 
         if (isMovimento) {
             return;
         }
 
-        if (getAlocacao(disciplina) != null) {
-            throw new ErroDeAlocacaoException("Disciplina já alocada.");
+        Alocacao alocacaoAnterior = getAlocacao(disciplina);
+
+        if (alocacaoAnterior != null) {
+            template = "<b>%s</b> já foi alocada no <b>%sº período.</b>";
+            message = String.format(template, disciplina.nome, semestre);
+            throw new ErroDeAlocacaoException(message);
         }
 
-        Set<Disciplina> requisitosSatisfeitos = new HashSet<Disciplina>();
+        Set<Disciplina> pagas = new HashSet<Disciplina>();
 
         for (int i = 1; i < semestre; i++) {
-            requisitosSatisfeitos.addAll(getDisciplinas(i));
+            pagas.addAll(getDisciplinas(i));
         }
 
-        Set<Disciplina> requisitos = new HashSet<Disciplina>(disciplina.requisitos);
-        requisitos.removeAll(requisitosSatisfeitos);
+        Set<Disciplina> devendo = new HashSet<Disciplina>(disciplina.requisitos);
+        devendo.removeAll(pagas);
 
-        if (!requisitos.isEmpty()) {
-            msg = String.format("Requisitos de %s não satisfeitos.", disciplina.nome);
-            throw new ErroDeAlocacaoException(msg);
+        if (!devendo.isEmpty()) {
+            template = "<b>%s</b> tem <b>requisitos não satisfeitos</b>: %s.";
+
+            StringBuilder sb = new StringBuilder();
+            Iterator<Disciplina> it = devendo.iterator();
+            while (it.hasNext()) {
+                Disciplina requisito = it.next();
+                sb.append(requisito.nome);
+                if (it.hasNext())
+                    sb.append(", ");
+            }
+            String joined = sb.toString();
+
+            message = String.format(template, disciplina.nome, joined);
+            throw new ErroDeAlocacaoException(message);
         }
     }
 
