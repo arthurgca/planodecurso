@@ -21,16 +21,19 @@ public class Global extends GlobalSettings {
     }
 
     private void configurarDadosIniciais(Application app) {
-        @SuppressWarnings("unchecked")
-        Map<String,List<Object>> all = (Map<String,List<Object>>) Yaml.load("initial-data.yml");
+        if (Disciplina.getAll().isEmpty()) {
+            @SuppressWarnings("unchecked")
+                Map<String,List<Object>> all = (Map<String,List<Object>>) Yaml.load("initial-data.yml");
 
-        Ebean.save(all.get("disciplinas"));
-        for(Object disciplina: all.get("disciplinas")) {
-            Ebean.saveManyToManyAssociations(disciplina, "requisitos");
+            Ebean.save(all.get("disciplinas"));
+            for(Object disciplina: all.get("disciplinas")) {
+                Ebean.saveManyToManyAssociations(disciplina, "requisitos");
+            }
         }
     }
 
     private void configurarPlanoDeCursoGlobal(Application app) {
+        Ebean.delete(PlanoDeCurso.find.all());
         Global.PLANO_DE_CURSO_GLOBAL = PlanoDeCurso.criarPlanoInicial();
     }
 }

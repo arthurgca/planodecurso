@@ -3,6 +3,7 @@ package controllers;
 import java.util.*;
 
 import play.mvc.*;
+import com.avaje.ebean.*;
 
 import models.*;
 
@@ -19,6 +20,7 @@ public abstract class ControllerBase extends Controller {
     }
 
     protected static void resetarDemo() {
+        Ebean.delete(PlanoDeCurso.find.all());
         Global.PLANO_DE_CURSO_GLOBAL = PlanoDeCurso.criarPlanoInicial();
     }
 
