@@ -10,4 +10,9 @@ public class PlanoDeCursoApp extends ControllerBase {
         return ok(index.render());
     }
 
+    public static Result resetar() {
+        resetarDemo();
+        return redirect("/");
+    }
+
 }

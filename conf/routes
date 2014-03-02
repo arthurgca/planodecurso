@@ -4,6 +4,7 @@
 
 # Home page
 GET     /                                               controllers.PlanoDeCursoApp.index()
+GET     /resetar                                        controllers.PlanoDeCursoApp.resetar()
 
 # Disciplinas
 GET     /disciplinas                                    controllers.DisciplinasCtrl.listar()
