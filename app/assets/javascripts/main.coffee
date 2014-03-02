@@ -1,4 +1,4 @@
-mainApp = angular.module("mainApp", ["ui.bootstrap"])
+mainApp = angular.module("mainApp", ["ui.bootstrap", "ui.sortable"])
 
 mainApp.service "Disciplina", ($http) ->
 
@@ -8,8 +8,6 @@ mainApp.service "Disciplina", ($http) ->
     $http(method: "GET", url: "/disciplinas")
       .success (data, status, headers, config) =>
         popularDisciplinas(data)
-      .error (data, status, headers) =>
-        console.log "erro ao acessar URL das disciplinas"
 
   popularDisciplinas = (disciplinas) =>
     @disciplinas = disciplinas
@@ -27,8 +25,6 @@ mainApp.service "PlanoDeCurso", ($http, Disciplina) ->
       .success (data, status, headers, config) =>
         popularDisciplinas(data.disciplinas)
         popularPeriodos(data.alocacoes)
-      .error (data, status, headers) =>
-        console.log "erro ao acessar URL do plano de curso"
 
   @disciplinasDisponiveis = ->
     disciplinasAlocadasIds = _.map @disciplinas, (disciplina) ->
@@ -39,12 +35,13 @@ mainApp.service "PlanoDeCurso", ($http, Disciplina) ->
       disciplina.nome
 
   @alocarDisciplina = (semestre, disciplina) ->
-    $http(method: "POST", url: "/curso/#{semestre}/#{disciplina.id}")
+    $http method: "POST", url: "/curso/#{semestre}/#{disciplina.id}"
+
+  @moverDisciplina = (semestreOrigem, disciplina, semestreDestino) ->
+    $http method: "PUT", url: "/curso/#{semestreDestino}/#{disciplina.id}"
 
   @desalocarDisciplina = (semestre, disciplina) ->
     $http(method: "DELETE", url: "/curso/#{semestre}/#{disciplina.id}")
-      .error (data, status, headers) =>
-        console.log "erro ao deletar alocação"
 
   popularPeriodos = (alocacoes) =>
     coletarRequisitos = (alocacao) ->
@@ -120,7 +117,6 @@ mainApp.controller "PlanoDeCursoCtrl", ($scope, $modal, PlanoDeCurso, Disciplina
             PlanoDeCurso.query()
             criarAlerta "success", "A disciplina #{disciplina.nome} foi alocada"
           .error (data) ->
-            console.log data
             criarAlerta "danger", "Ocorreu um problema ao alocar a disciplina #{disciplina.nome}: #{data.message}"
       , ->
         console.log "alocação de disciplina cancelada"
@@ -136,6 +132,48 @@ mainApp.controller "PlanoDeCursoCtrl", ($scope, $modal, PlanoDeCurso, Disciplina
       .success ->
         PlanoDeCurso.query()
         criarAlerta "success", "A disciplina #{disciplina.nome} foi desalocada."
+
+  $scope.sortableOptions =
+    connectWith: ".periodo .list-group"
+
+  criaMovimento = (origem, disciplina, destino) ->
+    origem: origem
+    disciplina: disciplina
+    destino: destino
+
+  coletaMovimentos = ->
+    iterator = (memo, periodo) ->
+      alocacoes = _.filter periodo.alocacoes, (alocacao) ->
+        (parseInt periodo.semestre) != (parseInt alocacao.semestre)
+      movimentos = _.map alocacoes, (alocacao) ->
+        criaMovimento alocacao.semestre, alocacao.disciplina, periodo.semestre
+      memo.concat movimentos
+
+    _.reduce PlanoDeCurso.periodos, iterator, []
+
+  observaMovimentos = ->
+    coletaMovimentos().length
+
+  processaMovimentos = ->
+    _.map coletaMovimentos(), (movimento) ->
+      semestre = movimento.destino
+      disciplina = movimento.disciplina
+      PlanoDeCurso.moverDisciplina(
+        movimento.origem,
+        movimento.disciplina,
+        movimento.destino)
+        .success ->
+          PlanoDeCurso.query()
+          criarAlerta(
+            "success",
+            "A disciplina #{disciplina.nome} foi movida para o #{semestre}º semestre.")
+        .error (data) ->
+          PlanoDeCurso.query()
+          criarAlerta(
+            "danger",
+            "Ocorreu um problema ao mover #{disciplina.nome}: #{data.message}")
+
+  $scope.$watch observaMovimentos, processaMovimentos
 
   bootstrap = ->
     Disciplina.query()
