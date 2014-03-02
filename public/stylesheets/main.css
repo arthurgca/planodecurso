@@ -2,3 +2,6 @@
 .nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
 
 .periodo { min-height: 300px; }
+
+.disciplina .btn-desalocar { display: none; }
+.disciplina:hover .btn-desalocar { display: block; }
