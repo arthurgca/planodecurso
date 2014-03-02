@@ -134,7 +134,7 @@ public class PlanoDeCursoTest extends test.TestBase {
 
     @Test
     public void serializaCorretamente() {
-        JsonNode node = Json.toJson(PlanoDeCurso.getPlanoInicial());
+        JsonNode node = Json.toJson(PlanoDeCurso.criarPlanoInicial());
         assertTrue(node.get("disciplinas").isArray());
         assertTrue(node.get("alocacoes").isArray());
     }

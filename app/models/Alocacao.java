@@ -1,9 +1,18 @@
 package models;
 
-public class Alocacao {
+import javax.persistence.*;
+
+import play.db.ebean.*;
+
+@Entity
+public class Alocacao extends Model {
+
+    @Id
+    public Long id;
 
     public int semestre;
 
+    @ManyToOne
     public Disciplina disciplina;
 
     public Alocacao(int semestre, Disciplina disciplina) {
@@ -15,4 +24,6 @@ public class Alocacao {
         this.disciplina = disciplina;
     }
 
+    public static Finder<Long,Alocacao> find =
+        new Finder<Long,Alocacao>(Long.class, Alocacao.class);
 }

@@ -15,15 +15,15 @@ public abstract class ControllerBase extends Controller {
     }
 
     protected static Disciplina getDisciplina(int id) {
-        return Disciplina.Registro.get(id);
+        return Disciplina.get(id);
     }
 
     protected static void resetarDemo() {
-        Global.PLANO_DE_CURSO_GLOBAL = PlanoDeCurso.getPlanoInicial();
+        Global.PLANO_DE_CURSO_GLOBAL = PlanoDeCurso.criarPlanoInicial();
     }
 
     protected static Set<Disciplina> getDisciplinas() {
-        return Disciplina.Registro.getAll();
+        return Disciplina.getAll();
     }
 
 }

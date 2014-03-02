@@ -18,7 +18,7 @@ public abstract class TestBase extends WithApplication {
     }
 
     protected Disciplina disciplina(String nome) {
-        return Disciplina.Registro.get(nome);
+        return Disciplina.get(nome);
     }
 
 }

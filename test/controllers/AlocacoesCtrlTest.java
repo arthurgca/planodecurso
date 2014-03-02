@@ -14,7 +14,7 @@ import static play.mvc.Http.Status.*;
 public class AlocacoesCtrlTest extends test.TestBase {
     @Test
     public void criar() {
-        Result result = callAction(controllers.routes.ref.AlocacoesCtrl.criar(2, 9));
+        Result result = callAction(controllers.routes.ref.AlocacoesCtrl.criar(7, 45));
         assertThat(status(result)).isEqualTo(OK);
         assertThat(contentType(result)).isEqualTo("application/json");
         assertThat(charset(result)).isEqualTo("utf-8");

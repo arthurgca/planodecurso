@@ -387,3 +387,8 @@ disciplinas:
       requisitos:
         - !!models.Disciplina
             id:   43
+
+  - !!models.Disciplina
+      id:         45
+      nome:       Futsal
+      creditos:   2
