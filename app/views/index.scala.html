@@ -50,9 +50,9 @@
             {{alocacao.disciplina.nome}}
             <span class="creditos badge">{{alocacao.disciplina.creditos}}</span>
           </h4>
-          <small ng-if="alocacao.problemas"
-                 ng-repeat="problemas in alocacao.problemas">
-            <span class="label label-danger">{{problemas}}</span>
+          <small ng-if="alocacao.disciplina.requisitos"
+                 ng-repeat="requisito in alocacao.disciplina.requisitos">
+            <span class="label label-danger">{{requisito.nome}}</span>
           </small>
         </a>
       </div>
@@ -84,11 +84,10 @@
 
       <div class="form-group" ng-if="disciplinaSelecionada.requisitos.length != 0">
         <h4>Requisitos</h4>
-        <ul>
-          <li ng-repeat="requisito in disciplinaSelecionada.requisitos">
-            {{requisito.nome}}
-          </li>
-        </ul>
+        <small ng-if="disciplinaSelecionada.requisitos"
+               ng-repeat="requisitos in disciplinaSelecionada.requisitos">
+          <span class="label label-danger">{{requisitos.nome}}</span>
+        </small>
       </div>
     </form>
   </div>

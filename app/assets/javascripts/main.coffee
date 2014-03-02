@@ -47,12 +47,12 @@ mainApp.service "PlanoDeCurso", ($http, Disciplina) ->
         console.log "erro ao deletar alocação"
 
   popularPeriodos = (alocacoes) =>
-    coletarProblemas = (alocacao) ->
+    coletarRequisitos = (alocacao) ->
       _.map alocacao.disciplina.requisitos, (requisito) ->
         requisito.nome
 
     criarAlocacao = (alocacao) ->
-      _.extend (problemas: coletarProblemas alocacao), alocacao
+      _.extend (requisitos: coletarRequisitos alocacao), alocacao
 
     totalCreditos = (alocacoes) ->
       _.reduce alocacoes, ((val, aloc) -> val + aloc.disciplina.creditos), 0
@@ -60,7 +60,7 @@ mainApp.service "PlanoDeCurso", ($http, Disciplina) ->
     criarPeriodo = (semestre, alocacoes) ->
       semestre: semestre
       creditos: totalCreditos(alocacoes)
-      alocacoes: _.map(alocacoes, criarAlocacao)
+      alocacoes: alocacoes
 
     alocacoes = _.sortBy alocacoes, (alocacao) ->
       alocacao.semestre
