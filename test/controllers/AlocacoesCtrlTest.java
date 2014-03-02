@@ -29,6 +29,22 @@ public class AlocacoesCtrlTest extends test.TestBase {
     }
 
     @Test
+    public void moverDisciplina() {
+        Result result = callAction(controllers.routes.ref.AlocacoesCtrl.mover(7, 7));
+        assertThat(status(result)).isEqualTo(OK);
+        assertThat(contentType(result)).isEqualTo("application/json");
+        assertThat(charset(result)).isEqualTo("utf-8");
+    }
+
+    @Test
+    public void moverErro() {
+        Result result = callAction(controllers.routes.ref.AlocacoesCtrl.mover(3, 7));
+        assertThat(status(result)).isEqualTo(BAD_REQUEST);
+        assertThat(contentType(result)).isEqualTo("application/json");
+        assertThat(charset(result)).isEqualTo("utf-8");
+    }
+
+    @Test
     public void deletar() {
         Result result = callAction(controllers.routes.ref.AlocacoesCtrl.deletar(1, 2));
         assertThat(status(result)).isEqualTo(OK);

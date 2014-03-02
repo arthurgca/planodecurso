@@ -20,6 +20,18 @@ public class AlocacoesCtrl extends ControllerBase {
         }
     }
 
+    public static Result mover(int semestre, int disciplina) {
+        PlanoDeCurso planoDeCurso = getPlanoDeCurso();
+        try {
+            planoDeCurso.moverDisciplina(semestre, Disciplina.find.byId(disciplina));
+            return ok(Json.toJson(planoDeCurso));
+        } catch (ErroDeAlocacaoException e) {
+            ObjectNode result = Json.newObject();
+            result.put("message", e.getMessage());
+            return badRequest(result);
+        }
+    }
+
     public static Result deletar(int semestre, int disciplina) {
         PlanoDeCurso planoDeCurso = getPlanoDeCurso();
         planoDeCurso.desalocarDisciplina(getDisciplina(disciplina));

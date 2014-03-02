@@ -8,6 +8,8 @@ import com.avaje.ebean.*;
 
 @Entity
 public class PlanoDeCurso extends Model {
+    private static final int MAX_NUMERO_SEMESTRES = 14;
+    private static final int MAX_CREDITOS_SEMESTRE = 28;
 
     @Id
     public Long id;
@@ -45,22 +47,19 @@ public class PlanoDeCurso extends Model {
     }
 
     public void alocarDisciplina(int semestre, Disciplina disciplina) throws ErroDeAlocacaoException {
-        if (!disciplina.requisitos.isEmpty()) {
-            for (Disciplina requisito : disciplina.requisitos) {
-                if (!getDisciplinas().contains(requisito)) {
-                    throw new ErroDeAlocacaoException("Pré-requisitos da disciplina não foram satisfeitos.");
-                }
-            }
-        }
-        if ((getTotalCreditos(semestre) + disciplina.creditos) > 28) {
-            throw new ErroDeAlocacaoException("Período deve ter menos de 28 créditos.");
-        }
-        if (getAlocacao(disciplina) != null) {
-            throw new ErroDeAlocacaoException("Disciplina já alocada.");
-        }
-
+        validaAlocacao(semestre, disciplina, false);
         alocacoes.add(new Alocacao(semestre, disciplina));
+        save();
+    }
 
+    public void moverDisciplina(int semestre, Disciplina disciplina) throws ErroDeAlocacaoException {
+        Alocacao alocacao = getAlocacao(disciplina);
+        if (alocacao == null) {
+            return;
+        }
+
+        validaAlocacao(semestre, disciplina, true);
+        alocacao.semestre = semestre;
         save();
     }
 
@@ -95,6 +94,42 @@ public class PlanoDeCurso extends Model {
             }
         }
         return null;
+    }
+
+    private void validaAlocacao(int semestre, Disciplina disciplina, boolean isMovimento) throws ErroDeAlocacaoException {
+        String msg;
+
+        if (semestre < 1 || semestre > MAX_NUMERO_SEMESTRES) {
+            msg = String.format("O semestre deve estar entre %s e %s", 1, MAX_NUMERO_SEMESTRES);
+            throw new ErroDeAlocacaoException(msg);
+        }
+
+        if (getTotalCreditos(semestre) + disciplina.creditos > MAX_CREDITOS_SEMESTRE) {
+            msg = String.format("Número máximo de créditos excedido: %s", MAX_CREDITOS_SEMESTRE);
+            throw new ErroDeAlocacaoException(msg);
+        }
+
+        if (isMovimento) {
+            return;
+        }
+
+        if (getAlocacao(disciplina) != null) {
+            throw new ErroDeAlocacaoException("Disciplina já alocada.");
+        }
+
+        Set<Disciplina> requisitosSatisfeitos = new HashSet<Disciplina>();
+
+        for (int i = 1; i < semestre; i++) {
+            requisitosSatisfeitos.addAll(getDisciplinas(i));
+        }
+
+        Set<Disciplina> requisitos = new HashSet<Disciplina>(disciplina.requisitos);
+        requisitos.removeAll(requisitosSatisfeitos);
+
+        if (!requisitos.isEmpty()) {
+            msg = String.format("Requisitos de %s não satisfeitos.", disciplina.nome);
+            throw new ErroDeAlocacaoException(msg);
+        }
     }
 
     public static PlanoDeCurso criarPlanoInicial() {

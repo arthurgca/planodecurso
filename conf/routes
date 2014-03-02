@@ -11,6 +11,7 @@ GET     /disciplinas                                    controllers.DisciplinasC
 # Curso
 GET     /curso                                          controllers.PlanoDeCursoCtrl.exibir()
 POST    /curso/:semestre/:disciplina                    controllers.AlocacoesCtrl.criar(semestre: Integer, disciplina: Integer)
+PUT     /curso/:semestre/:disciplina                    controllers.AlocacoesCtrl.mover(semestre: Integer, disciplina: Integer)
 DELETE  /curso/:semestre/:disciplina                    controllers.AlocacoesCtrl.deletar(semestre: Integer, disciplina: Integer)
 
 # Recursos estáticos
