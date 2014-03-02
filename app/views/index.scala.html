@@ -4,62 +4,103 @@
 
 @main("Plano de Curso") {
 
+<nav class="navbar navbar-inverse" role="navigation">
+  <div class="navbar-header">
+    <a class="navbar-brand" href="#">Plano de Curso</a>
+  </div>
+  <ul class="nav navbar-nav">
+    <li><a href="/resetar">Resetar</a></li>
+  </ul>
+</nav>
+
 <div class="container">
-  <div class="col-md-12">
-    <div class="header">
-      <h1>Plano de Curso</h1>
-      <alert ng-if="ui.mensagem" type="ui.mensagem.type" close="fecharMensagem()">
-        {{ui.mensagem.text}}
-      </alert>
-    </div>
-    <div class="row">
-      <div class="col-md-6">
-        <h3>Disciplinas Ofertadas</h3>
-        <accordion close-others="false">
-          <accordion-group heading="{{periodo.semestre}}º Período"
-                           ng-repeat="periodo in ui.disciplinasNaoAlocadas"
-                           is-open="true">
-            <button tooltip-html-unsafe="{{disciplina.tooltip}}"
-                    popover-animation="false"
-                    popover-trigger="mouseenter"
-                    class="btn btn-default btn-disciplina"
-                    ng-repeat="disciplina in periodo.disciplinas"
-                    ng-model="ui.btnSelecionado"
-                    btn-checkbox
-                    btn-checkbox-true="{{disciplina}}"
-                    btn-checkbox-false="undefined">
-              {{disciplina.nome}}
-            </button>
-          </accordion-group>
-        </accordion>
+
+  <alert ng-repeat="alerta in alertas"
+         type="alerta.type"
+         close="fecharAlerta($index)">
+    {{alerta.msg}}
+  </alert>
+
+  <div class="col-md-4" ng-repeat="periodo in planoDeCurso.periodos">
+    <div class="periodo panel panel-default">
+      <div class="panel-heading dropdown">
+        {{periodo.semestre}}º Período
+        <span class="label label-default">{{periodo.creditos}} créditos</span>
+        <button class="dropdown-toggle pull-right btn btn-default btn-xs">
+          <span class="glyphicon glyphicon-cog"></span>
+        </button>
+        <ul class="dropdown-menu pull-right">
+          <li>
+            <a href="#" ng-click="modalAlocarDisciplina(periodo.semestre)">
+              Alocar Disciplina...
+            </a>
+          </li>
+        </ul>
       </div>
-      <div class="col-md-6">
-        <h3>Disciplinas Alocadas</h3>
-        <accordion close-others="false">
-          <accordion-group ng-repeat="periodo in ui.planoDeCurso"
-                           is-open="true">
-            <accordion-heading>
-              {{periodo.semestre}}º Período ({{periodo.totalCreditos}} Créditos)
-              <button ng-if="ui.btnSelecionado"
-                      ng-click="alocar(periodo.semestre,$event)"
-                      type="button"
-                      class="btn btn-primary btn-xs pull-right">
-                Alocar Aqui
-              </button>
-            </accordion-heading>
-            <button tooltip-html-unsafe="{{disciplina.tooltip}}"
-                    popover-animation="false"
-                    popover-trigger="mouseenter"
-                    class="btn btn-default btn-disciplina"
-                    ng-click="desalocar(disciplina)"
-                    ng-repeat="disciplina in periodo.disciplinas">
-              {{disciplina.nome}}
+      <div class="panel-body">
+        <div class="list-group">
+
+          <a href="#"
+             class="disciplina list-group-item"
+             ng-repeat="alocacao in periodo.alocacoes">
+            <button ng-click="desalocarDisciplina(alocacao.semestre, alocacao.disciplina)"
+                    class="dropdown-toggle pull-right btn btn-default btn-xs">
+              <span class="glyphicon glyphicon-minus"></span>
             </button>
-          </accordion-group>
-        </accordion>
+
+            <h4>
+              {{alocacao.disciplina.nome}}
+              <span class="creditos badge">{{alocacao.disciplina.creditos}}</span>
+            </h4>
+            <small ng-if="alocacao.problemas"
+                   ng-repeat="problemas in alocacao.problemas">
+              <span class="label label-danger">{{problemas}}</span>
+            </small>
+          </a>
+
+        </div>
       </div>
     </div>
   </div>
+
 </div>
+
+<script type="text/ng-template" id="ModalAlocarDisciplina.html">
+  <div class="modal-header">
+    <h3>Alocar Disciplina</h3>
+  </div>
+  <div class="modal-body">
+    <form role="form">
+      <div class="form-group">
+        <label for="semestre">Semestre</label>
+        <input class="form-control"
+               type="text"
+               name="semestre"
+               value="{{semestre}}"
+               disabled>
+      </div>
+      <div class="form-group">
+        <label for="disciplina">Disciplina</label>
+        <select class="form-control"
+                ng-model="disciplinaSelecionada"
+                ng-options="d.nome for d in disciplinas">
+        </select>
+      </div>
+
+      <div class="form-group" ng-if="disciplinaSelecionada.requisitos.length != 0">
+        <h4>Requisitos</h4>
+        <ul>
+          <li ng-repeat="requisito in disciplinaSelecionada.requisitos">
+            {{requisito.nome}}
+          </li>
+        </ul>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-primary" ng-click="ok(disciplinaSelecionada)">OK</button>
+    <button class="btn btn-warning" ng-click="cancelar()">Cancelar</button>
+  </div>
+</script>
 
 }
