@@ -354,7 +354,7 @@ disciplinas:
 
   - !!models.Disciplina
       id:         41
-      nome:       Métodos e Software Númericos
+      nome:       Métodos e Software Numéricos
       creditos:   4
       requisitos:
         - !!models.Disciplina
