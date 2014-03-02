@@ -8,9 +8,13 @@ import play.libs.*;
 import models.*;
 
 public class Global extends GlobalSettings {
+
+    public static PlanoDeCurso PLANO_DE_CURSO_GLOBAL;
+
     @Override
     public void onStart(Application app) {
         configurarDadosIniciais(app);
+        configurarPlanoDeCursoGlobal(app);
     }
 
     private void configurarDadosIniciais(Application app) {
@@ -33,5 +37,9 @@ public class Global extends GlobalSettings {
                                                     disciplina.creditos,
                                                     requisitos);
         }
+    }
+
+    private void configurarPlanoDeCursoGlobal(Application app) {
+        Global.PLANO_DE_CURSO_GLOBAL = PlanoDeCurso.getPlanoInicial();
     }
 }
