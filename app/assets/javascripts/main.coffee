@@ -1,20 +1,93 @@
 mainApp = angular.module("mainApp", ["ui.bootstrap", "ui.sortable"])
 
-mainApp.service "Disciplina", ($http) ->
+mainApp.controller "PlanoDeCursoCtrl", (
+  $scope,
+  AlertasService,
+  ModalAlocarDisciplinaService,
+  PlanoDeCursoService) ->
 
-  @disciplinas = []
+  $scope.alertas = AlertasService
 
-  @query = ->
-    $http(method: "GET", url: "/disciplinas")
-      .success (data, status, headers, config) =>
-        popularDisciplinas(data)
+  $scope.planoDeCurso = PlanoDeCursoService
 
-  popularDisciplinas = (disciplinas) =>
-    @disciplinas = disciplinas
+  $scope.alocar = (periodo) ->
+    modal = ModalAlocarDisciplinaService.abrir
+      periodo: -> periodo
+      disciplinasDisponiveis: PlanoDeCursoService.disciplinasDisponiveis
 
-  this
+    modal.result.then (disciplina) ->
+      alocarDisciplina periodo, disciplina
 
-mainApp.service "PlanoDeCurso", ($http, Disciplina) ->
+  $scope.desalocar = (periodo, disciplina) ->
+    if isRequisitoLista disciplina, PlanoDeCursoService.disciplinas
+      mensagem = """
+        Isso vai remover disciplinas que tem #{disciplina.nome} como requisito.
+        Tem certeza?
+      """
+      if not confirm mensagem
+        return
+    desalocarDisciplina periodo, disciplina
+
+  $scope.sortableOptions =
+    connectWith: ".periodo .list-group"
+
+  alocarDisciplina = (periodo, disciplina) ->
+    processaRequisicao (
+      PlanoDeCursoService.alocarDisciplina periodo, disciplina)
+
+  desalocarDisciplina = (periodo, disciplina) ->
+    processaRequisicao (
+      PlanoDeCursoService.desalocarDisciplina periodo, disciplina)
+
+  moverDisciplina = (periodo, disciplina) ->
+    processaRequisicao (
+      PlanoDeCursoService.moverDisciplina periodo, disciplina)
+
+  processaRequisicao = (promise) ->
+    promise.success (data) ->
+      PlanoDeCursoService.query()
+      $scope.alertas.sucesso data.message
+    promise.error (data) ->
+      PlanoDeCursoService.query()
+      $scope.alertas.erro data.message
+    promise
+
+  isRequisito = (disciplinaA, disciplinaB) ->
+     _.some disciplinaB.requisitos, (requisito) ->
+       requisito.id == disciplinaA.id
+
+  isRequisitoLista = (disciplinaA, disciplinas) ->
+     _.some disciplinas, (disciplinaB) ->
+       isRequisito(disciplinaA, disciplinaB)
+
+  instalaObservadorMovimentos = ->
+    coletaMovimentos = ->
+      movimentos = []
+      _.each PlanoDeCursoService.periodos, (periodo) ->
+        _.each periodo.alocacoes, (alocacao) ->
+          if (parseInt periodo.semestre) != (parseInt alocacao.semestre)
+            movimentos.push
+              periodo: periodo
+              disciplina: alocacao.disciplina
+      movimentos
+
+    observaMovimentos = ->
+      coletaMovimentos().length
+
+    processaMovimentos = ->
+      _.map coletaMovimentos(), (movimento) ->
+        moverDisciplina(movimento.periodo, movimento.disciplina)
+
+    $scope.$watch observaMovimentos, processaMovimentos
+
+  bootstrap = ->
+    PlanoDeCursoService.query()
+      .success ->
+        instalaObservadorMovimentos()
+
+  bootstrap()
+
+mainApp.service "PlanoDeCursoService", ($http, DisciplinaService) ->
 
   @periodos = []
 
@@ -27,21 +100,19 @@ mainApp.service "PlanoDeCurso", ($http, Disciplina) ->
         popularPeriodos(data.alocacoes)
 
   @disciplinasDisponiveis = ->
-    disciplinasAlocadasIds = _.map @disciplinas, (disciplina) ->
-      disciplina.id
-    disciplinasDisponiveis = _.filter Disciplina.disciplinas, (disciplina) ->
-      not _.contains disciplinasAlocadasIds, disciplina.id
-    _.sortBy disciplinasDisponiveis, (disciplina) ->
-      disciplina.nome
+    alocadaIds = _.pluck @disciplinas, "id"
+    disponiveis = _.filter DisciplinaService.disciplinas, (disciplina) ->
+      not _.contains alocadaIds, disciplina.id
+    _.sortBy disponiveis, "nome"
 
-  @alocarDisciplina = (semestre, disciplina) ->
-    $http method: "POST", url: "/curso/#{semestre}/#{disciplina.id}"
+  @alocarDisciplina = (periodo, disciplina) ->
+    $http method: "POST", url: "/curso/#{periodo.semestre}/#{disciplina.id}"
 
-  @moverDisciplina = (semestre, disciplina) ->
-    $http method: "PUT", url: "/curso/#{semestre}/#{disciplina.id}"
+  @moverDisciplina = (periodo, disciplina) ->
+    $http method: "PUT", url: "/curso/#{periodo.semestre}/#{disciplina.id}"
 
-  @desalocarDisciplina = (semestre, disciplina) ->
-    $http(method: "DELETE", url: "/curso/#{semestre}/#{disciplina.id}")
+  @desalocarDisciplina = (periodo, disciplina) ->
+    $http(method: "DELETE", url: "/curso/#{periodo.semestre}/#{disciplina.id}")
 
   popularPeriodos = (alocacoes) =>
     coletarRequisitos = (alocacao) ->
@@ -59,8 +130,7 @@ mainApp.service "PlanoDeCurso", ($http, Disciplina) ->
       creditos: totalCreditos(alocacoes)
       alocacoes: alocacoes
 
-    alocacoes = _.sortBy alocacoes, (alocacao) ->
-      alocacao.semestre
+    alocacoes = _.sortBy alocacoes, "semestre"
 
     semestreAlocacoes = _.groupBy(alocacoes, "semestre")
 
@@ -75,95 +145,66 @@ mainApp.service "PlanoDeCurso", ($http, Disciplina) ->
   popularDisciplinas = (disciplinas) =>
     @disciplinas = disciplinas
 
+  bootstrap = ->
+    DisciplinaService.query()
+
+  bootstrap()
+
   this
 
-mainApp.controller "ModalAlocarDisciplinaCtrl", ($scope, $modalInstance, semestre, disciplinas) ->
+mainApp.service "DisciplinaService", ($http) ->
 
-  $scope.semestre = semestre
+  @disciplinas = []
 
-  $scope.disciplinas = disciplinas
+  @query = ->
+    $http(method: "GET", url: "/disciplinas")
+      .success (data, status, headers, config) =>
+        popularDisciplinas(data)
 
-  $scope.disciplinaSelecionada = disciplinas[0]
+  popularDisciplinas = (disciplinas) =>
+    @disciplinas = disciplinas
+
+  this
+
+mainApp.service "AlertasService", ($sce) ->
+
+  @mensagens = []
+
+  @sucesso = (mensagem) =>
+    @mensagens[0] = tipo: "success", mensagem: $sce.trustAsHtml mensagem
+
+  @erro = (mensagem) =>
+    @mensagens[0] = tipo: "danger", mensagem: $sce.trustAsHtml mensagem
+
+  @fecharAlerta = (index) =>
+    @mensagens.splice(index)
+
+  this
+
+mainApp.service "ModalAlocarDisciplinaService", ($modal) ->
+
+  @abrir = (resolve) ->
+    $modal.open
+      templateUrl: "ModalAlocarDisciplina.html"
+      controller: "ModalAlocarDisciplinaCtrl"
+      resolve: resolve
+
+  this
+
+mainApp.controller "ModalAlocarDisciplinaCtrl", (
+  $scope,
+  $modalInstance,
+  periodo,
+  disciplinasDisponiveis) ->
+
+  $scope.periodo = periodo
+
+  $scope.disciplinas = disciplinasDisponiveis
+
+  $scope.disciplinaSelecionada = $scope.disciplinas[0]
 
   $scope.ok = (disciplina) ->
     $modalInstance.close disciplina
 
   $scope.cancelar = ->
     $modalInstance.dismiss 'cancelar'
-
-mainApp.controller "PlanoDeCursoCtrl", ($scope, $modal, $sce, PlanoDeCurso, Disciplina) ->
-
-  $scope.alertas = []
-
-  criarAlerta = (type, msg) ->
-    $scope.alertas[0] = type: type, msg: $sce.trustAsHtml msg
-
-  $scope.fecharAlerta = (index) ->
-    $scope.alertas.splice(index)
-
-  $scope.planoDeCurso = PlanoDeCurso
-
-  $scope.modalAlocarDisciplina = (semestre) ->
-    modalInstance = $modal.open
-      templateUrl: "ModalAlocarDisciplina.html"
-      controller: "ModalAlocarDisciplinaCtrl"
-      resolve:
-        semestre: -> semestre
-        disciplinas: -> PlanoDeCurso.disciplinasDisponiveis()
-    modalInstance.result
-      .then (disciplina) ->
-        processaRequisicao (PlanoDeCurso.alocarDisciplina semestre, disciplina)
-
-  $scope.desalocarDisciplina = (semestre, disciplina) ->
-    requisitoIds = []
-    _.each PlanoDeCurso.disciplinas, (disciplinaAlocada) ->
-      requisitoIds = requisitoIds.concat _.map(disciplinaAlocada.requisitos, (r) -> r.id)
-    if _.contains requisitoIds, disciplina.id
-      if !confirm "Isso vai desalocar disciplinas que tem #{disciplina.nome} como pré-requisito. Tem certeza?"
-        return
-    processaRequisicao (PlanoDeCurso.desalocarDisciplina semestre, disciplina)
-
-  $scope.sortableOptions =
-    connectWith: ".periodo .list-group"
-
-  processaRequisicao = (promise) ->
-    promise.success (data) ->
-      PlanoDeCurso.query()
-      criarAlerta "success", data.message
-    promise.error (data) ->
-      PlanoDeCurso.query()
-      criarAlerta "danger", data.message
-    promise
-
-  criaMovimento = (origem, disciplina, destino) ->
-    origem: origem
-    disciplina: disciplina
-    destino: destino
-
-  coletaMovimentos = ->
-    iterator = (memo, periodo) ->
-      alocacoes = _.filter periodo.alocacoes, (alocacao) ->
-        (parseInt periodo.semestre) != (parseInt alocacao.semestre)
-      movimentos = _.map alocacoes, (alocacao) ->
-        criaMovimento alocacao.semestre, alocacao.disciplina, periodo.semestre
-      memo.concat movimentos
-
-    _.reduce PlanoDeCurso.periodos, iterator, []
-
-  observaMovimentos = ->
-    coletaMovimentos().length
-
-  processaMovimentos = ->
-    _.map coletaMovimentos(), (movimento) ->
-      console.log "movendo", movimento
-      processaRequisicao (
-        PlanoDeCurso.moverDisciplina movimento.destino, movimento.disciplina)
-
-  $scope.$watch observaMovimentos, processaMovimentos
-
-  bootstrap = ->
-    Disciplina.query()
-      .success ->
-        PlanoDeCurso.query()
-
-  bootstrap()

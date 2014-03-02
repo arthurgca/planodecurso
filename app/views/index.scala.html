@@ -16,10 +16,10 @@
 </nav>
 
 <div class="container">
-  <alert ng-repeat="alerta in alertas"
-         type="alerta.type"
-         close="fecharAlerta($index)">
-    <span ng-bind-html="alerta.msg"></span>
+  <alert ng-repeat="alerta in alertas.mensagens"
+         type="alerta.tipo"
+         close="alertas.fecharAlerta($index)">
+    <span ng-bind-html="alerta.mensagem"></span>
   </alert>
   <div class="periodo panel panel-default"
        ng-repeat="periodo in planoDeCurso.periodos">
@@ -31,7 +31,7 @@
       </button>
       <ul class="dropdown-menu pull-right">
         <li>
-          <a href="#" ng-click="modalAlocarDisciplina(periodo.semestre)">
+          <a href="#" ng-click="alocar(periodo)">
             Alocar Disciplina...
           </a>
         </li>
@@ -42,7 +42,7 @@
         <a href="#"
            class="disciplina list-group-item"
            ng-repeat="alocacao in periodo.alocacoes">
-          <button ng-click="desalocarDisciplina(alocacao.semestre, alocacao.disciplina)"
+          <button ng-click="desalocar(periodo, alocacao.disciplina)"
                   class="btn-desalocar pull-right btn btn-default btn-xs">
             <span class="glyphicon glyphicon-trash"></span>
           </button>
@@ -71,7 +71,7 @@
         <input class="form-control"
                type="text"
                name="semestre"
-               value="{{semestre}}"
+               value="{{periodo.semestre}}"
                disabled>
       </div>
       <div class="form-group">
