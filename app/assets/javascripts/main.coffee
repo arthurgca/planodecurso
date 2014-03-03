@@ -19,7 +19,7 @@ mainApp.controller "PlanoDeCursoCtrl", (
       alocarDisciplina periodo, disciplina
 
   $scope.desalocar = (periodo, disciplina) ->
-    if isRequisitoLista disciplina, PlanoDeCursoService.disciplinasAlocacas
+    if isRequisitoLista disciplina, PlanoDeCursoService.disciplinasAlocadas
       mensagem = """
         Isso vai remover disciplinas que tem #{disciplina.nome} como requisito.
         Tem certeza?
