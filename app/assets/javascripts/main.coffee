@@ -225,3 +225,11 @@ mainApp.controller "ModalAlocarDisciplinaCtrl", (
 
   $scope.cancelar = ->
     $modalInstance.dismiss 'cancelar'
+
+  $scope.estiloRequisito = (periodo, requisito) ->
+    satisfeito = _.some periodo.pagas, (disciplina) ->
+      disciplina.id == requisito.id
+    if satisfeito
+      "label-info"
+    else
+      "label-danger"
