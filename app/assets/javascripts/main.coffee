@@ -19,7 +19,7 @@ mainApp.controller "PlanoDeCursoCtrl", (
       alocarDisciplina periodo, disciplina
 
   $scope.desalocar = (periodo, disciplina) ->
-    if isRequisitoLista disciplina, PlanoDeCursoService.disciplinas
+    if isRequisitoLista disciplina, PlanoDeCursoService.disciplinasAlocacas
       mensagem = """
         Isso vai remover disciplinas que tem #{disciplina.nome} como requisito.
         Tem certeza?
@@ -30,6 +30,9 @@ mainApp.controller "PlanoDeCursoCtrl", (
 
   $scope.sortableOptions =
     connectWith: ".periodo .list-group"
+
+  atualizar = ->
+    PlanoDeCursoService.atualizar()
 
   alocarDisciplina = (periodo, disciplina) ->
     processaRequisicao (
@@ -44,13 +47,13 @@ mainApp.controller "PlanoDeCursoCtrl", (
       PlanoDeCursoService.moverDisciplina periodo, disciplina)
 
   processaRequisicao = (promise) ->
-    promise.success (data) ->
-      PlanoDeCursoService.query()
-      $scope.alertas.sucesso data.message
-    promise.error (data) ->
-      PlanoDeCursoService.query()
-      $scope.alertas.erro data.message
-    promise
+    onSuccess = (response) ->
+      atualizar().then ->
+        $scope.alertas.sucesso response.data.message
+    onError = (response) ->
+      atualizar().then ->
+        $scope.alertas.erro response.data.message
+    promise.then(onSuccess, onError)
 
   isRequisito = (disciplinaA, disciplinaB) ->
      _.some disciplinaB.requisitos, (requisito) ->
@@ -60,7 +63,7 @@ mainApp.controller "PlanoDeCursoCtrl", (
      _.some disciplinas, (disciplinaB) ->
        isRequisito(disciplinaA, disciplinaB)
 
-  instalaObservadorMovimentos = ->
+  observarMovimentos = ->
     coletaMovimentos = ->
       movimentos = []
       _.each PlanoDeCursoService.periodos, (periodo) ->
@@ -68,101 +71,100 @@ mainApp.controller "PlanoDeCursoCtrl", (
           if (parseInt periodo.semestre) != (parseInt alocacao.semestre)
             movimentos.push
               periodo: periodo
-              disciplina: alocacao.disciplina
+              alocacao: alocacao
       movimentos
 
-    observaMovimentos = ->
+    observadorMovimentos = ->
       coletaMovimentos().length
 
     processaMovimentos = ->
       _.map coletaMovimentos(), (movimento) ->
-        moverDisciplina(movimento.periodo, movimento.disciplina)
+        movimento.alocacao.semestre = movimento.periodo.semestre
+        moverDisciplina(movimento.periodo, movimento.alocacao.disciplina)
 
-    $scope.$watch observaMovimentos, processaMovimentos
+    $scope.$watch observadorMovimentos, processaMovimentos
 
   bootstrap = ->
-    PlanoDeCursoService.query()
-      .success ->
-        instalaObservadorMovimentos()
+    atualizar()
+      .then observarMovimentos
 
   bootstrap()
 
-mainApp.service "PlanoDeCursoService", ($http, DisciplinaService) ->
+mainApp.service "PlanoDeCursoService", ($http) ->
 
   @periodos = []
 
-  @disciplinas =  []
+  @disciplinasOfertadas = []
 
-  @query = ->
+  @disciplinasAlocadas = []
+
+  @atualizar = ->
     $http(method: "GET", url: "/curso")
-      .success (data, status, headers, config) =>
-        popularDisciplinas(data.disciplinas)
-        popularPeriodos(data.alocacoes)
+      .then atualizarTudo
 
-  @disciplinasDisponiveis = ->
-    alocadaIds = _.pluck @disciplinas, "id"
-    disponiveis = _.filter DisciplinaService.disciplinas, (disciplina) ->
-      not _.contains alocadaIds, disciplina.id
-    _.sortBy disponiveis, "nome"
+  @disciplinasDisponiveis = () =>
+    _.filter @disciplinasOfertadas, (ofertada) =>
+      not _.some @disciplinasAlocadas, (alocada) =>
+        alocada.id == ofertada.id
 
   @alocarDisciplina = (periodo, disciplina) ->
-    $http method: "POST", url: "/curso/#{periodo.semestre}/#{disciplina.id}"
+    $http(method: "POST", url: "/curso/#{periodo.semestre}/#{disciplina.id}")
 
   @moverDisciplina = (periodo, disciplina) ->
-    $http method: "PUT", url: "/curso/#{periodo.semestre}/#{disciplina.id}"
+    $http(method: "PUT", url: "/curso/#{periodo.semestre}/#{disciplina.id}")
 
   @desalocarDisciplina = (periodo, disciplina) ->
     $http(method: "DELETE", url: "/curso/#{periodo.semestre}/#{disciplina.id}")
 
-  popularPeriodos = (alocacoes) =>
-    coletarRequisitos = (alocacao) ->
-      _.map alocacao.disciplina.requisitos, (requisito) ->
-        requisito.nome
+  atualizarTudo = (res) =>
 
-    criarAlocacao = (alocacao) ->
-      _.extend (requisitos: coletarRequisitos alocacao), alocacao
+    @disciplinasAlocadas = res.data.disciplinas
 
-    totalCreditos = (alocacoes) ->
-      _.reduce alocacoes, ((val, aloc) -> val + aloc.disciplina.creditos), 0
+    atualizarPeriodo = (periodo, alocacoesServidor) =>
+      marcadoRemover = []
 
-    criarPeriodo = (semestre, alocacoes) ->
-      semestre: semestre
-      creditos: totalCreditos(alocacoes)
-      alocacoes: alocacoes
+      _.each periodo.alocacoes, (alocacaoCliente) =>
+        marcarRemover = not _.some alocacoesServidor, (alocacaoServidor) ->
+          _.isEqual alocacaoCliente.disciplina.id, alocacaoServidor.disciplina.id
+        marcadoRemover.push alocacaoCliente if marcarRemover
 
-    alocacoes = _.sortBy alocacoes, "semestre"
+      _.each marcadoRemover, (alocacao) =>
+        periodo.alocacoes.splice (_.indexOf periodo.alocacoes, alocacao), 1
 
-    semestreAlocacoes = _.groupBy(alocacoes, "semestre")
+      marcadoAdicionar = []
 
-    _.each [1..14], (semestre) ->
-      semestreAlocacoes[semestre] ||= []
+      _.each alocacoesServidor, (alocacaoServidor) =>
+        marcarAdicionar = not _.some periodo.alocacoes, (alocacaoCliente) ->
+          _.isEqual alocacaoCliente.disciplina.id, alocacaoServidor.disciplina.id
+        marcadoAdicionar.push alocacaoServidor if marcarAdicionar
 
-    @periodos = []
+      _.each marcadoAdicionar, (alocacao) =>
+        periodo.alocacoes.push alocacao
 
-    _.each semestreAlocacoes, (alocacoes, semestre) =>
-      @periodos.push (criarPeriodo semestre, alocacoes)
+      iterador = (memo, alocacao) =>
+        memo + alocacao.disciplina.creditos
+      periodo.creditos = _.reduce periodo.alocacoes, iterador, 0
 
-  popularDisciplinas = (disciplinas) =>
-    @disciplinas = disciplinas
+    alocacoes = _.groupBy res.data.alocacoes, "semestre"
+    _.map @periodos, (periodo) ->
+      atualizarPeriodo periodo, alocacoes[periodo.semestre]
 
-  bootstrap = ->
-    DisciplinaService.query()
+  bootstrap = =>
+    criarPeriodos = =>
+      @periodos = _.map [1..14], (semestre) =>
+        semestre: semestre
+        creditos: 0
+        alocacoes: []
+
+    getDisciplinasOfertadas = =>
+      $http(method: "GET", url: "/disciplinas")
+        .then (res) =>
+          @disciplinasOfertadas = res.data
+
+    criarPeriodos()
+    getDisciplinasOfertadas()
 
   bootstrap()
-
-  this
-
-mainApp.service "DisciplinaService", ($http) ->
-
-  @disciplinas = []
-
-  @query = ->
-    $http(method: "GET", url: "/disciplinas")
-      .success (data, status, headers, config) =>
-        popularDisciplinas(data)
-
-  popularDisciplinas = (disciplinas) =>
-    @disciplinas = disciplinas
 
   this
 
