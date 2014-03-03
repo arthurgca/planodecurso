@@ -5,3 +5,4 @@
 
 .disciplina .btn-desalocar { display: none; }
 .disciplina:hover .btn-desalocar { display: block; }
+.disciplina .requisito { margin: 0 2px 0 2px; }

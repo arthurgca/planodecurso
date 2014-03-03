@@ -52,7 +52,10 @@
           </h4>
           <small ng-if="alocacao.disciplina.requisitos"
                  ng-repeat="requisito in alocacao.disciplina.requisitos">
-            <span class="label label-danger">{{requisito.nome}}</span>
+            <span class="label requisito"
+                  ng-class="[estiloRequisito(periodo, requisito)]">
+              {{requisito.nome}}
+            </span>
           </small>
         </a>
       </div>

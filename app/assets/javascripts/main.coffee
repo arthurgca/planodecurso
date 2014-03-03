@@ -31,6 +31,14 @@ mainApp.controller "PlanoDeCursoCtrl", (
   $scope.sortableOptions =
     connectWith: ".periodo .list-group"
 
+  $scope.estiloRequisito = (periodo, requisito) ->
+    satisfeito = _.some periodo.pagas, (disciplina) ->
+      disciplina.id == requisito.id
+    if satisfeito
+      "label-info"
+    else
+      "label-danger"
+
   atualizar = ->
     PlanoDeCursoService.atualizar()
 
@@ -145,6 +153,12 @@ mainApp.service "PlanoDeCursoService", ($http) ->
         memo + alocacao.disciplina.creditos
       periodo.creditos = _.reduce periodo.alocacoes, iterador, 0
 
+      iterador = (memo, p) =>
+        if p.semestre < periodo.semestre
+          return memo.concat _.pluck p.alocacoes, "disciplina"
+        memo
+      periodo.pagas = _.reduce @periodos, iterador, []
+
     alocacoes = _.groupBy res.data.alocacoes, "semestre"
     _.map @periodos, (periodo) ->
       atualizarPeriodo periodo, alocacoes[periodo.semestre]
@@ -155,6 +169,7 @@ mainApp.service "PlanoDeCursoService", ($http) ->
         semestre: semestre
         creditos: 0
         alocacoes: []
+        pagas: []
 
     getDisciplinasOfertadas = =>
       $http(method: "GET", url: "/disciplinas")
