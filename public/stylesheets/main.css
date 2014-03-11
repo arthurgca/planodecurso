@@ -1,8 +1,10 @@
 /* Required by Angular Bootstrap */
 .nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
 
+/* Application Styles */
 .container { max-width: 600px; }
 
-.disciplina .btn-desalocar { display: none; }
-.disciplina:hover .btn-desalocar { display: block; }
-.disciplina .requisito { margin: 0 2px 0 2px; }
+.periodo .list-group { min-height: 100px; }
+
+.disciplina button { display: none; }
+.disciplina:hover button { display: block; }
