@@ -26,20 +26,20 @@ public class AlocacoesCtrl extends ControllerBase {
         return ok(result);
     }
 
-    public static Result mover(int semestre, int disciplinaId) {
+    public static Result mover(int paraSemestre, int disciplinaId, int deSemestre) {
         PlanoDeCurso planoDeCurso = getPlanoDeCurso();
         Disciplina disciplina = getDisciplina(disciplinaId);
         ObjectNode result = Json.newObject();
 
         try {
-            planoDeCurso.moverDisciplina(semestre, disciplina);
+            planoDeCurso.moverDisciplina(deSemestre, paraSemestre, disciplina);
         } catch (ErroDeAlocacaoException e) {
             result.put("message", e.getMessage());
             return badRequest(result);
         }
 
         String template = "<b>%s</b> foi movida para o <b>%sº período.</b>";
-        String message = String.format(template, disciplina.nome, semestre);
+        String message = String.format(template, disciplina.nome, paraSemestre);
         result.put("message", message);
         return ok(result);
     }
@@ -49,7 +49,7 @@ public class AlocacoesCtrl extends ControllerBase {
         Disciplina disciplina = getDisciplina(disciplinaId);
         ObjectNode result = Json.newObject();
 
-        planoDeCurso.desalocarDisciplina(disciplina);
+        planoDeCurso.desalocarDisciplina(semestre, disciplina);
 
         String template = "<b>%s</b> foi desalocada do <b>%sº período.</b>";
         String message = String.format(template, disciplina.nome, semestre);

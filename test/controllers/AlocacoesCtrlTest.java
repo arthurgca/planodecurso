@@ -12,6 +12,7 @@ import static play.test.Helpers.*;
 import static play.mvc.Http.Status.*;
 
 public class AlocacoesCtrlTest extends test.TestBase {
+
     @Test
     public void criar() {
         Result result = callAction(controllers.routes.ref.AlocacoesCtrl.criar(7, 45));
@@ -29,8 +30,8 @@ public class AlocacoesCtrlTest extends test.TestBase {
     }
 
     @Test
-    public void moverDisciplina() {
-        Result result = callAction(controllers.routes.ref.AlocacoesCtrl.mover(7, 7));
+    public void mover() {
+        Result result = callAction(controllers.routes.ref.AlocacoesCtrl.mover(7, 7, 2));
         assertThat(status(result)).isEqualTo(OK);
         assertThat(contentType(result)).isEqualTo("application/json");
         assertThat(charset(result)).isEqualTo("utf-8");
@@ -38,7 +39,7 @@ public class AlocacoesCtrlTest extends test.TestBase {
 
     @Test
     public void moverErro() {
-        Result result = callAction(controllers.routes.ref.AlocacoesCtrl.mover(3, 7));
+        Result result = callAction(controllers.routes.ref.AlocacoesCtrl.mover(3, 7, 2));
         assertThat(status(result)).isEqualTo(BAD_REQUEST);
         assertThat(contentType(result)).isEqualTo("application/json");
         assertThat(charset(result)).isEqualTo("utf-8");

@@ -8,11 +8,14 @@ GET     /resetar                                        controllers.PlanoDeCurso
 
 # Disciplinas
 GET     /disciplinas                                    controllers.DisciplinasCtrl.listar()
+
 # Curso
 GET     /curso                                          controllers.PlanoDeCursoCtrl.exibir()
-POST    /curso/:semestre/:disciplina                    controllers.AlocacoesCtrl.criar(semestre: Integer, disciplina: Integer)
-PUT     /curso/:semestre/:disciplina                    controllers.AlocacoesCtrl.mover(semestre: Integer, disciplina: Integer)
-DELETE  /curso/:semestre/:disciplina                    controllers.AlocacoesCtrl.deletar(semestre: Integer, disciplina: Integer)
+
+# Alocacoes
+POST    /curso/:periodo                                 controllers.AlocacoesCtrl.criar(periodo: Integer, disciplina: Integer)
+PUT     /curso/:periodo/:disciplina                     controllers.AlocacoesCtrl.mover(periodo: Integer, disciplina: Integer, dePeriodo: Integer)
+DELETE  /curso/:periodo/:disciplina                     controllers.AlocacoesCtrl.deletar(periodo: Integer, disciplina: Integer)
 
 # Recursos estáticos
 GET     /assets/*file                                   controllers.Assets.at(path="/public", file)

@@ -96,25 +96,19 @@ public class PlanoDeCursoTest extends test.TestBase {
         plano2.alocarDisciplina(3, disciplina("Projeto em Computação II"));
     }
 
-    @Test(expected = ErroDeAlocacaoException.class)
-    public void alocarDisciplinaRepetida() throws ErroDeAlocacaoException {
-        plano0.alocarDisciplina(1, disciplina("Programação I"));
-        plano0.alocarDisciplina(2, disciplina("Programação I"));
-    }
-
     @Test
     public void moverDisciplina() throws ErroDeAlocacaoException {
-        plano1.moverDisciplina(2, disciplina("Cálculo I"));
+        plano1.moverDisciplina(1, 2, disciplina("Cálculo I"));
         assertTrue(plano1.getDisciplinas(2).contains(disciplina("Cálculo I")));
         assertFalse(plano1.getDisciplinas(1).contains(disciplina("Cálculo I")));
 
-        plano2.moverDisciplina(3, disciplina("Matemática Discreta"));
+        plano2.moverDisciplina(2, 3, disciplina("Matemática Discreta"));
         assertTrue(plano2.getDisciplinas(3).contains(disciplina("Matemática Discreta")));
         assertFalse(plano2.getDisciplinas(2).contains(disciplina("Matemática Discreta")));
     }
 
     @Test(expected = ErroDeAlocacaoException.class)
-    public void moverDisciplinaMaximoCreditos() throws ErroDeAlocacaoException {
+    public void moverDisciplinaErro() throws ErroDeAlocacaoException {
         try {
             plano2.alocarDisciplina(1, disciplina("Gerência da Informação"));
             plano2.alocarDisciplina(2, disciplina("Metodologia Científica"));
@@ -122,22 +116,38 @@ public class PlanoDeCursoTest extends test.TestBase {
             assertTrue(false);
         }
 
-        plano2.moverDisciplina(2, disciplina("Gerência da Informação"));
+        plano2.moverDisciplina(1, 2, disciplina("Gerência da Informação"));
+    }
+
+    public void moverDisciplinaErro2() throws ErroDeAlocacaoException {
+        try {
+            plano2.alocarDisciplina(1, disciplina("Gerência da Informação"));
+            plano2.alocarDisciplina(2, disciplina("Metodologia Científica"));
+        } catch (ErroDeAlocacaoException e) {
+            assertTrue(false);
+        }
+
+        try {
+            plano2.moverDisciplina(1, 2, disciplina("Gerência da Informação"));
+        } catch (ErroDeAlocacaoException e) {
+            assertTrue(plano2.getDisciplinas(1).contains(disciplina("Gerência da Informação")));
+        }
+        assertTrue(false);
     }
 
     @Test
     public void moverDisciplinaPreRequisitosInsatisfeitos() throws ErroDeAlocacaoException {
-        plano2.moverDisciplina(3, disciplina("Cálculo I"));
+        plano2.moverDisciplina(1, 3, disciplina("Cálculo I"));
         assertTrue(plano2.getDisciplinas(3).contains(disciplina("Cálculo I")));
         assertFalse(plano2.getDisciplinas(1).contains(disciplina("Cálculo I")));
     }
 
     @Test
     public void desalocarDisciplina() {
-        plano1.desalocarDisciplina(disciplina("Programação I"));
+        plano1.desalocarDisciplina(1, disciplina("Programação I"));
         assertFalse(plano1.getDisciplinas().contains(disciplina("Programação I")));
 
-        plano2.desalocarDisciplina(disciplina("Programação II"));
+        plano2.desalocarDisciplina(2, disciplina("Programação II"));
         assertFalse(plano2.getDisciplinas().contains(disciplina("Programação II")));
     }
 
@@ -152,7 +162,7 @@ public class PlanoDeCursoTest extends test.TestBase {
         plano.alocarDisciplina(3, disciplina("Fund. de Física Moderna"));
         plano.alocarDisciplina(3, disciplina("Gerência da Informação"));
 
-        plano.desalocarDisciplina(disciplina("Cálculo I"));
+        plano.desalocarDisciplina(1, disciplina("Cálculo I"));
 
         assertFalse(plano.getDisciplinas().contains(disciplina("Cálculo I")));
         assertFalse(plano.getDisciplinas().contains(disciplina("Fund. de Física Clássica")));
@@ -166,6 +176,6 @@ public class PlanoDeCursoTest extends test.TestBase {
     public void serializaCorretamente() {
         JsonNode node = Json.toJson(PlanoDeCurso.criarPlanoInicial());
         assertTrue(node.get("disciplinas").isArray());
-        assertTrue(node.get("alocacoes").isArray());
+        assertTrue(node.get("periodos").isArray());
     }
 }
