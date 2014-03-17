@@ -6,7 +6,7 @@ import play.mvc.Http.*;
 
 import models.*;
 
-public class Autenticado extends Security.Authenticator {
+public class Autenticador extends Security.Authenticator {
 
     @Override
     public String getUsername(Context ctx) {
