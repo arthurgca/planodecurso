@@ -1,50 +1,83 @@
 @(form: Form[Usuario])
 
 
-@main("Plano de Curso") {
-@helper.form(routes.Application.submeteCadastro) {
-<nav class="navbar navbar-inverse"
-     role="navigation">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <a class="navbar-brand"
-         href="/">Plano de Curso</a>
-    </div>
-</nav>
-<html>
-    <body>
-    <div class="container">  
-        @if(flash.contains("success")) { 
-            <div class="alert alert-success">
-            @flash.get("success")
-            </div> 
-        }
-        @if(form.hasGlobalErrors) {
-            <div class="alert alert-warning">
-            @form.globalError.message    
-            </div> 
-        } 
-        
-    <div class="panel panel-primary">
-    <div class="panel-heading">
-         <h3 class="panel-title">Cadastrar novo usuario:</h3>
+@main("Plano de Curso", null) {
 
+<div class="container">
+  @if(flash.contains("success")) {
+  <div class="alert alert-success">
+    @flash.get("success")
+  </div>
+  }
+
+  @if(form.hasGlobalErrors) {
+  <div class="alert alert-warning">
+    @form.globalError.message
+  </div>
+  }
+
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <h3 class="panel-title">Cadastre-se</h3>
     </div>
     <div class="panel-body">
-        <form class="form-signin" role="form">
-        <input type="email" name="email" class="form-control" placeholder="Email" required autofocus>
-        <input type="name" name="nome" class="form-control" placeholder="Nome" required autofocus>
-        <input type="password" name="senha" class="form-control" placeholder="Senha" required>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Cadastrar</button>
-        <div class="panel-footer">
-        <a href="@routes.Application.login()">Já é cadastrado? Logue-se agora.</a>
+      @helper.form(routes.Application.submeteCadastro) {
+      <form role="form">
+        <div class="form-group">
+          <div class="input-group">
+            <span class="input-group-addon glyphicon glyphicon-envelope"></span>
+            <input class="form-control"
+                   type="email"
+                   name="email"
+                   placeholder="Seu e-mail"
+                   value="@form("email").value"
+                   autofocus>
+          </div>
         </div>
+        <div class="form-group">
+          <div class="input-group">
+            <span class="input-group-addon glyphicon glyphicon-user"></span>
+            <input class="form-control"
+                   type="text"
+                   name="nome"
+                   placeholder="Seu nome"
+                   value="@form("nome").value"
+                   autofocus>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="input-group">
+            <span class="input-group-addon glyphicon glyphicon-lock"></span>
+            <input class="form-control"
+                   type="password"
+                   name="senha"
+                   placeholder="Senha"
+                   autofocus>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="input-group">
+            <span class="input-group-addon glyphicon glyphicon-lock"></span>
+            <input class="form-control"
+                   type="password"
+                   name="confirmacao_senha"
+                   placeholder="Confirme a senha"
+                   autofocus>
+          </div>
+        </div>
+        <div class="form-group">
+          <button class="btn btn-lg btn-primary btn-block" type="submit">
+            Cadastrar
+          </button>
+        </div>
+      </form>
+      <div class="panel-footer">
+        Já é cadastrado?
+        <a href="@routes.Application.login()">Efetue o login.</a>
+      </div>
     </div>
-    
+    }
+  </div>
+</div>
 
-    </div>
-    </body>
-
-</html>
-}
 }

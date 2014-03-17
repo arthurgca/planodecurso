@@ -1,46 +1,61 @@
 @(form: Form[Application.Login])
 
 
-@main("Plano de Curso") {
-@helper.form(routes.Application.autenticar) {
-<nav class="navbar navbar-inverse"
-     role="navigation">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <a class="navbar-brand"
-         href="/">Plano de Curso</a>
-    </div>
-</nav>
-<html>
-    <body>
-    <div class="container">  
-        @if(flash.contains("success")) { 
-            <div class="alert alert-success">
-            @flash.get("success")
-            </div> 
-        }
-        @if(form.hasGlobalErrors) {
-            <div class="alert alert-warning">
-            @form.globalError.message    
-            </div> 
-        } 
-        
-    <div class="panel panel-primary">
-    <div class="panel-heading">
-         <h3 class="panel-title">Logar com seu usuario:</h3>
+@main("Plano de Curso", null) {
 
+<div class="container">
+  @if(flash.contains("success")) {
+  <div class="alert alert-success">
+    @flash.get("success")
+  </div>
+  }
+
+  @if(form.hasGlobalErrors) {
+  <div class="alert alert-warning">
+    @form.globalError.message
+  </div>
+  }
+
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <h3 class="panel-title">Login</h3>
     </div>
     <div class="panel-body">
-        <form class="form-signin" role="form">
-        <input type="email" name="email" class="form-control" placeholder="Email" required autofocus>
-        <input type="password" name="senha" class="form-control" placeholder="Senha" required>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Entrar</button>
-        <div class="panel-footer">
-        <a href="@routes.Application.cadastrar()">Não é cadastrado? Cadastre-se agora!</a>
+      @helper.form(routes.Application.autenticar) {
+      <form role="form">
+        <div class="form-group">
+          <div class="input-group">
+            <span class="input-group-addon glyphicon glyphicon-envelope"></span>
+            <input type="email"
+                   name="email"
+                   class="form-control"
+                   placeholder="Seu e-mail"
+                   autofocus>
+          </div>
         </div>
+        <div class="form-group">
+          <div class="input-group">
+            <span class="input-group-addon glyphicon glyphicon-lock"></span>
+            <input type="password"
+                   name="senha"
+                   class="form-control"
+                   placeholder="Senha"
+                   autofocus>
+          </div>
+        </div>
+        <div class="form-group">
+          <button class="btn btn-lg btn-primary btn-block" type="submit">
+            Entrar
+          </button>
+        </div>
+        <div class="panel-footer">
+          Não é cadastrado?
+          <a href="@routes.Application.cadastrar()">Cadastre-se.</a>
+        </div>
+      </form>
+      }
     </div>
-    </body>
+  </div>
+</div>
 
-</html>
-}
 }

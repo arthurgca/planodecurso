@@ -1,4 +1,4 @@
-@(title: String)(content: Html)
+@(title: String, usuario: Usuario)(content: Html)
 <!DOCTYPE html>
 <html style="height: 100%;" ng-app="mainApp">
     <head>
@@ -23,6 +23,28 @@
         <script src="@routes.Assets.at("javascripts/PlanoDeCurso.js")"></script>
     </head>
     <body ng-controller="MainCtrl">
+      <nav class="navbar navbar-inverse"
+           role="navigation">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            @if(usuario == null) {
+            <a class="navbar-brand"
+               href="@routes.Application.index()">Plano de Curso</a>
+            } else {
+            <a class="navbar-brand"
+               href="@routes.PlanoDeCursoApp.index()">Plano de Curso</a>
+            }
+          </div>
+          <ul class="nav navbar-nav">
+            @if(usuario != null) {
+            <li><a href="#">@usuario.email</a></li>
+            <li><a href="@routes.Application.logout()">Sair</a></li>
+            } else {
+            <li><a href="@routes.Application.login()">Login</a></li>
+            }
+          </ul>
+        </div>
+      </nav>
       @content
     </body>
 </html>
