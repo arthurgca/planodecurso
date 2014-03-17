@@ -10,19 +10,13 @@ GET     /logout                                         controllers.Application.
 GET     /cadastrar                                      controllers.Application.cadastrar()
 POST    /cadastrar                                      controllers.Application.submeteCadastro()
 
-# Plano de Curso
+# Plano De Curso
 GET     /meucurso                                       controllers.PlanoDeCursoApp.index()
-
-# Disciplinas
-GET     /disciplinas                                    controllers.DisciplinasCtrl.listar()
-
-# Curso
-GET     /curso                                          controllers.PlanoDeCursoCtrl.exibir()
-
-# Alocacoes
-POST    /curso/:periodo                                 controllers.AlocacoesCtrl.criar(periodo: Integer, disciplina: Integer)
-PUT     /curso/:periodo/:disciplina                     controllers.AlocacoesCtrl.mover(periodo: Integer, disciplina: Integer, dePeriodo: Integer)
-DELETE  /curso/:periodo/:disciplina                     controllers.AlocacoesCtrl.deletar(periodo: Integer, disciplina: Integer)
+GET     /curso                                          controllers.PlanoDeCursoApp.exibirPlanoDeCurso()
+GET     /disciplinas                                    controllers.PlanoDeCursoApp.listarDisciplinas()
+POST    /curso/:periodo                                 controllers.PlanoDeCursoApp.alocarDisciplina(periodo: Integer, disciplina: Integer)
+PUT     /curso/:periodo/:disciplina                     controllers.PlanoDeCursoApp.moverDisciplina(periodo: Integer, disciplina: Integer, dePeriodo: Integer)
+DELETE  /curso/:periodo/:disciplina                     controllers.PlanoDeCursoApp.desalocarDisciplina(periodo: Integer, disciplina: Integer)
 
 # Recursos estáticos
 GET     /assets/*file                                   controllers.Assets.at(path="/public", file)
