@@ -24,6 +24,8 @@ public class Global extends GlobalSettings {
         if (Disciplina.getAll().isEmpty()) {
             @SuppressWarnings("unchecked")
                 Map<String,List<Object>> all = (Map<String,List<Object>>) Yaml.load("initial-data.yml");
+            
+            Ebean.save(all.get("usuarios"));
 
             Ebean.save(all.get("disciplinas"));
             for(Object disciplina: all.get("disciplinas")) {
