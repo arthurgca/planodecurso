@@ -7,6 +7,7 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import views.html.index;
 import views.html.login;
+import views.html.cadastrar;
 
 public class Application extends Controller {
 	
@@ -36,6 +37,27 @@ public class Application extends Controller {
         return redirect(
             routes.Application.login()
         );
+    }
+    
+    public static Result cadastrar() {
+        return ok(cadastrar.render(Form.form(Usuario.class)));
+    }
+    
+    public static Result submeteCadastro() {
+        Form<Usuario> cadastroForm = Form.form(Usuario.class).bindFromRequest();       
+        if(cadastroForm.hasErrors()) {
+            return badRequest(cadastrar.render(cadastroForm));
+        } 
+        if(Usuario.find.all().contains(cadastroForm.get())) {
+        	cadastroForm.reject("Usuário já cadastrado");
+            return badRequest(cadastrar.render(cadastroForm));
+        }
+        else {
+            Usuario usuario = cadastroForm.get();
+            usuario.save();
+            flash("success", "Usuario cadastrado com sucesso, tente se logar agora");
+            return redirect(routes.Application.login());
+        }
     }
     
     public static class Login {

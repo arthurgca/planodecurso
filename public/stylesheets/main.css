@@ -9,9 +9,10 @@
 .disciplina button { display: none; }
 .disciplina:hover button { display: block; }
 
-/* Sign In Style */
+/* Sign In and Sign Up Style */
+
 .form-signin {
-  max-width: 400px;
+  max-width: 330px;
   padding: 15px;
   margin: 0 auto;
 }

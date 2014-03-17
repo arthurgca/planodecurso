@@ -1,8 +1,8 @@
-@(form: Form[Application.Login])
+@(form: Form[Usuario])
 
 
 @main("Plano de Curso") {
-@helper.form(routes.Application.autenticar) {
+@helper.form(routes.Application.submeteCadastro) {
 <nav class="navbar navbar-inverse"
      role="navigation">
   <div class="container-fluid">
@@ -27,17 +27,21 @@
         
     <div class="panel panel-primary">
     <div class="panel-heading">
-         <h3 class="panel-title">Logar com seu usuario:</h3>
+         <h3 class="panel-title">Cadastrar novo usuario:</h3>
 
     </div>
     <div class="panel-body">
         <form class="form-signin" role="form">
         <input type="email" name="email" class="form-control" placeholder="Email" required autofocus>
+        <input type="name" name="nome" class="form-control" placeholder="Nome" required autofocus>
         <input type="password" name="senha" class="form-control" placeholder="Senha" required>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Entrar</button>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Cadastrar</button>
         <div class="panel-footer">
-        <a href="@routes.Application.cadastrar()">Não é cadastrado? Cadastre-se agora!</a>
+        <a href="@routes.Application.login()">Já é cadastrado? Logue-se agora.</a>
         </div>
+    </div>
+    
+
     </div>
     </body>
 

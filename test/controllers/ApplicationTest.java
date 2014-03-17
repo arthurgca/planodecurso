@@ -20,3 +20,4 @@ public class ApplicationTest extends test.TestBase {
         assertThat(charset(result)).isEqualTo("utf-8");
     }
 }
+	
