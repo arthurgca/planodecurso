@@ -22,7 +22,7 @@ usuarios:
   - !!models.Usuario
       email:    usuario5@example.com
       nome:     Usuario5
-      senha:    senha5  
+      senha:    senha5
 disciplinas:
   - !!models.Disciplina
       id:         1

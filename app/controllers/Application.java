@@ -10,15 +10,15 @@ import views.html.login;
 import views.html.cadastrar;
 
 public class Application extends Controller {
-	
+
     public static Result index() {
         return ok(index.render());
     }
-    
+
     public static Result login() {
         return ok(login.render(Form.form(Login.class)));
     }
-     
+
     public static Result autenticar() {
         Form<Login> loginForm = Form.form(Login.class).bindFromRequest();
         if (loginForm.hasErrors()) {
@@ -30,7 +30,7 @@ public class Application extends Controller {
                 routes.PlanoDeCursoApp.index());
         }
     }
-    
+
     public static Result logout() {
         session().clear();
         flash("success", "Foi deslogado com sucesso!");
@@ -38,28 +38,27 @@ public class Application extends Controller {
             routes.Application.login()
         );
     }
-    
+
     public static Result cadastrar() {
         return ok(cadastrar.render(Form.form(Usuario.class)));
     }
-    
+
     public static Result submeteCadastro() {
-        Form<Usuario> cadastroForm = Form.form(Usuario.class).bindFromRequest();       
+        Form<Usuario> cadastroForm = Form.form(Usuario.class).bindFromRequest();
         if(cadastroForm.hasErrors()) {
             return badRequest(cadastrar.render(cadastroForm));
-        } 
+        }
         if(Usuario.find.all().contains(cadastroForm.get())) {
         	cadastroForm.reject("Usuário já cadastrado");
             return badRequest(cadastrar.render(cadastroForm));
-        }
-        else {
+        } else {
             Usuario usuario = cadastroForm.get();
             usuario.save();
             flash("success", "Usuario cadastrado com sucesso, tente se logar agora");
             return redirect(routes.Application.login());
         }
     }
-    
+
     public static class Login {
 
         public String email;

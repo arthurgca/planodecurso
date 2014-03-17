@@ -4,14 +4,14 @@
 
 # Home page
 GET     /                                               controllers.Application.index()
-GET     /login											controllers.Application.login()
-POST    /login											controllers.Application.autenticar()
-GET     /logout											controllers.Application.logout()
-GET     /cadastrar										controllers.Application.cadastrar()
-POST    /cadastrar										controllers.Application.submeteCadastro()
+GET     /login                                          controllers.Application.login()
+POST    /login                                          controllers.Application.autenticar()
+GET     /logout                                         controllers.Application.logout()
+GET     /cadastrar                                      controllers.Application.cadastrar()
+POST    /cadastrar                                      controllers.Application.submeteCadastro()
 
 # Plano de Curso
-GET     /meucurso										controllers.PlanoDeCursoApp.index()
+GET     /meucurso                                       controllers.PlanoDeCursoApp.index()
 
 # Disciplinas
 GET     /disciplinas                                    controllers.DisciplinasCtrl.listar()
