@@ -1,13 +1,11 @@
 package controllers;
 
-import models.Usuario;
+import play.mvc.*;
 import play.data.*;
 import static play.data.Form.*;
-import play.mvc.Controller;
-import play.mvc.Result;
-import views.html.index;
-import views.html.login;
-import views.html.cadastrar;
+
+import models.*;
+import views.html.*;
 
 public class Application extends Controller {
 
@@ -37,7 +35,7 @@ public class Application extends Controller {
 
     public static Result logout() {
         session().clear();
-        flash("success", "Foi deslogado com sucesso!");
+        flash("success", "Logout efetuado com sucesso.");
         return redirect(
             routes.Application.login()
         );
@@ -53,12 +51,13 @@ public class Application extends Controller {
             return badRequest(cadastrar.render(cadastroForm));
         }
         if(Usuario.find.all().contains(cadastroForm.get())) {
-        	cadastroForm.reject("Usuário já cadastrado");
+            cadastroForm.reject("Esse Nome de Usuário já existe");
             return badRequest(cadastrar.render(cadastroForm));
         } else {
             Usuario usuario = cadastroForm.get();
             usuario.save();
-            flash("success", "Usuario cadastrado com sucesso, tente se logar agora");
+            flash("success", "Usuário cadastrado com sucesso. " +
+                  "Faça login para continuar.");
             return redirect(routes.Application.login());
         }
     }
@@ -70,7 +69,7 @@ public class Application extends Controller {
 
         public String validate() {
             if (Usuario.autenticar(email, senha) == null) {
-              return "Usuario ou senha com erro";
+                return "E-mail ou senha inválidos.";
             }
             return null;
         }
