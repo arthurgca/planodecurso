@@ -21,4 +21,8 @@ public abstract class TestBase extends WithApplication {
         return Disciplina.get(nome);
     }
 
+    protected FakeRequest sessaoAutenticada() {
+        return fakeRequest().withSession("email", "bob@example.com");
+    }
+
 }
