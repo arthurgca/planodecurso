@@ -5,7 +5,7 @@ import play.libs.*;
 
 import models.*;
 
-public class PlanoDeCursoCtrl extends ControllerBase {
+public class PlanoDeCursoCtrl extends PrivateControllerBase {
 
     public static Result exibir() {
         return ok(Json.toJson(getPlanoDeCurso()));

@@ -9,7 +9,7 @@ import models.*;
 
 import config.Global;
 
-public abstract class ControllerBase extends Controller {
+public abstract class PrivateControllerBase extends Controller {
 
     protected static PlanoDeCurso getPlanoDeCurso() {
         return Global.PLANO_DE_CURSO_GLOBAL;

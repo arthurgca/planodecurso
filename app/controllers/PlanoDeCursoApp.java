@@ -2,17 +2,13 @@ package controllers;
 
 import play.mvc.*;
 
-import views.html.index;
+import views.html.meucurso;
 
-public class PlanoDeCursoApp extends ControllerBase {
+public class PlanoDeCursoApp extends PrivateControllerBase {
 
     public static Result index() {
-        return ok(index.render());
+        return ok(meucurso.render());
     }
 
-    public static Result resetar() {
-        resetarDemo();
-        return redirect("/");
-    }
 
 }

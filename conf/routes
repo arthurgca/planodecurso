@@ -3,8 +3,10 @@
 # ~~~~
 
 # Home page
-GET     /                                               controllers.PlanoDeCursoApp.index()
-GET     /resetar                                        controllers.PlanoDeCursoApp.resetar()
+GET     /                                               controllers.Application.index()
+
+# Plano de Curso
+GET     /meuCurso										controllers.PlanoDeCursoApp.index()
 
 # Disciplinas
 GET     /disciplinas                                    controllers.DisciplinasCtrl.listar()

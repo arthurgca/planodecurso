@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import models.*;
 
-public class AlocacoesCtrl extends ControllerBase {
+public class AlocacoesCtrl extends PrivateControllerBase {
 
     public static Result criar(int semestre, int disciplinaId) {
         PlanoDeCurso planoDeCurso = getPlanoDeCurso();

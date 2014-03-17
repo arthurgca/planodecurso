@@ -5,7 +5,7 @@ import play.libs.*;
 
 import models.*;
 
-public class DisciplinasCtrl extends ControllerBase {
+public class DisciplinasCtrl extends PrivateControllerBase {
 
     public static Result listar() {
         return ok(Json.toJson(getDisciplinas()));
