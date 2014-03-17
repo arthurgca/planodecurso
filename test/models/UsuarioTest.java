@@ -10,7 +10,7 @@ public class UsuarioTest extends test.TestBase {
 	public void testaAutenticacao() {
 		Usuario user = new Usuario("teste@hotmail.com", "Usuario", "senha");
 		user.save();
-		assertEquals(user.authenticate("teste@hotmail.com", "senha"), user);
+		assertEquals(user.autenticar("teste@hotmail.com", "senha"), user);
 	}
 
 }

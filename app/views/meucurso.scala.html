@@ -1,9 +1,8 @@
-@()
+@(usuario: Usuario)
 
 @import helper._
 
 @main("Plano de Curso") {
-
 <nav class="navbar navbar-inverse"
      role="navigation">
   <div class="container-fluid">
@@ -12,7 +11,10 @@
          href="#">Plano de Curso</a>
     </div>
     <ul class="nav navbar-nav">
-      <li><a href="/resetar">Resetar</a></li>
+      <li><a>@usuario.email</a></li>
+    </ul>
+    <ul class="nav navbar-nav">
+      <li><a href="/logout">Deslogar</a></li>
     </ul>
   </div>
 </nav>

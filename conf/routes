@@ -4,6 +4,11 @@
 
 # Home page
 GET     /                                               controllers.Application.index()
+GET     /login											controllers.Application.login()
+POST    /login											controllers.Application.autenticar()
+GET     /logout											controllers.Application.logout()
+
+
 
 # Plano de Curso
 GET     /meuCurso										controllers.PlanoDeCursoApp.index()
