@@ -12,7 +12,11 @@ import views.html.cadastrar;
 public class Application extends Controller {
 
     public static Result index() {
-        return ok(index.render());
+        if (isAutenticado()) {
+            return redirect(routes.PlanoDeCursoApp.index());
+        } else {
+            return ok(index.render());
+        }
     }
 
     public static Result login() {
@@ -72,4 +76,7 @@ public class Application extends Controller {
         }
     }
 
+    private static boolean isAutenticado() {
+        return session().get("email") != null;
+    }
 }
