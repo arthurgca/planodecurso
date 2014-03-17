@@ -9,6 +9,10 @@ import views.html.*;
 
 public class Application extends Controller {
 
+    public static Form<Login> LoginForm = Form.form(Login.class);
+
+    public static Form<Cadastro> CadastroForm = Form.form(Cadastro.class);
+
     public static Result index() {
         if (isAutenticado()) {
             return redirect(routes.PlanoDeCursoApp.index());
@@ -18,60 +22,78 @@ public class Application extends Controller {
     }
 
     public static Result login() {
-        return ok(login.render(Form.form(Login.class)));
+        return ok(login.render(LoginForm));
     }
 
     public static Result autenticar() {
-        Form<Login> loginForm = Form.form(Login.class).bindFromRequest();
-        if (loginForm.hasErrors()) {
-            return badRequest(login.render(loginForm));
+        Form<Login> form = LoginForm.bindFromRequest();
+        if (form.hasErrors()) {
+            return badRequest(login.render(form));
         } else {
             session().clear();
-            session("email", loginForm.get().email);
-            return redirect(
-                routes.PlanoDeCursoApp.index());
+            session("email", form.get().email);
+            return redirect(routes.PlanoDeCursoApp.index());
         }
     }
 
     public static Result logout() {
         session().clear();
         flash("success", "Logout efetuado com sucesso.");
-        return redirect(
-            routes.Application.login()
-        );
+        return redirect(routes.Application.login());
     }
 
     public static Result cadastrar() {
-        return ok(cadastrar.render(Form.form(Usuario.class)));
+        return ok(cadastrar.render(CadastroForm));
     }
 
     public static Result submeteCadastro() {
-        Form<Usuario> cadastroForm = Form.form(Usuario.class).bindFromRequest();
-        if(cadastroForm.hasErrors()) {
-            return badRequest(cadastrar.render(cadastroForm));
-        }
-        if(Usuario.find.all().contains(cadastroForm.get())) {
-            cadastroForm.reject("Esse Nome de Usuário já existe");
-            return badRequest(cadastrar.render(cadastroForm));
+        Form<Cadastro> form = CadastroForm.bindFromRequest();
+        if(form.hasErrors()) {
+            return badRequest(cadastrar.render(form));
         } else {
-            Usuario usuario = cadastroForm.get();
-            usuario.save();
-            flash("success", "Usuário cadastrado com sucesso. " +
-                  "Faça login para continuar.");
+            form.get().getUsuario().save();
+            flash("success",
+                  "Usuário cadastrado com sucesso. Faça login para continuar.");
             return redirect(routes.Application.login());
         }
     }
 
     public static class Login {
-
         public String email;
         public String senha;
 
         public String validate() {
             if (Usuario.autenticar(email, senha) == null) {
                 return "E-mail ou senha inválidos.";
+            } else {
+                return null;
+            }
+        }
+    }
+
+    public static class Cadastro {
+        public String nome;
+        public String email;
+        public String senha;
+        public String confirmacao;
+
+        public String validate() {
+            if (nome.isEmpty()) {
+                return "O campo Nome é obrigatório";
+            } else if (email.isEmpty()) {
+                return "O campo Email é obrigatório";
+            } else if (Usuario.find.byId(email) != null) {
+                return "Este Email já foi cadastrado";
+            } else if (senha.isEmpty()) {
+                return "O campo Senha é obrigatório";
+            } else if (!senha.equals(confirmacao)) {
+                return "O campo Confirmação está incorreto";
             }
             return null;
+        }
+
+        public Usuario getUsuario() {
+            return new Usuario(email, nome, senha);
         }
     }
 
