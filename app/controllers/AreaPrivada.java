@@ -10,7 +10,7 @@ import models.*;
 import config.Global;
 
 @Security.Authenticated(Autenticador.class)
-public abstract class PrivateControllerBase extends Controller {
+public abstract class AreaPrivada extends Controller {
 
     protected static PlanoDeCurso getPlanoDeCurso() {
         return Global.PLANO_DE_CURSO_GLOBAL;
