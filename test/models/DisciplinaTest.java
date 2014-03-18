@@ -16,6 +16,7 @@ public class DisciplinaTest extends test.TestBase {
         assertEquals(7, node.get("id").numberValue());
         assertEquals("Programação II", node.get("nome").textValue());
         assertEquals(4, node.get("creditos").numberValue());
+        assertEquals("Segundo Semestre", node.get("categoria").textValue());
         assertTrue(node.get("requisitos").isArray());
     }
 }

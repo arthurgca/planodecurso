@@ -7,6 +7,7 @@ create table disciplina (
   id                        integer not null,
   nome                      varchar(255),
   creditos                  integer,
+  categoria                 varchar(255),
   constraint pk_disciplina primary key (id))
 ;
 
