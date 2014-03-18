@@ -15,6 +15,9 @@ public class Autenticador extends Security.Authenticator {
 
     @Override
     public Result onUnauthorized(Context ctx) {
+        ctx.flash().put(
+          "warning",
+          "Você precisa efetuar um login para fazer isso.");
         return redirect(routes.Application.login());
     }
 }

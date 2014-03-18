@@ -22,12 +22,21 @@ public class Application extends Controller {
     }
 
     public static Result login() {
-        return ok(login.render(LoginForm));
+        if (isAutenticado()) {
+            flash("warning", "Você já efetuou um login.");
+            return redirect(routes.PlanoDeCursoApp.index());
+        } else {
+            return ok(login.render(LoginForm));
+        }
     }
 
     public static Result autenticar() {
         Form<Login> form = LoginForm.bindFromRequest();
-        if (form.hasErrors()) {
+
+        if (isAutenticado()) {
+            flash("warning", "Você já efetuou um login.");
+            return redirect(routes.PlanoDeCursoApp.index());
+        } else if (form.hasErrors()) {
             return badRequest(login.render(form));
         } else {
             session().clear();
@@ -37,17 +46,33 @@ public class Application extends Controller {
     }
 
     public static Result logout() {
-        session().clear();
-        flash("success", "Logout efetuado com sucesso.");
-        return redirect(routes.Application.login());
+        if (!isAutenticado()) {
+            flash("warning", "Você não efetuou um login.");
+            return redirect(routes.Application.index());
+        } else {
+            session().clear();
+            flash("success", "Logout efetuado com sucesso.");
+            return redirect(routes.Application.login());
+        }
     }
 
     public static Result cadastrar() {
-        return ok(cadastrar.render(CadastroForm));
+        if (isAutenticado()) {
+            flash("warning", "Você já está cadastrado.");
+            return redirect(routes.PlanoDeCursoApp.index());
+        } else {
+            return ok(cadastrar.render(CadastroForm));
+        }
     }
 
     public static Result submeteCadastro() {
+        if (isAutenticado()) {
+            flash("warning", "Você já está cadastrado.");
+            return redirect(routes.PlanoDeCursoApp.index());
+        }
+
         Form<Cadastro> form = CadastroForm.bindFromRequest();
+
         if(form.hasErrors()) {
             return badRequest(cadastrar.render(form));
         } else {
