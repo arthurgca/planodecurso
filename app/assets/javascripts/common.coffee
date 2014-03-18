@@ -7,17 +7,18 @@ mainApp.factory "ArrayOf", () ->
       _.map ((adt.only Array) x, field, ctr), (elem, i) ->
         (adt.only args) elem, "#{field}[#{i}]", ctr
 
-mainApp.service "Alertas", ($sce) ->
-
-  @mensagens = []
+mainApp.service "Alertas", ($growl) ->
 
   @sucesso = (mensagem) =>
-    @mensagens[0] = tipo: "success", mensagem: $sce.trustAsHtml mensagem
+    ($growl.box "Sucesso",  mensagem,
+      class: 'success'
+      sticky: false
+      timeout: 2500).open()
 
   @erro = (mensagem) =>
-    @mensagens[0] = tipo: "danger", mensagem: $sce.trustAsHtml mensagem
-
-  @fecharAlerta = (index) =>
-    @mensagens.splice(index)
+    ($growl.box "Erro", mensagem,
+      class: 'danger'
+      sticky: false
+      timeout: 2500).open()
 
   return this

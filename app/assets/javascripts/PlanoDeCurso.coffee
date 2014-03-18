@@ -74,13 +74,10 @@ mainApp.service "PlanoDeCursoService", ($http, PlanoDeCurso) ->
 mainApp.controller "PlanoDeCursoCtrl", (
   $scope,
   PlanoDeCursoService,
-  DisciplinaService,
-  Alertas) ->
+  DisciplinaService) ->
 
   $scope.isSatisfeito = (requisito, periodo) ->
     $scope.planoDeCurso.isRequisitoSatisfeito requisito, periodo
-
-  $scope.alertas = Alertas
 
   refresh = ->
     PlanoDeCursoService.get().then (planoDeCurso) ->

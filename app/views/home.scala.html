@@ -4,11 +4,6 @@
 
 @main("Plano de Curso", usuario) {
 <div ng-controller="PlanoDeCursoCtrl">
-  <alert close="alertas.fecharAlerta($index)"
-         ng-repeat="alerta in alertas.mensagens"
-         type="alerta.tipo">
-    <span ng-bind-html="alerta.mensagem"></span>
-  </alert>
   <ng-include ng-repeat="periodo in planoDeCurso.periodos"
               src="'periodo/periodo.html'">
   </ng-include>
