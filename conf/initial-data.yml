@@ -452,3 +452,233 @@ disciplinas:
             id:   4
         - !!models.Disciplina
             id:   13
+
+  - !!models.Disciplina
+      id:         52
+      nome:       TECC (Princípios de Administração Financeira)
+      creditos:   4
+
+  - !!models.Disciplina
+      id:         53
+      nome:       TECC (Fundamentos e Aplicações de Realidade Virtual)
+      creditos:   4
+      requisitos:
+        - !!models.Disciplina
+            id:   26
+
+  - !!models.Disciplina
+      id:         54
+      nome:       TECC (Administração de Sistemas)
+      creditos:   4
+
+  - !!models.Disciplina
+      id:         55
+      nome:       TECC (Análise de Dados I)
+      creditos:   4
+      requisitos:
+        - !!models.Disciplina
+            id:   17
+
+  - !!models.Disciplina
+      id:         56
+      nome:       TECC (Arquitetura de Software)
+      creditos:   4
+      requisitos:
+        - !!models.Disciplina
+            id:   26
+        - !!models.Disciplina
+            id:   27
+
+  - !!models.Disciplina
+      id:         57
+      nome:       TECC (Desenvolvimento Dirigido a Modelos)
+      creditos:   4
+      requisitos:
+        - !!models.Disciplina
+            id:   27
+
+  - !!models.Disciplina
+      id:         58
+      nome:       TECC (Desenvolvimento de Aplicações Corporativas Avançadas)
+      creditos:   4
+      requisitos:
+        - !!models.Disciplina
+            id:   26
+        - !!models.Disciplina
+            id:   31
+
+  - !!models.Disciplina
+      id:         59
+      nome:       TECC (Didática em Ciência da Computação)
+      creditos:   2
+
+  - !!models.Disciplina
+      id:         60
+      nome:       TECC (Economia de TI)
+      creditos:   4
+
+  - !!models.Disciplina
+      id:         61
+      nome:       TECC (Empreendedorismo em Software I)
+      creditos:   4
+
+  - !!models.Disciplina
+      id:         62
+      nome:       TECC (Estágio Integrado II)
+      creditos:   4
+
+  - !!models.Disciplina
+      id:         63
+      nome:       TECC (Fluxo de Trabalho Informatizado)
+      creditos:   4
+
+  - !!models.Disciplina
+      id:         64
+      nome:       TECC (Fundamentos de Programação Concorrente)
+      creditos:   4
+      requisitos:
+        - !!models.Disciplina
+            id:   23
+        - !!models.Disciplina
+            id:   24
+
+  - !!models.Disciplina
+      id:         65
+      nome:       TECC (Introdução ao Desenvolvimento de Software para Dispositivos Móveis)
+      creditos:   4
+      requisitos:
+        - !!models.Disciplina
+            id:   8
+
+  - !!models.Disciplina
+      id:         66
+      nome:       TECC (Métodos Estatísticos e de Previsão de Tendências em Grandes Massas de Dados Históricos)
+      creditos:   6
+      requisitos:
+        - !!models.Disciplina
+            id:   17
+
+  - !!models.Disciplina
+      id:         67
+      nome:       TECC (Metodologia Científica para Pesquisa em Ciência da Computação)
+      creditos:   4
+
+  - !!models.Disciplina
+      id:         68
+      nome:       TECC (Métodos Formais)
+      creditos:   4
+      requisitos:
+        - !!models.Disciplina
+            id:   14
+
+  - !!models.Disciplina
+      id:         69
+      nome:       TECC (Modelagem de Ambientes Virtuais)
+      creditos:   4
+      requisitos:
+        - !!models.Disciplina
+            id:   26
+        - !!models.Disciplina
+            id:   27
+
+  - !!models.Disciplina
+      id:         70
+      nome:       TECC (Programação em Banco de Dados)
+      creditos:   4
+      requisitos:
+        - !!models.Disciplina
+            id:   7
+        - !!models.Disciplina
+            id:   31
+
+  - !!models.Disciplina
+      id:         71
+      nome:       TECC (Programação III)
+      creditos:   4
+      requisitos:
+        - !!models.Disciplina
+            id:   7
+        - !!models.Disciplina
+            id:   8
+
+  - !!models.Disciplina
+      id:         72
+      nome:       TECC (Redes Ad Hoc Sem Fio)
+      creditos:   4
+      requisitos:
+        - !!models.Disciplina
+            id:   29
+
+  - !!models.Disciplina
+      id:         73
+      nome:       TECC (Segurança em Redes de Computadores)
+      creditos:   4
+      requisitos:
+        - !!models.Disciplina
+            id:   29
+        - !!models.Disciplina
+            id:   36
+
+  - !!models.Disciplina
+      id:         74
+      nome:       TECC (Sistemas Cooperativos)
+      creditos:   4
+      requisitos:
+        - !!models.Disciplina
+            id:   27
+
+  - !!models.Disciplina
+      id:         75
+      nome:       TECC (Sistemas de Recuperação da Informação)
+      creditos:   4
+      requisitos:
+        - !!models.Disciplina
+            id:   9
+        - !!models.Disciplina
+            id:   31
+
+  - !!models.Disciplina
+      id:         76
+      nome:       TECC (Visão Computacional)
+      creditos:   4
+      requisitos:
+        - !!models.Disciplina
+            id:   21
+        - !!models.Disciplina
+            id:   25
+
+  - !!models.Disciplina
+      id:         77
+      nome:       TECC (Mineração de Dados)
+      creditos:   2
+      requisitos:
+        - !!models.Disciplina
+            id:   31
+
+  - !!models.Disciplina
+      id:         78
+      nome:       TECC (Tecnologias de Comunicação sem Fio)
+      creditos:   4
+      requisitos:
+        - !!models.Disciplina
+            id:   29
+
+  - !!models.Disciplina
+      id:         79
+      nome:       TECC (Jogos Digitais)
+      creditos:   4
+      requisitos:
+        - !!models.Disciplina
+            id:   14
+
+  - !!models.Disciplina
+      id:         80
+      nome:       TECC (Projeto em Computação Gráfica)
+      creditos:   4
+      requisitos:
+        - !!models.Disciplina
+            id:   13
+        - !!models.Disciplina
+            id:   15
+        - !!models.Disciplina
+            id:   16
