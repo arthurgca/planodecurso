@@ -16,7 +16,7 @@
 
 <script id="periodo/periodo.html"
         type="text/ng-template">
-  <div class="periodo panel panel-default"
+  <div class="periodo panel panel-primary"
        ng-controller="PeriodoCtrl">
     <div class="panel-heading dropdown"
          ng-include="'periodo/periodo-heading.html'">
@@ -69,13 +69,14 @@
     {{disciplina.nome}}
     <span class="badge">{{disciplina.creditos}}</span>
   </h4>
-  <small>
-    <span class="label"
-          ng-class="isSatisfeito(requisito, periodo)?'label-info':'label-danger'"
-          ng-repeat="requisito in disciplina.requisitos">
-      {{requisito.nome}}
-    </span>
-  </small>
+  <ul class="small list-inline">
+    <li ng-repeat="requisito in disciplina.requisitos">
+      <span class="label"
+            ng-class="isSatisfeito(requisito, periodo)?'label-primary':'label-danger'">
+        {{requisito.nome}}
+      </span>
+    </li>
+  </ul>
 </script>
 
 <script id="periodo/modal-alocar-disciplina.html"

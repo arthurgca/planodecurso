@@ -3,13 +3,13 @@
 <html style="height: 100%;" ng-app="mainApp">
     <head>
         <title>@title</title>
+        <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
         <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/bootstrap.css")">
         <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/bootstrap-theme.css")">
         <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/main.css")">
         <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/jquery-ui.css")">
         <script src="@routes.Assets.at("javascripts/jquery.min.js")"></script>
         <script src="@routes.Assets.at("javascripts/jquery-ui.min.js")"></script>
-        <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
         <script src="@routes.Assets.at("javascripts/underscore-min.js")"></script>
         <script src="@routes.Assets.at("javascripts/angular.min.js")"></script>
         <script src="@routes.Assets.at("javascripts/ui-bootstrap-tpls.min.js")"></script>
@@ -22,17 +22,12 @@
         <script src="@routes.Assets.at("javascripts/PlanoDeCurso.js")"></script>
     </head>
     <body ng-controller="MainCtrl">
-      <nav class="navbar navbar-inverse"
-           role="navigation">
+      <nav class="navbar navbar-inverse" role="navigation">
         <div class="container-fluid">
           <div class="navbar-header">
-            @if(usuario == null) {
-            <a class="navbar-brand"
-               href="@routes.Application.index()">Plano de Curso</a>
-            } else {
-            <a class="navbar-brand"
-               href="@routes.PlanoDeCursoApp.index()">Plano de Curso</a>
-            }
+            <a class="navbar-brand" href="@routes.Application.index()">
+              <span class="li_study"></span> Plano de Curso
+            </a>
           </div>
           <ul class="nav navbar-nav">
             @if(usuario != null) {

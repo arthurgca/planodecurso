@@ -10,7 +10,7 @@ import views.html.*;
 public class PlanoDeCursoApp extends AreaPrivada {
 
     public static Result index() {
-        return ok(meucurso.render(Usuario.find.byId(request().username())));
+        return ok(home.render(Usuario.find.byId(request().username())));
     }
 
     public static Result exibirPlanoDeCurso() {
