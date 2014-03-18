@@ -11,7 +11,7 @@ GET     /cadastrar                                      controllers.Application.
 POST    /cadastrar                                      controllers.Application.submeteCadastro()
 
 # Plano De Curso
-GET     /meucurso                                       controllers.PlanoDeCursoApp.index()
+GET     /home                                           controllers.PlanoDeCursoApp.index()
 GET     /curso                                          controllers.PlanoDeCursoApp.exibirPlanoDeCurso()
 GET     /disciplinas                                    controllers.PlanoDeCursoApp.listarDisciplinas()
 POST    /curso/:periodo                                 controllers.PlanoDeCursoApp.alocarDisciplina(periodo: Integer, disciplina: Integer)
