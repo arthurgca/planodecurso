@@ -71,7 +71,11 @@ mainApp.service "PlanoDeCursoService", ($http, PlanoDeCurso) ->
 
   return this
 
-mainApp.controller "PlanoDeCursoCtrl", ($scope, PlanoDeCursoService, Alertas) ->
+mainApp.controller "PlanoDeCursoCtrl", (
+  $scope,
+  PlanoDeCursoService,
+  DisciplinaService,
+  Alertas) ->
 
   $scope.isSatisfeito = (requisito, periodo) ->
     $scope.planoDeCurso.isRequisitoSatisfeito requisito, periodo
@@ -92,6 +96,7 @@ mainApp.controller "PlanoDeCursoCtrl", ($scope, PlanoDeCursoService, Alertas) ->
     refresh()
 
   bootstrap = () ->
+    DisciplinaService.query()
     refresh()
 
   bootstrap()
