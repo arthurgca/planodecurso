@@ -23,6 +23,10 @@
 .disciplina button { display: none; }
 .disciplina:hover button { display: block; }
 
+[draggable] { cursor: move; }
+
+.lvl-target { border: 2px dashed #ddd; }
+
 /* Required by Angular Bootstrap */
 
 .nav, .pagination, .carousel, .panel-title a { cursor: pointer; }

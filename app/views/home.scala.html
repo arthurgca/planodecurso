@@ -49,8 +49,12 @@
       </small>
     </h2>
   </div>
-  <div class="list-group" ng-model="periodo.disciplinas">
+  <div class="list-group"
+       ng-model="periodo.disciplinas"
+       x-lvl-drop-target="true"
+       x-on-drop="dropped(dragEl,dropEl)">
     <a class="list-group-item disciplina"
+       x-lvl-draggable="true"
        ng-repeat="disciplina in periodo.disciplinas"
        ng-include="'periodo/disciplina.html'"
        href="#">

@@ -44,6 +44,15 @@ mainApp.controller "PeriodoCtrl", (
         return
     desalocarDisciplina $scope.periodo, disciplina
 
+  $scope.dropped = (dragEl, dropEl) ->
+    src = angular.element dragEl
+    dest = angular.element dropEl
+    dePeriodo = src.scope().periodo
+    paraPeriodo = dest.scope().periodo
+    disciplina = src.scope().disciplina
+    if not dePeriodo.equals paraPeriodo
+      moverDisciplina(dePeriodo, paraPeriodo, disciplina)
+
   alocarDisciplina = (periodo, disciplina) ->
     onSuccess = (response) ->
       emitirEvento "disciplinaAlocada",

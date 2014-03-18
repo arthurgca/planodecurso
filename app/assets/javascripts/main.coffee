@@ -1,6 +1,7 @@
 mainApp = angular.module "mainApp", [
   "ui.bootstrap",
-  "ui.growl"]
+  "ui.growl",
+  "lvl.directives.dragdrop"]
 
 
 mainApp.controller "MainCtrl", ($scope) ->
