@@ -33,7 +33,7 @@ public class PlanoDeCursoApp extends AreaPrivada {
             return badRequest(result);
         }
 
-        String template = "<b>%s</b> foi alocada no <b>%sº período.</b>";
+        String template = "%s foi alocada no %sº período.";
         String message = String.format(template, disciplina.nome, semestre);
         result.put("message", message);
         return ok(result);
@@ -51,7 +51,7 @@ public class PlanoDeCursoApp extends AreaPrivada {
             return badRequest(result);
         }
 
-        String template = "<b>%s</b> foi movida para o <b>%sº período.</b>";
+        String template = "%s foi movida para o %sº período.";
         String message = String.format(template, disciplina.nome, paraSemestre);
         result.put("message", message);
         return ok(result);
@@ -64,7 +64,7 @@ public class PlanoDeCursoApp extends AreaPrivada {
 
         planoDeCurso.desalocarDisciplina(semestre, disciplina);
 
-        String template = "<b>%s</b> foi desalocada do <b>%sº período.</b>";
+        String template = "%s foi desalocada do %sº período.";
         String message = String.format(template, disciplina.nome, semestre);
         result.put("message", message);
         return ok(result);

@@ -105,7 +105,7 @@ public class PlanoDeCurso extends Model {
             return;
         }
 
-        String template = "<b>%s</b> tem <b>requisitos não satisfeitos</b>: %s.";
+        String template = "%s tem requisitos não satisfeitos: %s.";
 
         StringBuilder builder = new StringBuilder();
 

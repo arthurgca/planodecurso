@@ -49,7 +49,7 @@ public class Periodo extends Model {
 
     private void validarAlocacao(Disciplina disciplina) throws ErroDeAlocacaoException {
         if (getTotalCreditos() + disciplina.creditos > MAX_CREDITOS_SEMESTRE) {
-            String template = "<b>%s</b> ultrapassa o limite do <b>%sº período.</b>";
+            String template = "%s ultrapassa o limite de créditos do %sº período.";
             String message = String.format(template, disciplina.nome, semestre);
             throw new ErroDeAlocacaoException(message);
         }
