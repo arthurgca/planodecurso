@@ -44,17 +44,6 @@ mainApp.controller "PeriodoCtrl", (
         return
     desalocarDisciplina $scope.periodo, disciplina
 
-  $scope.sortableOptions =
-    connectWith: ".periodo .list-group"
-    update: (e, ui) ->
-      de = ui.item.scope().periodo
-      para = $(e.target).scope().periodo
-      disciplina = ui.item.scope().disciplina
-      if de.equals para
-        return ui.item.sortable.cancel()
-      moverDisciplina(de, para, disciplina)
-        .catch(ui.item.sortable.cancel)
-
   alocarDisciplina = (periodo, disciplina) ->
     onSuccess = (response) ->
       emitirEvento "disciplinaAlocada",

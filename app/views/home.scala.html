@@ -49,9 +49,7 @@
       </small>
     </h2>
   </div>
-  <div class="list-group"
-       ui-sortable="sortableOptions"
-       ng-model="periodo.disciplinas">
+  <div class="list-group" ng-model="periodo.disciplinas">
     <a class="list-group-item disciplina"
        ng-repeat="disciplina in periodo.disciplinas"
        ng-include="'periodo/disciplina.html'"

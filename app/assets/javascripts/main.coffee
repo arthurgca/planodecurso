@@ -1,6 +1,5 @@
 mainApp = angular.module "mainApp", [
   "ui.bootstrap",
-  "ui.sortable",
   "ui.growl"]
 
 
