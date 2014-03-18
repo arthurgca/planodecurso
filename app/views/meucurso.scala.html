@@ -3,8 +3,7 @@
 @import helper._
 
 @main("Plano de Curso", usuario) {
-<div class="container"
-     ng-controller="PlanoDeCursoCtrl">
+<div ng-controller="PlanoDeCursoCtrl">
   <alert close="alertas.fecharAlerta($index)"
          ng-repeat="alerta in alertas.mensagens"
          type="alerta.tipo">
