@@ -1,9 +1,24 @@
 /* Application Styles */
+
 .nav .navbar-nav a:hover { text-decoration: underline; }
 
 .container { max-width: 600px; }
 
-.periodo .list-group { min-height: 100px; }
+.periodo .blank-slate {
+    width: 100%;
+    float: left;
+    height: 250px;
+    background: url('/assets/images/blank-slate.png');
+    background-size: 250px;
+    background-repeat: no-repeat;
+    background-position: center; }
+
+.periodo .blank-slate h2 {
+    opacity: 0.5;
+    line-height: 100px;
+    text-align: center; }
+
+.periodo .blank-slate+.list-group { min-height: 250px; }
 
 .disciplina button { display: none; }
 .disciplina:hover button { display: block; }

@@ -45,8 +45,15 @@
   </ul>
 </script>
 
-<script id="periodo/periodo-body.html"
-        type="text/ng-template">
+<script id="periodo/periodo-body.html" type="text/ng-template">
+  <div ng-if="periodo.disciplinas.length==0" class="blank-slate">
+    <h2>
+      Período Vazio<br/>
+      <small>
+        Que tal <a ng-click="alocar()">alocar uma disciplina?</a>
+      </small>
+    </h2>
+  </div>
   <div class="list-group"
        ui-sortable="sortableOptions"
        ng-model="periodo.disciplinas">
