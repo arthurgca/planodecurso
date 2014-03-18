@@ -101,7 +101,7 @@
         <label for="disciplina">Disciplina</label>
         <select class="form-control"
                 ng-model="disciplina"
-                ng-options="d.nome for d in disciplinas">
+                ng-options="d.nome group by d.categoria for d in disciplinas">
         </select>
       </div>
       <div class="well well-sm"

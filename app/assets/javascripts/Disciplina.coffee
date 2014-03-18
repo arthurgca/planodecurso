@@ -7,6 +7,7 @@ mainApp.factory "Disciplina", (ArrayOf) ->
       id: adt.only Number
       nome: adt.only String
       creditos: adt.only Number
+      categoria: adt.only String
       requisitos: ArrayOf this
 
   Disciplina.apply = (ctx, args) ->
@@ -17,6 +18,7 @@ mainApp.factory "Disciplina", (ArrayOf) ->
       id: response.id
       nome: response.nome
       creditos: response.creditos
+      categoria: response.categoria
       requisitos: _.map response.requisitos, Disciplina.fromResponse
 
   return Disciplina
