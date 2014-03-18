@@ -417,3 +417,38 @@ disciplinas:
       id:         45
       nome:       Futsal
       creditos:   2
+
+  - !!models.Disciplina
+      id:         46
+      nome:       Sociologia Industrial
+      creditos:   3
+
+  - !!models.Disciplina
+      id:         47
+      nome:       Basquete
+      creditos:   2
+
+  - !!models.Disciplina
+      id:         48
+      nome:       Administração
+      creditos:   4
+
+  - !!models.Disciplina
+      id:         49
+      nome:       Economia
+      creditos:   4
+
+  - !!models.Disciplina
+      id:         50
+      nome:       Inglês
+      creditos:   4
+
+  - !!models.Disciplina
+      id:         51
+      nome:       Cálculo III
+      creditos:   5
+      requisitos:
+        - !!models.Disciplina
+            id:   4
+        - !!models.Disciplina
+            id:   13
