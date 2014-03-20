@@ -14,12 +14,15 @@ public class PlanoDeCursoTest extends test.TestBase {
     PlanoDeCurso plano0;
     PlanoDeCurso plano1;
     PlanoDeCurso plano2;
+    Curriculo curriculo;
 
     @Before
     public void setUp() throws ErroDeAlocacaoException {
-        plano0 = new PlanoDeCurso();
+        curriculo = Curriculo.find.byId(1);
 
-        plano1 = new PlanoDeCurso();
+        plano0 = new PlanoDeCurso(curriculo);
+
+        plano1 = new PlanoDeCurso(curriculo);
         plano1.alocarDisciplina(1, disciplina("Programação I"));
         plano1.alocarDisciplina(1, disciplina("Leitura e Prod. de Textos"));
         plano1.alocarDisciplina(1, disciplina("Cálculo I"));
@@ -27,7 +30,7 @@ public class PlanoDeCursoTest extends test.TestBase {
         plano1.alocarDisciplina(1, disciplina("Int. à Computação"));
         plano1.alocarDisciplina(1, disciplina("Lab. de Programação I"));
 
-        plano2 = new PlanoDeCurso();
+        plano2 = new PlanoDeCurso(curriculo);
         plano2.alocarDisciplina(1, disciplina("Programação I"));
         plano2.alocarDisciplina(1, disciplina("Leitura e Prod. de Textos"));
         plano2.alocarDisciplina(1, disciplina("Cálculo I"));
@@ -153,7 +156,7 @@ public class PlanoDeCursoTest extends test.TestBase {
 
     @Test
     public void desalocarDisciplinaRecursivamente() throws ErroDeAlocacaoException {
-        PlanoDeCurso plano = new PlanoDeCurso();
+        PlanoDeCurso plano = new PlanoDeCurso(curriculo);
 
         plano.alocarDisciplina(1, disciplina("Cálculo I"));
         plano.alocarDisciplina(1, disciplina("Álgebra Vetorial"));

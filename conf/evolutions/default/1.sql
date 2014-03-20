@@ -3,8 +3,16 @@
 
 # --- !Ups
 
+create table curriculo (
+  id                        integer not null,
+  nome                      varchar(255),
+  num_periodos              integer,
+  constraint pk_curriculo primary key (id))
+;
+
 create table disciplina (
   id                        integer not null,
+  curriculo_id              integer not null,
   nome                      varchar(255),
   creditos                  integer,
   categoria                 varchar(255),
@@ -20,6 +28,7 @@ create table periodo (
 
 create table plano_de_curso (
   id                        bigint not null,
+  curriculo_id              integer,
   constraint pk_plano_de_curso primary key (id))
 ;
 
@@ -42,6 +51,8 @@ create table periodo_disciplina (
   disciplina_id                  integer not null,
   constraint pk_periodo_disciplina primary key (periodo_id, disciplina_id))
 ;
+create sequence curriculo_seq;
+
 create sequence disciplina_seq;
 
 create sequence periodo_seq;
@@ -50,8 +61,12 @@ create sequence plano_de_curso_seq;
 
 create sequence usuario_seq;
 
-alter table periodo add constraint fk_periodo_planoDeCurso_1 foreign key (plano_de_curso_id) references plano_de_curso (id) on delete restrict on update restrict;
-create index ix_periodo_planoDeCurso_1 on periodo (plano_de_curso_id);
+alter table disciplina add constraint fk_disciplina_curriculo_1 foreign key (curriculo_id) references curriculo (id) on delete restrict on update restrict;
+create index ix_disciplina_curriculo_1 on disciplina (curriculo_id);
+alter table periodo add constraint fk_periodo_planoDeCurso_2 foreign key (plano_de_curso_id) references plano_de_curso (id) on delete restrict on update restrict;
+create index ix_periodo_planoDeCurso_2 on periodo (plano_de_curso_id);
+alter table plano_de_curso add constraint fk_plano_de_curso_curriculo_3 foreign key (curriculo_id) references curriculo (id) on delete restrict on update restrict;
+create index ix_plano_de_curso_curriculo_3 on plano_de_curso (curriculo_id);
 
 
 
@@ -67,6 +82,8 @@ alter table periodo_disciplina add constraint fk_periodo_disciplina_discipl_02 f
 
 SET REFERENTIAL_INTEGRITY FALSE;
 
+drop table if exists curriculo;
+
 drop table if exists disciplina;
 
 drop table if exists disciplina_requisitos;
@@ -80,6 +97,8 @@ drop table if exists plano_de_curso;
 drop table if exists usuario;
 
 SET REFERENTIAL_INTEGRITY TRUE;
+
+drop sequence if exists curriculo_seq;
 
 drop sequence if exists disciplina_seq;
 

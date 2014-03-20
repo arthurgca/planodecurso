@@ -18,12 +18,14 @@ public class PlanoDeCursoApp extends AreaPrivada {
     }
 
     public static Result listarDisciplinas() {
-        return ok(Json.toJson(Disciplina.getAll()));
+        Curriculo curriculo = getPlanoDeCurso().getCurriculo();
+        return ok(Json.toJson(curriculo.getDisciplinas()));
     }
 
     public static Result alocarDisciplina(int semestre, int disciplinaId) {
+        Curriculo curriculo = getPlanoDeCurso().getCurriculo();
         PlanoDeCurso planoDeCurso = getPlanoDeCurso();
-        Disciplina disciplina = Disciplina.get(disciplinaId);
+        Disciplina disciplina = curriculo.getDisciplina(disciplinaId);
         ObjectNode result = Json.newObject();
 
         try {
@@ -41,7 +43,8 @@ public class PlanoDeCursoApp extends AreaPrivada {
 
     public static Result moverDisciplina(int paraSemestre, int disciplinaId, int deSemestre) {
         PlanoDeCurso planoDeCurso = getPlanoDeCurso();
-        Disciplina disciplina = Disciplina.get(disciplinaId);
+        Curriculo curriculo = getPlanoDeCurso().getCurriculo();
+        Disciplina disciplina = curriculo.getDisciplina(disciplinaId);
         ObjectNode result = Json.newObject();
 
         try {
@@ -59,7 +62,8 @@ public class PlanoDeCursoApp extends AreaPrivada {
 
     public static Result desalocarDisciplina(int semestre, int disciplinaId) {
         PlanoDeCurso planoDeCurso = getPlanoDeCurso();
-        Disciplina disciplina = Disciplina.get(disciplinaId);
+        Curriculo curriculo = planoDeCurso.getCurriculo();
+        Disciplina disciplina = curriculo.getDisciplina(disciplinaId);
         ObjectNode result = Json.newObject();
 
         planoDeCurso.desalocarDisciplina(semestre, disciplina);

@@ -49,8 +49,4 @@ public final class Disciplina extends Model {
         return find.where().eq("nome", nome).findUnique();
     }
 
-    public static Set<Disciplina> getAll() {
-        return new HashSet<Disciplina>(find.all());
-    }
-
 }

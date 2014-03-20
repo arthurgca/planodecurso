@@ -13,13 +13,22 @@ public class PlanoDeCurso extends Model {
     @Id
     public Long id;
 
+    @ManyToOne
+    public Curriculo curriculo;
+
     @OneToMany
     public List<Periodo> periodos = new ArrayList<Periodo>();
 
-    public PlanoDeCurso() {
+    public PlanoDeCurso(Curriculo curriculo) {
+        this.curriculo = curriculo;
+
         for (int i = 0; i < NUM_PERIODOS; i++) {
             periodos.add(new Periodo(i + 1));
         }
+    }
+
+    public Curriculo getCurriculo() {
+        return curriculo;
     }
 
     public Periodo getPeriodo(int semestre) {
@@ -125,60 +134,62 @@ public class PlanoDeCurso extends Model {
     }
 
     public static PlanoDeCurso criarPlanoInicial() {
-        PlanoDeCurso plano = new PlanoDeCurso();
+        Curriculo curriculo = Curriculo.find.byId(1);
+
+        PlanoDeCurso plano = new PlanoDeCurso(curriculo);
 
         try {
-            plano.alocarDisciplina(1, Disciplina.get("Programação I"));
-            plano.alocarDisciplina(1, Disciplina.get("Leitura e Prod. de Textos"));
-            plano.alocarDisciplina(1, Disciplina.get("Cálculo I"));
-            plano.alocarDisciplina(1, Disciplina.get("Álgebra Vetorial"));
-            plano.alocarDisciplina(1, Disciplina.get("Int. à Computação"));
-            plano.alocarDisciplina(1, Disciplina.get("Lab. de Programação I"));
+            plano.alocarDisciplina(1, curriculo.getDisciplina("Programação I"));
+            plano.alocarDisciplina(1, curriculo.getDisciplina("Leitura e Prod. de Textos"));
+            plano.alocarDisciplina(1, curriculo.getDisciplina("Cálculo I"));
+            plano.alocarDisciplina(1, curriculo.getDisciplina("Álgebra Vetorial"));
+            plano.alocarDisciplina(1, curriculo.getDisciplina("Int. à Computação"));
+            plano.alocarDisciplina(1, curriculo.getDisciplina("Lab. de Programação I"));
 
-            plano.alocarDisciplina(2, Disciplina.get("Programação II"));
-            plano.alocarDisciplina(2, Disciplina.get("Lab. de Programação II"));
-            plano.alocarDisciplina(2, Disciplina.get("Matemática Discreta"));
-            plano.alocarDisciplina(2, Disciplina.get("Teoria dos Grafos"));
-            plano.alocarDisciplina(2, Disciplina.get("Fund. de Física Clássica"));
-            plano.alocarDisciplina(2, Disciplina.get("Cálculo II"));
-            plano.alocarDisciplina(2, Disciplina.get("Metodologia Científica"));
+            plano.alocarDisciplina(2, curriculo.getDisciplina("Programação II"));
+            plano.alocarDisciplina(2, curriculo.getDisciplina("Lab. de Programação II"));
+            plano.alocarDisciplina(2, curriculo.getDisciplina("Matemática Discreta"));
+            plano.alocarDisciplina(2, curriculo.getDisciplina("Teoria dos Grafos"));
+            plano.alocarDisciplina(2, curriculo.getDisciplina("Fund. de Física Clássica"));
+            plano.alocarDisciplina(2, curriculo.getDisciplina("Cálculo II"));
+            plano.alocarDisciplina(2, curriculo.getDisciplina("Metodologia Científica"));
 
-            plano.alocarDisciplina(3, Disciplina.get("Álgebra Linear"));
-            plano.alocarDisciplina(3, Disciplina.get("Probabilidade e Est."));
-            plano.alocarDisciplina(3, Disciplina.get("Teoria da Computação"));
-            plano.alocarDisciplina(3, Disciplina.get("Estrutura de Dados"));
-            plano.alocarDisciplina(3, Disciplina.get("Fund. de Física Moderna"));
-            plano.alocarDisciplina(3, Disciplina.get("Gerência da Informação"));
-            plano.alocarDisciplina(3, Disciplina.get("Lab. de Estrutura de Dados"));
+            plano.alocarDisciplina(3, curriculo.getDisciplina("Álgebra Linear"));
+            plano.alocarDisciplina(3, curriculo.getDisciplina("Probabilidade e Est."));
+            plano.alocarDisciplina(3, curriculo.getDisciplina("Teoria da Computação"));
+            plano.alocarDisciplina(3, curriculo.getDisciplina("Estrutura de Dados"));
+            plano.alocarDisciplina(3, curriculo.getDisciplina("Fund. de Física Moderna"));
+            plano.alocarDisciplina(3, curriculo.getDisciplina("Gerência da Informação"));
+            plano.alocarDisciplina(3, curriculo.getDisciplina("Lab. de Estrutura de Dados"));
 
-            plano.alocarDisciplina(4, Disciplina.get("Métodos Estatísticos"));
-            plano.alocarDisciplina(4, Disciplina.get("Paradigmas de Linguagens de Programação"));
-            plano.alocarDisciplina(4, Disciplina.get("Lógica Matemática"));
-            plano.alocarDisciplina(4, Disciplina.get("Org. e Arquitetura de Computadores I"));
-            plano.alocarDisciplina(4, Disciplina.get("Engenharia de Software I"));
-            plano.alocarDisciplina(4, Disciplina.get("Sistemas de Informação I"));
-            plano.alocarDisciplina(4, Disciplina.get("Lab. de Org. e Arquitetura de Computadores"));
+            plano.alocarDisciplina(4, curriculo.getDisciplina("Métodos Estatísticos"));
+            plano.alocarDisciplina(4, curriculo.getDisciplina("Paradigmas de Linguagens de Programação"));
+            plano.alocarDisciplina(4, curriculo.getDisciplina("Lógica Matemática"));
+            plano.alocarDisciplina(4, curriculo.getDisciplina("Org. e Arquitetura de Computadores I"));
+            plano.alocarDisciplina(4, curriculo.getDisciplina("Engenharia de Software I"));
+            plano.alocarDisciplina(4, curriculo.getDisciplina("Sistemas de Informação I"));
+            plano.alocarDisciplina(4, curriculo.getDisciplina("Lab. de Org. e Arquitetura de Computadores"));
 
-            plano.alocarDisciplina(5, Disciplina.get("Informática e Sociedade"));
-            plano.alocarDisciplina(5, Disciplina.get("Análise e Técnicas de Algoritmos"));
-            plano.alocarDisciplina(5, Disciplina.get("Compiladores"));
-            plano.alocarDisciplina(5, Disciplina.get("Redes de Computadores"));
-            plano.alocarDisciplina(5, Disciplina.get("Banco de Dados I"));
-            plano.alocarDisciplina(5, Disciplina.get("Sistemas de Informação II"));
-            plano.alocarDisciplina(5, Disciplina.get("Laboratório de Engenharia de Software"));
+            plano.alocarDisciplina(5, curriculo.getDisciplina("Informática e Sociedade"));
+            plano.alocarDisciplina(5, curriculo.getDisciplina("Análise e Técnicas de Algoritmos"));
+            plano.alocarDisciplina(5, curriculo.getDisciplina("Compiladores"));
+            plano.alocarDisciplina(5, curriculo.getDisciplina("Redes de Computadores"));
+            plano.alocarDisciplina(5, curriculo.getDisciplina("Banco de Dados I"));
+            plano.alocarDisciplina(5, curriculo.getDisciplina("Sistemas de Informação II"));
+            plano.alocarDisciplina(5, curriculo.getDisciplina("Laboratório de Engenharia de Software"));
 
-            plano.alocarDisciplina(6, Disciplina.get("Direito e Cidadania"));
-            plano.alocarDisciplina(6, Disciplina.get("Sistemas Operacionais"));
-            plano.alocarDisciplina(6, Disciplina.get("Interconexão de Redes de Computadores"));
-            plano.alocarDisciplina(6, Disciplina.get("Banco de Dados II"));
-            plano.alocarDisciplina(6, Disciplina.get("Inteligência Artificial I"));
-            plano.alocarDisciplina(6, Disciplina.get("Lab. de Interconexão de Redes de Computadores"));
+            plano.alocarDisciplina(6, curriculo.getDisciplina("Direito e Cidadania"));
+            plano.alocarDisciplina(6, curriculo.getDisciplina("Sistemas Operacionais"));
+            plano.alocarDisciplina(6, curriculo.getDisciplina("Interconexão de Redes de Computadores"));
+            plano.alocarDisciplina(6, curriculo.getDisciplina("Banco de Dados II"));
+            plano.alocarDisciplina(6, curriculo.getDisciplina("Inteligência Artificial I"));
+            plano.alocarDisciplina(6, curriculo.getDisciplina("Lab. de Interconexão de Redes de Computadores"));
 
-            plano.alocarDisciplina(7, Disciplina.get("Métodos e Software Numéricos"));
-            plano.alocarDisciplina(7, Disciplina.get("Aval. de Desempenho de Sist. Discretos"));
-            plano.alocarDisciplina(7, Disciplina.get("Projeto em Computação I"));
+            plano.alocarDisciplina(7, curriculo.getDisciplina("Métodos e Software Numéricos"));
+            plano.alocarDisciplina(7, curriculo.getDisciplina("Aval. de Desempenho de Sist. Discretos"));
+            plano.alocarDisciplina(7, curriculo.getDisciplina("Projeto em Computação I"));
 
-            plano.alocarDisciplina(8, Disciplina.get("Projeto em Computação II"));
+            plano.alocarDisciplina(8, curriculo.getDisciplina("Projeto em Computação II"));
         } catch (ErroDeAlocacaoException e) {
             assert false; // nota: apenas um bug pode causar essa exceção
         }

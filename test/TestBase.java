@@ -18,7 +18,8 @@ public abstract class TestBase extends WithApplication {
     }
 
     protected Disciplina disciplina(String nome) {
-        return Disciplina.get(nome);
+        Curriculo curriculo = Curriculo.find.byId(1);
+        return curriculo.getDisciplina(nome);
     }
 
     protected FakeRequest sessaoAutenticada() {

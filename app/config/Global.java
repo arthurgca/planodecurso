@@ -21,15 +21,18 @@ public class Global extends GlobalSettings {
     }
 
     private void configurarDadosIniciais(Application app) {
-        if (Disciplina.getAll().isEmpty()) {
+        if (Disciplina.find.all().isEmpty()) {
             @SuppressWarnings("unchecked")
                 Map<String,List<Object>> all = (Map<String,List<Object>>) Yaml.load("initial-data.yml");
-            
+
             Ebean.save(all.get("usuarios"));
 
-            Ebean.save(all.get("disciplinas"));
-            for(Object disciplina: all.get("disciplinas")) {
-                Ebean.saveManyToManyAssociations(disciplina, "requisitos");
+            Ebean.save(all.get("curriculos"));
+
+            for (Object curriculo : all.get("curriculos")) {
+                for(Disciplina disciplina : ((Curriculo) curriculo).disciplinas) {
+                    Ebean.saveManyToManyAssociations(disciplina, "requisitos");
+                }
             }
         }
     }
