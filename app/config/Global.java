@@ -33,6 +33,11 @@ public class Global extends GlobalSettings {
                 for(Disciplina disciplina : ((Curriculo) curriculo).disciplinas) {
                     Ebean.saveManyToManyAssociations(disciplina, "requisitos");
                 }
+                for(Grade grade : ((Curriculo) curriculo).grades) {
+                    for(Periodo periodo : grade.periodos) {
+                        Ebean.saveManyToManyAssociations(periodo, "disciplinas");
+                    }
+                }
             }
         }
     }

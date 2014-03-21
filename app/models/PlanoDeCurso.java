@@ -8,7 +8,6 @@ import com.avaje.ebean.*;
 
 @Entity
 public class PlanoDeCurso extends Model {
-    private static final int NUM_PERIODOS = 14;
 
     @Id
     public Long id;
@@ -16,15 +15,12 @@ public class PlanoDeCurso extends Model {
     @ManyToOne
     public Curriculo curriculo;
 
-    @OneToMany
-    public List<Periodo> periodos = new ArrayList<Periodo>();
+    @OneToOne(cascade = CascadeType.ALL)
+    public Grade grade;
 
-    public PlanoDeCurso(Curriculo curriculo) {
+    public PlanoDeCurso(Curriculo curriculo, Grade grade) {
         this.curriculo = curriculo;
-
-        for (int i = 0; i < NUM_PERIODOS; i++) {
-            periodos.add(new Periodo(i + 1));
-        }
+        this.grade = grade;
     }
 
     public Curriculo getCurriculo() {
@@ -32,167 +28,44 @@ public class PlanoDeCurso extends Model {
     }
 
     public Periodo getPeriodo(int semestre) {
-        return periodos.get(semestre - 1);
+        return grade.getPeriodo(semestre);
+    }
+
+    public List<Periodo> getPeriodos() {
+        return grade.periodos;
     }
 
     public Set<Disciplina> getDisciplinas() {
-        Set<Disciplina> disciplinas = new HashSet<Disciplina>();
-        for (Periodo periodo : periodos) {
-            disciplinas.addAll(periodo.disciplinas);
-        }
-        return disciplinas;
+        return grade.getDisciplinas();
     }
 
     public Set<Disciplina> getDisciplinas(int semestre) {
-        return getPeriodo(semestre).disciplinas;
+        return grade.getDisciplinas(semestre);
     }
 
     public int getTotalCreditos(int semestre) {
-        return getPeriodo(semestre).getTotalCreditos();
+        return grade.getTotalCreditos(semestre);
     }
 
     public void alocarDisciplina(int semestre, Disciplina disciplina) throws ErroDeAlocacaoException {
-        validarRequisitos(semestre, disciplina);
-        getPeriodo(semestre).alocarDisciplina(disciplina);
+        grade.alocarDisciplina(semestre, disciplina);
         save();
     }
 
     public void moverDisciplina(int deSemestre, int paraSemestre, Disciplina disciplina) throws ErroDeAlocacaoException {
-        Periodo dePeriodo = getPeriodo(deSemestre);
-        dePeriodo.desalocarDisciplina(disciplina);
-        Periodo paraPeriodo = getPeriodo(paraSemestre);
-        try {
-            paraPeriodo.alocarDisciplina(disciplina);
-            save();
-        } catch (ErroDeAlocacaoException e) {
-            dePeriodo.alocarDisciplina(disciplina);
-            throw e;
-        }
-    }
-
-    public void desalocarDisciplina(int semestre, Disciplina disciplina) {
-        desalocarDisciplinaRecursivamente(semestre, disciplina);
+        grade.moverDisciplina(deSemestre, paraSemestre, disciplina);
         save();
     }
 
-    private void desalocarDisciplinaRecursivamente(int semestre, Disciplina disciplina) {
-        Periodo periodo = getPeriodo(semestre);
-
-        periodo.desalocarDisciplina(disciplina);
-
-        Map<Integer,List<Disciplina>> remover = new HashMap<Integer,List<Disciplina>>();
-
-        for (int i = semestre; i <= NUM_PERIODOS; i++) {
-            remover.put(i, new ArrayList<Disciplina>());
-
-            for (Disciplina outra : getPeriodo(i).disciplinas) {
-                if (outra.requisitos.contains(disciplina)) {
-                    remover.get(i).add(outra);
-                }
-            }
-        }
-
-        for (Integer i : remover.keySet()) {
-            for (Disciplina outra : remover.get(i)) {
-                desalocarDisciplinaRecursivamente(i, outra);
-            }
-        }
-    }
-
-    private void validarRequisitos(int semestre, Disciplina disciplina) throws ErroDeAlocacaoException {
-        Set<Disciplina> pagas = new HashSet<Disciplina>();
-
-        for (int i = 1; i < semestre; i++) {
-            pagas.addAll(getDisciplinas(i));
-        }
-
-        Set<Disciplina> devendo = new HashSet<Disciplina>(disciplina.requisitos);
-
-        devendo.removeAll(pagas);
-
-        if (devendo.isEmpty()) {
-            return;
-        }
-
-        String template = "%s tem requisitos não satisfeitos: %s.";
-
-        StringBuilder builder = new StringBuilder();
-
-        Iterator<Disciplina> it = devendo.iterator();
-
-        while (it.hasNext()) {
-            builder.append(it.next().nome);
-
-            if (it.hasNext()) {
-                builder.append(", ");
-            }
-        }
-
-        String message = String.format(template, disciplina.nome, builder.toString());
-
-        throw new ErroDeAlocacaoException(message);
+    public void desalocarDisciplina(int semestre, Disciplina disciplina) {
+        grade.desalocarDisciplina(semestre, disciplina);
+        save();
     }
 
     public static PlanoDeCurso criarPlanoInicial() {
         Curriculo curriculo = Curriculo.find.byId(1);
-
-        PlanoDeCurso plano = new PlanoDeCurso(curriculo);
-
-        try {
-            plano.alocarDisciplina(1, curriculo.getDisciplina("Programação I"));
-            plano.alocarDisciplina(1, curriculo.getDisciplina("Leitura e Prod. de Textos"));
-            plano.alocarDisciplina(1, curriculo.getDisciplina("Cálculo I"));
-            plano.alocarDisciplina(1, curriculo.getDisciplina("Álgebra Vetorial"));
-            plano.alocarDisciplina(1, curriculo.getDisciplina("Int. à Computação"));
-            plano.alocarDisciplina(1, curriculo.getDisciplina("Lab. de Programação I"));
-
-            plano.alocarDisciplina(2, curriculo.getDisciplina("Programação II"));
-            plano.alocarDisciplina(2, curriculo.getDisciplina("Lab. de Programação II"));
-            plano.alocarDisciplina(2, curriculo.getDisciplina("Matemática Discreta"));
-            plano.alocarDisciplina(2, curriculo.getDisciplina("Teoria dos Grafos"));
-            plano.alocarDisciplina(2, curriculo.getDisciplina("Fund. de Física Clássica"));
-            plano.alocarDisciplina(2, curriculo.getDisciplina("Cálculo II"));
-            plano.alocarDisciplina(2, curriculo.getDisciplina("Metodologia Científica"));
-
-            plano.alocarDisciplina(3, curriculo.getDisciplina("Álgebra Linear"));
-            plano.alocarDisciplina(3, curriculo.getDisciplina("Probabilidade e Est."));
-            plano.alocarDisciplina(3, curriculo.getDisciplina("Teoria da Computação"));
-            plano.alocarDisciplina(3, curriculo.getDisciplina("Estrutura de Dados"));
-            plano.alocarDisciplina(3, curriculo.getDisciplina("Fund. de Física Moderna"));
-            plano.alocarDisciplina(3, curriculo.getDisciplina("Gerência da Informação"));
-            plano.alocarDisciplina(3, curriculo.getDisciplina("Lab. de Estrutura de Dados"));
-
-            plano.alocarDisciplina(4, curriculo.getDisciplina("Métodos Estatísticos"));
-            plano.alocarDisciplina(4, curriculo.getDisciplina("Paradigmas de Linguagens de Programação"));
-            plano.alocarDisciplina(4, curriculo.getDisciplina("Lógica Matemática"));
-            plano.alocarDisciplina(4, curriculo.getDisciplina("Org. e Arquitetura de Computadores I"));
-            plano.alocarDisciplina(4, curriculo.getDisciplina("Engenharia de Software I"));
-            plano.alocarDisciplina(4, curriculo.getDisciplina("Sistemas de Informação I"));
-            plano.alocarDisciplina(4, curriculo.getDisciplina("Lab. de Org. e Arquitetura de Computadores"));
-
-            plano.alocarDisciplina(5, curriculo.getDisciplina("Informática e Sociedade"));
-            plano.alocarDisciplina(5, curriculo.getDisciplina("Análise e Técnicas de Algoritmos"));
-            plano.alocarDisciplina(5, curriculo.getDisciplina("Compiladores"));
-            plano.alocarDisciplina(5, curriculo.getDisciplina("Redes de Computadores"));
-            plano.alocarDisciplina(5, curriculo.getDisciplina("Banco de Dados I"));
-            plano.alocarDisciplina(5, curriculo.getDisciplina("Sistemas de Informação II"));
-            plano.alocarDisciplina(5, curriculo.getDisciplina("Laboratório de Engenharia de Software"));
-
-            plano.alocarDisciplina(6, curriculo.getDisciplina("Direito e Cidadania"));
-            plano.alocarDisciplina(6, curriculo.getDisciplina("Sistemas Operacionais"));
-            plano.alocarDisciplina(6, curriculo.getDisciplina("Interconexão de Redes de Computadores"));
-            plano.alocarDisciplina(6, curriculo.getDisciplina("Banco de Dados II"));
-            plano.alocarDisciplina(6, curriculo.getDisciplina("Inteligência Artificial I"));
-            plano.alocarDisciplina(6, curriculo.getDisciplina("Lab. de Interconexão de Redes de Computadores"));
-
-            plano.alocarDisciplina(7, curriculo.getDisciplina("Métodos e Software Numéricos"));
-            plano.alocarDisciplina(7, curriculo.getDisciplina("Aval. de Desempenho de Sist. Discretos"));
-            plano.alocarDisciplina(7, curriculo.getDisciplina("Projeto em Computação I"));
-
-            plano.alocarDisciplina(8, curriculo.getDisciplina("Projeto em Computação II"));
-        } catch (ErroDeAlocacaoException e) {
-            assert false; // nota: apenas um bug pode causar essa exceção
-        }
+        Grade grade = new ArrayList<Grade>(curriculo.grades).get(0);
+        PlanoDeCurso plano = new PlanoDeCurso(curriculo, grade);
 
         plano.save();
 

@@ -3,26 +3,32 @@ usuarios:
       email:    bob@example.com
       nome:     Bob
       senha:    secret
+
   - !!models.Usuario
       email:    usuario1@example.com
       nome:     Usuario1
       senha:    senha1
+
   - !!models.Usuario
       email:    usuario2@example.com
       nome:     Usuario2
       senha:    senha2
+
   - !!models.Usuario
       email:    usuario3@example.com
       nome:     Usuario3
       senha:    senha3
+
   - !!models.Usuario
       email:    usuario4@example.com
       nome:     Usuario4
       senha:    senha4
+
   - !!models.Usuario
       email:    usuario5@example.com
       nome:     Usuario5
       senha:    senha5
+
 curriculos:
   - !!models.Curriculo
       id:   1
@@ -767,3 +773,145 @@ curriculos:
                   id:   15
               - !!models.Disciplina
                   id:   16
+
+      grades:
+        - !!models.Grade
+            nome:       Grade Oficial
+            periodos:
+              - !!models.Periodo
+                  semestre:    1
+                  disciplinas:
+                    - !!models.Disciplina
+                        id:   1
+                    - !!models.Disciplina
+                        id:   2
+                    - !!models.Disciplina
+                        id:   3
+                    - !!models.Disciplina
+                        id:   4
+                    - !!models.Disciplina
+                        id:   5
+                    - !!models.Disciplina
+                        id:   6
+
+              - !!models.Periodo
+                  semestre:    2
+                  disciplinas:
+                    - !!models.Disciplina
+                        id:   7
+                    - !!models.Disciplina
+                        id:   8
+                    - !!models.Disciplina
+                        id:   9
+                    - !!models.Disciplina
+                        id:   10
+                    - !!models.Disciplina
+                        id:   11
+                    - !!models.Disciplina
+                        id:   12
+                    - !!models.Disciplina
+                        id:   13
+
+              - !!models.Periodo
+                  semestre:    3
+                  disciplinas:
+                    - !!models.Disciplina
+                        id:   14
+                    - !!models.Disciplina
+                        id:   15
+                    - !!models.Disciplina
+                        id:   16
+                    - !!models.Disciplina
+                        id:   17
+                    - !!models.Disciplina
+                        id:   18
+                    - !!models.Disciplina
+                        id:   19
+                    - !!models.Disciplina
+                        id:   20
+
+              - !!models.Periodo
+                  semestre:    4
+                  disciplinas:
+                    - !!models.Disciplina
+                        id:   21
+                    - !!models.Disciplina
+                        id:   22
+                    - !!models.Disciplina
+                        id:   23
+                    - !!models.Disciplina
+                        id:   24
+                    - !!models.Disciplina
+                        id:   25
+                    - !!models.Disciplina
+                        id:   26
+                    - !!models.Disciplina
+                        id:   27
+
+              - !!models.Periodo
+                  semestre:    5
+                  disciplinas:
+                    - !!models.Disciplina
+                        id:   28
+                    - !!models.Disciplina
+                        id:   29
+                    - !!models.Disciplina
+                        id:   30
+                    - !!models.Disciplina
+                        id:   31
+                    - !!models.Disciplina
+                        id:   32
+                    - !!models.Disciplina
+                        id:   33
+                    - !!models.Disciplina
+                        id:   34
+
+              - !!models.Periodo
+                  semestre:    6
+                  disciplinas:
+                    - !!models.Disciplina
+                        id:   35
+                    - !!models.Disciplina
+                        id:   36
+                    - !!models.Disciplina
+                        id:   37
+                    - !!models.Disciplina
+                        id:   38
+                    - !!models.Disciplina
+                        id:   39
+                    - !!models.Disciplina
+                        id:   40
+
+              - !!models.Periodo
+                  semestre:    7
+                  disciplinas:
+                    - !!models.Disciplina
+                        id:   41
+                    - !!models.Disciplina
+                        id:   42
+                    - !!models.Disciplina
+                        id:   43
+
+              - !!models.Periodo
+                  semestre:    8
+                  disciplinas:
+                    - !!models.Disciplina
+                        id:   44
+
+              - !!models.Periodo
+                  semestre:    9
+
+              - !!models.Periodo
+                  semestre:    10
+
+              - !!models.Periodo
+                  semestre:    11
+
+              - !!models.Periodo
+                  semestre:    12
+
+              - !!models.Periodo
+                  semestre:    13
+
+              - !!models.Periodo
+                  semestre:    14
