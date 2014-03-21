@@ -15,7 +15,7 @@ public final class Curriculo extends Model {
 
     public int numPeriodos;
 
-    @OneToMany(cascade = CascadeType.PERSIST)
+    @OneToMany(cascade = CascadeType.ALL)
     public Set<Disciplina> disciplinas = new HashSet<Disciplina>();
 
     @OneToMany(cascade = CascadeType.ALL)

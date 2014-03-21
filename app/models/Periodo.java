@@ -14,8 +14,7 @@ public class Periodo extends Model {
 
     public int semestre;
 
-
-    @ManyToMany(cascade = CascadeType.PERSIST)
+    @ManyToMany
     public Set<Disciplina> disciplinas = new HashSet<Disciplina>();
 
     public Periodo(int semestre) {
