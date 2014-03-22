@@ -20,10 +20,11 @@ public class Curriculo extends Model {
     @OneToMany(cascade = CascadeType.ALL)
     public Set<Disciplina> disciplinas = new HashSet<Disciplina>();
 
-    public Curriculo(int id, String nome, int numPeriodos) {
-        this.id = id;
-        this.nome = nome;
-        this.numPeriodos = numPeriodos;
+    private Curriculo(Builder builder) {
+        this.nome = builder.nome;
+        this.maxPeriodos = builder.maxPeriodos;
+        this.maxCreditosPeriodo = builder.maxCreditosPeriodo;
+        this.disciplinas = builder.disciplinas;
     }
 
     @Transient
@@ -50,4 +51,38 @@ public class Curriculo extends Model {
 
     public static Finder<Integer,Curriculo> find =
         new Finder<Integer,Curriculo>(Integer.class, Curriculo.class);
+
+    public static class Builder {
+
+        public String nome;
+
+        public int maxPeriodos = 14;
+
+        public int maxCreditosPeriodo = 28;
+
+        public Set<Disciplina> disciplinas = new HashSet<Disciplina>();
+
+        public Builder(String nome) {
+            this.nome = nome;
+        }
+
+        public Builder maxPeriodos(int maxPeriodos) {
+            this.maxPeriodos = maxPeriodos;
+            return this;
+        }
+
+        public Builder maxCreditosPeriodo(int maxCreditosPeriodo) {
+            this.maxCreditosPeriodo = maxCreditosPeriodo;
+            return this;
+        }
+
+        public Builder disciplina(Disciplina disciplina) {
+            disciplinas.add(disciplina);
+            return this;
+        }
+
+        public Curriculo build() {
+            return new Curriculo(this);
+        }
+    }
 }
