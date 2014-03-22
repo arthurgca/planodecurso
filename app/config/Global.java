@@ -12,7 +12,6 @@ import models.*;
 
 public class Global extends GlobalSettings {
 
-    public static PlanoDeCurso PLANO_DE_CURSO_GLOBAL;
 
     @Override
     public void onStart(Application app) {
