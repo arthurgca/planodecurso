@@ -14,6 +14,11 @@ import com.google.common.collect.ImmutableMap;
 
 public class CadastrarUsuarioTest extends test.TestBase {
 
+    @Before
+    public void setUp() {
+        carregarTestData();
+    }
+
     @Test
     public void sucesso() {
         Result result = callAction(

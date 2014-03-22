@@ -12,6 +12,11 @@ import com.google.common.collect.ImmutableMap;
 
 public class LoginUsuarioTest extends test.TestBase {
 
+    @Before
+    public void setUp() {
+        carregarTestData();
+    }
+
     @Test
     public void sucesso() {
         Result result = callAction(

@@ -13,63 +13,62 @@ public class PeriodoTest extends test.TestBase {
     Periodo p1;
     Periodo p2;
 
+    Disciplina d1;
+    Disciplina d2;
+
     @Before
-    public void setUp() throws ErroDeAlocacaoException {
-        p1 = new Periodo(1);
-        p1.alocarDisciplina(disciplina("Programação I"));
-        p1.alocarDisciplina(disciplina("Leitura e Prod. de Textos"));
-        p1.alocarDisciplina(disciplina("Cálculo I"));
-        p1.alocarDisciplina(disciplina("Álgebra Vetorial"));
-        p1.alocarDisciplina(disciplina("Int. à Computação"));
-        p1.alocarDisciplina(disciplina("Lab. de Programação I"));
+    public void setUp() {
+        p1 = new Periodo(2);
 
-        p2 = new Periodo(2);
-        p2.alocarDisciplina(disciplina("Programação II"));
-        p2.alocarDisciplina(disciplina("Lab. de Programação II"));
-        p2.alocarDisciplina(disciplina("Matemática Discreta"));
-        p2.alocarDisciplina(disciplina("Teoria dos Grafos"));
-        p2.alocarDisciplina(disciplina("Fund. de Física Clássica"));
-        p2.alocarDisciplina(disciplina("Cálculo II"));
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void semestreInvalido() {
-        new Periodo(0);
+        d1 = new Disciplina("d1", 4, "MyString");
+        d2 = new Disciplina("d2", 4, "MyString");
+        p2 = new Periodo(3, new Disciplina[] {d1, d2});
     }
 
     @Test
-    public void retornarTotalCreditos() {
-        assertEquals(0, new Periodo(1).getTotalCreditos());
-        assertEquals(24, p1.getTotalCreditos());
-        assertEquals(22, p2.getTotalCreditos());
+    public void construtor() {
+        assertEquals(2, p1.semestre);
+        assertTrue(p1.disciplinas.isEmpty());
+
+        assertEquals(3, p2.semestre);
+        assertEquals(2, p2.disciplinas.size());
     }
 
     @Test
-    public void alocarDisciplina() throws ErroDeAlocacaoException {
-        p2.alocarDisciplina(disciplina("Futsal"));
-        assertTrue(p2.disciplinas.contains(disciplina("Futsal")));
-    }
-
-    @Test(expected = ErroDeAlocacaoException.class)
-    public void alocarDisciplinaErro() throws ErroDeAlocacaoException {
-        p1.alocarDisciplina(disciplina("Futsal"));
-        p1.alocarDisciplina(disciplina("Teoria dos Grafos"));
-        p1.alocarDisciplina(disciplina("Gerência da Informação"));
+    public void getNome() {
+        assertEquals("2º Período", p1.getNome());
+        assertEquals("3º Período", p2.getNome());
     }
 
     @Test
-    public void desalocarDisciplina() throws ErroDeAlocacaoException {
-        p2.desalocarDisciplina(disciplina("Programação II"));
-        p2.desalocarDisciplina(disciplina("Lab. de Programação II"));
-        assertFalse(p2.disciplinas.contains(disciplina("Programação II")));
-        assertFalse(p2.disciplinas.contains(disciplina("Lab. de Programação II")));
+    public void getTotalCreditos() {
+        assertEquals(0, p1.getTotalCreditos());
+        assertEquals(8, p2.getTotalCreditos());
     }
 
     @Test
-    public void serializarCorretamente() {
+    public void programar() {
+        assertFalse(p1.disciplinas.contains(d1));
+        p1.programar(d1);
+        assertTrue(p1.disciplinas.contains(d1));
+    }
+
+    @Test
+    public void desprogramar() {
+        assertTrue(p2.disciplinas.contains(d1));
+        p2.desprogramar(d1);
+        assertFalse(p2.disciplinas.contains(d1));
+    }
+
+    @Test
+    public void toJson() {
         JsonNode node = Json.toJson(p2);
-        assertEquals(2, node.get("semestre").numberValue());
+        assertEquals(3, node.get("semestre").numberValue());
+
+        assertEquals("3º Período", node.get("nome").textValue());
+
+        assertEquals(8, node.get("totalCreditos").numberValue());
+
         assertTrue(node.get("disciplinas").isArray());
-        assertEquals(22, node.get("totalCreditos").numberValue());
     }
 }

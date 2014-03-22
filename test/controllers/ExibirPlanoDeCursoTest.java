@@ -12,6 +12,13 @@ import static play.test.Helpers.*;
 import static play.mvc.Http.Status.*;
 
 public class ExibirPlanoDeCursoTest extends test.TestBase {
+
+    @Before
+    public void setUp() {
+        carregarTestData();
+        criarPlanoInicial();
+    }
+
     @Test
     public void sucesso() {
         Result result = callAction(

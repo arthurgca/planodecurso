@@ -10,13 +10,47 @@ import play.libs.*;
 import com.fasterxml.jackson.databind.JsonNode;
 
 public class DisciplinaTest extends test.TestBase {
+
+    Disciplina d1;
+    Disciplina d2;
+
+    @Before
+    public void setUp() {
+        d1 = new Disciplina("d1", 4, "MyString");
+        d2 = new Disciplina("d2", 4, "MyString", new Disciplina[]{d1});
+    }
+
     @Test
-    public void serializaCorretamente() {
-        JsonNode node = Json.toJson(disciplina("Programação II"));
-        assertEquals(7, node.get("id").numberValue());
-        assertEquals("Programação II", node.get("nome").textValue());
+    public void construtor() {
+        assertEquals("d1", d1.nome);
+        assertEquals(4, d1.creditos);
+        assertEquals("MyString", d1.categoria);
+        assertTrue(d1.requisitos.isEmpty());
+
+        assertEquals("d2", d2.nome);
+        assertEquals(4, d2.creditos);
+        assertEquals("MyString", d2.categoria);
+        assertTrue(d2.requisitos.contains(d1));
+    }
+
+    @Test
+    public void getRequisitosInsatisfeitos() {
+        Set<Disciplina> disciplinas = new HashSet<Disciplina>();
+        assertTrue(d1.getRequisitosInsatisfeitos(disciplinas).isEmpty());
+        assertTrue(d2.getRequisitosInsatisfeitos(disciplinas).contains(d1));
+        disciplinas.add(d1);
+        assertFalse(d2.getRequisitosInsatisfeitos(disciplinas).contains(d1));
+    }
+
+    @Test
+    public void toJson() {
+        JsonNode node = Json.toJson(d2);
+        assertEquals("d2", node.get("nome").textValue());
+
         assertEquals(4, node.get("creditos").numberValue());
-        assertEquals("Segundo Semestre", node.get("categoria").textValue());
+
+        assertEquals("MyString", node.get("categoria").textValue());
+
         assertTrue(node.get("requisitos").isArray());
     }
 }

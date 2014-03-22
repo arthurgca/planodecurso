@@ -13,6 +13,12 @@ import static play.mvc.Http.Status.*;
 
 public class TelaPlanoDeCursoTest extends test.TestBase {
 
+    @Before
+    public void setUp() {
+        carregarTestData();
+        criarPlanoInicial();
+    }
+
     @Test
     public void sucesso() {
         Result result = callAction(

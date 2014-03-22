@@ -1,0 +1,262 @@
+usuarios:
+  - !!models.Usuario
+      email:    bob@example.com
+      nome:     Bob
+      senha:    secret
+
+  - !!models.Usuario
+      email:    usuario1@example.com
+      nome:     Usuario1
+      senha:    senha1
+
+  - !!models.Usuario
+      email:    usuario2@example.com
+      nome:     Usuario2
+      senha:    senha2
+
+  - !!models.Usuario
+      email:    usuario3@example.com
+      nome:     Usuario3
+      senha:    senha3
+
+  - !!models.Usuario
+      email:    usuario4@example.com
+      nome:     Usuario4
+      senha:    senha4
+
+  - !!models.Usuario
+      email:    usuario5@example.com
+      nome:     Usuario5
+      senha:    senha5
+
+curriculos:
+  - !!models.Curriculo
+      id:                  1
+      nome:                Currículo Atual
+      maxPeriodos:         4
+      maxCreditosPeriodo:  8
+      disciplinas:
+        - !!models.Disciplina
+            id:         1
+            nome:       Disciplina Introdutória I
+            creditos:   4
+            categoria:  Primeiro Semestre
+
+        - !!models.Disciplina
+            id:         2
+            nome:       Disciplina Introdutória II
+            creditos:   4
+            categoria:  Primerio Semestre
+
+        - !!models.Disciplina
+            id:         3
+            nome:       Disciplina Avançada I
+            creditos:   4
+            categoria:  Segundo Semestre
+            requisitos:
+              - !!models.Disciplina
+                  id:   1
+
+        - !!models.Disciplina
+            id:         4
+            nome:       Disciplina Avançada II
+            creditos:   4
+            categoria:  Segundo Semestre
+            requisitos:
+              - !!models.Disciplina
+                  id:   2
+
+        - !!models.Disciplina
+            id:         5
+            nome:       Disciplina Avançada III
+            creditos:   4
+            categoria:  Terceiro Semestre
+            requisitos:
+              - !!models.Disciplina
+                  id:   3
+              - !!models.Disciplina
+                  id:   4
+
+        - !!models.Disciplina
+            id:         6
+            nome:       Disciplina Eletiva Introdutória
+            creditos:   4
+            categoria:  Disciplinas Eletivas
+            requisitos:
+
+        - !!models.Disciplina
+            id:         7
+            nome:       Disciplina Eletiva Avançada
+            creditos:   4
+            categoria:  Disciplinas Eletivas
+            requisitos:
+              - !!models.Disciplina
+                  id:   3
+              - !!models.Disciplina
+                  id:   4
+
+grades:
+  - !!models.Grade
+      nome:       Grade Oficial
+      periodos:
+        - !!models.Periodo
+            semestre:   1
+            disciplinas:
+              - !!models.Disciplina
+                  id:   2
+
+        - !!models.Periodo
+            semestre:    2
+            disciplinas:
+              - !!models.Disciplina
+                  id:   3
+
+        - !!models.Periodo
+            semestre:    3
+            disciplinas:
+
+        - !!models.Periodo
+            semestre:    4
+            disciplinas:
+              - !!models.Disciplina
+                  id:   4
+              - !!models.Disciplina
+                  id:   5
+
+  # - !!models.Grade
+  #     nome:       Grade Com Eletivas
+  #     periodos:
+  #       - !!models.Periodo
+  #           semestre:    1
+  #           disciplinas:
+  #             - !!models.Disciplina
+  #                 id:   1
+  #             - !!models.Disciplina
+  #                 id:   2
+
+  #       - !!models.Periodo
+  #           semestre:    2
+  #           disciplinas:
+  #             - !!models.Disciplina
+  #                 id:   3
+  #             - !!models.Disciplina
+  #                 id:   4
+
+  #       - !!models.Periodo
+  #           semestre:    3
+  #           disciplinas:
+  #             - !!models.Disciplina
+  #                 id:   6
+  #             - !!models.Disciplina
+  #                 id:   7
+
+  # - !!models.Curriculo
+  #     id:   2
+  #     nome: Novo Currículo
+  #     numPeriodos: 16
+  #     disciplinas:
+  #       - !!models.Disciplina
+  #           id:         8
+  #           nome:       Disciplina Introdutória I
+  #           creditos:   6
+  #           categoria:  Primeiro Semestre
+
+  #       - !!models.Disciplina
+  #           id:         9
+  #           nome:       Disciplina Introdutória II
+  #           creditos:   4
+  #           categoria:  Primerio Semestre
+
+  #       - !!models.Disciplina
+  #           id:         10
+  #           nome:       Disciplina Avançada I
+  #           creditos:   2
+  #           categoria:  Segundo Semestre
+  #           requisitos:
+  #             - !!models.Disciplina
+  #                 id:   8
+
+  #       - !!models.Disciplina
+  #           id:         11
+  #           nome:       Disciplina Avançada II
+  #           creditos:   6
+  #           categoria:  Segundo Semestre
+  #           requisitos:
+  #             - !!models.Disciplina
+  #                 id:   9
+
+  #       - !!models.Disciplina
+  #           id:         12
+  #           nome:       Disciplina Avançada III
+  #           creditos:   4
+  #           categoria:  Terceiro Semestre
+  #           requisitos:
+  #             - !!models.Disciplina
+  #                 id:   10
+  #             - !!models.Disciplina
+  #                 id:   11
+
+  #     grades:
+  #       - !!models.Grade
+  #           nome:       Grade III
+  #           periodos:
+  #             - !!models.Periodo
+  #                 semestre:    1
+  #                 disciplinas:
+  #                   - !!models.Disciplina
+  #                       id:   1
+  #                   - !!models.Disciplina
+  #                       id:   2
+
+  #             - !!models.Periodo
+  #                 semestre:    2
+  #                 disciplinas:
+  #                   - !!models.Disciplina
+  #                       id:   8
+  #                   - !!models.Disciplina
+  #                       id:   9
+
+  #             - !!models.Periodo
+  #                 semestre:    3
+  #                 disciplinas:
+  #                   - !!models.Disciplina
+  #                       id:   10
+
+  #             - !!models.Periodo
+  #                 semestre:    4
+
+  #             - !!models.Periodo
+  #                 semestre:    5
+
+  #             - !!models.Periodo
+  #                 semestre:    6
+
+  #             - !!models.Periodo
+  #                 semestre:    7
+
+  #             - !!models.Periodo
+  #                 semestre:    8
+
+  #             - !!models.Periodo
+  #                 semestre:    9
+
+  #             - !!models.Periodo
+  #                 semestre:    10
+
+  #             - !!models.Periodo
+  #                 semestre:    11
+
+  #             - !!models.Periodo
+  #                 semestre:    12
+
+  #             - !!models.Periodo
+  #                 semestre:    13
+
+  #             - !!models.Periodo
+  #                 semestre:    14
+
+  #             - !!models.Periodo
+  #                 semestre:    15
+
+  #             - !!models.Periodo
+  #                 semestre:    16
