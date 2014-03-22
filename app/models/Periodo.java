@@ -30,6 +30,10 @@ public class Periodo extends Model {
         }
     }
 
+    public String getNome() {
+        return String.format("%sº Período", semestre);
+    }
+
     public int getTotalCreditos() {
         int totalCreditos = 0;
         for (Disciplina disciplina : disciplinas) {
