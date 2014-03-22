@@ -15,6 +15,7 @@ public class Curriculo extends Model {
 
     public int maxPeriodos;
 
+    public int maxCreditosPeriodo;
 
     @OneToMany(cascade = CascadeType.ALL)
     public Set<Disciplina> disciplinas = new HashSet<Disciplina>();
