@@ -15,7 +15,7 @@ public class Periodo extends Model {
     public int semestre;
 
     @ManyToMany
-    public Set<Disciplina> disciplinas = new HashSet<Disciplina>();
+    public List<Disciplina> disciplinas = new LinkedList<Disciplina>();
 
     public Periodo(int semestre) {
         this(semestre, null);

@@ -16,7 +16,7 @@ public class Grade extends Model {
     public String nome;
 
     @OneToMany(cascade = CascadeType.ALL)
-    public List<Periodo> periodos = new ArrayList<Periodo>();
+    public List<Periodo> periodos = new LinkedList<Periodo>();
 
     public Grade(String nome, int maxPeriodos) {
         this.nome = nome;
