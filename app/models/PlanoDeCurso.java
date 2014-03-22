@@ -64,6 +64,15 @@ public class PlanoDeCurso extends Model {
         desprogramar(disciplina, grade.getPeriodo(periodo));
     }
 
+    private void validarProgramarDisciplina(Disciplina disciplina, Periodo periodo) throws ErroValidacaoException {
+        new ValidadorPreRequisitos(curriculo, disciplina).validar(this);
+        new ValidadorMaxCreditos(curriculo, periodo).validar(this);
+    }
+
+    private void validarMoverDisciplina(Disciplina disciplina, Periodo de, Periodo para) throws ErroValidacaoException {
+        new ValidadorMaxCreditos(curriculo, para).validar(this);
+    }
+
     public static PlanoDeCurso criarPlanoInicial() {
         Curriculo curriculo = Curriculo.find.all().get(0);
         Grade grade = Grade.find.all().get(0);
