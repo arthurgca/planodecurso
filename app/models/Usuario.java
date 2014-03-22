@@ -19,7 +19,8 @@ public class Usuario extends Model {
       this.senha = senha;
     }
 
-    public static Finder<String,Usuario> find = new Finder<String,Usuario>(String.class, Usuario.class);
+    public static Finder<String,Usuario> find =
+        new Finder<String,Usuario>(String.class, Usuario.class);
 
     public static Usuario autenticar(String email, String senha) {
         return find.where().eq("email", email)

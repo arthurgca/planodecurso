@@ -23,12 +23,12 @@ public class PlanoDeCurso extends Model {
         this.grade = Grade.copiar(grade.nome, grade);
     }
 
-    public Periodo getPeriodo(int periodo) {
-        return grade.getPeriodo(periodo);
-    }
-
     public List<Periodo> getPeriodos() {
         return grade.periodos;
+    }
+
+    public Periodo getPeriodo(int periodo) {
+        return grade.getPeriodo(periodo);
     }
 
     public List<Disciplina> getDisciplinas(int periodo) {
@@ -44,6 +44,14 @@ public class PlanoDeCurso extends Model {
         programar(disciplina, grade.getPeriodo(periodo));
     }
 
+    public void desprogramar(Disciplina disciplina, Periodo periodo) {
+        grade.desprogramarRecursivamente(disciplina, periodo);
+    }
+
+    public void desprogramar(Disciplina disciplina, int periodo) {
+        desprogramar(disciplina, grade.getPeriodo(periodo));
+    }
+
     public void mover(Disciplina disciplina, Periodo de, Periodo para) throws ErroValidacaoException  {
         if (de.disciplinas.contains(disciplina)) {
             grade.desprogramar(disciplina, de);
@@ -54,14 +62,6 @@ public class PlanoDeCurso extends Model {
 
     public void mover(Disciplina disciplina, int de, int para) throws ErroValidacaoException {
         mover(disciplina, grade.getPeriodo(de), grade.getPeriodo(para));
-    }
-
-    public void desprogramar(Disciplina disciplina, Periodo periodo) {
-        grade.desprogramarRecursivamente(disciplina, periodo);
-    }
-
-    public void desprogramar(Disciplina disciplina, int periodo) {
-        desprogramar(disciplina, grade.getPeriodo(periodo));
     }
 
     private void validarProgramarDisciplina(Disciplina disciplina, Periodo periodo) throws ErroValidacaoException {
