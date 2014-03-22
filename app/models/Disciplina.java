@@ -9,7 +9,7 @@ import play.db.ebean.*;
 public class Disciplina extends Model {
 
     @Id
-    public int id;
+    public Long id;
 
     public String nome;
 
@@ -38,6 +38,6 @@ public class Disciplina extends Model {
         this.requisitos = requisitos;
     }
 
-    public static Finder<Integer,Disciplina> find =
-        new Finder<Integer,Disciplina>(Integer.class, Disciplina.class);
+    public static Finder<Long,Disciplina> find =
+        new Finder<Long,Disciplina>(Long.class, Disciplina.class);
 }
