@@ -34,6 +34,7 @@ curriculos:
       id:                 1
       nome:               Currículo Atual
       maxPeriodos:        14
+      maxCreditosPeriodo: 28
       disciplinas:
         - !!models.Disciplina
             id:         1
