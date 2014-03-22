@@ -30,44 +30,58 @@ public class Grade extends Model {
     }
 
     public Periodo getPeriodo(int semestre) {
-        return periodos.get(semestre - 1);
+        for (Periodo periodo : periodos) {
+            if (periodo.semestre == semestre) {
+                return periodo;
+            }
+        }
+
+        return null;
     }
 
     public Set<Disciplina> getDisciplinas(int semestre) {
         return getPeriodo(semestre).disciplinas;
     }
 
-    public void alocarDisciplina(int semestre, Disciplina disciplina) throws ErroDeAlocacaoException {
-        validarRequisitos(semestre, disciplina);
-        getPeriodo(semestre).alocarDisciplina(disciplina);
+    public void programar(Disciplina disciplina, Periodo periodo) {
+        periodo.programar(disciplina);
     }
 
-    public void desalocarDisciplina(int semestre, Disciplina disciplina) {
-        desalocarDisciplinaRecursivamente(semestre, disciplina);
+    public void programar(Disciplina disciplina, int periodo) {
+        programar(disciplina, getPeriodo(periodo));
     }
 
-    private void desalocarDisciplinaRecursivamente(int semestre, Disciplina disciplina) {
-        Periodo periodo = getPeriodo(semestre);
+    public void desprogramar(Disciplina disciplina, Periodo periodo) {
+        periodo.desprogramar(disciplina);
+    }
 
-        periodo.desalocarDisciplina(disciplina);
+    public void desprogramar(Disciplina disciplina, int periodo) {
+        desprogramar(disciplina, getPeriodo(periodo));
+    }
 
-        Map<Integer,List<Disciplina>> remover = new HashMap<Integer,List<Disciplina>>();
+    public void desprogramarRecursivamente(Disciplina disciplina, Periodo periodo) {
+        desprogramar(disciplina, periodo);
 
-        for (int i = semestre; i <= NUM_PERIODOS; i++) {
-            remover.put(i, new ArrayList<Disciplina>());
+        Map<Periodo,List<Disciplina>> remover = new HashMap<Periodo,List<Disciplina>>();
 
-            for (Disciplina outra : getPeriodo(i).disciplinas) {
-                if (outra.requisitos.contains(disciplina)) {
-                    remover.get(i).add(outra);
+        for (Periodo p : periodos) {
+            remover.put(p, new LinkedList<Disciplina>());
+            for (Disciplina d : p.disciplinas) {
+                if (d.requisitos.contains(disciplina)) {
+                    remover.get(p).add(d);
                 }
             }
         }
 
-        for (Integer i : remover.keySet()) {
-            for (Disciplina outra : remover.get(i)) {
-                desalocarDisciplinaRecursivamente(i, outra);
+        for (Periodo p : remover.keySet()) {
+            for (Disciplina d : remover.get(p)) {
+                desprogramarRecursivamente(d, p);
             }
         }
+    }
+
+    public void desprogramarRecursivamente(Disciplina disciplina, int periodo) {
+        desprogramarRecursivamente(disciplina, getPeriodo(periodo));
     }
 
     public static Finder<Long,Grade> find =

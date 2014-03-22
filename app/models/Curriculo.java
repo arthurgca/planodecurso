@@ -19,7 +19,7 @@ public class Curriculo extends Model {
     public Set<Disciplina> disciplinas = new HashSet<Disciplina>();
 
     @OneToMany(cascade = CascadeType.ALL)
-    public Set<Grade> grades = new HashSet<Grade>();
+    public Set<Disciplina> disciplinas = new HashSet<Disciplina>();
 
     public Curriculo(int id, String nome, int numPeriodos) {
         this.id = id;
@@ -27,16 +27,26 @@ public class Curriculo extends Model {
         this.numPeriodos = numPeriodos;
     }
 
-    public Disciplina getDisciplina(int id) {
-        return Disciplina.find.where()
-            .eq("id", id)
-            .eq("curriculo_id", this.id).findUnique();
+    @Transient
+    public Disciplina getDisciplina(Long id) {
+        for (Disciplina d : disciplinas) {
+            if (d.id == id) {
+                return d;
+            }
+        }
+
+        return null;
     }
 
+    @Transient
     public Disciplina getDisciplina(String nome) {
-        return Disciplina.find.where()
-            .eq("nome", nome)
-            .eq("curriculo_id", this.id).findUnique();
+        for (Disciplina d : disciplinas) {
+            if (d.nome.equals(nome)) {
+                return d;
+            }
+        }
+
+        return null;
     }
 
     public static Finder<Integer,Curriculo> find =

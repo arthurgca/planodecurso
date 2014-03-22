@@ -65,12 +65,10 @@ public class PlanoDeCurso extends Model {
     }
 
     public static PlanoDeCurso criarPlanoInicial() {
-        Curriculo curriculo = Curriculo.find.byId(1);
-        Grade grade = new ArrayList<Grade>(curriculo.grades).get(0);
+        Curriculo curriculo = Curriculo.find.all().get(0);
+        Grade grade = Grade.find.all().get(0);
         PlanoDeCurso plano = new PlanoDeCurso(curriculo, grade);
-
         plano.save();
-
         return plano;
     }
 
