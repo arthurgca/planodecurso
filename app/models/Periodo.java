@@ -18,11 +18,17 @@ public class Periodo extends Model {
     public Set<Disciplina> disciplinas = new HashSet<Disciplina>();
 
     public Periodo(int semestre) {
-        if (semestre < 1) {
-            throw new IllegalArgumentException("semestre deve ser >= 1");
-        }
+        this(semestre, null);
+    }
 
+    public Periodo(int semestre, Disciplina[] disciplinas) {
         this.semestre = semestre;
+
+        if (disciplinas != null)  {
+            for (Disciplina d : disciplinas) {
+                this.disciplinas.add(d);
+            }
+        }
     }
 
     public int getTotalCreditos() {

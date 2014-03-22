@@ -18,8 +18,12 @@ public class Grade extends Model {
     @OneToMany(cascade = CascadeType.ALL)
     public List<Periodo> periodos = new ArrayList<Periodo>();
 
-    public Grade() {
+    public Grade(String nome, int maxPeriodos) {
+        this.nome = nome;
 
+        for (int i = 0; i < maxPeriodos; i++) {
+            periodos.add(new Periodo(i + 1));
+        }
     }
 
     public Periodo getPeriodo(int semestre) {

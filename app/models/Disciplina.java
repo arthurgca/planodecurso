@@ -23,19 +23,20 @@ public class Disciplina extends Model {
                inverseJoinColumns={@JoinColumn(name="requisito_id", referencedColumnName="id")})
     public Set<Disciplina> requisitos = new HashSet<Disciplina>();
 
-    public Disciplina() {
+    public Disciplina(String nome, int creditos, String categoria) {
+        this(nome, creditos, categoria, null);
     }
 
-    public Disciplina(int id, String nome, int creditos, String categoria) {
-        this(id, nome, creditos, categoria, new HashSet<Disciplina>());
-    }
-
-    public Disciplina(int id, String nome, int creditos, String categoria, Set<Disciplina> requisitos) {
-        this.id = id;
+    public Disciplina(String nome, int creditos, String categoria, Disciplina[] requisitos) {
         this.nome = nome;
         this.creditos = creditos;
         this.categoria = categoria;
-        this.requisitos = requisitos;
+
+        if (requisitos != null)  {
+            for (Disciplina r : requisitos) {
+                this.requisitos.add(r);
+            }
+        }
     }
 
     public static Finder<Long,Disciplina> find =
