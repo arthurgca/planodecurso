@@ -25,6 +25,10 @@ public class Grade extends Model {
         }
     }
 
+    public int getMaxPeriodos() {
+        return periodos.size();
+    }
+
     public Periodo getPeriodo(int semestre) {
         return periodos.get(semestre - 1);
     }
