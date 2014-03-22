@@ -14,9 +14,9 @@ POST    /cadastrar                                      controllers.Application.
 GET     /home                                           controllers.PlanoDeCursoApp.index()
 GET     /curso                                          controllers.PlanoDeCursoApp.exibirPlanoDeCurso()
 GET     /disciplinas                                    controllers.PlanoDeCursoApp.listarDisciplinas()
-POST    /curso/:periodo                                 controllers.PlanoDeCursoApp.alocarDisciplina(periodo: Integer, disciplina: Integer)
-PUT     /curso/:periodo/:disciplina                     controllers.PlanoDeCursoApp.moverDisciplina(periodo: Integer, disciplina: Integer, dePeriodo: Integer)
-DELETE  /curso/:periodo/:disciplina                     controllers.PlanoDeCursoApp.desalocarDisciplina(periodo: Integer, disciplina: Integer)
+POST    /curso/:periodo                                 controllers.PlanoDeCursoApp.programar(disciplina: Long, periodo: Integer)
+PUT     /curso/:para/:disciplina                        controllers.PlanoDeCursoApp.mover(disciplina: Long, dePeriodo: Integer, para: Integer)
+DELETE  /curso/:periodo/:disciplina                     controllers.PlanoDeCursoApp.desprogramar(disciplina: Long, periodo: Integer)
 
 # Recursos estáticos
 GET     /assets/*file                                   controllers.Assets.at(path="/public", file)
