@@ -4,31 +4,6 @@ usuarios:
       nome:     Bob
       senha:    secret
 
-  - !!models.Usuario
-      email:    usuario1@example.com
-      nome:     Usuario1
-      senha:    senha1
-
-  - !!models.Usuario
-      email:    usuario2@example.com
-      nome:     Usuario2
-      senha:    senha2
-
-  - !!models.Usuario
-      email:    usuario3@example.com
-      nome:     Usuario3
-      senha:    senha3
-
-  - !!models.Usuario
-      email:    usuario4@example.com
-      nome:     Usuario4
-      senha:    senha4
-
-  - !!models.Usuario
-      email:    usuario5@example.com
-      nome:     Usuario5
-      senha:    senha5
-
 curriculos:
   - !!models.Curriculo
       id:                  1
