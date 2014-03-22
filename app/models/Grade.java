@@ -8,7 +8,6 @@ import com.avaje.ebean.*;
 
 @Entity
 public class Grade extends Model {
-    private static final int NUM_PERIODOS = 14;
 
     @Id
     public Long id;

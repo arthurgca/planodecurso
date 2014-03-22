@@ -7,7 +7,6 @@ import play.db.ebean.*;
 
 @Entity
 public class Periodo extends Model {
-    private static final int MAX_CREDITOS_SEMESTRE = 28;
 
     @Id
     public Long id;
