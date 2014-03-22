@@ -39,6 +39,12 @@ public class Disciplina extends Model {
         }
     }
 
+    public Set<Disciplina> getRequisitosInsatisfeitos(Set<Disciplina> disciplinas) {
+        Set<Disciplina> insatisfeitos = new HashSet<Disciplina>(this.requisitos);
+        insatisfeitos.removeAll(disciplinas);
+        return insatisfeitos;
+    }
+
     public static Finder<Long,Disciplina> find =
         new Finder<Long,Disciplina>(Long.class, Disciplina.class);
 }
