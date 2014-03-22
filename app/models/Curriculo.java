@@ -13,7 +13,7 @@ public class Curriculo extends Model {
 
     public String nome;
 
-    public int numPeriodos;
+    public int maxPeriodos;
 
     @OneToMany(cascade = CascadeType.ALL)
     public Set<Disciplina> disciplinas = new HashSet<Disciplina>();

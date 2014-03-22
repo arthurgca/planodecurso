@@ -31,9 +31,9 @@ usuarios:
 
 curriculos:
   - !!models.Curriculo
-      id:   1
-      nome: Currículo Atual
-      numPeriodos: 14
+      id:                 1
+      nome:               Currículo Atual
+      maxPeriodos:        14
       disciplinas:
         - !!models.Disciplina
             id:         1
