@@ -86,4 +86,16 @@ public class Grade extends Model {
 
     public static Finder<Long,Grade> find =
         new Finder<Long,Grade>(Long.class, Grade.class);
+
+    public static Grade copiar(String nome, Grade grade) {
+        Grade copia = new Grade(nome, grade.getMaxPeriodos());
+
+        for (Periodo p : grade.periodos) {
+            for (Disciplina d : p.disciplinas) {
+                copia.programar(d, p.semestre);
+            }
+        }
+
+        return copia;
+    }
 }

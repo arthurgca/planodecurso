@@ -20,7 +20,7 @@ public class PlanoDeCurso extends Model {
 
     public PlanoDeCurso(Curriculo curriculo, Grade grade) {
         this.curriculo = curriculo;
-        this.grade = grade;
+        this.grade = Grade.copiar(grade.nome, grade);
     }
 
     public Periodo getPeriodo(int periodo) {
