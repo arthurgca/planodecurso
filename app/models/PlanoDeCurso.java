@@ -35,19 +35,33 @@ public class PlanoDeCurso extends Model {
         return grade.getDisciplinas(periodo);
     }
 
-    public void alocarDisciplina(int semestre, Disciplina disciplina) throws ErroDeAlocacaoException {
-        grade.alocarDisciplina(semestre, disciplina);
-        save();
+    public void programar(Disciplina disciplina, Periodo periodo) throws ErroValidacaoException {
+        grade.programar(disciplina, periodo);
+        validarProgramarDisciplina(disciplina, periodo);
     }
 
-    public void moverDisciplina(int deSemestre, int paraSemestre, Disciplina disciplina) throws ErroDeAlocacaoException {
-        grade.moverDisciplina(deSemestre, paraSemestre, disciplina);
-        save();
+    public void programar(Disciplina disciplina, int periodo) throws ErroValidacaoException {
+        programar(disciplina, grade.getPeriodo(periodo));
     }
 
-    public void desalocarDisciplina(int semestre, Disciplina disciplina) {
-        grade.desalocarDisciplina(semestre, disciplina);
-        save();
+    public void mover(Disciplina disciplina, Periodo de, Periodo para) throws ErroValidacaoException  {
+        if (de.disciplinas.contains(disciplina)) {
+            grade.desprogramar(disciplina, de);
+            grade.programar(disciplina, para);
+            validarMoverDisciplina(disciplina, de, para);
+        }
+    }
+
+    public void mover(Disciplina disciplina, int de, int para) throws ErroValidacaoException {
+        mover(disciplina, grade.getPeriodo(de), grade.getPeriodo(para));
+    }
+
+    public void desprogramar(Disciplina disciplina, Periodo periodo) {
+        grade.desprogramarRecursivamente(disciplina, periodo);
+    }
+
+    public void desprogramar(Disciplina disciplina, int periodo) {
+        desprogramar(disciplina, grade.getPeriodo(periodo));
     }
 
     public static PlanoDeCurso criarPlanoInicial() {

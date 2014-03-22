@@ -22,56 +22,72 @@ public class PlanoDeCursoApp extends AreaPrivada {
         return ok(Json.toJson(curriculo.disciplinas));
     }
 
-    public static Result alocarDisciplina(int semestre, int disciplinaId) {
-        Curriculo curriculo = getPlanoDeCurso().getCurriculo();
+    public static Result programar(Long disciplinaId, int periodo) {
         PlanoDeCurso planoDeCurso = getPlanoDeCurso();
+        Curriculo curriculo = planoDeCurso.curriculo;
         Disciplina disciplina = curriculo.getDisciplina(disciplinaId);
         ObjectNode result = Json.newObject();
 
         try {
-            planoDeCurso.alocarDisciplina(semestre, disciplina);
-        } catch (ErroDeAlocacaoException e) {
+            planoDeCurso.programar(disciplina, periodo);
+        } catch (ErroValidacaoException e) {
             result.put("message", e.getMessage());
             return badRequest(result);
         }
 
-        String template = "%s foi alocada no %sº período.";
-        String message = String.format(template, disciplina.nome, semestre);
+        planoDeCurso.save();
+
+        String template = "%s foi alocada no %s.";
+        String message = String.format(
+          template,
+          disciplina.nome,
+          planoDeCurso.getPeriodo(periodo).getNome());
+
         result.put("message", message);
         return ok(result);
     }
 
-    public static Result moverDisciplina(int paraSemestre, int disciplinaId, int deSemestre) {
+    public static Result mover(Long disciplinaId, int de, int para) {
         PlanoDeCurso planoDeCurso = getPlanoDeCurso();
-        Curriculo curriculo = getPlanoDeCurso().getCurriculo();
+        Curriculo curriculo = planoDeCurso.curriculo;
         Disciplina disciplina = curriculo.getDisciplina(disciplinaId);
         ObjectNode result = Json.newObject();
 
         try {
-            planoDeCurso.moverDisciplina(deSemestre, paraSemestre, disciplina);
-        } catch (ErroDeAlocacaoException e) {
+            planoDeCurso.mover(disciplina, de, para);
+        } catch (ErroValidacaoException e) {
             result.put("message", e.getMessage());
             return badRequest(result);
         }
 
-        String template = "%s foi movida para o %sº período.";
-        String message = String.format(template, disciplina.nome, paraSemestre);
+        planoDeCurso.save();
+
+        String template = "%s foi movida para o %s.";
+        String message = String.format(
+          template,
+          disciplina.nome,
+          planoDeCurso.getPeriodo(para).getNome());
+
         result.put("message", message);
         return ok(result);
     }
 
-    public static Result desalocarDisciplina(int semestre, int disciplinaId) {
+    public static Result desprogramar(Long disciplinaId, int periodo) {
         PlanoDeCurso planoDeCurso = getPlanoDeCurso();
-        Curriculo curriculo = planoDeCurso.getCurriculo();
+        Curriculo curriculo = planoDeCurso.curriculo;
         Disciplina disciplina = curriculo.getDisciplina(disciplinaId);
+
+        planoDeCurso.desprogramar(disciplina, periodo);
+        planoDeCurso.save();
+
+        String template = "%s foi desalocada do %s.";
+        String message = String.format(
+          template,
+          disciplina.nome,
+          planoDeCurso.getPeriodo(periodo).getNome());
+
         ObjectNode result = Json.newObject();
-
-        planoDeCurso.desalocarDisciplina(semestre, disciplina);
-
-        String template = "%s foi desalocada do %sº período.";
-        String message = String.format(template, disciplina.nome, semestre);
         result.put("message", message);
         return ok(result);
     }
-
 }

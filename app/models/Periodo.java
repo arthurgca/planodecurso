@@ -39,15 +39,12 @@ public class Periodo extends Model {
         return totalCreditos;
     }
 
-    public void alocarDisciplina(Disciplina disciplina) throws ErroDeAlocacaoException {
-        validarAlocacao(disciplina);
+    public void programar(Disciplina disciplina) {
         disciplinas.add(disciplina);
     }
 
-    public void desalocarDisciplina(Disciplina disciplina) {
-        if (disciplinas.contains(disciplina)) {
-            disciplinas.remove(disciplina);
-        }
+    public void desprogramar(Disciplina disciplina) {
+        disciplinas.remove(disciplina);
     }
 
     public static Finder<Long,Periodo> find =
