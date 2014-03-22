@@ -6,7 +6,7 @@ import javax.persistence.*;
 import play.db.ebean.*;
 
 @Entity
-public final class Disciplina extends Model {
+public class Disciplina extends Model {
 
     @Id
     public int id;
