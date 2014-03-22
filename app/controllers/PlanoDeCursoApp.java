@@ -10,7 +10,7 @@ import views.html.*;
 public class PlanoDeCursoApp extends AreaPrivada {
 
     public static Result index() {
-        return ok(home.render(Usuario.find.byId(request().username())));
+        return ok(home.render(getUsuarioAtual()));
     }
 
     public static Result exibirPlanoDeCurso() {
@@ -18,14 +18,12 @@ public class PlanoDeCursoApp extends AreaPrivada {
     }
 
     public static Result listarDisciplinas() {
-        Curriculo curriculo = getPlanoDeCurso().curriculo;
-        return ok(Json.toJson(curriculo.disciplinas));
+        return ok(Json.toJson(getCurriculo().disciplinas));
     }
 
     public static Result programar(Long disciplinaId, int periodo) {
         PlanoDeCurso planoDeCurso = getPlanoDeCurso();
-        Curriculo curriculo = planoDeCurso.curriculo;
-        Disciplina disciplina = curriculo.getDisciplina(disciplinaId);
+        Disciplina disciplina = getCurriculo().getDisciplina(disciplinaId);
         ObjectNode result = Json.newObject();
 
         try {
@@ -49,8 +47,7 @@ public class PlanoDeCursoApp extends AreaPrivada {
 
     public static Result mover(Long disciplinaId, int de, int para) {
         PlanoDeCurso planoDeCurso = getPlanoDeCurso();
-        Curriculo curriculo = planoDeCurso.curriculo;
-        Disciplina disciplina = curriculo.getDisciplina(disciplinaId);
+        Disciplina disciplina = getCurriculo().getDisciplina(disciplinaId);
         ObjectNode result = Json.newObject();
 
         try {
@@ -74,8 +71,7 @@ public class PlanoDeCursoApp extends AreaPrivada {
 
     public static Result desprogramar(Long disciplinaId, int periodo) {
         PlanoDeCurso planoDeCurso = getPlanoDeCurso();
-        Curriculo curriculo = planoDeCurso.curriculo;
-        Disciplina disciplina = curriculo.getDisciplina(disciplinaId);
+        Disciplina disciplina = getCurriculo().getDisciplina(disciplinaId);
 
         planoDeCurso.desprogramar(disciplina, periodo);
         planoDeCurso.save();

@@ -16,7 +16,6 @@ public class Global extends GlobalSettings {
 
     @Override
     public void onStart(Application app) {
-        configurarPlanoDeCursoGlobal(app);
         carregarInitialData(app);
     }
 
@@ -44,9 +43,5 @@ public class Global extends GlobalSettings {
                 }
             }
         }
-    }
-
-    private void configurarPlanoDeCursoGlobal(Application app) {
-        PlanoDeCurso.criarPlanoInicial();
     }
 }

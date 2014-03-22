@@ -12,7 +12,15 @@ import config.Global;
 @Security.Authenticated(Autenticador.class)
 public abstract class AreaPrivada extends Controller {
 
+    protected static Usuario getUsuarioAtual() {
+        return Usuario.find.byId(request().username());
+    }
+
     protected static PlanoDeCurso getPlanoDeCurso() {
-        return PlanoDeCurso.find.all().get(0);
+        return getUsuarioAtual().planoDeCurso;
+    }
+
+    protected static Curriculo getCurriculo() {
+        return getPlanoDeCurso().curriculo;
     }
 }

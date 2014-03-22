@@ -76,7 +76,10 @@ public class Application extends Controller {
         if(form.hasErrors()) {
             return badRequest(cadastrar.render(form));
         } else {
-            form.get().getUsuario().save();
+            Usuario usuario = form.get().getUsuario();
+            usuario.setPlanoDeCurso(PlanoDeCurso.criarPlanoInicial());
+            usuario.save();
+
             flash("success",
                   "Usuário cadastrado com sucesso. Faça login para continuar.");
             return redirect(routes.Application.login());

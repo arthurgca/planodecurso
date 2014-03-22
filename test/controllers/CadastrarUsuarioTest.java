@@ -12,6 +12,8 @@ import static play.test.Helpers.*;
 import static play.mvc.Http.Status.*;
 import com.google.common.collect.ImmutableMap;
 
+import models.*;
+
 public class CadastrarUsuarioTest extends test.TestBase {
 
     @Before
@@ -32,6 +34,20 @@ public class CadastrarUsuarioTest extends test.TestBase {
         assertThat(redirectLocation(result)).isEqualTo(
             routes.Application.login().url());
         assertThat(flash(result).get("success")).isNotNull();
+    }
+
+    @Test
+    public void criarPlanoDeCurso() {
+        Result result = callAction(
+            controllers.routes.ref.Application.submeteCadastro(),
+            fakeRequest().withFormUrlEncodedBody(ImmutableMap.of(
+                "email", "teste@example.com",
+                "nome", "Teste",
+                "senha", "senha",
+                "confirmacao", "senha")));
+        assertThat(flash(result).get("success")).isNotNull();
+        Usuario u1 = Usuario.find.byId("teste@example.com");
+        assertNotNull(u1.planoDeCurso);
     }
 
     @Test

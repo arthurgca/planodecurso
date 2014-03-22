@@ -48,10 +48,9 @@ public abstract class TestBase extends WithApplication {
     }
 
     protected void criarPlanoInicial() {
-        Curriculo c1 = Curriculo.find.all().get(0);
-        Grade g1 = Grade.find.all().get(0);
-        PlanoDeCurso p1 = new PlanoDeCurso(c1, g1);
-        p1.save();
+        Usuario bob = Usuario.find.byId("bob@example.com");
+        bob.setPlanoDeCurso(PlanoDeCurso.criarPlanoInicial());
+        bob.save();
     }
 
 }
