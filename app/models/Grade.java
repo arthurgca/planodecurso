@@ -39,8 +39,8 @@ public class Grade extends Model {
         return null;
     }
 
-    public Set<Disciplina> getDisciplinas(int semestre) {
-        return getPeriodo(semestre).disciplinas;
+    public List<Disciplina> getDisciplinas(int periodo) {
+        return getPeriodo(periodo).disciplinas;
     }
 
     public void programar(Disciplina disciplina, Periodo periodo) {
