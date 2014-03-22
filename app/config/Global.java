@@ -16,14 +16,15 @@ public class Global extends GlobalSettings {
 
     @Override
     public void onStart(Application app) {
-        configurarDadosIniciais(app);
         configurarPlanoDeCursoGlobal(app);
+        carregarInitialData(app);
     }
 
-    private void configurarDadosIniciais(Application app) {
+    private void carregarInitialData(Application app) {
         if (Disciplina.find.all().isEmpty()) {
             @SuppressWarnings("unchecked")
-                Map<String,List<Object>> all = (Map<String,List<Object>>) Yaml.load("initial-data.yml");
+            Map<String,List<Object>> all =
+                (Map<String,List<Object>>) Yaml.load("initial-data.yml");
 
             Ebean.save(all.get("usuarios"));
 
