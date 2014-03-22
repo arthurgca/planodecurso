@@ -39,10 +39,6 @@ public final class Curriculo extends Model {
             .eq("curriculo_id", this.id).findUnique();
     }
 
-    public Set<Disciplina> getDisciplinas() {
-        return disciplinas;
-    }
-
     public static Finder<Integer,Curriculo> find =
         new Finder<Integer,Curriculo>(Integer.class, Curriculo.class);
 }

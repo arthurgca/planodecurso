@@ -40,13 +40,4 @@ public final class Disciplina extends Model {
 
     public static Finder<Integer,Disciplina> find =
         new Finder<Integer,Disciplina>(Integer.class, Disciplina.class);
-
-    public static Disciplina get(int i) {
-        return find.byId(i);
-    }
-
-    public static Disciplina get(String nome) {
-        return find.where().eq("nome", nome).findUnique();
-    }
-
 }

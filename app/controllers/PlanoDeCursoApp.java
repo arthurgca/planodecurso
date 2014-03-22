@@ -18,8 +18,8 @@ public class PlanoDeCursoApp extends AreaPrivada {
     }
 
     public static Result listarDisciplinas() {
-        Curriculo curriculo = getPlanoDeCurso().getCurriculo();
-        return ok(Json.toJson(curriculo.getDisciplinas()));
+        Curriculo curriculo = getPlanoDeCurso().curriculo;
+        return ok(Json.toJson(curriculo.disciplinas));
     }
 
     public static Result alocarDisciplina(int semestre, int disciplinaId) {

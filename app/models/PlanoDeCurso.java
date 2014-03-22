@@ -23,28 +23,16 @@ public class PlanoDeCurso extends Model {
         this.grade = grade;
     }
 
-    public Curriculo getCurriculo() {
-        return curriculo;
-    }
-
-    public Periodo getPeriodo(int semestre) {
-        return grade.getPeriodo(semestre);
+    public Periodo getPeriodo(int periodo) {
+        return grade.getPeriodo(periodo);
     }
 
     public List<Periodo> getPeriodos() {
         return grade.periodos;
     }
 
-    public Set<Disciplina> getDisciplinas() {
-        return grade.getDisciplinas();
-    }
-
-    public Set<Disciplina> getDisciplinas(int semestre) {
-        return grade.getDisciplinas(semestre);
-    }
-
-    public int getTotalCreditos(int semestre) {
-        return grade.getTotalCreditos(semestre);
+    public List<Disciplina> getDisciplinas(int periodo) {
+        return grade.getDisciplinas(periodo);
     }
 
     public void alocarDisciplina(int semestre, Disciplina disciplina) throws ErroDeAlocacaoException {

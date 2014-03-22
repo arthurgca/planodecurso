@@ -15,10 +15,4 @@ public abstract class AreaPrivada extends Controller {
     protected static PlanoDeCurso getPlanoDeCurso() {
         return Global.PLANO_DE_CURSO_GLOBAL;
     }
-
-    protected static void resetarDemo() {
-        Ebean.delete(PlanoDeCurso.find.all());
-        Global.PLANO_DE_CURSO_GLOBAL = PlanoDeCurso.criarPlanoInicial();
-    }
-
 }
