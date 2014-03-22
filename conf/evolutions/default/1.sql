@@ -44,6 +44,7 @@ create table usuario (
   email                     varchar(255) not null,
   nome                      varchar(255),
   senha                     varchar(255),
+  plano_de_curso_id         bigint,
   constraint pk_usuario primary key (email))
 ;
 
@@ -79,6 +80,8 @@ alter table plano_de_curso add constraint fk_plano_de_curso_curriculo_3 foreign 
 create index ix_plano_de_curso_curriculo_3 on plano_de_curso (curriculo_id);
 alter table plano_de_curso add constraint fk_plano_de_curso_grade_4 foreign key (grade_id) references grade (id) on delete restrict on update restrict;
 create index ix_plano_de_curso_grade_4 on plano_de_curso (grade_id);
+alter table usuario add constraint fk_usuario_planoDeCurso_5 foreign key (plano_de_curso_id) references plano_de_curso (id) on delete restrict on update restrict;
+create index ix_usuario_planoDeCurso_5 on usuario (plano_de_curso_id);
 
 
 

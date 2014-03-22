@@ -3,6 +3,8 @@ package models;
 import javax.persistence.*;
 import play.db.ebean.*;
 
+import com.fasterxml.jackson.annotation.*;
+
 @Entity
 public class Usuario extends Model {
 
@@ -11,12 +13,20 @@ public class Usuario extends Model {
 
     public String nome;
 
+    @JsonIgnore
     public String senha;
+
+    @OneToOne
+    public PlanoDeCurso planoDeCurso;
 
     public Usuario(String email, String nome, String senha) {
       this.email = email;
       this.nome = nome;
       this.senha = senha;
+    }
+
+    public void setPlanoDeCurso(PlanoDeCurso planoDeCurso) {
+        this.planoDeCurso = planoDeCurso;
     }
 
     public static Finder<String,Usuario> find =

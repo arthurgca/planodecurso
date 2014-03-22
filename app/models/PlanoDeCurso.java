@@ -5,6 +5,7 @@ import javax.persistence.*;
 
 import play.db.ebean.*;
 import com.avaje.ebean.*;
+import com.fasterxml.jackson.annotation.*;
 
 @Entity
 public class PlanoDeCurso extends Model {
@@ -17,6 +18,10 @@ public class PlanoDeCurso extends Model {
 
     @OneToOne(cascade = CascadeType.ALL)
     public Grade grade;
+
+    @JsonIgnore
+    @OneToOne(mappedBy = "planoDeCurso")
+    public Usuario dono;
 
     public PlanoDeCurso(Curriculo curriculo, Grade grade) {
         this.curriculo = curriculo;
