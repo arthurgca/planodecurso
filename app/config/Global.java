@@ -43,7 +43,6 @@ public class Global extends GlobalSettings {
     }
 
     private void configurarPlanoDeCursoGlobal(Application app) {
-        Ebean.delete(PlanoDeCurso.find.all());
-        Global.PLANO_DE_CURSO_GLOBAL = PlanoDeCurso.criarPlanoInicial();
+        PlanoDeCurso.criarPlanoInicial();
     }
 }

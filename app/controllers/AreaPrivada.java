@@ -13,6 +13,6 @@ import config.Global;
 public abstract class AreaPrivada extends Controller {
 
     protected static PlanoDeCurso getPlanoDeCurso() {
-        return Global.PLANO_DE_CURSO_GLOBAL;
+        return PlanoDeCurso.find.all().get(0);
     }
 }
