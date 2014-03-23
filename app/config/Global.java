@@ -55,7 +55,7 @@ public class Global extends GlobalSettings {
             senha = String.format("senha%d", i);
             usuario = new Usuario(email,nome,senha);
             usuario.setPlanoDeCurso(PlanoDeCurso.criarPlanoInicial());
-            usuario.save();
+            Ebean.save(usuario);
         }
     }
 }
