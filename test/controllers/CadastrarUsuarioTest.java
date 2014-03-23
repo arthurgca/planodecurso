@@ -65,6 +65,20 @@ public class CadastrarUsuarioTest extends test.TestBase {
     }
 
     @Test
+    public void erroEmailInvalido() {
+        Result result = callAction(
+            controllers.routes.ref.Application.submeteCadastro(),
+            fakeRequest().withFormUrlEncodedBody(ImmutableMap.of(
+                "email", "alice.example.com",
+                "nome", "MyString",
+                "senha", "MyString",
+                "confirmacao", "MyString")));
+        assertThat(status(result)).isEqualTo(BAD_REQUEST);
+        assertThat(contentType(result)).isEqualTo("text/html");
+        assertThat(charset(result)).isEqualTo("utf-8");
+    }
+
+    @Test
     public void erroUsuarioAutenticado() {
         Result result = callAction(
             controllers.routes.ref.Application.submeteCadastro(),
