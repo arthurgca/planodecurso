@@ -3,6 +3,7 @@ package controllers;
 import play.mvc.*;
 import play.data.*;
 import static play.data.Form.*;
+import play.data.validation.Constraints.EmailValidator;
 
 import models.*;
 import views.html.*;
@@ -104,12 +105,15 @@ public class Application extends Controller {
         public String email;
         public String senha;
         public String confirmacao;
+        private EmailValidator emailValidator = new EmailValidator();
 
         public String validate() {
             if (nome.isEmpty()) {
                 return "O campo Nome é obrigatório";
             } else if (email.isEmpty()) {
                 return "O campo Email é obrigatório";
+            } else if (!emailValidator.isValid(email)) {
+                return "Endereço de email inválido";
             } else if (Usuario.find.byId(email) != null) {
                 return "Este Email já foi cadastrado";
             } else if (senha.isEmpty()) {
