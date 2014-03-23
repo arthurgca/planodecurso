@@ -45,17 +45,19 @@ public class Global extends GlobalSettings {
     }
     
     private void criaUsuariosIniciais(Application app) {
-        Usuario usuario;
-        String email;
-        String nome;
-        String senha;
-        for (int i = 0; i <= 30; i++) {
-            email = String.format("usuario%d@example.com", i);
-            nome = String.format("Usuario %d", i);
-            senha = String.format("senha%d", i);
-            usuario = new Usuario(email,nome,senha);
-            usuario.setPlanoDeCurso(PlanoDeCurso.criarPlanoInicial());
-            Ebean.save(usuario);
+        if (Usuario.find.all().isEmpty()) {
+            Usuario usuario;
+            String email;
+            String nome;
+            String senha;
+            for (int i = 0; i <= 30; i++) {
+                email = String.format("usuario%d@example.com", i);
+                nome = String.format("Usuario %d", i);
+                senha = String.format("senha%d", i);
+                usuario = new Usuario(email,nome,senha);
+                usuario.setPlanoDeCurso(PlanoDeCurso.criarPlanoInicial());
+                Ebean.save(usuario);
+            }
         }
     }
 }
