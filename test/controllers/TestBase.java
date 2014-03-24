@@ -19,10 +19,11 @@ public abstract class TestBase extends WithApplication {
         start(fakeApplication(inMemoryDatabase(), fakeGlobal()));
     }
 
-    protected void criarPlanoInicial() {
+    protected PlanoDeCurso criarPlanoInicial() {
         Usuario bob = Usuario.find.byId("bob@example.com");
         bob.setPlanoDeCurso(PlanoDeCurso.criarPlanoInicial());
         bob.save();
+        return bob.planoDeCurso;
     }
 
     protected FakeRequest sessaoAutenticada() {

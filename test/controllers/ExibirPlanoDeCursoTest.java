@@ -7,22 +7,26 @@ import static org.junit.Assert.*;
 import static org.fest.assertions.Assertions.*;
 
 import play.mvc.*;
+import static play.mvc.Http.Status.*;
 import play.test.*;
 import static play.test.Helpers.*;
-import static play.mvc.Http.Status.*;
+
+import models.*;
 
 public class ExibirPlanoDeCursoTest extends TestBase {
+
+    PlanoDeCurso p1;
 
     @Before
     public void setUp() {
         carregarTestData();
-        criarPlanoInicial();
+        p1 = criarPlanoInicial();
     }
 
     @Test
     public void sucesso() {
         Result result = callAction(
-          controllers.routes.ref.PlanoDeCursoApp.exibirPlanoDeCurso(),
+          controllers.routes.ref.Planos.exibir(p1.id),
           sessaoAutenticada());
         assertThat(status(result)).isEqualTo(OK);
         assertThat(contentType(result)).isEqualTo("application/json");
@@ -31,8 +35,7 @@ public class ExibirPlanoDeCursoTest extends TestBase {
 
     @Test
     public void erroUsuarioNaoAutenticado() {
-        Result result = callAction(
-            controllers.routes.ref.PlanoDeCursoApp.exibirPlanoDeCurso());
+        Result result = callAction(controllers.routes.ref.Planos.exibir(p1.id));
         assertThat(status(result)).isEqualTo(SEE_OTHER);
         assertThat(redirectLocation(result)).isEqualTo(
             routes.Application.login().url());

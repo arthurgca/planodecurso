@@ -26,5 +26,13 @@ GET     /curriculos/:id                                 controllers.Curriculos.e
 GET     /grades                                         controllers.Grades.listar()
 GET     /grades/:id                                     controllers.Grades.exibir(id: Long)
 
+# Planos
+GET     /planos                                         controllers.Planos.listar()
+POST    /planos                                         controllers.Planos.criar(curriculo: Integer, grade: Long)
+GET     /planos/:id                                     controllers.Planos.exibir(id: Long)
+POST    /planos/:id/:periodo                            controllers.Planos.programar(id: Long, disciplina: Long, periodo: Integer)
+PUT     /planos/:id/:para/:disciplina                   controllers.Planos.mover(id: Long, disciplina: Long, de: Integer, para: Integer)
+DELETE  /planos/:id/:periodo/:disciplina                controllers.Planos.desprogramar(id: Long, disciplina: Long, periodo: Integer)
+
 # Recursos estáticos
 GET     /assets/*file                                   controllers.Assets.at(path="/public", file)
