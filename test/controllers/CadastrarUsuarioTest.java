@@ -14,7 +14,7 @@ import com.google.common.collect.ImmutableMap;
 
 import models.*;
 
-public class CadastrarUsuarioTest extends test.TestBase {
+public class CadastrarUsuarioTest extends TestBase {
 
     @Before
     public void setUp() {

@@ -10,7 +10,7 @@ import play.test.*;
 import static play.test.Helpers.*;
 import com.google.common.collect.ImmutableMap;
 
-public class LoginUsuarioTest extends test.TestBase {
+public class LoginUsuarioTest extends TestBase {
 
     @Before
     public void setUp() {

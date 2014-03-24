@@ -11,7 +11,7 @@ import play.test.*;
 import static play.test.Helpers.*;
 import static play.mvc.Http.Status.*;
 
-public class TelaInicialTest extends test.TestBase {
+public class TelaInicialTest extends TestBase {
 
     @Test
     public void sucesso() {

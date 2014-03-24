@@ -11,7 +11,7 @@ import com.avaje.ebean.*;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
-public class CurriculoTest extends test.TestBase {
+public class CurriculoTest {
 
     Curriculo c1;
 
@@ -30,8 +30,6 @@ public class CurriculoTest extends test.TestBase {
             .disciplina(d1)
             .disciplina(d2)
             .build();
-
-        c1.save();
     }
 
     @Test
@@ -40,13 +38,6 @@ public class CurriculoTest extends test.TestBase {
         assertEquals(3, c1.maxPeriodos);
         assertEquals(8, c1.maxCreditosPeriodo);
         assertEquals(2, c1.disciplinas.size());
-    }
-
-    @Test
-    public void getDisciplinaLong() {
-        assertEquals(d1, c1.getDisciplina(d1.id));
-        assertEquals(d2, c1.getDisciplina(d2.id));
-        assertNull(c1.getDisciplina(Long.valueOf(-1)));
     }
 
     @Test

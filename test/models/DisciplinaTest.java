@@ -9,7 +9,7 @@ import play.libs.*;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
-public class DisciplinaTest extends test.TestBase {
+public class DisciplinaTest {
 
     Disciplina d1;
     Disciplina d2;

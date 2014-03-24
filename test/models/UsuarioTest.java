@@ -6,16 +6,19 @@ import org.junit.*;
 import static org.junit.Assert.*;
 
 import play.libs.*;
+import play.test.*;
+import static play.test.Helpers.*;
+
 import com.fasterxml.jackson.databind.JsonNode;
 
-public class UsuarioTest extends test.TestBase {
+public class UsuarioTest extends WithApplication {
 
     Usuario u1;
 
     @Before
     public void setUp() {
+        start(fakeApplication(inMemoryDatabase(), fakeGlobal()));
         u1 = new Usuario("MyString", "MyString", "MyString");
-        u1.save();
     }
 
     @Test
@@ -27,6 +30,7 @@ public class UsuarioTest extends test.TestBase {
 
     @Test
     public void autenticar() {
+        u1.save();
         assertEquals(u1, u1.autenticar("MyString", "MyString"));
     }
 

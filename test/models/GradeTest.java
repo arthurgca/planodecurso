@@ -9,7 +9,7 @@ import play.libs.*;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
-public class GradeTest extends test.TestBase {
+public class GradeTest {
 
     Grade g1;
 

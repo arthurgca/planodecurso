@@ -11,7 +11,7 @@ import play.test.*;
 import static play.test.Helpers.*;
 import static play.mvc.Http.Status.*;
 
-public class ListarDisciplinasTest extends test.TestBase {
+public class ListarDisciplinasTest extends TestBase {
 
     @Before
     public void setUp() {

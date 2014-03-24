@@ -1,4 +1,4 @@
-package test;
+package controllers;
 
 import java.util.*;
 
@@ -10,7 +10,6 @@ import play.db.ebean.*;
 import com.avaje.ebean.*;
 import static play.test.Helpers.*;
 
-
 import models.*;
 
 public abstract class TestBase extends WithApplication {
@@ -20,13 +19,20 @@ public abstract class TestBase extends WithApplication {
         start(fakeApplication(inMemoryDatabase(), fakeGlobal()));
     }
 
+    protected void criarPlanoInicial() {
+        Usuario bob = Usuario.find.byId("bob@example.com");
+        bob.setPlanoDeCurso(PlanoDeCurso.criarPlanoInicial());
+        bob.save();
+    }
+
     protected FakeRequest sessaoAutenticada() {
         return fakeRequest().withSession("email", "bob@example.com");
     }
 
     protected void carregarTestData() {
         @SuppressWarnings("unchecked")
-            Map<String,List<Object>> all = (Map<String,List<Object>>) Yaml.load("test-data.yml");
+        Map<String,List<Object>> all =
+            (Map<String,List<Object>>) Yaml.load("test-data.yml");
 
         Ebean.save(all.get("usuarios"));
 
@@ -45,12 +51,6 @@ public abstract class TestBase extends WithApplication {
                 Ebean.saveManyToManyAssociations(periodo, "disciplinas");
             }
         }
-    }
-
-    protected void criarPlanoInicial() {
-        Usuario bob = Usuario.find.byId("bob@example.com");
-        bob.setPlanoDeCurso(PlanoDeCurso.criarPlanoInicial());
-        bob.save();
     }
 
 }

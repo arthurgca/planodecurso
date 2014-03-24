@@ -8,7 +8,7 @@ import static org.junit.Assert.*;
 import play.libs.*;
 import com.fasterxml.jackson.databind.JsonNode;
 
-public class PeriodoTest extends test.TestBase {
+public class PeriodoTest {
 
     Periodo p1;
     Periodo p2;

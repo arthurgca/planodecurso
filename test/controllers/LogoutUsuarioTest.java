@@ -10,7 +10,7 @@ import play.test.*;
 import static play.test.Helpers.*;
 import com.google.common.collect.ImmutableMap;
 
-public class LogoutUsuarioTest extends test.TestBase {
+public class LogoutUsuarioTest extends TestBase {
 
     @Test
     public void sucesso() {
