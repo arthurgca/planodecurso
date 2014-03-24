@@ -15,6 +15,8 @@ public class Curriculo extends Model {
 
     public int maxPeriodos;
 
+    public int minCreditosPeriodo;
+
     public int maxCreditosPeriodo;
 
     @OneToMany(cascade = CascadeType.ALL)
@@ -23,6 +25,7 @@ public class Curriculo extends Model {
     private Curriculo(Builder builder) {
         this.nome = builder.nome;
         this.maxPeriodos = builder.maxPeriodos;
+        this.minCreditosPeriodo = builder.minCreditosPeriodo;
         this.maxCreditosPeriodo = builder.maxCreditosPeriodo;
         this.disciplinas = builder.disciplinas;
     }
@@ -58,6 +61,8 @@ public class Curriculo extends Model {
 
         public int maxPeriodos = 14;
 
+        public int minCreditosPeriodo = 14;
+
         public int maxCreditosPeriodo = 28;
 
         public Set<Disciplina> disciplinas = new HashSet<Disciplina>();
@@ -68,6 +73,11 @@ public class Curriculo extends Model {
 
         public Builder maxPeriodos(int maxPeriodos) {
             this.maxPeriodos = maxPeriodos;
+            return this;
+        }
+
+        public Builder minCreditosPeriodo(int minCreditosPeriodo) {
+            this.minCreditosPeriodo = minCreditosPeriodo;
             return this;
         }
 

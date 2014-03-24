@@ -7,6 +7,7 @@ create table curriculo (
   id                        integer not null,
   nome                      varchar(255),
   max_periodos              integer,
+  min_creditos_periodo      integer,
   max_creditos_periodo      integer,
   constraint pk_curriculo primary key (id))
 ;

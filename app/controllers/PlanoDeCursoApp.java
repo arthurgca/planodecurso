@@ -69,11 +69,18 @@ public class PlanoDeCursoApp extends AreaPrivada {
         return ok(result);
     }
 
-    public static Result desprogramar(Long disciplinaId, int periodo) {
+    public static Result desprogramar(Long disciplinaId, int periodo) throws ErroValidacaoException {
         PlanoDeCurso planoDeCurso = getPlanoDeCurso();
         Disciplina disciplina = getCurriculo().getDisciplina(disciplinaId);
+        ObjectNode result = Json.newObject();
 
-        planoDeCurso.desprogramar(disciplina, periodo);
+        try {
+            planoDeCurso.desprogramar(disciplina, periodo);
+        } catch (ErroValidacaoException e) {
+            result.put("message", e.getMessage());
+            return badRequest(result);
+        }
+
         planoDeCurso.save();
 
         String template = "%s foi desalocada do %s.";
@@ -82,7 +89,6 @@ public class PlanoDeCursoApp extends AreaPrivada {
           disciplina.nome,
           planoDeCurso.getPeriodo(periodo).getNome());
 
-        ObjectNode result = Json.newObject();
         result.put("message", message);
         return ok(result);
     }

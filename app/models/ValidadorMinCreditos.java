@@ -2,17 +2,17 @@ package models;
 
 import java.util.*;
 
-class ValidadorMaxCreditos implements Validador {
+class ValidadorMinCreditos implements Validador {
 
     public Curriculo curriculo;
 
     public Periodo alvo;
 
-    public ValidadorMaxCreditos(Curriculo curriculo) {
+    public ValidadorMinCreditos(Curriculo curriculo) {
         this(curriculo, null);
     }
 
-    public ValidadorMaxCreditos(Curriculo curriculo, Periodo alvo) {
+    public ValidadorMinCreditos(Curriculo curriculo, Periodo alvo) {
         this.curriculo = curriculo;
         this.alvo = alvo;
     }
@@ -32,11 +32,11 @@ class ValidadorMaxCreditos implements Validador {
             return;
         }
 
-        if (periodo.getTotalCreditos() <= curriculo.maxCreditosPeriodo) {
+        if (periodo.getTotalCreditos() >= curriculo.minCreditosPeriodo) {
             return;
         }
 
-        String template = "%s ultrapassa o máximo de créditos.";
+        String template = "%s não atinge o mínimo de créditos.";
         String message = String.format(template, periodo.getNome());
         throw new ErroValidacaoException(message);
     }

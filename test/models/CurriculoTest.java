@@ -26,6 +26,7 @@ public class CurriculoTest {
 
         c1 = new Curriculo.Builder("MyString")
             .maxPeriodos(3)
+            .minCreditosPeriodo(4)
             .maxCreditosPeriodo(8)
             .disciplina(d1)
             .disciplina(d2)

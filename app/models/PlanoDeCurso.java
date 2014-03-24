@@ -49,11 +49,12 @@ public class PlanoDeCurso extends Model {
         programar(disciplina, grade.getPeriodo(periodo));
     }
 
-    public void desprogramar(Disciplina disciplina, Periodo periodo) {
+    public void desprogramar(Disciplina disciplina, Periodo periodo) throws ErroValidacaoException {
         grade.desprogramarRecursivamente(disciplina, periodo);
+        validarDesprogramarDisciplina(disciplina, periodo);
     }
 
-    public void desprogramar(Disciplina disciplina, int periodo) {
+    public void desprogramar(Disciplina disciplina, int periodo) throws ErroValidacaoException {
         desprogramar(disciplina, grade.getPeriodo(periodo));
     }
 
@@ -74,7 +75,12 @@ public class PlanoDeCurso extends Model {
         new ValidadorMaxCreditos(curriculo, periodo).validar(this);
     }
 
+    private void validarDesprogramarDisciplina(Disciplina disciplina, Periodo periodo) throws ErroValidacaoException {
+        new ValidadorMinCreditos(curriculo, periodo).validar(this);
+    }
+
     private void validarMoverDisciplina(Disciplina disciplina, Periodo de, Periodo para) throws ErroValidacaoException {
+        new ValidadorMinCreditos(curriculo, de).validar(this);
         new ValidadorMaxCreditos(curriculo, para).validar(this);
     }
 

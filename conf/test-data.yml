@@ -9,6 +9,7 @@ curriculos:
       id:                  1
       nome:                Currículo 1
       maxPeriodos:         4
+      minCreditosPeriodo:  4
       maxCreditosPeriodo:  8
       disciplinas:
         - !!models.Disciplina

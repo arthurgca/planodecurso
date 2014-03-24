@@ -17,6 +17,7 @@ public class PlanoDeCursoTest {
     Disciplina d4;
     Disciplina d5;
     Disciplina d6;
+    Disciplina d7;
 
     Curriculo c1;
 
@@ -32,9 +33,11 @@ public class PlanoDeCursoTest {
         d4 = new Disciplina("Disciplina 4", 4, "MyString");
         d5 = new Disciplina("Disciplina 5", 4, "MyString");
         d6 = new Disciplina("Disciplina 6", 4, "MyString", new Disciplina[]{d5});
+        d7 = new Disciplina("Disciplina 7", 4, "MyString");
 
         c1 = new Curriculo.Builder("Curriculo 1")
             .maxPeriodos(4)
+            .minCreditosPeriodo(4)
             .maxCreditosPeriodo(8)
             .disciplina(d1)
             .disciplina(d2)
@@ -42,6 +45,7 @@ public class PlanoDeCursoTest {
             .disciplina(d4)
             .disciplina(d5)
             .disciplina(d6)
+            .disciplina(d7)
             .build();
 
         g1 = new Grade("Grade 1", 4);
@@ -70,7 +74,7 @@ public class PlanoDeCursoTest {
     }
 
     @Test(expected = ErroValidacaoException.class)
-    public void programarErroMaximoCreditos() throws ErroValidacaoException {
+    public void programarErroMaxCreditos() throws ErroValidacaoException {
         p1.programar(d4, 1);
     }
 
@@ -80,10 +84,15 @@ public class PlanoDeCursoTest {
     }
 
     @Test
-    public void desprogramar() {
+    public void desprogramar() throws ErroValidacaoException {
         assertTrue(p1.getDisciplinas(1).contains(d2));
         p1.desprogramar(d2, 1);
         assertFalse(p1.getDisciplinas(1).contains(d2));
+    }
+
+    @Test(expected = ErroValidacaoException.class)
+    public void desprogramarErroMinCreditos() throws ErroValidacaoException {
+        p1.desprogramar(d3, 2);
     }
 
     @Test
@@ -96,7 +105,12 @@ public class PlanoDeCursoTest {
     }
 
     @Test(expected = ErroValidacaoException.class)
-    public void moverErroMaximoCreditos() throws ErroValidacaoException {
+    public void moverErroMinCreditos() throws ErroValidacaoException {
+        p1.mover(d3, 2, 3);
+    }
+
+    @Test(expected = ErroValidacaoException.class)
+    public void moverErroMaxCreditos() throws ErroValidacaoException {
         p1.mover(d3, 2, 1);
     }
 
@@ -104,6 +118,7 @@ public class PlanoDeCursoTest {
     public void moverPreRequisitosInsatisfeitos() throws ErroValidacaoException {
         p1.programar(d5, 3);
         p1.programar(d6, 4);
+        p1.programar(d7, 4);
         p1.mover(d6, 4, 2);
     }
 
