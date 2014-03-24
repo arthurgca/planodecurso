@@ -22,5 +22,9 @@ DELETE  /curso/:periodo/:disciplina                     controllers.PlanoDeCurso
 GET     /curriculos                                     controllers.Curriculos.listar()
 GET     /curriculos/:id                                 controllers.Curriculos.exibir(id: Integer)
 
+# Grades
+GET     /grades                                         controllers.Grades.listar()
+GET     /grades/:id                                     controllers.Grades.exibir(id: Long)
+
 # Recursos estáticos
 GET     /assets/*file                                   controllers.Assets.at(path="/public", file)
