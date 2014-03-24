@@ -47,4 +47,16 @@ public class CurriculoTest {
         assertEquals(d2, c1.getDisciplina("d2"));
         assertNull(c1.getDisciplina("d9"));
     }
+
+    @Test
+    public void toJson() {
+        JsonNode node = Json.toJson(c1);
+        assertEquals(3, node.get("maxPeriodos").numberValue());
+
+        assertEquals(4, node.get("minCreditosPeriodo").numberValue());
+
+        assertEquals(8, node.get("maxCreditosPeriodo").numberValue());
+
+        assertTrue(node.get("disciplinas").isArray());
+    }
 }
