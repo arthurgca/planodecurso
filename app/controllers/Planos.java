@@ -9,11 +9,11 @@ import models.*;
 public class Planos extends AreaPrivada {
 
     public static Result listar() {
-        return ok(Json.toJson(Plano.find.all()));
+        return ok(PlanoJson.toJson(Plano.find.all()));
     }
 
     public static Result exibir(Long planoId) {
-        return ok(Json.toJson(Plano.find.byId(planoId)));
+        return ok(new PlanoJson(Plano.find.byId(planoId)).toJson());
     }
 
     public static Result criar(int curriculoId, Long gradeId) {
@@ -26,7 +26,7 @@ public class Planos extends AreaPrivada {
         usuario.setPlano(plano);
         usuario.save();
 
-        return ok(Json.toJson(plano));
+        return ok(new PlanoJson(plano).toJson());
     }
 
     public static Result programar(Long planoId, Long disciplinaId, int periodo) {

@@ -41,7 +41,7 @@ public class Global extends GlobalSettings {
             }
         }
     }
-    
+
     private void criaUsuariosIniciais(Application app) {
         if (Usuario.find.all().isEmpty()) {
             Usuario usuario;

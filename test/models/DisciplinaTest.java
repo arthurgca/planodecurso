@@ -42,15 +42,4 @@ public class DisciplinaTest {
         assertFalse(d2.getRequisitosInsatisfeitos(disciplinas).contains(d1));
     }
 
-    @Test
-    public void toJson() {
-        JsonNode node = Json.toJson(d2);
-        assertEquals("d2", node.get("nome").textValue());
-
-        assertEquals(4, node.get("creditos").numberValue());
-
-        assertEquals("MyString", node.get("categoria").textValue());
-
-        assertTrue(node.get("requisitos").isArray());
-    }
 }

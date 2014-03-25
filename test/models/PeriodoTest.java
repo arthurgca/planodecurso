@@ -60,15 +60,4 @@ public class PeriodoTest {
         assertFalse(p2.disciplinas.contains(d1));
     }
 
-    @Test
-    public void toJson() {
-        JsonNode node = Json.toJson(p2);
-        assertEquals(3, node.get("semestre").numberValue());
-
-        assertEquals("3º Período", node.get("nome").textValue());
-
-        assertEquals(8, node.get("totalCreditos").numberValue());
-
-        assertTrue(node.get("disciplinas").isArray());
-    }
 }

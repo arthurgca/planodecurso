@@ -122,9 +122,4 @@ public class PlanoTest {
         p1.mover(d6, 4, 2);
     }
 
-    @Test
-    public void toJson() {
-        JsonNode node = Json.toJson(p1);
-        assertTrue(node.get("periodos").isArray());
-    }
 }
