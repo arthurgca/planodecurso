@@ -35,8 +35,10 @@ public class Usuario extends Model {
 
     public static Usuario autenticar(String email, String senha) {
         Usuario usuario = Usuario.find.where().eq("email", email).findUnique();
-        if(BCrypt.checkpw(senha, usuario.senha)) {
-            return usuario;
+        if(usuario != null) {
+            if(BCrypt.checkpw(senha, usuario.senha)) {
+                return usuario;
+            }
         }
         return null;
     }
