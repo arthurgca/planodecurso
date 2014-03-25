@@ -70,7 +70,7 @@ public class PlanoJson {
 
         public List<DisciplinaJson> getDisciplinas() {
             List<DisciplinaJson> resultado = new LinkedList<DisciplinaJson>();
-            for (Disciplina d : periodo.getDisciplinas()) {
+            for (Disciplina d : periodo.disciplinas) {
                 resultado.add(new DisciplinaJson(d));
             }
             return resultado;

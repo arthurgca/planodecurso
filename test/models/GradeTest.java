@@ -77,7 +77,7 @@ public class GradeTest {
 
         JsonNode node = Json.toJson(g1);
 
-        assertEquals("MyString", g1.getNome());
+        assertEquals("MyString", g1.nome);
 
         assertTrue(node.get("periodos").isArray());
 
