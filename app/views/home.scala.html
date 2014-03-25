@@ -1,10 +1,17 @@
 @(usuario: Usuario)
 
 @import helper._
+@import play.libs.Json
 
 @main("Plano de Curso", usuario) {
-<div ng-controller="PlanoDeCursoCtrl">
-  <ng-include ng-repeat="periodo in planoDeCurso.periodos"
+
+<script type="text/javascript">
+  var USUARIO = @Html(Json.toJson(usuario).toString());
+  var PLANO = @Html(new PlanoJson().toJson(usuario.plano).toString());
+</script>
+
+<div ng-controller="PlanoCtrl">
+  <ng-include ng-repeat="periodo in plano.periodos"
               src="'periodo/periodo.html'">
   </ng-include>
 </div>
@@ -33,8 +40,8 @@
   </button>
   <ul class="dropdown-menu pull-right">
     <li>
-      <a href="#" ng-click="alocar()">
-        Alocar Disciplina...
+      <a href="#" ng-click="programar(periodo)">
+        Programar Disciplina...
       </a>
     </li>
   </ul>
@@ -49,7 +56,7 @@
       <h2>
         Período Vazio<br/>
         <small>
-          Que tal <a ng-click="alocar()">alocar uma disciplina?</a>
+          Que tal <a ng-click="programar(periodo)">programar uma disciplina?</a>
         </small>
       </h2>
     </div>
@@ -65,8 +72,8 @@
 <script id="periodo/disciplina.html"
         type="text/ng-template">
   <button class="btn btn-default btn-xs pull-right"
-          ng-click="desalocar(disciplina)"
-          ng-if="desalocar">
+          ng-click="desprogramar(disciplina, periodo)"
+          ng-if="desprogramar">
     <span class="glyphicon glyphicon-trash"></span>
   </button>
   <h4>
@@ -76,17 +83,17 @@
   <ul class="small list-inline">
     <li ng-repeat="requisito in disciplina.requisitos">
       <span class="label"
-            ng-class="isSatisfeito(requisito, periodo)?'label-primary':'label-danger'">
+            ng-class="requisito.isSatisfeito?'label-primary':'label-danger'">
         {{requisito.nome}}
       </span>
     </li>
   </ul>
 </script>
 
-<script id="periodo/modal-alocar-disciplina.html"
+<script id="periodo/modal-programar-disciplina.html"
         type="text/ng-template">
   <div class="modal-header">
-    <h3>Alocar Disciplina</h3>
+    <h3>Programar Disciplina</h3>
   </div>
   <div class="modal-body">
     <form role="form">

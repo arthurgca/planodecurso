@@ -1,12 +1,5 @@
 mainApp = angular.module "mainApp"
 
-mainApp.factory "ArrayOf", () ->
-
-  return (args) ->
-    (x, field, ctr) ->
-      _.map ((adt.only Array) x, field, ctr), (elem, i) ->
-        (adt.only args) elem, "#{field}[#{i}]", ctr
-
 mainApp.service "Alertas", ($growl) ->
 
   @sucesso = (mensagem) =>
@@ -22,3 +15,31 @@ mainApp.service "Alertas", ($growl) ->
       timeout: 2500).open()
 
   return this
+
+mainApp.service "ModalProgramarDisciplina", ($modal) ->
+
+  @abrir = (resolve) ->
+    $modal.open
+      resolve: resolve
+      controller: "ModalProgramarDisciplinaCtrl"
+      templateUrl: "periodo/modal-programar-disciplina.html"
+
+  this
+
+mainApp.controller "ModalProgramarDisciplinaCtrl", (
+  $scope,
+  $modalInstance,
+  periodo,
+  disciplinas) ->
+
+  $scope.periodo = periodo
+
+  $scope.disciplinas = disciplinas
+
+  $scope.disciplina = $scope.disciplinas[0]
+
+  $scope.ok = (disciplina) ->
+    $modalInstance.close disciplina
+
+  $scope.cancelar = ->
+    $modalInstance.dismiss "cancelar"
