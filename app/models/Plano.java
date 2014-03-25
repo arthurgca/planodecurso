@@ -8,7 +8,7 @@ import com.avaje.ebean.*;
 import com.fasterxml.jackson.annotation.*;
 
 @Entity
-public class PlanoDeCurso extends Model {
+public class Plano extends Model {
 
     @Id
     public Long id;
@@ -20,10 +20,10 @@ public class PlanoDeCurso extends Model {
     public Grade grade;
 
     @JsonIgnore
-    @OneToOne(mappedBy = "planoDeCurso")
+    @OneToOne(mappedBy = "plano")
     public Usuario dono;
 
-    public PlanoDeCurso(Curriculo curriculo, Grade grade) {
+    public Plano(Curriculo curriculo, Grade grade) {
         this.curriculo = curriculo;
         this.grade = Grade.copiar(grade.nome, grade);
     }
@@ -84,14 +84,14 @@ public class PlanoDeCurso extends Model {
         new ValidadorMaxCreditos(curriculo, para).validar(this);
     }
 
-    public static PlanoDeCurso criarPlanoInicial() {
+    public static Plano criarPlanoInicial() {
         Curriculo curriculo = Curriculo.find.all().get(0);
         Grade grade = Grade.find.all().get(0);
-        PlanoDeCurso plano = new PlanoDeCurso(curriculo, grade);
+        Plano plano = new Plano(curriculo, grade);
         plano.save();
         return plano;
     }
 
-    public static Finder<Long,PlanoDeCurso> find =
-        new Finder<Long,PlanoDeCurso>(Long.class, PlanoDeCurso.class);
+    public static Finder<Long,Plano> find =
+        new Finder<Long,Plano>(Long.class, Plano.class);
 }

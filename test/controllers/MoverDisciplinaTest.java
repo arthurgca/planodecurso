@@ -15,7 +15,7 @@ import models.*;
 
 public class MoverDisciplinaTest extends TestBase {
 
-    PlanoDeCurso p1;
+    Plano p1;
 
     @Before
     public void setUp() {

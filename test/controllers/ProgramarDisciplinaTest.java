@@ -15,7 +15,7 @@ import static play.mvc.Http.Status.*;
 
 public class ProgramarDisciplinaTest extends TestBase {
 
-    PlanoDeCurso p1;
+    Plano p1;
 
     @Before
     public void setUp() {

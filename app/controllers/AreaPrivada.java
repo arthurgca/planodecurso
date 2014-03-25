@@ -16,11 +16,11 @@ public abstract class AreaPrivada extends Controller {
         return Usuario.find.byId(request().username());
     }
 
-    protected static PlanoDeCurso getPlanoDeCurso() {
-        return getUsuarioAtual().planoDeCurso;
+    protected static Plano getPlano() {
+        return getUsuarioAtual().plano;
     }
 
     protected static Curriculo getCurriculo() {
-        return getPlanoDeCurso().curriculo;
+        return getPlano().curriculo;
     }
 }

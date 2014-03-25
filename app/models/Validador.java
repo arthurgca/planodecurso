@@ -1,7 +1,7 @@
 package models;
 
 public interface Validador {
-    public void validar(PlanoDeCurso planoDeCurso) throws ErroValidacaoException;
+    public void validar(Plano plano) throws ErroValidacaoException;
 
     public void validar(Grade grade) throws ErroValidacaoException;
 

@@ -40,6 +40,6 @@ public class UsuarioTest extends WithApplication {
         assertEquals("MyString", node.get("email").textValue());
         assertEquals("MyString", node.get("nome").textValue());
         assertNull(node.get("senha"));
-        assertNotNull(node.get("planoDeCurso"));
+        assertNotNull(node.get("plano"));
     }
 }

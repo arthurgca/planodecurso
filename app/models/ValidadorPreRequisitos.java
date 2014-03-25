@@ -19,8 +19,8 @@ class ValidadorPreRequisitos implements Validador {
         this.alvo = alvo;
     }
 
-    public void validar(PlanoDeCurso planoDeCurso) throws ErroValidacaoException {
-        validar(planoDeCurso.grade);
+    public void validar(Plano plano) throws ErroValidacaoException {
+        validar(plano.grade);
     }
 
     public void validar(Grade grade) throws ErroValidacaoException {

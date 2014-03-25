@@ -9,7 +9,7 @@ import play.libs.*;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
-public class PlanoDeCursoTest {
+public class PlanoTest {
 
     Disciplina d1;
     Disciplina d2;
@@ -23,7 +23,7 @@ public class PlanoDeCursoTest {
 
     Grade g1;
 
-    PlanoDeCurso p1;
+    Plano p1;
 
     @Before
     public void setUp() {
@@ -53,7 +53,7 @@ public class PlanoDeCursoTest {
         g1.programar(d2, 1);
         g1.programar(d3, 2);
 
-        p1 = new PlanoDeCurso(c1, g1);
+        p1 = new Plano(c1, g1);
     }
 
     @Test

@@ -9,28 +9,28 @@ import models.*;
 public class Planos extends AreaPrivada {
 
     public static Result listar() {
-        return ok(Json.toJson(PlanoDeCurso.find.all()));
+        return ok(Json.toJson(Plano.find.all()));
     }
 
     public static Result exibir(Long planoId) {
-        return ok(Json.toJson(PlanoDeCurso.find.byId(planoId)));
+        return ok(Json.toJson(Plano.find.byId(planoId)));
     }
 
     public static Result criar(int curriculoId, Long gradeId) {
         Curriculo curriculo = Curriculo.find.byId(curriculoId);
         Grade grade = Grade.find.byId(gradeId);
-        PlanoDeCurso plano = new PlanoDeCurso(curriculo, grade);
+        Plano plano = new Plano(curriculo, grade);
         plano.save();
 
         Usuario usuario = getUsuarioAtual();
-        usuario.setPlanoDeCurso(plano);
+        usuario.setPlano(plano);
         usuario.save();
 
         return ok(Json.toJson(plano));
     }
 
     public static Result programar(Long planoId, Long disciplinaId, int periodo) {
-        PlanoDeCurso plano = PlanoDeCurso.find.byId(planoId);
+        Plano plano = Plano.find.byId(planoId);
         Disciplina disciplina = plano.curriculo.getDisciplina(disciplinaId);
         ObjectNode result = Json.newObject();
 
@@ -54,7 +54,7 @@ public class Planos extends AreaPrivada {
     }
 
     public static Result mover(Long planoId, Long disciplinaId, int de, int para) {
-        PlanoDeCurso plano = PlanoDeCurso.find.byId(planoId);
+        Plano plano = Plano.find.byId(planoId);
         Disciplina disciplina = plano.curriculo.getDisciplina(disciplinaId);
         ObjectNode result = Json.newObject();
 
@@ -78,7 +78,7 @@ public class Planos extends AreaPrivada {
     }
 
     public static Result desprogramar(Long planoId, Long disciplinaId, int periodo) {
-        PlanoDeCurso plano = PlanoDeCurso.find.byId(planoId);
+        Plano plano = Plano.find.byId(planoId);
         Disciplina disciplina = plano.curriculo.getDisciplina(disciplinaId);
         ObjectNode result = Json.newObject();
 

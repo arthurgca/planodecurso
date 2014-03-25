@@ -12,7 +12,7 @@ POST    /cadastrar                                      controllers.Application.
 
 # Plano De Curso
 GET     /home                                           controllers.PlanoDeCursoApp.index()
-GET     /curso                                          controllers.PlanoDeCursoApp.exibirPlanoDeCurso()
+GET     /curso                                          controllers.PlanoDeCursoApp.exibirPlano()
 GET     /disciplinas                                    controllers.PlanoDeCursoApp.listarDisciplinas()
 POST    /curso/:periodo                                 controllers.PlanoDeCursoApp.programar(disciplina: Long, periodo: Integer)
 PUT     /curso/:para/:disciplina                        controllers.PlanoDeCursoApp.mover(disciplina: Long, dePeriodo: Integer, para: Integer)

@@ -17,7 +17,7 @@ public class Usuario extends Model {
     public String senha;
 
     @OneToOne
-    public PlanoDeCurso planoDeCurso;
+    public Plano plano;
 
     public Usuario(String email, String nome, String senha) {
       this.email = email;
@@ -25,8 +25,8 @@ public class Usuario extends Model {
       this.senha = senha;
     }
 
-    public void setPlanoDeCurso(PlanoDeCurso planoDeCurso) {
-        this.planoDeCurso = planoDeCurso;
+    public void setPlano(Plano plano) {
+        this.plano = plano;
     }
 
     public static Finder<String,Usuario> find =

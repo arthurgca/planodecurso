@@ -78,7 +78,7 @@ public class Application extends Controller {
             return badRequest(cadastrar.render(form));
         } else {
             Usuario usuario = form.get().getUsuario();
-            usuario.setPlanoDeCurso(PlanoDeCurso.criarPlanoInicial());
+            usuario.setPlano(Plano.criarPlanoInicial());
             usuario.save();
 
             flash("success",

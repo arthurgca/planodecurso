@@ -13,8 +13,8 @@ public class PlanoDeCursoApp extends AreaPrivada {
         return ok(home.render(getUsuarioAtual()));
     }
 
-    public static Result exibirPlanoDeCurso() {
-        return ok(Json.toJson(getPlanoDeCurso()));
+    public static Result exibirPlano() {
+        return ok(Json.toJson(getPlano()));
     }
 
     public static Result listarDisciplinas() {
@@ -22,72 +22,72 @@ public class PlanoDeCursoApp extends AreaPrivada {
     }
 
     public static Result programar(Long disciplinaId, int periodo) {
-        PlanoDeCurso planoDeCurso = getPlanoDeCurso();
+        Plano plano = getPlano();
         Disciplina disciplina = getCurriculo().getDisciplina(disciplinaId);
         ObjectNode result = Json.newObject();
 
         try {
-            planoDeCurso.programar(disciplina, periodo);
+            plano.programar(disciplina, periodo);
         } catch (ErroValidacaoException e) {
             result.put("message", e.getMessage());
             return badRequest(result);
         }
 
-        planoDeCurso.save();
+        plano.save();
 
         String template = "%s foi alocada no %s.";
         String message = String.format(
           template,
           disciplina.nome,
-          planoDeCurso.getPeriodo(periodo).getNome());
+          plano.getPeriodo(periodo).getNome());
 
         result.put("message", message);
         return ok(result);
     }
 
     public static Result mover(Long disciplinaId, int de, int para) {
-        PlanoDeCurso planoDeCurso = getPlanoDeCurso();
+        Plano plano = getPlano();
         Disciplina disciplina = getCurriculo().getDisciplina(disciplinaId);
         ObjectNode result = Json.newObject();
 
         try {
-            planoDeCurso.mover(disciplina, de, para);
+            plano.mover(disciplina, de, para);
         } catch (ErroValidacaoException e) {
             result.put("message", e.getMessage());
             return badRequest(result);
         }
 
-        planoDeCurso.save();
+        plano.save();
 
         String template = "%s foi movida para o %s.";
         String message = String.format(
           template,
           disciplina.nome,
-          planoDeCurso.getPeriodo(para).getNome());
+          plano.getPeriodo(para).getNome());
 
         result.put("message", message);
         return ok(result);
     }
 
     public static Result desprogramar(Long disciplinaId, int periodo) throws ErroValidacaoException {
-        PlanoDeCurso planoDeCurso = getPlanoDeCurso();
+        Plano plano = getPlano();
         Disciplina disciplina = getCurriculo().getDisciplina(disciplinaId);
         ObjectNode result = Json.newObject();
 
         try {
-            planoDeCurso.desprogramar(disciplina, periodo);
+            plano.desprogramar(disciplina, periodo);
         } catch (ErroValidacaoException e) {
             result.put("message", e.getMessage());
             return badRequest(result);
         }
 
-        planoDeCurso.save();
+        plano.save();
 
         String template = "%s foi desalocada do %s.";
         String message = String.format(
           template,
           disciplina.nome,
-          planoDeCurso.getPeriodo(periodo).getNome());
+          plano.getPeriodo(periodo).getNome());
 
         result.put("message", message);
         return ok(result);
