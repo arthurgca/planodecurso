@@ -10,6 +10,8 @@ import com.fasterxml.jackson.annotation.*;
 
 public class PlanoJson {
 
+    private Set<Disciplina> disciplinasOfertadas;
+
     private Set<Disciplina> disciplinasAcumuladas;
 
     public PlanoJson() {
@@ -17,6 +19,10 @@ public class PlanoJson {
     }
 
     public JsonNode toJson(Plano plano) {
+        disciplinasOfertadas =
+            new HashSet<Disciplina>(plano.curriculo.disciplinas);
+        disciplinasOfertadas.removeAll(plano.getDisciplinas());
+
         ObjectNode node = Json.newObject();
 
         node.put("id", Json.toJson(plano.id));
@@ -48,6 +54,9 @@ public class PlanoJson {
         node.put("disciplinas", Json.toJson(disciplinas));
 
         List<JsonNode> ofertadas = new LinkedList<JsonNode>();
+        for (Disciplina d : disciplinasOfertadas) {
+            ofertadas.add(toJson(d));
+        }
 
         node.put("ofertadas", Json.toJson(ofertadas));
 

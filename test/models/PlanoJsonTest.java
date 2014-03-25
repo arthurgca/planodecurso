@@ -70,6 +70,21 @@ public class PlanoJsonTest {
     }
 
     @Test
+    public void ofertadas() {
+        JsonNode periodo = plano.get("periodos").elements().next();
+
+        assertTrue(periodo.get("ofertadas").isArray());
+        assertEquals(1, periodo.get("ofertadas").size());
+
+        JsonNode ofertada = periodo.get("ofertadas").elements().next();
+
+        assertNotNull(ofertada.get("id"));
+        assertEquals("Disciplina 0", ofertada.get("nome").textValue());
+        assertEquals(4, ofertada.get("creditos").numberValue());
+        assertEquals("MyString", ofertada.get("categoria").textValue());
+    }
+
+    @Test
     public void requisitos() {
         Iterator<JsonNode> periodos = plano.get("periodos").elements();
 

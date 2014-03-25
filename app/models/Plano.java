@@ -36,6 +36,10 @@ public class Plano extends Model {
         return grade.getPeriodo(periodo);
     }
 
+    public List<Disciplina> getDisciplinas() {
+        return grade.getDisciplinas();
+    }
+
     public List<Disciplina> getDisciplinas(int periodo) {
         return grade.getDisciplinas(periodo);
     }

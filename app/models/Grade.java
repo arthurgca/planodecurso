@@ -39,6 +39,14 @@ public class Grade extends Model {
         return null;
     }
 
+    public List<Disciplina> getDisciplinas() {
+        List<Disciplina> resultado = new LinkedList<Disciplina>();
+        for (Periodo periodo : periodos) {
+            resultado.addAll(periodo.disciplinas);
+        }
+        return resultado;
+    }
+
     public List<Disciplina> getDisciplinas(int periodo) {
         return getPeriodo(periodo).disciplinas;
     }
