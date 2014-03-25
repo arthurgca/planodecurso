@@ -5,6 +5,7 @@ import java.util.*;
 import org.junit.*;
 import static org.junit.Assert.*;
 
+import org.mindrot.jbcrypt.BCrypt;
 import play.libs.*;
 import play.test.*;
 import static play.test.Helpers.*;
@@ -25,7 +26,7 @@ public class UsuarioTest extends WithApplication {
     public void construtor() {
         assertEquals("MyString", u1.email);
         assertEquals("MyString", u1.nome);
-        assertEquals("MyString", u1.senha);
+        assertTrue(BCrypt.checkpw("MyString", u1.senha));
     }
 
     @Test
