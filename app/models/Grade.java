@@ -4,7 +4,6 @@ import java.util.*;
 import javax.persistence.*;
 
 import play.db.ebean.*;
-import com.avaje.ebean.*;
 
 @Entity
 public class Grade extends Model {
@@ -15,6 +14,7 @@ public class Grade extends Model {
     public String nome;
 
     @OneToMany(cascade = CascadeType.ALL)
+    @OrderBy("semestre ASC")
     public List<Periodo> periodos = new LinkedList<Periodo>();
 
     public Grade(String nome, int maxPeriodos) {
