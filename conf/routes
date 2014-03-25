@@ -10,13 +10,8 @@ GET     /logout                                         controllers.Application.
 GET     /cadastrar                                      controllers.Application.cadastrar()
 POST    /cadastrar                                      controllers.Application.submeteCadastro()
 
-# Plano De Curso
+# App
 GET     /home                                           controllers.PlanoDeCursoApp.index()
-GET     /curso                                          controllers.PlanoDeCursoApp.exibirPlano()
-GET     /disciplinas                                    controllers.PlanoDeCursoApp.listarDisciplinas()
-POST    /curso/:periodo                                 controllers.PlanoDeCursoApp.programar(disciplina: Long, periodo: Integer)
-PUT     /curso/:para/:disciplina                        controllers.PlanoDeCursoApp.mover(disciplina: Long, dePeriodo: Integer, para: Integer)
-DELETE  /curso/:periodo/:disciplina                     controllers.PlanoDeCursoApp.desprogramar(disciplina: Long, periodo: Integer)
 
 # Curriculos
 GET     /curriculos                                     controllers.Curriculos.listar()
