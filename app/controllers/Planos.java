@@ -13,7 +13,7 @@ public class Planos extends AreaPrivada {
     }
 
     public static Result exibir(Long planoId) {
-        return ok(new PlanoJson(Plano.find.byId(planoId)).toJson());
+        return ok(new PlanoJson().toJson(Plano.find.byId(planoId)));
     }
 
     public static Result criar(int curriculoId, Long gradeId) {
@@ -26,7 +26,7 @@ public class Planos extends AreaPrivada {
         usuario.setPlano(plano);
         usuario.save();
 
-        return ok(new PlanoJson(plano).toJson());
+        return ok(new PlanoJson().toJson(plano));
     }
 
     public static Result programar(Long planoId, Long disciplinaId, int periodo) {

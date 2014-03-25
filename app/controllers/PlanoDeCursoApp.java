@@ -14,7 +14,7 @@ public class PlanoDeCursoApp extends AreaPrivada {
     }
 
     public static Result exibirPlano() {
-        return ok(new PlanoJson(getPlano()).toJson());
+        return ok(new PlanoJson().toJson(getPlano()));
     }
 
     public static Result listarDisciplinas() {

@@ -15,14 +15,16 @@ public class PlanoJsonTest {
 
     @Before
     public void setUp() {
+        Disciplina d0 = new Disciplina("Disciplina 0", 4, "MyString");
         Disciplina d1 = new Disciplina("Disciplina 1", 4, "MyString");
         Disciplina d2 = new Disciplina(
-            "Disciplina 2", 4, "MyString", new Disciplina[] {d1});
+          "Disciplina 2", 4, "MyString", new Disciplina[] {d0});
 
         Curriculo c1 = new Curriculo.Builder("Curriculo 1")
             .maxPeriodos(2)
             .minCreditosPeriodo(4)
             .maxCreditosPeriodo(8)
+            .disciplina(d0)
             .disciplina(d1)
             .disciplina(d2)
             .build();
@@ -31,7 +33,7 @@ public class PlanoJsonTest {
         g1.programar(d1, 1);
         g1.programar(d2, 2);
 
-        plano = new PlanoJson(new Plano(c1, g1)).toJson();
+        plano = new PlanoJson().toJson(new Plano(c1, g1));
     }
 
     @Test
@@ -79,14 +81,14 @@ public class PlanoJsonTest {
         assertTrue(disciplina.get("requisitos").isArray());
         assertEquals(1, disciplina.get("requisitos").size());
 
-        JsonNode requisito = disciplina.get("requisitos")
-            .elements().next();
+        Iterator<JsonNode> requisitos = disciplina.get("requisitos").elements();
 
-        assertNotNull(requisito.get("id"));
-        assertEquals("Disciplina 1", requisito.get("nome").textValue());
+        JsonNode requisito = requisitos.next();
+
+        assertFalse(requisito.get("isSatisfeito").booleanValue());
+        assertEquals("Disciplina 0", requisito.get("nome").textValue());
         assertEquals(4, requisito.get("creditos").numberValue());
         assertEquals("MyString", requisito.get("categoria").textValue());
-        assertTrue(requisito.get("isSatisfeito").booleanValue());
         assertNull(requisito.get("requisitos"));
     }
 

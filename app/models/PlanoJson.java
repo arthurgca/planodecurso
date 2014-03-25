@@ -5,146 +5,97 @@ import java.util.*;
 import play.libs.*;
 
 import com.fasterxml.jackson.databind.*;
+import com.fasterxml.jackson.databind.node.*;
 import com.fasterxml.jackson.annotation.*;
 
 public class PlanoJson {
 
-    @JsonIgnore
-    private final Plano plano;
+    private Set<Disciplina> disciplinasAcumuladas;
 
-    private Set<Disciplina> disciplinasAcumuladas = new HashSet<Disciplina>();
-
-    public PlanoJson(Plano plano) {
-        this.plano = plano;
+    public PlanoJson() {
+        disciplinasAcumuladas = new HashSet<Disciplina>();
     }
 
-    public Long getId() {
-        return plano.id;
-    }
+    public JsonNode toJson(Plano plano) {
+        ObjectNode node = Json.newObject();
 
-    public List<PeriodoJson> getPeriodos() {
-        List<PeriodoJson> resultado = new LinkedList<PeriodoJson>();
-        for (Periodo p : plano.getPeriodos()) {
-            resultado.add(new PeriodoJson(p));
-            disciplinasAcumuladas.addAll(p.disciplinas);
+        node.put("id", Json.toJson(plano.id));
+
+        List<JsonNode> periodos = new LinkedList<JsonNode>();
+        for (Periodo periodo : plano.getPeriodos()) {
+            periodos.add(toJson(periodo));
+            disciplinasAcumuladas.addAll(periodo.disciplinas);
         }
-        return resultado;
+
+        node.put("periodos", Json.toJson(periodos));
+
+        return node;
     }
 
-    @JsonIgnore
-    public JsonNode toJson() {
-        return Json.toJson(this);
+    public JsonNode toJson(Periodo periodo) {
+        ObjectNode node = Json.newObject();
+
+        node.put("id", periodo.id);
+        node.put("semestre", periodo.semestre);
+        node.put("nome", periodo.getNome());
+        node.put("totalCreditos", periodo.getTotalCreditos());
+
+        List<JsonNode> disciplinas = new LinkedList<JsonNode>();
+        for (Disciplina d : periodo.disciplinas) {
+            disciplinas.add(toJson(d));
+        }
+
+        node.put("disciplinas", Json.toJson(disciplinas));
+
+        List<JsonNode> ofertadas = new LinkedList<JsonNode>();
+
+        node.put("ofertadas", Json.toJson(ofertadas));
+
+        return node;
+    }
+
+    public JsonNode toJson(Disciplina disciplina) {
+        ObjectNode node = Json.newObject();
+
+        node.put("id", disciplina.id);
+        node.put("nome", disciplina.nome);
+        node.put("creditos", disciplina.creditos);
+        node.put("categoria", disciplina.categoria);
+
+        List<JsonNode> requisitos = new LinkedList<JsonNode>();
+        for (Disciplina requisito : disciplina.requisitos) {
+            requisitos.add(requisitoToJson(disciplina, requisito));
+        }
+
+        node.put("requisitos", Json.toJson(requisitos));
+
+        return node;
+    }
+
+    private JsonNode requisitoToJson(Disciplina disciplina, Disciplina requisito) {
+        ObjectNode node = Json.newObject();
+
+        node.put("id", requisito.id);
+        node.put("nome", requisito.nome);
+        node.put("creditos", requisito.creditos);
+        node.put("categoria", requisito.categoria);
+
+        if (disciplina.getRequisitosInsatisfeitos(disciplinasAcumuladas)
+            .contains(requisito)) {
+            node.put("isSatisfeito", false);
+        } else {
+            node.put("isSatisfeito", true);
+        }
+
+        return node;
     }
 
     public static JsonNode toJson(Collection<Plano> planos) {
-        List<PlanoJson> nodes = new LinkedList<PlanoJson>();
+        List<JsonNode> nodes = new LinkedList<JsonNode>();
         for (Plano plano : planos) {
-            nodes.add(new PlanoJson(plano));
+            nodes.add(new PlanoJson().toJson(plano));
         }
         return Json.toJson(nodes);
-    }
-
-    private class PeriodoJson {
-        @JsonIgnore
-        private final Periodo periodo;
-
-        public PeriodoJson(Periodo periodo) {
-            this.periodo = periodo;
-        }
-
-        public Long getId() {
-            return periodo.id;
-        }
-
-        public int getSemestre() {
-            return periodo.semestre;
-        }
-
-        public String getNome() {
-            return periodo.getNome();
-        }
-
-        public int getTotalCreditos() {
-            return periodo.getTotalCreditos();
-        }
-
-        public List<DisciplinaJson> getDisciplinas() {
-            List<DisciplinaJson> resultado = new LinkedList<DisciplinaJson>();
-            for (Disciplina d : periodo.disciplinas) {
-                resultado.add(new DisciplinaJson(d));
-            }
-            return resultado;
-        }
-    }
-
-    private class DisciplinaJson {
-        @JsonIgnore
-        private final Disciplina disciplina;
-
-        public DisciplinaJson(Disciplina disciplina) {
-            this.disciplina = disciplina;
-        }
-
-        public Long getId() {
-            return disciplina.id;
-        }
-
-        public String getNome() {
-            return disciplina.nome;
-        }
-
-        public int getCreditos() {
-            return disciplina.creditos;
-        }
-
-        public String getCategoria() {
-            return disciplina.categoria;
-        }
-
-        public List<RequisitoJson> getRequisitos() {
-            List<RequisitoJson> resultado =
-                new LinkedList<RequisitoJson>();
-
-            for (Disciplina d : disciplina.requisitos) {
-                resultado.add(
-                    new RequisitoJson(d, isSatisfeito(d, disciplina)));
-            }
-
-            return resultado;
-        }
-
-        private boolean isSatisfeito(Disciplina requisito, Disciplina disciplina) {
-            return !disciplina.getRequisitosInsatisfeitos(disciplinasAcumuladas)
-                .contains(requisito);
-        }
-    }
-
-    private class RequisitoJson {
-        @JsonIgnore
-        private final Disciplina requisito;
-
-        public boolean isSatisfeito;
-
-        public RequisitoJson(Disciplina requisito, boolean isSatisfeito) {
-            this.requisito = requisito;
-            this.isSatisfeito = isSatisfeito;
-        }
-
-        public Long getId() {
-            return requisito.id;
-        }
-
-        public String getNome() {
-            return requisito.nome;
-        }
-
-        public int getCreditos() {
-            return requisito.creditos;
-        }
-
-        public String getCategoria() {
-            return requisito.categoria;
-        }
     }
 
 }
