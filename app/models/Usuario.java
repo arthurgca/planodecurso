@@ -4,6 +4,7 @@ import javax.persistence.*;
 import play.db.ebean.*;
 
 import com.fasterxml.jackson.annotation.*;
+import org.mindrot.jbcrypt.BCrypt;
 
 @Entity
 public class Usuario extends Model {
@@ -22,7 +23,7 @@ public class Usuario extends Model {
     public Usuario(String email, String nome, String senha) {
       this.email = email;
       this.nome = nome;
-      this.senha = senha;
+      this.senha = BCrypt.hashpw(senha, BCrypt.gensalt());
     }
 
     public void setPlano(Plano plano) {
@@ -33,7 +34,11 @@ public class Usuario extends Model {
         new Finder<String,Usuario>(String.class, Usuario.class);
 
     public static Usuario autenticar(String email, String senha) {
-        return find.where().eq("email", email)
-            .eq("senha", senha).findUnique();
+        Usuario usuario = Usuario.find.where().eq("email", email).findUnique();
+        if(usuario != null && BCrypt.checkpw(senha, usuario.senha)) {
+            return usuario;
+        } else {
+            return null;
+        }
     }
 }

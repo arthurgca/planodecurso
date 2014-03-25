@@ -2,7 +2,7 @@ usuarios:
   - !!models.Usuario
       email:    bob@example.com
       nome:     Bob
-      senha:    secret
+      senha:    $2a$10$/YpEmkGGY7vME7S938CMYuOVWthnvand0ByZ/6EBcRPzAK.dSMI9C
 
 curriculos:
   - !!models.Curriculo
