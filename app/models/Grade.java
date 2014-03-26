@@ -4,6 +4,7 @@ import java.util.*;
 import javax.persistence.*;
 
 import play.db.ebean.*;
+import com.fasterxml.jackson.annotation.*;
 
 @Entity
 public class Grade extends Model {
@@ -13,6 +14,7 @@ public class Grade extends Model {
 
     public String nome;
 
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL)
     @OrderBy("semestre ASC")
     public List<Periodo> periodos = new LinkedList<Periodo>();
@@ -39,6 +41,7 @@ public class Grade extends Model {
         return null;
     }
 
+    @JsonIgnore
     public List<Disciplina> getDisciplinas() {
         List<Disciplina> resultado = new LinkedList<Disciplina>();
         for (Periodo periodo : periodos) {

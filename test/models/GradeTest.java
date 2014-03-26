@@ -79,7 +79,7 @@ public class GradeTest {
 
         assertEquals("MyString", g1.nome);
 
-        assertTrue(node.get("periodos").isArray());
+        assertNull(node.get("periodos"));
 
         assertEquals(3, node.get("maxPeriodos").numberValue());
     }
