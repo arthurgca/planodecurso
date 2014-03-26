@@ -88,14 +88,6 @@ public class Plano extends Model {
         new ValidadorMaxCreditos(curriculo, para).validar(this);
     }
 
-    public static Plano criarPlanoInicial() {
-        Curriculo curriculo = Curriculo.find.all().get(0);
-        Grade grade = Grade.find.all().get(0);
-        Plano plano = new Plano(curriculo, grade);
-        plano.save();
-        return plano;
-    }
-
     public static Finder<Long,Plano> find =
         new Finder<Long,Plano>(Long.class, Plano.class);
 }

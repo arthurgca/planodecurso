@@ -37,7 +37,7 @@ public class CadastrarUsuarioTest extends TestBase {
     }
 
     @Test
-    public void criarPlano() {
+    public void naoCriarPlano() {
         Result result = callAction(
             controllers.routes.ref.Application.submeteCadastro(),
             fakeRequest().withFormUrlEncodedBody(ImmutableMap.of(
@@ -47,7 +47,7 @@ public class CadastrarUsuarioTest extends TestBase {
                 "confirmacao", "senha")));
         assertThat(flash(result).get("success")).isNotNull();
         Usuario u1 = Usuario.find.byId("teste@example.com");
-        assertNotNull(u1.plano);
+        assertNull(u1.plano);
     }
 
     @Test
