@@ -29,7 +29,7 @@ public class PlanoJsonTest {
             .disciplina(d2)
             .build();
 
-        Grade g1 = new Grade("Grade 1", 2);
+        Grade g1 = new Grade("Grade 1", c1);
         g1.programar(d1, 1);
         g1.programar(d2, 2);
 

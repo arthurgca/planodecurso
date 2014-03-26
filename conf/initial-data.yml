@@ -749,6 +749,8 @@ grades:
   - !!models.Grade
       nome:       Grade Oficial
       original:   true
+      curriculo:  !!models.Curriculo
+        id:              1
       periodos:
         - !!models.Periodo
             semestre:    1

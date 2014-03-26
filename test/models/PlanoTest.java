@@ -48,7 +48,7 @@ public class PlanoTest {
             .disciplina(d7)
             .build();
 
-        g1 = new Grade("Grade 1", 4);
+        g1 = new Grade("Grade 1", c1);
         g1.programar(d1, 1);
         g1.programar(d2, 1);
         g1.programar(d3, 2);

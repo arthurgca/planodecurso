@@ -57,16 +57,12 @@ mainApp.service "ModalCriarPlano", ($modal) ->
 mainApp.controller "ModalCriarPlanoCtrl", (
   $scope,
   $modalInstance,
-  curriculos,
-  grades) ->
+  curriculos) ->
 
   curriculos.$promise.then (response) ->
     $scope.curriculos = response
     $scope.curriculo = $scope.curriculos[0]
-
-  grades.$promise.then (response) ->
-    $scope.grades = response
-    $scope.grade = $scope.grades[0]
+    $scope.grade = $scope.curriculos[0].gradesOriginais[0]
 
   $scope.ok = (curriculo, grade) ->
     $modalInstance.close curriculo: curriculo, grade: grade

@@ -4,6 +4,7 @@ import java.util.*;
 import javax.persistence.*;
 
 import play.db.ebean.*;
+import com.fasterxml.jackson.annotation.*;
 
 @Entity
 public class Curriculo extends Model {
@@ -21,6 +22,10 @@ public class Curriculo extends Model {
 
     @OneToMany(cascade = CascadeType.ALL)
     public Set<Disciplina> disciplinas = new HashSet<Disciplina>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "curriculo")
+    public List<Grade> grades = new LinkedList<Grade>();
 
     private Curriculo(Builder builder) {
         this.nome = builder.nome;
@@ -50,6 +55,16 @@ public class Curriculo extends Model {
         }
 
         return null;
+    }
+
+    public List<Grade> getGradesOriginais() {
+        List<Grade> resultado = new LinkedList<Grade>();
+        for (Grade g : grades) {
+            if (g.original) {
+                resultado.add(g);
+            }
+        }
+        return resultado;
     }
 
     public static Finder<Integer,Curriculo> find =

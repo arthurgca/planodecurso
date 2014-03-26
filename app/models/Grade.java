@@ -17,14 +17,19 @@ public class Grade extends Model {
     public boolean original = false;
 
     @JsonIgnore
+    @ManyToOne
+    public Curriculo curriculo;
+
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL)
     @OrderBy("semestre ASC")
     public List<Periodo> periodos = new LinkedList<Periodo>();
 
-    public Grade(String nome, int maxPeriodos) {
+    public Grade(String nome, Curriculo curriculo) {
         this.nome = nome;
+        this.curriculo = curriculo;
 
-        for (int i = 0; i < maxPeriodos; i++) {
+        for (int i = 0; i < curriculo.maxPeriodos; i++) {
             periodos.add(new Periodo(i + 1));
         }
     }
@@ -105,7 +110,7 @@ public class Grade extends Model {
     }
 
     public static Grade copiar(String nome, Grade grade) {
-        Grade copia = new Grade(nome, grade.getMaxPeriodos());
+        Grade copia = new Grade(nome, grade.curriculo);
 
         for (Periodo p : grade.periodos) {
             for (Disciplina d : p.disciplinas) {

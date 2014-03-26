@@ -15,7 +15,6 @@ mainApp.controller "PlanoCtrl", (
   $scope.criarPlano = () ->
     modal = ModalCriarPlano.abrir
       curriculos: -> Curriculos.query()
-      grades: -> Grades.query()
     modal.result.then (response) ->
       criarPlanoDeCurso response.curriculo, response.grade
 

@@ -18,9 +18,18 @@ public class GradeTest {
 
     @Before
     public void setUp() {
-        g1 = new Grade("MyString", 3);
         d1 = new Disciplina("d1", 4, "MyString");
         d2 = new Disciplina("d2", 4, "MyString", new Disciplina[]{d1});
+
+        Curriculo c1 = new Curriculo.Builder("MyString")
+            .maxPeriodos(3)
+            .minCreditosPeriodo(4)
+            .maxCreditosPeriodo(8)
+            .disciplina(d1)
+            .disciplina(d2)
+            .build();
+
+        g1 = new Grade("MyString", c1);
     }
 
     @Test

@@ -54,6 +54,8 @@ curriculos:
 grades:
   - !!models.Grade
       nome:       Grade 1
+      curriculo:  !!models.Curriculo
+        id:             1
       periodos:
         - !!models.Periodo
             semestre:   1

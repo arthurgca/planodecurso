@@ -19,6 +19,13 @@ public class Planos extends AreaPrivada {
     public static Result criar(int curriculoId, Long gradeId) {
         Curriculo curriculo = Curriculo.find.byId(curriculoId);
         Grade grade = Grade.find.byId(gradeId);
+
+        if (!grade.curriculo.equals(curriculo)) {
+            ObjectNode result = Json.newObject();
+            result.put("message", "A grade não casa com o currículo.");
+            return badRequest(result);
+        }
+
         Plano plano = new Plano(curriculo, grade);
         plano.save();
 

@@ -58,5 +58,7 @@ public class CurriculoTest {
         assertEquals(8, node.get("maxCreditosPeriodo").numberValue());
 
         assertTrue(node.get("disciplinas").isArray());
+
+        assertTrue(node.get("gradesOriginais").isArray());
     }
 }

@@ -25,6 +25,7 @@ create table grade (
   id                        bigint not null,
   nome                      varchar(255),
   original                  boolean,
+  curriculo_id              integer,
   constraint pk_grade primary key (id))
 ;
 
@@ -76,14 +77,16 @@ create sequence usuario_seq;
 
 alter table disciplina add constraint fk_disciplina_curriculo_1 foreign key (curriculo_id) references curriculo (id) on delete restrict on update restrict;
 create index ix_disciplina_curriculo_1 on disciplina (curriculo_id);
-alter table periodo add constraint fk_periodo_grade_2 foreign key (grade_id) references grade (id) on delete restrict on update restrict;
-create index ix_periodo_grade_2 on periodo (grade_id);
-alter table plano add constraint fk_plano_curriculo_3 foreign key (curriculo_id) references curriculo (id) on delete restrict on update restrict;
-create index ix_plano_curriculo_3 on plano (curriculo_id);
-alter table plano add constraint fk_plano_grade_4 foreign key (grade_id) references grade (id) on delete restrict on update restrict;
-create index ix_plano_grade_4 on plano (grade_id);
-alter table usuario add constraint fk_usuario_plano_5 foreign key (plano_id) references plano (id) on delete restrict on update restrict;
-create index ix_usuario_plano_5 on usuario (plano_id);
+alter table grade add constraint fk_grade_curriculo_2 foreign key (curriculo_id) references curriculo (id) on delete restrict on update restrict;
+create index ix_grade_curriculo_2 on grade (curriculo_id);
+alter table periodo add constraint fk_periodo_grade_3 foreign key (grade_id) references grade (id) on delete restrict on update restrict;
+create index ix_periodo_grade_3 on periodo (grade_id);
+alter table plano add constraint fk_plano_curriculo_4 foreign key (curriculo_id) references curriculo (id) on delete restrict on update restrict;
+create index ix_plano_curriculo_4 on plano (curriculo_id);
+alter table plano add constraint fk_plano_grade_5 foreign key (grade_id) references grade (id) on delete restrict on update restrict;
+create index ix_plano_grade_5 on plano (grade_id);
+alter table usuario add constraint fk_usuario_plano_6 foreign key (plano_id) references plano (id) on delete restrict on update restrict;
+create index ix_usuario_plano_6 on usuario (plano_id);
 
 
 
