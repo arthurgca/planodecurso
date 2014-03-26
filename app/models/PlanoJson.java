@@ -19,6 +19,10 @@ public class PlanoJson {
     }
 
     public JsonNode toJson(Plano plano) {
+        if (plano == null) {
+            return Json.toJson(null);
+        }
+
         disciplinasOfertadas =
             new HashSet<Disciplina>(plano.curriculo.disciplinas);
         disciplinasOfertadas.removeAll(plano.getDisciplinas());

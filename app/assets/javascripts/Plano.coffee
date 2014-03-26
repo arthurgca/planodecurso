@@ -5,9 +5,19 @@ mainApp.controller "PlanoCtrl", (
   $rootScope,
   Alertas,
   Planos,
-  ModalProgramarDisciplina) ->
+  Curriculos,
+  Grades,
+  ModalProgramarDisciplina
+  ModalCriarPlano) ->
 
   $scope.plano = undefined
+
+  $scope.criarPlano = () ->
+    modal = ModalCriarPlano.abrir
+      curriculos: -> Curriculos.query()
+      grades: -> Grades.query()
+    modal.result.then (response) ->
+      criarPlanoDeCurso response.curriculo, response.grade
 
   $scope.programar = (periodo) ->
     modal = ModalProgramarDisciplina.abrir
@@ -37,9 +47,15 @@ mainApp.controller "PlanoCtrl", (
 
   #
 
+  criarPlanoDeCurso = (curriculo, grade) ->
+    Planos.criar(
+      curriculo: curriculo.id
+      grade: grade.id).$promise
+        .then((plano) -> $scope.plano = plano)
+
   programarDisciplina = (disciplina, periodo) ->
     Planos.programar(
-      plano: USUARIO.plano.id,
+      plano: $scope.plano.id,
       disciplina: disciplina.id
       periodo: periodo.semestre).$promise
         .then(emitir "disciplinaProgramada", disciplina, periodo)
@@ -48,7 +64,7 @@ mainApp.controller "PlanoCtrl", (
 
   desprogramarDisciplina = (disciplina, periodo) ->
     Planos.desprogramar(
-      plano: USUARIO.plano.id,
+      plano: $scope.plano.id,
       disciplina: disciplina.id,
       periodo: periodo.semestre).$promise
         .then(emitir "disciplinaDesprogramada", disciplina, periodo)
@@ -57,7 +73,7 @@ mainApp.controller "PlanoCtrl", (
 
   moverDisciplina = (disciplina, de, para) ->
     Planos.mover(
-      plano: USUARIO.plano.id,
+      plano: $scope.plano.id,
       disciplina: disciplina.id,
       de: de.semestre,
       para: para.semestre).$promise
@@ -101,7 +117,7 @@ mainApp.controller "PlanoCtrl", (
   #
 
   refresh = ->
-    plano = Planos.get plano: USUARIO.plano.id, ->
+    plano = Planos.get plano: $scope.plano.id, ->
       $scope.plano = plano
 
   $scope.$on "disciplinaProgramada", (event, args) ->
@@ -114,10 +130,10 @@ mainApp.controller "PlanoCtrl", (
     refresh()
 
   bootstrap = () ->
-    if PLANO
-      $scope.plano = PLANO
+    if PLANO_CACHE is undefined
+      $scope.criarPlano()
     else
-      refresh()
+      $scope.plano = PLANO_CACHE
 
   bootstrap()
 

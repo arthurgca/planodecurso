@@ -6,8 +6,11 @@
 @main("Plano de Curso", usuario) {
 
 <script type="text/javascript">
-  var USUARIO = @Html(Json.toJson(usuario).toString());
-  var PLANO = @Html(new PlanoJson().toJson(usuario.plano).toString());
+  @if(usuario.plano != null) {
+  var PLANO_CACHE = @Html(new PlanoJson().toJson(usuario.plano).toString());
+  } else {
+  var PLANO_CACHE = undefined;
+  }
 </script>
 
 <div ng-controller="PlanoCtrl">
@@ -90,7 +93,7 @@
   </ul>
 </script>
 
-<script id="periodo/modal-programar-disciplina.html"
+<script id="modal-programar-disciplina.html"
         type="text/ng-template">
   <div class="modal-header">
     <h3>Programar Disciplina</h3>
@@ -121,6 +124,35 @@
             ng-click="ok(disciplina)">OK</button>
     <button class="btn btn-warning"
             ng-click="cancelar()">Cancelar</button>
+  </div>
+</script>
+
+<script id="modal-criar-plano.html"
+        type="text/ng-template">
+  <div class="modal-header">
+    <h3>Criar Plano de Curso</h3>
+  </div>
+  <div class="modal-body">
+    <form role="form">
+      <div class="form-group">
+        <label for="curriculo"><strong>Currículo</strong> que você deseja cursar</label>
+        <select class="form-control"
+                ng-model="curriculo"
+                ng-options="c.nome for c in curriculos">
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="curriculo"><strong>Grade Inicial</strong> para o Plano de Curso</label>
+        <select class="form-control"
+                ng-model="grade"
+                ng-options="g.nome for g in grades">
+        </select>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-primary"
+            ng-click="ok(curriculo, grade)">Criar</button>
   </div>
 </script>
 

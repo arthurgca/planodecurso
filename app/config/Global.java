@@ -52,18 +52,9 @@ public class Global extends GlobalSettings {
                 email = String.format("usuario%d@example.com", i);
                 nome = String.format("Usuario %d", i);
                 senha = String.format("senha%d", i);
-                usuario = new Usuario(email,nome,senha);
-                usuario.setPlano(criarPlanoInicial());
+                usuario = new Usuario(email, nome, senha);
                 Ebean.save(usuario);
             }
         }
-    }
-
-    private Plano criarPlanoInicial() {
-        Curriculo curriculo = Curriculo.find.all().get(0);
-        Grade grade = Grade.find.all().get(0);
-        Plano plano = new Plano(curriculo, grade);
-        plano.save();
-        return plano;
     }
 }

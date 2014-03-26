@@ -22,7 +22,7 @@ mainApp.service "ModalProgramarDisciplina", ($modal) ->
     $modal.open
       resolve: resolve
       controller: "ModalProgramarDisciplinaCtrl"
-      templateUrl: "periodo/modal-programar-disciplina.html"
+      templateUrl: "modal-programar-disciplina.html"
 
   this
 
@@ -43,3 +43,30 @@ mainApp.controller "ModalProgramarDisciplinaCtrl", (
 
   $scope.cancelar = ->
     $modalInstance.dismiss "cancelar"
+
+mainApp.service "ModalCriarPlano", ($modal) ->
+
+  @abrir = (resolve) ->
+    $modal.open
+      resolve: resolve
+      controller: "ModalCriarPlanoCtrl"
+      templateUrl: "modal-criar-plano.html"
+
+  this
+
+mainApp.controller "ModalCriarPlanoCtrl", (
+  $scope,
+  $modalInstance,
+  curriculos,
+  grades) ->
+
+  curriculos.$promise.then (response) ->
+    $scope.curriculos = response
+    $scope.curriculo = $scope.curriculos[0]
+
+  grades.$promise.then (response) ->
+    $scope.grades = response
+    $scope.grade = $scope.grades[0]
+
+  $scope.ok = (curriculo, grade) ->
+    $modalInstance.close curriculo: curriculo, grade: grade
