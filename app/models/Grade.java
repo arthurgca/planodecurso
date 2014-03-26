@@ -20,7 +20,6 @@ public class Grade extends Model {
     @ManyToOne
     public Curriculo curriculo;
 
-    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL)
     @OrderBy("semestre ASC")
     public List<Periodo> periodos = new LinkedList<Periodo>();

@@ -135,24 +135,31 @@
   <div class="modal-body">
     <form role="form">
       <div class="form-group">
-        <label for="curriculo"><strong>Currículo</strong> que você deseja cursar</label>
+        <label for="curriculo">Currículo que você está cursando:</label>
         <select class="form-control"
                 ng-model="curriculo"
                 ng-options="c.nome for c in curriculos">
         </select>
       </div>
       <div class="form-group">
-        <label for="curriculo"><strong>Grade</strong></label>
+        <label for="curriculo">Grade que você está cursando:</label>
         <select class="form-control"
                 ng-model="grade"
                 ng-options="g.nome for g in curriculo.gradesOriginais">
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="curriculo">Período que você está cursando:</label>
+        <select class="form-control"
+                ng-model="periodo"
+                ng-options="p.nome for p in grade.periodos">
         </select>
       </div>
     </form>
   </div>
   <div class="modal-footer">
     <button class="btn btn-primary"
-            ng-click="ok(curriculo, grade)">Salvar</button>
+            ng-click="ok(curriculo, grade, periodo)">Salvar</button>
   </div>
 </script>
 

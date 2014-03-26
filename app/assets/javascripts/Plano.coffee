@@ -16,7 +16,7 @@ mainApp.controller "PlanoCtrl", (
     modal = ModalConfigurarPlano.abrir
       curriculos: -> Curriculos.query()
     modal.result.then (response) ->
-      configurarPlanoDeCurso response.curriculo, response.grade
+      configurarPlanoDeCurso response.curriculo, response.grade, response.periodo
 
   $scope.programar = (periodo) ->
     modal = ModalProgramarDisciplina.abrir
@@ -46,10 +46,11 @@ mainApp.controller "PlanoCtrl", (
 
   #
 
-  configurarPlanoDeCurso = (curriculo, grade) ->
+  configurarPlanoDeCurso = (curriculo, grade, periodo) ->
     Planos.configurar(
       curriculo: curriculo.id
-      grade: grade.id).$promise
+      grade: grade.id
+      periodo: periodo.semestre).$promise
         .then((plano) -> $scope.plano = plano)
 
   programarDisciplina = (disciplina, periodo) ->
@@ -144,6 +145,7 @@ mainApp.factory "Planos", ($resource) ->
       params:
         curriculo: "@curriculo"
         grade: "@grade"
+        periodo: "@periodo"
     programar:
       url: "/planos/:plano/:periodo"
       method: "POST"

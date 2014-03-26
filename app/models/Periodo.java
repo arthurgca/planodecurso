@@ -4,6 +4,7 @@ import java.util.*;
 import javax.persistence.*;
 
 import play.db.ebean.*;
+import com.fasterxml.jackson.annotation.*;
 
 @Entity
 public class Periodo extends Model {
@@ -13,6 +14,7 @@ public class Periodo extends Model {
 
     public int semestre;
 
+    @JsonIgnore
     @ManyToMany
     public List<Disciplina> disciplinas = new LinkedList<Disciplina>();
 

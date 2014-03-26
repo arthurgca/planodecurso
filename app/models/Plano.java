@@ -19,6 +19,8 @@ public class Plano extends Model {
     @OneToOne(cascade = CascadeType.ALL)
     public Grade grade;
 
+    public int periodoAtual = 1;
+
     @JsonIgnore
     @OneToOne(mappedBy = "plano")
     public Usuario dono;

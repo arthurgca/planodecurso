@@ -31,6 +31,8 @@ public class PlanoJson {
 
         node.put("id", Json.toJson(plano.id));
 
+        node.put("periodoAtual", plano.periodoAtual);
+
         List<JsonNode> periodos = new LinkedList<JsonNode>();
         for (Periodo periodo : plano.getPeriodos()) {
             periodos.add(toJson(periodo));

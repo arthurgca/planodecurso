@@ -42,6 +42,11 @@ public class PlanoJsonTest {
     }
 
     @Test
+    public void periodoAtual() {
+        assertEquals(1, plano.get("periodoAtual").numberValue());
+    }
+
+    @Test
     public void periodos() {
         assertTrue(plano.get("periodos").isArray());
         assertEquals(2, plano.get("periodos").size());

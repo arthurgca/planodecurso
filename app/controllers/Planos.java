@@ -16,7 +16,7 @@ public class Planos extends AreaPrivada {
         return ok(new PlanoJson().toJson(Plano.find.byId(planoId)));
     }
 
-    public static Result configurar(int curriculoId, Long gradeId) {
+    public static Result configurar(int curriculoId, Long gradeId, int periodo) {
         Curriculo curriculo = Curriculo.find.byId(curriculoId);
         Grade grade = Grade.find.byId(gradeId);
 
@@ -27,6 +27,9 @@ public class Planos extends AreaPrivada {
         }
 
         Plano plano = new Plano(curriculo, grade);
+
+        plano.periodoAtual = periodo;
+
         plano.save();
 
         Usuario usuario = getUsuarioAtual();

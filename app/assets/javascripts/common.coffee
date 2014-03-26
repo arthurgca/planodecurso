@@ -63,6 +63,7 @@ mainApp.controller "ModalConfigurarPlanoCtrl", (
     $scope.curriculos = response
     $scope.curriculo = $scope.curriculos[0]
     $scope.grade = $scope.curriculos[0].gradesOriginais[0]
+    $scope.periodo = $scope.grade.periodos[0]
 
-  $scope.ok = (curriculo, grade) ->
-    $modalInstance.close curriculo: curriculo, grade: grade
+  $scope.ok = (curriculo, grade, periodo) ->
+    $modalInstance.close curriculo: curriculo, grade: grade, periodo: periodo

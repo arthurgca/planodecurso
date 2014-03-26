@@ -40,6 +40,7 @@ create table plano (
   id                        bigint not null,
   curriculo_id              integer,
   grade_id                  bigint,
+  periodo_atual             integer,
   constraint pk_plano primary key (id))
 ;
 
