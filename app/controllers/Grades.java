@@ -8,7 +8,7 @@ import models.*;
 public class Grades extends Controller {
 
     public static Result listar() {
-        return ok(Json.toJson(Grade.find.all()));
+        return ok(Json.toJson(Grade.originais()));
     }
 
     public static Result exibir(Long gradeId) {

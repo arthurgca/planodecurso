@@ -748,6 +748,7 @@ curriculos:
 grades:
   - !!models.Grade
       nome:       Grade Oficial
+      original:   true
       periodos:
         - !!models.Periodo
             semestre:    1

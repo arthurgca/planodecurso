@@ -14,6 +14,8 @@ public class Grade extends Model {
 
     public String nome;
 
+    public boolean original = false;
+
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL)
     @OrderBy("semestre ASC")
@@ -97,6 +99,10 @@ public class Grade extends Model {
 
     public static Finder<Long,Grade> find =
         new Finder<Long,Grade>(Long.class, Grade.class);
+
+    public static List<Grade> originais() {
+        return find.where().eq("original", true).findList();
+    }
 
     public static Grade copiar(String nome, Grade grade) {
         Grade copia = new Grade(nome, grade.getMaxPeriodos());

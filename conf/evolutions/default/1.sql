@@ -24,6 +24,7 @@ create table disciplina (
 create table grade (
   id                        bigint not null,
   nome                      varchar(255),
+  original                  boolean,
   constraint pk_grade primary key (id))
 ;
 
