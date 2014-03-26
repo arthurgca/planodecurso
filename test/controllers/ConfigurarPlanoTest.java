@@ -13,7 +13,7 @@ import static play.test.Helpers.*;
 
 import models.*;
 
-public class CriarPlanoTest extends TestBase {
+public class ConfigurarPlanoTest extends TestBase {
 
     Curriculo c1;
 
@@ -30,7 +30,7 @@ public class CriarPlanoTest extends TestBase {
     @Test
     public void sucesso() {
         Result result = callAction(
-          controllers.routes.ref.Planos.criar(c1.id, g1.id),
+          controllers.routes.ref.Planos.configurar(c1.id, g1.id),
           sessaoAutenticada());
         assertThat(status(result)).isEqualTo(OK);
         assertThat(contentType(result)).isEqualTo("application/json");
@@ -39,7 +39,7 @@ public class CriarPlanoTest extends TestBase {
 
     @Test
     public void erroUsuarioNaoAutenticado() {
-        Result result = callAction(controllers.routes.ref.Planos.criar(c1.id, g1.id));
+        Result result = callAction(controllers.routes.ref.Planos.configurar(c1.id, g1.id));
         assertThat(status(result)).isEqualTo(SEE_OTHER);
         assertThat(redirectLocation(result)).isEqualTo(
             routes.Application.login().url());

@@ -44,17 +44,17 @@ mainApp.controller "ModalProgramarDisciplinaCtrl", (
   $scope.cancelar = ->
     $modalInstance.dismiss "cancelar"
 
-mainApp.service "ModalCriarPlano", ($modal) ->
+mainApp.service "ModalConfigurarPlano", ($modal) ->
 
   @abrir = (resolve) ->
     $modal.open
       resolve: resolve
-      controller: "ModalCriarPlanoCtrl"
-      templateUrl: "modal-criar-plano.html"
+      controller: "ModalConfigurarPlanoCtrl"
+      templateUrl: "modal-configurar-plano.html"
 
   this
 
-mainApp.controller "ModalCriarPlanoCtrl", (
+mainApp.controller "ModalConfigurarPlanoCtrl", (
   $scope,
   $modalInstance,
   curriculos) ->

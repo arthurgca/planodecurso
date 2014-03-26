@@ -23,7 +23,7 @@ GET     /grades/:id                                     controllers.Grades.exibi
 
 # Planos
 GET     /planos                                         controllers.Planos.listar()
-POST    /planos                                         controllers.Planos.criar(curriculo: Integer, grade: Long)
+POST    /planos                                         controllers.Planos.configurar(curriculo: Integer, grade: Long)
 GET     /planos/:id                                     controllers.Planos.exibir(id: Long)
 POST    /planos/:id/:periodo                            controllers.Planos.programar(id: Long, disciplina: Long, periodo: Integer)
 PUT     /planos/:id/:para/:disciplina                   controllers.Planos.mover(id: Long, disciplina: Long, de: Integer, para: Integer)

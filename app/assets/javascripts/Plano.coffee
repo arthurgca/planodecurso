@@ -8,15 +8,15 @@ mainApp.controller "PlanoCtrl", (
   Curriculos,
   Grades,
   ModalProgramarDisciplina
-  ModalCriarPlano) ->
+  ModalConfigurarPlano) ->
 
   $scope.plano = undefined
 
-  $scope.criarPlano = () ->
-    modal = ModalCriarPlano.abrir
+  $scope.configurarPlano = () ->
+    modal = ModalConfigurarPlano.abrir
       curriculos: -> Curriculos.query()
     modal.result.then (response) ->
-      criarPlanoDeCurso response.curriculo, response.grade
+      configurarPlanoDeCurso response.curriculo, response.grade
 
   $scope.programar = (periodo) ->
     modal = ModalProgramarDisciplina.abrir
@@ -46,8 +46,8 @@ mainApp.controller "PlanoCtrl", (
 
   #
 
-  criarPlanoDeCurso = (curriculo, grade) ->
-    Planos.criar(
+  configurarPlanoDeCurso = (curriculo, grade) ->
+    Planos.configurar(
       curriculo: curriculo.id
       grade: grade.id).$promise
         .then((plano) -> $scope.plano = plano)
@@ -130,7 +130,7 @@ mainApp.controller "PlanoCtrl", (
 
   bootstrap = () ->
     if PLANO_CACHE is undefined
-      $scope.criarPlano()
+      $scope.configurarPlano()
     else
       $scope.plano = PLANO_CACHE
 
@@ -138,7 +138,7 @@ mainApp.controller "PlanoCtrl", (
 
 mainApp.factory "Planos", ($resource) ->
   $resource "/planos/:plano", { plano: "@plano" },
-    criar:
+    configurar:
       url: "/planos"
       method: "POST"
       params:
