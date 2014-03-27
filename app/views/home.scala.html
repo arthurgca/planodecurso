@@ -21,7 +21,8 @@
 
 <script id="periodo/periodo.html"
         type="text/ng-template">
-  <div class="periodo panel panel-primary"
+  <div class="periodo panel"
+       ng-class="{'panel-primary': periodo.isAtual, 'panel-default': periodo.isPassado, 'panel-info': periodo.isFuturo}"
        ng-controller="PeriodoCtrl">
     <div class="panel-heading dropdown"
          ng-include="'periodo/periodo-heading.html'">

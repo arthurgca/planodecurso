@@ -19,21 +19,27 @@ public class PlanoJsonTest {
         Disciplina d1 = new Disciplina("Disciplina 1", 4, "MyString");
         Disciplina d2 = new Disciplina(
           "Disciplina 2", 4, "MyString", new Disciplina[] {d0});
+        Disciplina d3 = new Disciplina("Disciplina 3", 4, "MyString");
 
         Curriculo c1 = new Curriculo.Builder("Curriculo 1")
-            .maxPeriodos(2)
+            .maxPeriodos(3)
             .minCreditosPeriodo(4)
             .maxCreditosPeriodo(8)
             .disciplina(d0)
             .disciplina(d1)
             .disciplina(d2)
+            .disciplina(d3)
             .build();
 
         Grade g1 = new Grade("Grade 1", c1);
         g1.programar(d1, 1);
         g1.programar(d2, 2);
+        g1.programar(d3, 3);
 
-        plano = new PlanoJson().toJson(new Plano(c1, g1));
+        Plano p1 = new Plano(c1, g1);
+        p1.periodoAtual = 2;
+
+        plano = new PlanoJson().toJson(p1);
     }
 
     @Test
@@ -43,20 +49,38 @@ public class PlanoJsonTest {
 
     @Test
     public void periodoAtual() {
-        assertEquals(1, plano.get("periodoAtual").numberValue());
+        assertEquals(2, plano.get("periodoAtual").numberValue());
     }
 
     @Test
     public void periodos() {
         assertTrue(plano.get("periodos").isArray());
-        assertEquals(2, plano.get("periodos").size());
+        assertEquals(3, plano.get("periodos").size());
 
-        JsonNode periodo = plano.get("periodos").elements().next();
+        Iterator<JsonNode> periodos = plano.get("periodos").elements();
+
+        JsonNode periodo = periodos.next();
 
         assertNotNull(periodo.get("id"));
         assertEquals(1, periodo.get("semestre").numberValue());
         assertEquals("1º Período", periodo.get("nome").textValue());
         assertEquals(4, periodo.get("totalCreditos").numberValue());
+
+        assertTrue(periodo.get("isPassado").booleanValue());
+        assertFalse(periodo.get("isAtual").booleanValue());
+        assertFalse(periodo.get("isFuturo").booleanValue());
+
+        periodo = periodos.next();
+
+        assertFalse(periodo.get("isPassado").booleanValue());
+        assertTrue(periodo.get("isAtual").booleanValue());
+        assertFalse(periodo.get("isFuturo").booleanValue());
+
+        periodo = periodos.next();
+
+        assertFalse(periodo.get("isPassado").booleanValue());
+        assertFalse(periodo.get("isAtual").booleanValue());
+        assertTrue(periodo.get("isFuturo").booleanValue());
     }
 
     @Test

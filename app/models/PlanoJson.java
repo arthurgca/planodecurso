@@ -14,11 +14,15 @@ public class PlanoJson {
 
     private Set<Disciplina> disciplinasAcumuladas;
 
+    private Plano plano;
+
     public PlanoJson() {
         disciplinasAcumuladas = new HashSet<Disciplina>();
     }
 
     public JsonNode toJson(Plano plano) {
+        this.plano = plano;
+
         if (plano == null) {
             return Json.toJson(null);
         }
@@ -65,6 +69,18 @@ public class PlanoJson {
         }
 
         node.put("ofertadas", Json.toJson(ofertadas));
+
+        node.put("isPassado", false);
+        node.put("isFuturo", false);
+        node.put("isAtual", false);
+
+        if (periodo.semestre < plano.periodoAtual) {
+            node.put("isPassado", true);
+        } else if (periodo.semestre > plano.periodoAtual) {
+            node.put("isFuturo", true);
+        } else {
+            node.put("isAtual", true);
+        }
 
         return node;
     }
