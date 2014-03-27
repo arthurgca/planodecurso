@@ -30,7 +30,7 @@ public class ConfigurarPlanoTest extends TestBase {
     @Test
     public void sucesso() {
         Result result = callAction(
-            controllers.routes.ref.Planos.configurar(c1.id, g1.id, 2),
+            controllers.routes.ref.Planos.configurar(c1.getId(), g1.getId(), 2),
             sessaoAutenticada());
         assertThat(status(result)).isEqualTo(OK);
         assertThat(contentType(result)).isEqualTo("application/json");
@@ -40,7 +40,7 @@ public class ConfigurarPlanoTest extends TestBase {
     @Test
     public void erroUsuarioNaoAutenticado() {
         Result result = callAction(
-            controllers.routes.ref.Planos.configurar(c1.id, g1.id, 2));
+            controllers.routes.ref.Planos.configurar(c1.getId(), g1.getId(), 2));
         assertThat(status(result)).isEqualTo(SEE_OTHER);
         assertThat(redirectLocation(result)).isEqualTo(
             routes.Application.login().url());

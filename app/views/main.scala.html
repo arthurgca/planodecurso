@@ -34,7 +34,7 @@
           </div>
           <ul class="nav navbar-nav">
             @if(usuario != null) {
-            <li><a href="#">@usuario.email</a></li>
+            <li><a href="#">@usuario.getEmail()</a></li>
             <li><a href="@routes.Application.logout()">Sair</a></li>
             } else {
             <li><a href="@routes.Application.login()">Login</a></li>

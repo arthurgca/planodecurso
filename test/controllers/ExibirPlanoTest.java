@@ -26,7 +26,7 @@ public class ExibirPlanoTest extends TestBase {
     @Test
     public void sucesso() {
         Result result = callAction(
-          controllers.routes.ref.Planos.exibir(p1.id),
+                                   controllers.routes.ref.Planos.exibir(p1.getId()),
           sessaoAutenticada());
         assertThat(status(result)).isEqualTo(OK);
         assertThat(contentType(result)).isEqualTo("application/json");
@@ -35,7 +35,7 @@ public class ExibirPlanoTest extends TestBase {
 
     @Test
     public void erroUsuarioNaoAutenticado() {
-        Result result = callAction(controllers.routes.ref.Planos.exibir(p1.id));
+        Result result = callAction(controllers.routes.ref.Planos.exibir(p1.getId()));
         assertThat(status(result)).isEqualTo(SEE_OTHER);
         assertThat(redirectLocation(result)).isEqualTo(
             routes.Application.login().url());

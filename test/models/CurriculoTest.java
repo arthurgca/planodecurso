@@ -35,10 +35,11 @@ public class CurriculoTest {
 
     @Test
     public void construtor() {
-        assertEquals("MyString", c1.nome);
-        assertEquals(3, c1.maxPeriodos);
-        assertEquals(8, c1.maxCreditosPeriodo);
-        assertEquals(2, c1.disciplinas.size());
+        assertEquals("MyString", c1.getNome());
+        assertEquals(3, c1.getMaxPeriodos());
+        assertEquals(4, c1.getMinCreditosPeriodo());
+        assertEquals(8, c1.getMaxCreditosPeriodo());
+        assertEquals(2, c1.getDisciplinas().size());
     }
 
     @Test

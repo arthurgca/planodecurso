@@ -6,8 +6,8 @@
 @main("Plano de Curso", usuario) {
 
 <script type="text/javascript">
-  @if(usuario.plano != null) {
-  var PLANO_CACHE = @Html(new PlanoJson().toJson(usuario.plano).toString());
+  @if(usuario.getPlano() != null) {
+  var PLANO_CACHE = @Html(new PlanoJson().toJson(usuario.getPlano()).toString());
   } else {
   var PLANO_CACHE = undefined;
   }

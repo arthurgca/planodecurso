@@ -24,9 +24,9 @@ public class UsuarioTest extends WithApplication {
 
     @Test
     public void construtor() {
-        assertEquals("MyString", u1.email);
-        assertEquals("MyString", u1.nome);
-        assertTrue(BCrypt.checkpw("MyString", u1.senha));
+        assertEquals("MyString", u1.getEmail());
+        assertEquals("MyString", u1.getNome());
+        assertTrue(BCrypt.checkpw("MyString", u1.getSenha()));
     }
 
     @Test

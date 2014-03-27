@@ -20,7 +20,7 @@ public class Planos extends AreaPrivada {
         Curriculo curriculo = Curriculo.find.byId(curriculoId);
         Grade grade = Grade.find.byId(gradeId);
 
-        if (!grade.curriculo.equals(curriculo)) {
+        if (!grade.getCurriculo().equals(curriculo)) {
             ObjectNode result = Json.newObject();
             result.put("message", "A grade não casa com o currículo.");
             return badRequest(result);
@@ -28,7 +28,7 @@ public class Planos extends AreaPrivada {
 
         Plano plano = new Plano(curriculo, grade);
 
-        plano.periodoAtual = periodo;
+        plano.setPeriodoAtual(periodo);
 
         plano.save();
 
@@ -41,7 +41,7 @@ public class Planos extends AreaPrivada {
 
     public static Result programar(Long planoId, Long disciplinaId, int periodo) {
         Plano plano = Plano.find.byId(planoId);
-        Disciplina disciplina = plano.curriculo.getDisciplina(disciplinaId);
+        Disciplina disciplina = plano.getCurriculo().getDisciplina(disciplinaId);
         ObjectNode result = Json.newObject();
 
         try {
@@ -56,7 +56,7 @@ public class Planos extends AreaPrivada {
         String template = "%s foi alocada no %s.";
         String message = String.format(
           template,
-          disciplina.nome,
+          disciplina.getNome(),
           plano.getPeriodo(periodo).getNome());
 
         result.put("message", message);
@@ -65,7 +65,7 @@ public class Planos extends AreaPrivada {
 
     public static Result mover(Long planoId, Long disciplinaId, int de, int para) {
         Plano plano = Plano.find.byId(planoId);
-        Disciplina disciplina = plano.curriculo.getDisciplina(disciplinaId);
+        Disciplina disciplina = plano.getCurriculo().getDisciplina(disciplinaId);
         ObjectNode result = Json.newObject();
 
         try {
@@ -80,7 +80,7 @@ public class Planos extends AreaPrivada {
         String template = "%s foi movida para o %s.";
         String message = String.format(
           template,
-          disciplina.nome,
+          disciplina.getNome(),
           plano.getPeriodo(para).getNome());
 
         result.put("message", message);
@@ -89,7 +89,7 @@ public class Planos extends AreaPrivada {
 
     public static Result desprogramar(Long planoId, Long disciplinaId, int periodo) {
         Plano plano = Plano.find.byId(planoId);
-        Disciplina disciplina = plano.curriculo.getDisciplina(disciplinaId);
+        Disciplina disciplina = plano.getCurriculo().getDisciplina(disciplinaId);
         ObjectNode result = Json.newObject();
 
         try {
@@ -104,7 +104,7 @@ public class Planos extends AreaPrivada {
         String template = "%s foi desalocada do %s.";
         String message = String.format(
           template,
-          disciplina.nome,
+          disciplina.getNome(),
           plano.getPeriodo(periodo).getNome());
 
         result.put("message", message);

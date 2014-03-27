@@ -184,7 +184,6 @@ curriculos:
             nome:       Gerência da Informação
             creditos:   4
             categoria:  Terceiro Semestre
-            requisitos:
 
         - !!models.Disciplina
             id:         21
@@ -397,7 +396,6 @@ curriculos:
             nome:       Direito e Cidadania
             creditos:   4
             categoria:  Sexto Semestre
-            requisitos:
 
         - !!models.Disciplina
             id:         41

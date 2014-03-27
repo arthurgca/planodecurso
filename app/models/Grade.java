@@ -10,27 +10,67 @@ import com.fasterxml.jackson.annotation.*;
 public class Grade extends Model {
 
     @Id
-    public Long id;
+    private Long id;
 
-    public String nome;
+    private String nome;
 
-    public boolean original = false;
+    private boolean original = false;
 
     @JsonIgnore
     @ManyToOne
-    public Curriculo curriculo;
+    private Curriculo curriculo;
 
     @OneToMany(cascade = CascadeType.ALL)
     @OrderBy("semestre ASC")
-    public List<Periodo> periodos = new LinkedList<Periodo>();
+    private List<Periodo> periodos = new LinkedList<Periodo>();
 
     public Grade(String nome, Curriculo curriculo) {
         this.nome = nome;
         this.curriculo = curriculo;
 
-        for (int i = 0; i < curriculo.maxPeriodos; i++) {
+        for (int i = 0; i < curriculo.getMaxPeriodos(); i++) {
             periodos.add(new Periodo(i + 1));
         }
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getNome() {
+        return this.nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public boolean isOriginal() {
+        return this.original;
+    }
+
+    public void setOriginal(boolean original) {
+        this.original = original;
+    }
+
+    public Curriculo getCurriculo() {
+        return curriculo;
+    }
+
+    public void setCurriculo(Curriculo curriculo) {
+        this.curriculo = curriculo;
+    }
+
+    public List<Periodo> getPeriodos() {
+        return periodos;
+    }
+
+    public void setPeriodos(List<Periodo> periodos) {
+        this.periodos = periodos;
     }
 
     public int getMaxPeriodos() {
@@ -39,7 +79,7 @@ public class Grade extends Model {
 
     public Periodo getPeriodo(int semestre) {
         for (Periodo periodo : periodos) {
-            if (periodo.semestre == semestre) {
+            if (periodo.getSemestre() == semestre) {
                 return periodo;
             }
         }
@@ -51,13 +91,13 @@ public class Grade extends Model {
     public List<Disciplina> getDisciplinas() {
         List<Disciplina> resultado = new LinkedList<Disciplina>();
         for (Periodo periodo : periodos) {
-            resultado.addAll(periodo.disciplinas);
+            resultado.addAll(periodo.getDisciplinas());
         }
         return resultado;
     }
 
     public List<Disciplina> getDisciplinas(int periodo) {
-        return getPeriodo(periodo).disciplinas;
+        return getPeriodo(periodo).getDisciplinas();
     }
 
     public void programar(Disciplina disciplina, Periodo periodo) {
@@ -83,8 +123,8 @@ public class Grade extends Model {
 
         for (Periodo p : periodos) {
             remover.put(p, new LinkedList<Disciplina>());
-            for (Disciplina d : p.disciplinas) {
-                if (d.requisitos.contains(disciplina)) {
+            for (Disciplina d : p.getDisciplinas()) {
+                if (d.getRequisitos().contains(disciplina)) {
                     remover.get(p).add(d);
                 }
             }
@@ -111,9 +151,9 @@ public class Grade extends Model {
     public static Grade copiar(String nome, Grade grade) {
         Grade copia = new Grade(nome, grade.curriculo);
 
-        for (Periodo p : grade.periodos) {
-            for (Disciplina d : p.disciplinas) {
-                copia.programar(d, p.semestre);
+        for (Periodo periodo : grade.periodos) {
+            for (Disciplina disciplina : periodo.getDisciplinas()) {
+                copia.programar(disciplina, periodo.getSemestre());
             }
         }
 

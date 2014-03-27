@@ -10,13 +10,13 @@ import com.fasterxml.jackson.annotation.*;
 public class Periodo extends Model {
 
     @Id
-    public Long id;
+    private Long id;
 
-    public int semestre;
+    private int semestre;
 
     @JsonIgnore
     @ManyToMany
-    public List<Disciplina> disciplinas = new LinkedList<Disciplina>();
+    private List<Disciplina> disciplinas = new LinkedList<Disciplina>();
 
     public Periodo(int semestre) {
         this(semestre, null);
@@ -32,6 +32,30 @@ public class Periodo extends Model {
         }
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public int getSemestre() {
+        return semestre;
+    }
+
+    public void setSemestre(int semestre) {
+        this.semestre = semestre;
+    }
+
+    public List<Disciplina> getDisciplinas() {
+        return disciplinas;
+    }
+
+    public void setDisciplinas(List<Disciplina> disciplinas) {
+        this.disciplinas = disciplinas;
+    }
+
     public String getNome() {
         return String.format("%sº Período", semestre);
     }
@@ -39,7 +63,7 @@ public class Periodo extends Model {
     public int getTotalCreditos() {
         int totalCreditos = 0;
         for (Disciplina disciplina : disciplinas) {
-            totalCreditos += disciplina.creditos;
+            totalCreditos += disciplina.getCreditos();
         }
         return totalCreditos;
     }

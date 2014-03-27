@@ -11,27 +11,67 @@ import com.fasterxml.jackson.annotation.*;
 public class Plano extends Model {
 
     @Id
-    public Long id;
+    private Long id;
 
     @ManyToOne
-    public Curriculo curriculo;
+    private Curriculo curriculo;
 
     @OneToOne(cascade = CascadeType.ALL)
-    public Grade grade;
-
-    public int periodoAtual = 1;
+    private Grade grade;
 
     @JsonIgnore
     @OneToOne(mappedBy = "plano")
-    public Usuario dono;
+    private Usuario dono;
+
+    private int periodoAtual = 1;
 
     public Plano(Curriculo curriculo, Grade grade) {
         this.curriculo = curriculo;
-        this.grade = Grade.copiar(grade.nome, grade);
+        this.grade = Grade.copiar(grade.getNome(), grade);
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Curriculo getCurriculo() {
+        return curriculo;
+    }
+
+    public void setCurriculo(Curriculo curriculo) {
+        this.curriculo = curriculo;
+    }
+
+    public Grade getGrade() {
+        return grade;
+    }
+
+    public void setGrade(Grade grade) {
+        this.grade = grade;
+    }
+
+    public Usuario getDono() {
+        return dono;
+    }
+
+    public void setDono(Usuario usuario) {
+        this.dono = usuario;
+    }
+
+    public int getPeriodoAtual() {
+        return periodoAtual;
+    }
+
+    public void setPeriodoAtual(int periodoAtual) {
+        this.periodoAtual = periodoAtual;
     }
 
     public List<Periodo> getPeriodos() {
-        return grade.periodos;
+        return grade.getPeriodos();
     }
 
     public Periodo getPeriodo(int periodo) {
@@ -65,7 +105,7 @@ public class Plano extends Model {
     }
 
     public void mover(Disciplina disciplina, Periodo de, Periodo para) throws ErroValidacaoException  {
-        if (de.disciplinas.contains(disciplina)) {
+        if (de.getDisciplinas().contains(disciplina)) {
             grade.desprogramar(disciplina, de);
             grade.programar(disciplina, para);
             validarMoverDisciplina(disciplina, de, para);

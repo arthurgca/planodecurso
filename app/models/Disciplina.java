@@ -9,19 +9,19 @@ import play.db.ebean.*;
 public class Disciplina extends Model {
 
     @Id
-    public Long id;
+    private Long id;
 
-    public String nome;
+    private String nome;
 
-    public int creditos;
+    private int creditos;
 
-    public String categoria;
+    private String categoria;
 
     @ManyToMany
     @JoinTable(name="disciplina_requisitos",
                joinColumns={@JoinColumn(name="disciplina_id", referencedColumnName="id")},
                inverseJoinColumns={@JoinColumn(name="requisito_id", referencedColumnName="id")})
-    public Set<Disciplina> requisitos = new HashSet<Disciplina>();
+    private Set<Disciplina> requisitos = new HashSet<Disciplina>();
 
     public Disciplina(String nome, int creditos, String categoria) {
         this(nome, creditos, categoria, null);
@@ -37,6 +37,46 @@ public class Disciplina extends Model {
                 this.requisitos.add(r);
             }
         }
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public int getCreditos() {
+        return creditos;
+    }
+
+    public void setCreditos(int creditos) {
+        this.creditos = creditos;
+    }
+
+    public String getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
+    }
+
+    public Set<Disciplina> getRequisitos() {
+        return requisitos;
+    }
+
+    public void setRequisitos(Set<Disciplina> requisitos) {
+        this.requisitos = new HashSet<Disciplina>(requisitos);
     }
 
     public Set<Disciplina> getRequisitosInsatisfeitos(Set<Disciplina> disciplinas) {

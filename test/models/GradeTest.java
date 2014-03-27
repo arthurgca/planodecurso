@@ -34,8 +34,8 @@ public class GradeTest {
 
     @Test
     public void construtor(){
-        assertEquals("MyString", g1.nome);
-        assertEquals(3, g1.periodos.size());
+        assertEquals("MyString", g1.getNome());
+        assertEquals(3, g1.getPeriodos().size());
     }
 
     @Test
@@ -45,9 +45,9 @@ public class GradeTest {
 
     @Test
     public void getPeriodo() {
-        assertEquals(1, g1.getPeriodo(1).semestre);
-        assertEquals(2, g1.getPeriodo(2).semestre);
-        assertEquals(3, g1.getPeriodo(3).semestre);
+        assertEquals(1, g1.getPeriodo(1).getSemestre());
+        assertEquals(2, g1.getPeriodo(2).getSemestre());
+        assertEquals(3, g1.getPeriodo(3).getSemestre());
     }
 
     @Test
@@ -86,7 +86,7 @@ public class GradeTest {
 
         JsonNode node = Json.toJson(g1);
 
-        assertEquals("MyString", g1.nome);
+        assertEquals("MyString", g1.getNome());
 
         assertTrue(node.get("periodos").isArray());
 
@@ -100,8 +100,8 @@ public class GradeTest {
 
         Grade g2 = Grade.copiar("MyString2", g1);
 
-        assertEquals("MyString2", g2.nome);
-        assertEquals(3, g2.periodos.size());
+        assertEquals("MyString2", g2.getNome());
+        assertEquals(3, g2.getPeriodos().size());
 
         assertTrue(g2.getDisciplinas(1).isEmpty());
         assertTrue(g2.getDisciplinas(2).contains(d1));

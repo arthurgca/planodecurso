@@ -58,7 +58,7 @@ public class PlanoTest {
 
     @Test
     public void construtor() {
-        assertNotEquals(g1, p1.grade);
+        assertNotEquals(g1, p1.getGrade());
     }
 
     @Test

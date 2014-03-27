@@ -17,10 +17,10 @@ public abstract class AreaPrivada extends Controller {
     }
 
     protected static Plano getPlano() {
-        return getUsuarioAtual().plano;
+        return getUsuarioAtual().getPlano();
     }
 
     protected static Curriculo getCurriculo() {
-        return getPlano().curriculo;
+        return getPlano().getCurriculo();
     }
 }

@@ -26,7 +26,7 @@ public class ProgramarDisciplinaTest extends TestBase {
     @Test
     public void sucesso() {
         Result result = callAction(
-            controllers.routes.ref.Planos.programar(p1.id, 4L, 2),
+            controllers.routes.ref.Planos.programar(p1.getId(), 4L, 2),
             sessaoAutenticada());
         assertThat(status(result)).isEqualTo(OK);
         assertThat(contentType(result)).isEqualTo("application/json");
@@ -36,7 +36,7 @@ public class ProgramarDisciplinaTest extends TestBase {
     @Test
     public void erroMaximoDeCreditosExcedido() {
         Result result = callAction(
-            controllers.routes.ref.Planos.programar(p1.id, 4L, 1),
+            controllers.routes.ref.Planos.programar(p1.getId(), 4L, 1),
             sessaoAutenticada());
         assertThat(status(result)).isEqualTo(BAD_REQUEST);
         assertThat(contentType(result)).isEqualTo("application/json");
@@ -46,7 +46,7 @@ public class ProgramarDisciplinaTest extends TestBase {
     @Test
     public void erroRequisitosInsatisfeitos() {
         Result result = callAction(
-            controllers.routes.ref.Planos.programar(p1.id, 6L, 2),
+            controllers.routes.ref.Planos.programar(p1.getId(), 6L, 2),
             sessaoAutenticada());
         assertThat(status(result)).isEqualTo(BAD_REQUEST);
         assertThat(contentType(result)).isEqualTo("application/json");
@@ -56,7 +56,7 @@ public class ProgramarDisciplinaTest extends TestBase {
     @Test
     public void erroUsuarioNaoAutenticado() {
         Result result = callAction(
-            controllers.routes.ref.Planos.programar(p1.id, 4L, 2));
+            controllers.routes.ref.Planos.programar(p1.getId(), 4L, 2));
         assertThat(status(result)).isEqualTo(SEE_OTHER);
         assertThat(redirectLocation(result)).isEqualTo(
             routes.Application.login().url());

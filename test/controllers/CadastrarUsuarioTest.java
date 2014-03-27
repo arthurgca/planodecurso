@@ -47,7 +47,7 @@ public class CadastrarUsuarioTest extends TestBase {
                 "confirmacao", "senha")));
         assertThat(flash(result).get("success")).isNotNull();
         Usuario u1 = Usuario.find.byId("teste@example.com");
-        assertNull(u1.plano);
+        assertNull(u1.getPlano());
     }
 
     @Test

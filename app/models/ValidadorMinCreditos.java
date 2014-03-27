@@ -4,9 +4,9 @@ import java.util.*;
 
 class ValidadorMinCreditos implements Validador {
 
-    public Curriculo curriculo;
+    private Curriculo curriculo;
 
-    public Periodo alvo;
+    private Periodo alvo;
 
     public ValidadorMinCreditos(Curriculo curriculo) {
         this(curriculo, null);
@@ -18,21 +18,21 @@ class ValidadorMinCreditos implements Validador {
     }
 
     public void validar(Plano plano) throws ErroValidacaoException {
-        validar(plano.grade);
+        validar(plano.getGrade());
     }
 
-    public void validar(Grade grade) throws ErroValidacaoException {
-        for (Periodo p : grade.periodos) {
+    private void validar(Grade grade) throws ErroValidacaoException {
+        for (Periodo p : grade.getPeriodos()) {
             validar(p);
         }
     }
 
-    public void validar(Periodo periodo) throws ErroValidacaoException {
+    private void validar(Periodo periodo) throws ErroValidacaoException {
         if (alvo != null && !alvo.equals(periodo)) {
             return;
         }
 
-        if (periodo.getTotalCreditos() >= curriculo.minCreditosPeriodo) {
+        if (periodo.getTotalCreditos() >= curriculo.getMinCreditosPeriodo()) {
             return;
         }
 
@@ -41,7 +41,7 @@ class ValidadorMinCreditos implements Validador {
         throw new ErroValidacaoException(message);
     }
 
-    public void validar(Disciplina disciplina) throws ErroValidacaoException {
+    private void validar(Disciplina disciplina) throws ErroValidacaoException {
 
     }
 }

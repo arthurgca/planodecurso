@@ -28,19 +28,19 @@ public class PlanoJson {
         }
 
         disciplinasOfertadas =
-            new HashSet<Disciplina>(plano.curriculo.disciplinas);
+            new HashSet<Disciplina>(plano.getCurriculo().getDisciplinas());
         disciplinasOfertadas.removeAll(plano.getDisciplinas());
 
         ObjectNode node = Json.newObject();
 
-        node.put("id", Json.toJson(plano.id));
+        node.put("id", Json.toJson(plano.getId()));
 
-        node.put("periodoAtual", plano.periodoAtual);
+        node.put("periodoAtual", plano.getPeriodoAtual());
 
         List<JsonNode> periodos = new LinkedList<JsonNode>();
         for (Periodo periodo : plano.getPeriodos()) {
             periodos.add(toJson(periodo));
-            disciplinasAcumuladas.addAll(periodo.disciplinas);
+            disciplinasAcumuladas.addAll(periodo.getDisciplinas());
         }
 
         node.put("periodos", Json.toJson(periodos));
@@ -48,17 +48,17 @@ public class PlanoJson {
         return node;
     }
 
-    public JsonNode toJson(Periodo periodo) {
+    private JsonNode toJson(Periodo periodo) {
         ObjectNode node = Json.newObject();
 
-        node.put("id", periodo.id);
-        node.put("semestre", periodo.semestre);
+        node.put("id", periodo.getId());
+        node.put("semestre", periodo.getSemestre());
         node.put("nome", periodo.getNome());
         node.put("totalCreditos", periodo.getTotalCreditos());
 
         List<JsonNode> disciplinas = new LinkedList<JsonNode>();
-        for (Disciplina d : periodo.disciplinas) {
-            disciplinas.add(toJson(d));
+        for (Disciplina disciplina : periodo.getDisciplinas()) {
+            disciplinas.add(toJson(disciplina));
         }
 
         node.put("disciplinas", Json.toJson(disciplinas));
@@ -74,9 +74,9 @@ public class PlanoJson {
         node.put("isFuturo", false);
         node.put("isAtual", false);
 
-        if (periodo.semestre < plano.periodoAtual) {
+        if (periodo.getSemestre() < plano.getPeriodoAtual()) {
             node.put("isPassado", true);
-        } else if (periodo.semestre > plano.periodoAtual) {
+        } else if (periodo.getSemestre() > plano.getPeriodoAtual()) {
             node.put("isFuturo", true);
         } else {
             node.put("isAtual", true);
@@ -85,16 +85,16 @@ public class PlanoJson {
         return node;
     }
 
-    public JsonNode toJson(Disciplina disciplina) {
+    private JsonNode toJson(Disciplina disciplina) {
         ObjectNode node = Json.newObject();
 
-        node.put("id", disciplina.id);
-        node.put("nome", disciplina.nome);
-        node.put("creditos", disciplina.creditos);
-        node.put("categoria", disciplina.categoria);
+        node.put("id", disciplina.getId());
+        node.put("nome", disciplina.getNome());
+        node.put("creditos", disciplina.getCreditos());
+        node.put("categoria", disciplina.getCategoria());
 
         List<JsonNode> requisitos = new LinkedList<JsonNode>();
-        for (Disciplina requisito : disciplina.requisitos) {
+        for (Disciplina requisito : disciplina.getRequisitos()) {
             requisitos.add(requisitoToJson(disciplina, requisito));
         }
 
@@ -106,10 +106,10 @@ public class PlanoJson {
     private JsonNode requisitoToJson(Disciplina disciplina, Disciplina requisito) {
         ObjectNode node = Json.newObject();
 
-        node.put("id", requisito.id);
-        node.put("nome", requisito.nome);
-        node.put("creditos", requisito.creditos);
-        node.put("categoria", requisito.categoria);
+        node.put("id", requisito.getId());
+        node.put("nome", requisito.getNome());
+        node.put("creditos", requisito.getCreditos());
+        node.put("categoria", requisito.getCategoria());
 
         if (disciplina.getRequisitosInsatisfeitos(disciplinasAcumuladas)
             .contains(requisito)) {

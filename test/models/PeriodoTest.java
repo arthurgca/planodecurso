@@ -27,11 +27,11 @@ public class PeriodoTest {
 
     @Test
     public void construtor() {
-        assertEquals(2, p1.semestre);
-        assertTrue(p1.disciplinas.isEmpty());
+        assertEquals(2, p1.getSemestre());
+        assertTrue(p1.getDisciplinas().isEmpty());
 
-        assertEquals(3, p2.semestre);
-        assertEquals(2, p2.disciplinas.size());
+        assertEquals(3, p2.getSemestre());
+        assertEquals(2, p2.getDisciplinas().size());
     }
 
     @Test
@@ -48,16 +48,16 @@ public class PeriodoTest {
 
     @Test
     public void programar() {
-        assertFalse(p1.disciplinas.contains(d1));
+        assertFalse(p1.getDisciplinas().contains(d1));
         p1.programar(d1);
-        assertTrue(p1.disciplinas.contains(d1));
+        assertTrue(p1.getDisciplinas().contains(d1));
     }
 
     @Test
     public void desprogramar() {
-        assertTrue(p2.disciplinas.contains(d1));
+        assertTrue(p2.getDisciplinas().contains(d1));
         p2.desprogramar(d1);
-        assertFalse(p2.disciplinas.contains(d1));
+        assertFalse(p2.getDisciplinas().contains(d1));
     }
 
 }

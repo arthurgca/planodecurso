@@ -18,7 +18,7 @@ public class PlanoJsonTest {
         Disciplina d0 = new Disciplina("Disciplina 0", 4, "MyString");
         Disciplina d1 = new Disciplina("Disciplina 1", 4, "MyString");
         Disciplina d2 = new Disciplina(
-          "Disciplina 2", 4, "MyString", new Disciplina[] {d0});
+            "Disciplina 2", 4, "MyString", new Disciplina[] {d0});
         Disciplina d3 = new Disciplina("Disciplina 3", 4, "MyString");
 
         Curriculo c1 = new Curriculo.Builder("Curriculo 1")
@@ -37,7 +37,7 @@ public class PlanoJsonTest {
         g1.programar(d3, 3);
 
         Plano p1 = new Plano(c1, g1);
-        p1.periodoAtual = 2;
+        p1.setPeriodoAtual(2);
 
         plano = new PlanoJson().toJson(p1);
     }

@@ -10,22 +10,22 @@ import com.fasterxml.jackson.annotation.*;
 public class Curriculo extends Model {
 
     @Id
-    public int id;
+    private int id;
 
-    public String nome;
+    private String nome;
 
-    public int maxPeriodos;
+    private int maxPeriodos;
 
-    public int minCreditosPeriodo;
+    private int minCreditosPeriodo;
 
-    public int maxCreditosPeriodo;
+    private int maxCreditosPeriodo;
 
     @OneToMany(cascade = CascadeType.ALL)
-    public Set<Disciplina> disciplinas = new HashSet<Disciplina>();
+    private Set<Disciplina> disciplinas = new HashSet<Disciplina>();
 
     @JsonIgnore
     @OneToMany(mappedBy = "curriculo")
-    public List<Grade> grades = new LinkedList<Grade>();
+    private List<Grade> grades = new LinkedList<Grade>();
 
     private Curriculo(Builder builder) {
         this.nome = builder.nome;
@@ -35,21 +35,76 @@ public class Curriculo extends Model {
         this.disciplinas = builder.disciplinas;
     }
 
-    @Transient
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+
+    public int getMaxPeriodos() {
+        return maxPeriodos;
+    }
+
+    public void setMaxPeriodos(int maxPeriodos) {
+        this.maxPeriodos = maxPeriodos;
+    }
+
+    public int getMinCreditosPeriodo() {
+        return minCreditosPeriodo;
+    }
+
+    public void setMinCreditosPeriodo(int minCreditosPeriodo) {
+        this.minCreditosPeriodo = minCreditosPeriodo;
+    }
+
+    public int getMaxCreditosPeriodo() {
+        return maxCreditosPeriodo;
+    }
+
+    public void setMaxCreditosPeriodo(int maxCreditosPeriodo) {
+        this.maxCreditosPeriodo = maxCreditosPeriodo;
+    }
+
+    public Set<Disciplina> getDisciplinas() {
+        return disciplinas;
+    }
+
+    public void setDisciplinas(Set<Disciplina> disciplinas) {
+        this.disciplinas = disciplinas;
+    }
+
+    public List<Grade> getGrades() {
+        return grades;
+    }
+
+    public void setGrades(List<Grade> grades) {
+        this.grades = grades;
+    }
+
     public Disciplina getDisciplina(Long id) {
-        for (Disciplina d : disciplinas) {
-            if (d.id == id) {
-                return d;
+        for (Disciplina disciplina : disciplinas) {
+            if (disciplina.getId().equals(id)) {
+                return disciplina;
             }
         }
 
         return null;
     }
 
-    @Transient
     public Disciplina getDisciplina(String nome) {
         for (Disciplina d : disciplinas) {
-            if (d.nome.equals(nome)) {
+            if (d.getNome().equals(nome)) {
                 return d;
             }
         }
@@ -60,7 +115,7 @@ public class Curriculo extends Model {
     public List<Grade> getGradesOriginais() {
         List<Grade> resultado = new LinkedList<Grade>();
         for (Grade g : grades) {
-            if (g.original) {
+            if (g.isOriginal()) {
                 resultado.add(g);
             }
         }

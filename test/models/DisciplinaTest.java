@@ -22,15 +22,15 @@ public class DisciplinaTest {
 
     @Test
     public void construtor() {
-        assertEquals("d1", d1.nome);
-        assertEquals(4, d1.creditos);
-        assertEquals("MyString", d1.categoria);
-        assertTrue(d1.requisitos.isEmpty());
+        assertEquals("d1", d1.getNome());
+        assertEquals(4, d1.getCreditos());
+        assertEquals("MyString", d1.getCategoria());
+        assertTrue(d1.getRequisitos().isEmpty());
 
-        assertEquals("d2", d2.nome);
-        assertEquals(4, d2.creditos);
-        assertEquals("MyString", d2.categoria);
-        assertTrue(d2.requisitos.contains(d1));
+        assertEquals("d2", d2.getNome());
+        assertEquals(4, d2.getCreditos());
+        assertEquals("MyString", d2.getCategoria());
+        assertTrue(d2.getRequisitos().contains(d1));
     }
 
     @Test
