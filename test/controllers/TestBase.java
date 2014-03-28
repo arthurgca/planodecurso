@@ -22,10 +22,11 @@ public abstract class TestBase extends WithApplication {
     public static Plano criarPlanoInicial() {
         Curriculo curriculo = Curriculo.find.all().get(0);
         Grade grade = Grade.find.all().get(0);
-        Plano plano = new Plano(curriculo, grade, 1);
+        Plano plano = new Plano(curriculo, grade);
+        plano.setPeriodoAtual(grade.getPeriodo(1));
         plano.save();
 
-        Usuario bob = Usuario.find.byId("bob@example.com");
+        Estudante bob = Estudante.find.byId("bob@example.com");
         bob.setPlano(plano);
         bob.save();
 

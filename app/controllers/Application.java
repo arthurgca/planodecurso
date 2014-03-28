@@ -77,8 +77,8 @@ public class Application extends Controller {
         if(form.hasErrors()) {
             return badRequest(cadastrar.render(form));
         } else {
-            Usuario usuario = form.get().getUsuario();
-            usuario.save();
+            Estudante estudante = form.get().getUsuario();
+            estudante.save();
 
             flash("success",
                   "Usuário cadastrado com sucesso. Faça login para continuar.");
@@ -91,7 +91,7 @@ public class Application extends Controller {
         public String senha;
 
         public String validate() {
-            if (Usuario.autenticar(email, senha) == null) {
+            if (Estudante.autenticar(email, senha) == null) {
                 return "E-mail ou senha inválidos.";
             } else {
                 return null;
@@ -113,7 +113,7 @@ public class Application extends Controller {
                 return "O campo Email é obrigatório";
             } else if (!emailValidator.isValid(email)) {
                 return "Endereço de email inválido";
-            } else if (Usuario.find.byId(email) != null) {
+            } else if (Estudante.find.byId(email) != null) {
                 return "Este Email já foi cadastrado";
             } else if (senha.isEmpty()) {
                 return "O campo Senha é obrigatório";
@@ -123,8 +123,8 @@ public class Application extends Controller {
             return null;
         }
 
-        public Usuario getUsuario() {
-            return new Usuario(email, nome, senha);
+        public Estudante getUsuario() {
+            return new Estudante(email, nome, senha);
         }
     }
 

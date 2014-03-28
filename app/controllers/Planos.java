@@ -30,9 +30,9 @@ public class Planos extends AreaPrivada {
 
         plano.save();
 
-        Usuario usuario = getUsuarioAtual();
-        usuario.setPlano(plano);
-        usuario.save();
+        Estudante estudante = getUsuarioAtual();
+        estudante.setPlano(plano);
+        estudante.save();
 
         return ok(new PlanoJson().toJson(plano));
     }

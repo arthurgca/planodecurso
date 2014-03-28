@@ -43,17 +43,13 @@ public class Global extends GlobalSettings {
     }
 
     private void criaUsuariosIniciais(Application app) {
-        if (Usuario.find.all().isEmpty()) {
-            Usuario usuario;
-            String email;
-            String nome;
-            String senha;
+        if (Estudante.find.all().isEmpty()) {
             for (int i = 0; i <= 30; i++) {
-                email = String.format("usuario%d@example.com", i);
-                nome = String.format("Usuario %d", i);
-                senha = String.format("senha%d", i);
-                usuario = new Usuario(email, nome, senha);
-                Ebean.save(usuario);
+                String email = String.format("usuario%d@example.com", i);
+                String nome = String.format("Usuario %d", i);
+                String senha = String.format("senha%d", i);
+                Estudante estudante = new Estudante(email, nome, senha);
+                Ebean.save(estudante);
             }
         }
     }

@@ -1,4 +1,4 @@
-@(title: String, usuario: Usuario)(content: Html)
+@(title: String, estudante: Estudante)(content: Html)
 <!DOCTYPE html>
 <html style="height: 100%;" ng-app="mainApp">
     <head>
@@ -33,8 +33,8 @@
             </a>
           </div>
           <ul class="nav navbar-nav">
-            @if(usuario != null) {
-            <li><a href="#">@usuario.getEmail()</a></li>
+            @if(estudante != null) {
+            <li><a href="#">@estudante.getEmail()</a></li>
             <li><a href="@routes.Application.logout()">Sair</a></li>
             } else {
             <li><a href="@routes.Application.login()">Login</a></li>

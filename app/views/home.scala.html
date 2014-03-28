@@ -1,13 +1,13 @@
-@(usuario: Usuario)
+@(estudante: Estudante)
 
 @import helper._
 @import play.libs.Json
 
-@main("Plano de Curso", usuario) {
+@main("Plano de Curso", estudante) {
 
 <script type="text/javascript">
-  @if(usuario.getPlano() != null) {
-  var PLANO_CACHE = @Html(new PlanoJson().toJson(usuario.getPlano()).toString());
+  @if(estudante.getPlano() != null) {
+  var PLANO_CACHE = @Html(new PlanoJson().toJson(estudante.getPlano()).toString());
   } else {
   var PLANO_CACHE = undefined;
   }

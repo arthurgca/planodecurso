@@ -12,8 +12,8 @@ import config.Global;
 @Security.Authenticated(Autenticador.class)
 public abstract class AreaPrivada extends Controller {
 
-    protected static Usuario getUsuarioAtual() {
-        return Usuario.find.byId(request().username());
+    protected static Estudante getUsuarioAtual() {
+        return Estudante.find.byId(request().username());
     }
 
     protected static Plano getPlano() {
