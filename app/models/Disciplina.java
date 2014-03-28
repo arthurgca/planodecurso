@@ -5,6 +5,9 @@ import javax.persistence.*;
 
 import play.db.ebean.*;
 
+/**
+ * Uma Disciplina que pode ser programada para um Período.
+ */
 @Entity
 public class Disciplina extends Model {
 
@@ -23,68 +26,113 @@ public class Disciplina extends Model {
                inverseJoinColumns={@JoinColumn(name="requisito_id", referencedColumnName="id")})
     private Set<Disciplina> requisitos = new HashSet<Disciplina>();
 
-    public Disciplina(String nome, int creditos, String categoria) {
-        this(nome, creditos, categoria, null);
+    /**
+     * Constrói uma disciplina com nome, número de créditos.
+     * @throws NullPointerException se {@code nome == null}
+     * @throws IllegalArgumentException se {@code creditos < 0} ou {@code nome == ""}
+     */
+    public Disciplina(String nome, int creditos) {
+        setNome(nome);
+        setCreditos(creditos);
     }
 
-    public Disciplina(String nome, int creditos, String categoria, Disciplina[] requisitos) {
-        this.nome = nome;
-        this.creditos = creditos;
-        this.categoria = categoria;
-
-        if (requisitos != null)  {
-            for (Disciplina r : requisitos) {
-                this.requisitos.add(r);
-            }
-        }
-    }
-
+    /**
+     * @return o id da disciplina
+     */
     public Long getId() {
         return id;
     }
 
+    /**
+     * @param id o id da disciplina
+     * @throws NullPointerException se {@code id == null}
+     * @throws IllegalArgumentException se {@code id < 1}
+     */
     public void setId(Long id) {
+        Parametro.naoNulo("id", id);
+        Parametro.maiorQueZero("id", id);
+
         this.id = id;
     }
 
-    public String getNome() {
-        return nome;
-    }
+    /**
+     * @return o nome da disciplina
+     */
+     public String getNome() {
+         return nome;
+     }
 
+    /**
+     * @param nome o nome para a disciplina
+     * @throws NullPointerException se {@code nome == null}
+     * @throws IllegalArgumentException se {@code nome == ""}
+     */
     public void setNome(String nome) {
+        Parametro.naoNulo("nome", nome);
+        Parametro.naoVazio("nome", nome);
+
         this.nome = nome;
     }
 
+    /**
+     * @return o número de créditos da disciplina
+     */
     public int getCreditos() {
         return creditos;
     }
 
+    /**
+     * @param creditos o número de creditos para a disciplina
+     * @throws IllegalArgumentException se {@code creditos < 1}
+     */
     public void setCreditos(int creditos) {
+        Parametro.maiorQueZero("creditos", creditos);
+
         this.creditos = creditos;
     }
 
+    /**
+     * @return a categoria da disciplina
+     */
     public String getCategoria() {
         return categoria;
     }
 
+    /**
+     * @param categoria a categoria para a disciplina
+     * @throws NullPointerException se {@code categoria == null}
+     * @throws IllegalArgumentException se {@code categoria == ""}
+     */
     public void setCategoria(String categoria) {
+        Parametro.naoNulo("categoria", categoria);
+        Parametro.naoVazio("categoria", categoria);
+
         this.categoria = categoria;
     }
 
+    /**
+     * @return o conjunto de requisitos da disciplina
+     */
     public Set<Disciplina> getRequisitos() {
         return requisitos;
     }
 
+    /**
+     * @param requisitos um conjunto de requisitos para a disciplina
+     * @throws NullPointerException se {@code requisitos == null}
+     */
     public void setRequisitos(Set<Disciplina> requisitos) {
+        Parametro.naoNulo("requisitos", requisitos);
+
         this.requisitos = new HashSet<Disciplina>(requisitos);
     }
 
-    public Set<Disciplina> getRequisitosInsatisfeitos(Set<Disciplina> disciplinas) {
-        Set<Disciplina> insatisfeitos = new HashSet<Disciplina>(this.requisitos);
-        insatisfeitos.removeAll(disciplinas);
-        return insatisfeitos;
+    @Override
+    public String toString() {
+        return String.format("%s (%s)", getNome(), getId());
     }
 
+    /** Finder para o Ebean */
     public static Finder<Long,Disciplina> find =
         new Finder<Long,Disciplina>(Long.class, Disciplina.class);
 }
