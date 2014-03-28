@@ -2,47 +2,30 @@ package models;
 
 import java.util.*;
 
-class ValidadorPreRequisitos implements Validador {
+class ValidadorPreRequisitos {
 
-    private Curriculo curriculo;
+    private final Plano plano;
 
     private Set<Disciplina> acumuladas = new HashSet<Disciplina>();
 
-    private Disciplina alvo;
-
-    public ValidadorPreRequisitos(Curriculo curriculo) {
-        this(curriculo, null);
+    public ValidadorPreRequisitos(Plano plano) {
+        this.plano = plano;
     }
 
-    public ValidadorPreRequisitos(Curriculo curriculo, Disciplina alvo) {
-        this.curriculo = curriculo;
-        this.alvo = alvo;
-    }
+    public void validar(Disciplina disciplina, Periodo periodo) throws ErroValidacaoException {
+        for (Periodo p : plano.getGrade().getPeriodos()) {
+            if (p.equals(periodo)) {
+                break;
+            }
 
-    public void validar(Plano plano) throws ErroValidacaoException {
-        validar(plano.getGrade());
-    }
-
-    private void validar(Grade grade) throws ErroValidacaoException {
-        for (Periodo periodo : grade.getPeriodos()) {
-            validar(periodo);
-            acumuladas.addAll(periodo.getDisciplinas());
+            acumuladas.addAll(p.getDisciplinas());
         }
-    }
 
-    private void validar(Periodo periodo) throws ErroValidacaoException {
-        for (Disciplina disciplina : periodo.getDisciplinas()) {
-            validar(disciplina);
-        }
+        validar(disciplina);
     }
 
     private void validar(Disciplina disciplina) throws ErroValidacaoException {
-        if (alvo != null && !alvo.equals(disciplina)) {
-            return;
-        }
-
-        Set<Disciplina> insatisfeitos =
-            disciplina.getRequisitosInsatisfeitos(acumuladas);
+        Set<Disciplina> insatisfeitos = disciplina.getRequisitosInsatisfeitos(acumuladas);
 
         if (insatisfeitos.isEmpty()) {
             return;
@@ -51,6 +34,7 @@ class ValidadorPreRequisitos implements Validador {
         StringBuilder b = new StringBuilder();
 
         Iterator<Disciplina> it = insatisfeitos.iterator();
+
         while (it.hasNext()) {
             b.append(it.next().getNome());
             if (it.hasNext()) {

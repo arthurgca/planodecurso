@@ -88,8 +88,9 @@ public class Plano extends Model {
     }
 
     public void programar(Disciplina disciplina, Periodo periodo) throws ErroValidacaoException {
-        grade.programar(disciplina, periodo);
         validarProgramarDisciplina(disciplina, periodo);
+        validarPreRequisitos(disciplina, periodo);
+        grade.programar(disciplina, periodo);
     }
 
     public void programar(Disciplina disciplina, int periodo) throws ErroValidacaoException {
@@ -97,8 +98,8 @@ public class Plano extends Model {
     }
 
     public void desprogramar(Disciplina disciplina, Periodo periodo) throws ErroValidacaoException {
-        grade.desprogramarRecursivamente(disciplina, periodo);
         validarDesprogramarDisciplina(disciplina, periodo);
+        grade.desprogramarRecursivamente(disciplina, periodo);
     }
 
     public void desprogramar(Disciplina disciplina, int periodo) throws ErroValidacaoException {
@@ -106,10 +107,12 @@ public class Plano extends Model {
     }
 
     public void mover(Disciplina disciplina, Periodo de, Periodo para) throws ErroValidacaoException  {
-        if (de.getDisciplinas().contains(disciplina)) {
+        if (!de.equals(para) && de.getDisciplinas().contains(disciplina)) {
+            validarDesprogramarDisciplina(disciplina, de);
+            validarProgramarDisciplina(disciplina, para);
+
             grade.desprogramar(disciplina, de);
             grade.programar(disciplina, para);
-            validarMoverDisciplina(disciplina, de, para);
         }
     }
 
@@ -118,17 +121,35 @@ public class Plano extends Model {
     }
 
     private void validarProgramarDisciplina(Disciplina disciplina, Periodo periodo) throws ErroValidacaoException {
-        new ValidadorPreRequisitos(curriculo, disciplina).validar(this);
-        new ValidadorMaxCreditos(curriculo, periodo).validar(this);
+        setPoliticaDeCreditos();
+        if (!periodo.podeProgramar(disciplina)) {
+            String template = "%s ultrapassa o máximo de créditos.";
+            String message = String.format(template, periodo.getNome());
+            throw new ErroValidacaoException(message);
+        }
     }
 
     private void validarDesprogramarDisciplina(Disciplina disciplina, Periodo periodo) throws ErroValidacaoException {
-        new ValidadorMinCreditos(curriculo, periodo).validar(this);
+        setPoliticaDeCreditos();
+        if (!periodo.podeDesprogramar(disciplina)) {
+            String template = "%s não atinge o mínimo de créditos.";
+            String message = String.format(template, periodo.getNome());
+            throw new ErroValidacaoException(message);
+        }
     }
 
-    private void validarMoverDisciplina(Disciplina disciplina, Periodo de, Periodo para) throws ErroValidacaoException {
-        new ValidadorMinCreditos(curriculo, de).validar(this);
-        new ValidadorMaxCreditos(curriculo, para).validar(this);
+    private void validarPreRequisitos(Disciplina disciplina, Periodo periodo) throws ErroValidacaoException {
+        new ValidadorPreRequisitos(this).validar(disciplina, periodo);
+    }
+
+    private void setPoliticaDeCreditos() {
+        for (Periodo periodo : getPeriodos()) {
+            if (periodo.getSemestre() < periodoAtual) {
+                periodo.setPoliticaDeCreditos(new PoliticaMaxDeCreditos(curriculo));
+            } else {
+                periodo.setPoliticaDeCreditos(new PoliticaMinMaxDeCreditos(curriculo));
+            }
+        }
     }
 
     public static Finder<Long,Plano> find =

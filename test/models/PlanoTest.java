@@ -90,8 +90,13 @@ public class PlanoTest {
         assertFalse(p1.getDisciplinas(1).contains(d2));
     }
 
+    public void desprogramarPassadoMinCreditos() throws ErroValidacaoException {
+        p1.desprogramar(d1, 1);
+        p1.desprogramar(d2, 1);
+    }
+
     @Test(expected = ErroValidacaoException.class)
-    public void desprogramarErroMinCreditos() throws ErroValidacaoException {
+    public void desprogramarFuturoErroMinCreditos() throws ErroValidacaoException {
         p1.desprogramar(d3, 2);
     }
 
