@@ -36,7 +36,7 @@ public class PlanoJsonTest {
         g1.programar(d2, 2);
         g1.programar(d3, 3);
 
-        Plano p1 = new Plano(c1, g1);
+        Plano p1 = new Plano(c1, g1, 2);
         p1.setPeriodoAtual(2);
 
         plano = new PlanoJson().toJson(p1);

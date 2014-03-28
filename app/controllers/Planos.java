@@ -26,9 +26,7 @@ public class Planos extends AreaPrivada {
             return badRequest(result);
         }
 
-        Plano plano = new Plano(curriculo, grade);
-
-        plano.setPeriodoAtual(periodo);
+        Plano plano = new Plano(curriculo, grade, periodo);
 
         plano.save();
 

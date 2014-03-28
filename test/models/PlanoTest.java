@@ -53,7 +53,7 @@ public class PlanoTest {
         g1.programar(d2, 1);
         g1.programar(d3, 2);
 
-        p1 = new Plano(c1, g1);
+        p1 = new Plano(c1, g1, 2);
     }
 
     @Test

@@ -23,11 +23,12 @@ public class Plano extends Model {
     @OneToOne(mappedBy = "plano")
     private Usuario dono;
 
-    private int periodoAtual = 1;
+    private int periodoAtual;
 
-    public Plano(Curriculo curriculo, Grade grade) {
+    public Plano(Curriculo curriculo, Grade grade, int periodoAtual) {
         this.curriculo = curriculo;
         this.grade = Grade.copiar(grade.getNome(), grade);
+        setPeriodoAtual(periodoAtual);
     }
 
     public Long getId() {
