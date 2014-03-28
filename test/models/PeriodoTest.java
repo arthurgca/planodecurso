@@ -5,59 +5,73 @@ import java.util.*;
 import org.junit.*;
 import static org.junit.Assert.*;
 
-import play.libs.*;
-import com.fasterxml.jackson.databind.JsonNode;
-
 public class PeriodoTest {
 
-    Periodo p1;
-    Periodo p2;
-
-    Disciplina d1;
-    Disciplina d2;
+    Periodo p0;
+    Disciplina d0;
 
     @Before
     public void setUp() {
-        p1 = new Periodo(2);
+        p0 = new Periodo(1);
+        d0 = new Disciplina("D0", 4);
+    }
 
-        d1 = new Disciplina("d1", 4, "MyString");
-        d2 = new Disciplina("d2", 4, "MyString");
-        p2 = new Periodo(3, new Disciplina[] {d1, d2});
+    @Test(expected = IllegalArgumentException.class)
+    public void invariantesDoConstrutor() {
+        new Periodo(-1);
     }
 
     @Test
-    public void construtor() {
-        assertEquals(2, p1.getSemestre());
-        assertTrue(p1.getDisciplinas().isEmpty());
-
-        assertEquals(3, p2.getSemestre());
-        assertEquals(2, p2.getDisciplinas().size());
+    public void invariantesDoConstrutor2() {
+        assertTrue(new Periodo(1).getDisciplinas().isEmpty());
     }
 
     @Test
-    public void getNome() {
-        assertEquals("2º Período", p1.getNome());
-        assertEquals("3º Período", p2.getNome());
+    public void invariantesDoConstrutor3() {
+        assertTrue(new Periodo(1).getPoliticaDeCreditos() instanceof PoliticaDeCreditosNula);
     }
 
     @Test
-    public void getTotalCreditos() {
-        assertEquals(0, p1.getTotalCreditos());
-        assertEquals(8, p2.getTotalCreditos());
+    public void programar() throws Exception {
+        p0.programar(d0);
+        assertTrue(p0.getDisciplinas().contains(d0));
     }
 
     @Test
-    public void programar() {
-        assertFalse(p1.getDisciplinas().contains(d1));
-        p1.programar(d1);
-        assertTrue(p1.getDisciplinas().contains(d1));
+    public void programarIdempotente() throws Exception {
+        p0.programar(d0);
+        p0.programar(d0);
+        assertTrue(p0.getDisciplinas().contains(d0));
+        assertEquals(4, p0.getTotalCreditos());
     }
 
     @Test
-    public void desprogramar() {
-        assertTrue(p2.getDisciplinas().contains(d1));
-        p2.desprogramar(d1);
-        assertFalse(p2.getDisciplinas().contains(d1));
+    public void desprogramar() throws Exception {
+        p0.programar(d0);
+        p0.desprogramar(d0);
+        assertFalse(p0.getDisciplinas().contains(d0));
+    }
+
+    @Test
+    public void desprogramarIdempotente() throws Exception {
+        p0.programar(d0);
+        p0.desprogramar(d0);
+        p0.desprogramar(d0);
+        assertFalse(p0.getDisciplinas().contains(d0));
+        assertEquals(0, p0.getTotalCreditos());
+    }
+
+    @Test
+    public void getTotalCreditos() throws Exception {
+        assertEquals(0, p0.getTotalCreditos());
+        p0.programar(new Disciplina("D0", 4));
+        p0.programar(new Disciplina("D1", 4));
+        assertEquals(8, p0.getTotalCreditos());
+    }
+
+    @Test
+    public void toStringOverride() {
+        assertEquals("1º Período (0 disciplinas)", p0.toString());
     }
 
 }
