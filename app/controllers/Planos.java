@@ -18,15 +18,10 @@ public class Planos extends AreaPrivada {
 
     public static Result configurar(int curriculoId, Long gradeId, int periodo) {
         Curriculo curriculo = Curriculo.find.byId(curriculoId);
-        Grade grade = Grade.find.byId(gradeId);
+        Grade grade = Grade.copiar(Grade.find.byId(gradeId));
+        Plano plano = new Plano(curriculo, grade);
 
-        if (!grade.getCurriculo().equals(curriculo)) {
-            ObjectNode result = Json.newObject();
-            result.put("message", "A grade não casa com o currículo.");
-            return badRequest(result);
-        }
-
-        Plano plano = new Plano(curriculo, grade, periodo);
+        plano.setPeriodoAtual(grade.getPeriodo(periodo));
 
         plano.save();
 
@@ -43,8 +38,11 @@ public class Planos extends AreaPrivada {
         ObjectNode result = Json.newObject();
 
         try {
-            plano.programar(disciplina, periodo);
-        } catch (ErroValidacaoException e) {
+            plano.programar(disciplina, plano.getPeriodo(periodo));
+        } catch (PoliticaDeCreditosException e) {
+            result.put("message", e.getMessage());
+            return badRequest(result);
+        } catch (RequisitosException e) {
             result.put("message", e.getMessage());
             return badRequest(result);
         }
@@ -67,8 +65,8 @@ public class Planos extends AreaPrivada {
         ObjectNode result = Json.newObject();
 
         try {
-            plano.mover(disciplina, de, para);
-        } catch (ErroValidacaoException e) {
+            plano.mover(disciplina, plano.getPeriodo(de), plano.getPeriodo(para));
+        } catch (PoliticaDeCreditosException e) {
             result.put("message", e.getMessage());
             return badRequest(result);
         }
@@ -91,8 +89,8 @@ public class Planos extends AreaPrivada {
         ObjectNode result = Json.newObject();
 
         try {
-            plano.desprogramar(disciplina, periodo);
-        } catch (ErroValidacaoException e) {
+            plano.desprogramar(disciplina, plano.getPeriodo(periodo));
+        } catch (PoliticaDeCreditosException e) {
             result.put("message", e.getMessage());
             return badRequest(result);
         }

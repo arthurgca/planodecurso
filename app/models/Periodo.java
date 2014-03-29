@@ -4,6 +4,7 @@ import java.util.*;
 import javax.persistence.*;
 
 import play.db.ebean.*;
+import com.fasterxml.jackson.annotation.*;
 
 /**
  * Um Período armazena disciplinas programadas para um semestre.
@@ -139,7 +140,7 @@ public class Periodo extends Model implements Comparable<Periodo> {
         Parametro.naoNulo("disciplina", disciplina);
 
         if (!politicaDeCreditos.podeProgramar(disciplina, this))
-            throw new PoliticaDeCreditosException(politicaDeCreditos.validar(this));
+            throw new PoliticaDeCreditosException("Máximo de créditos excedido");
 
         disciplinas.add(disciplina);
     }
@@ -166,7 +167,7 @@ public class Periodo extends Model implements Comparable<Periodo> {
         Parametro.naoNulo("disciplina", disciplina);
 
         if (!politicaDeCreditos.podeDesprogramar(disciplina, this))
-            throw new PoliticaDeCreditosException(politicaDeCreditos.validar(this));
+            throw new PoliticaDeCreditosException("Mínimo de créditos não atingido");
 
         disciplinas.remove(disciplina);
     }

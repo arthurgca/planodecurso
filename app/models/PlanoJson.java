@@ -35,7 +35,7 @@ public class PlanoJson {
 
         node.put("id", Json.toJson(plano.getId()));
 
-        node.put("periodoAtual", plano.getPeriodoAtual());
+        node.put("periodoAtual", plano.getPeriodoAtual().getSemestre());
 
         List<JsonNode> periodos = new LinkedList<JsonNode>();
         for (Periodo periodo : plano.getPeriodos()) {
@@ -74,9 +74,9 @@ public class PlanoJson {
         node.put("isFuturo", false);
         node.put("isAtual", false);
 
-        if (periodo.getSemestre() < plano.getPeriodoAtual()) {
+        if (periodo.compareTo(plano.getPeriodoAtual()) < 0) {
             node.put("isPassado", true);
-        } else if (periodo.getSemestre() > plano.getPeriodoAtual()) {
+        } else if (periodo.compareTo(plano.getPeriodoAtual()) > 0) {
             node.put("isFuturo", true);
         } else {
             node.put("isAtual", true);
@@ -111,7 +111,7 @@ public class PlanoJson {
         node.put("creditos", requisito.getCreditos());
         node.put("categoria", requisito.getCategoria());
 
-        if (disciplina.getRequisitosInsatisfeitos(disciplinasAcumuladas)
+        if (getRequisitosInsatisfeitos(disciplina, disciplinasAcumuladas)
             .contains(requisito)) {
             node.put("isSatisfeito", false);
         } else {
@@ -127,6 +127,12 @@ public class PlanoJson {
             nodes.add(new PlanoJson().toJson(plano));
         }
         return Json.toJson(nodes);
+    }
+
+    private Set<Disciplina> getRequisitosInsatisfeitos(Disciplina disciplina, Set<Disciplina> disciplinas) {
+        Set<Disciplina> insatisfeitos = new HashSet<Disciplina>(disciplina.getRequisitos());
+        insatisfeitos.removeAll(disciplinas);
+        return insatisfeitos;
     }
 
 }

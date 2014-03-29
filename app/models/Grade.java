@@ -17,6 +17,9 @@ public class Grade extends Model {
 
     private String nome;
 
+    @ManyToOne(optional = true)
+    private Curriculo curriculo;
+
     @OneToMany(cascade = CascadeType.ALL)
     @OrderBy("semestre ASC")
     private List<Periodo> periodos = new LinkedList<Periodo>();
@@ -169,7 +172,24 @@ public class Grade extends Model {
      * @param periodo o periodo em que a disciplina vai ser desprogramada
      * @throws NullPointerException se disciplina ou periodo for nulo
      */
-    public void desprogramarRecursivamente(Disciplina disciplina, Periodo periodo) {
+    public void desprogramarRecursivamente(Disciplina disciplina, Periodo periodo) throws PoliticaDeCreditosException {
+        Parametro.naoNulo("disciplina", disciplina);
+        Parametro.naoNulo("periodo", periodo);
+
+        if (!periodo.podeDesprogramar(disciplina))
+            throw new PoliticaDeCreditosException("Mínimo de créditos não atingido");
+
+        desprogramarRecursivamente2(disciplina, periodo);
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%s (%s períodos)",
+                             getNome() != null ? getNome() : "Grade Sem Nome",
+                             getSize());
+    }
+
+    private void desprogramarRecursivamente2(Disciplina disciplina, Periodo periodo) {
         Parametro.naoNulo("disciplina", disciplina);
         Parametro.naoNulo("periodo", periodo);
 
@@ -188,16 +208,9 @@ public class Grade extends Model {
 
         for (Periodo p : remover.keySet()) {
             for (Disciplina d : remover.get(p)) {
-                desprogramarRecursivamente(d, p);
+                desprogramarRecursivamente2(d, p);
             }
         }
-    }
-
-    @Override
-    public String toString() {
-        return String.format("%s (%s períodos)",
-                             getNome() != null ? getNome() : "Grade Sem Nome",
-                             getSize());
     }
 
     private void desprogramarForcado(Disciplina disciplina, Periodo periodo) {

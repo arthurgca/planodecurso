@@ -7,6 +7,9 @@ import play.db.ebean.*;
 import com.avaje.ebean.*;
 import com.fasterxml.jackson.annotation.*;
 
+/**
+ * Um plano de curso para um currículo.
+ */
 @Entity
 public class Plano extends Model {
 
@@ -19,139 +22,220 @@ public class Plano extends Model {
     @OneToOne(cascade = CascadeType.ALL)
     private Grade grade;
 
-    @JsonIgnore
-    @OneToOne(mappedBy = "plano")
-    private Usuario dono;
+    @OneToOne(cascade = CascadeType.ALL)
+    private Periodo periodoAtual;
 
-    private int periodoAtual;
-
-    public Plano(Curriculo curriculo, Grade grade, int periodoAtual) {
-        this.curriculo = curriculo;
-        this.grade = Grade.copiar(grade.getNome(), grade);
-        setPeriodoAtual(periodoAtual);
+    /**
+     * Constrói um plano para o curriculo e grade dados.
+     *
+     * @param curriculo o curriculo para o plano de curso
+     * @param grade a grade para o plano de curso
+     * @throws NullPointerException se algum parâmetro for nulo
+     */
+    public Plano(Curriculo curriculo, Grade grade) {
+        setCurriculo(curriculo);
+        setGrade(grade);
     }
 
+    /**
+     * @return o id do plano
+     */
     public Long getId() {
         return id;
     }
 
+    /**
+     * @param o id para o curso
+     * @throws NullPointerException se {@code id == null}
+     * @throws IllegalArgumentException se {@code id < 1}
+     */
     public void setId(Long id) {
+        Parametro.naoNulo("id", id);
+        Parametro.maiorQueZero("id", id);
+
         this.id = id;
     }
 
+    /**
+     * @return o curriculo do plano de curso
+     */
     public Curriculo getCurriculo() {
         return curriculo;
     }
 
+    /**
+     * @param o curriculo para o plano de curso
+     * @throws NullPointerException se {@code curriculo == null}
+     */
     public void setCurriculo(Curriculo curriculo) {
+        Parametro.naoNulo("curriculo", curriculo);
+
         this.curriculo = curriculo;
     }
 
+    /**
+     * @return a grade do plano de curso
+     */
     public Grade getGrade() {
         return grade;
     }
 
+    /**
+     * @param grade a grade para o plano de curso
+     * @throws NullPointerException se {@code grade == null}
+     */
     public void setGrade(Grade grade) {
+        Parametro.naoNulo("grade", grade);
+
         this.grade = grade;
     }
 
-    public Usuario getDono() {
-        return dono;
-    }
-
-    public void setDono(Usuario usuario) {
-        this.dono = usuario;
-    }
-
-    public int getPeriodoAtual() {
+    /**
+     * @return o periodo atual do plano de curso
+     */
+    public Periodo getPeriodoAtual() {
         return periodoAtual;
     }
 
-    public void setPeriodoAtual(int periodoAtual) {
+    /**
+     * Seta o período atual.
+     *
+     * Este método configura as políticas de crédito corretas para os
+     * períodos do passado e do futuro.
+     *
+     * @param periodoAtual o periodo atual no plano de curso
+     * @throws NullPointerException se {@code periodoAtual == null}
+     * @throws NoSuchElementException se o período não está na grade
+     */
+    public void setPeriodoAtual(Periodo periodoAtual) {
+        Parametro.naoNulo("periodoAtual", periodoAtual);
+
+        if (!grade.getPeriodos().contains(periodoAtual))
+            throw new NoSuchElementException(periodoAtual.toString());
+
         this.periodoAtual = periodoAtual;
-    }
 
-    public List<Periodo> getPeriodos() {
-        return grade.getPeriodos();
-    }
+        PoliticaDeCreditos max =
+            new PoliticaMaxDeCreditos(getCurriculo().getMaxCreditosPeriodo());
 
-    public Periodo getPeriodo(int periodo) {
-        return grade.getPeriodo(periodo);
-    }
+        PoliticaDeCreditos minMax =
+            new PoliticaMinMaxDeCreditos(getCurriculo().getMinCreditosPeriodo(),
+                                         getCurriculo().getMaxCreditosPeriodo());
 
-    public List<Disciplina> getDisciplinas() {
-        return grade.getDisciplinas();
-    }
-
-    public List<Disciplina> getDisciplinas(int periodo) {
-        return grade.getDisciplinas(periodo);
-    }
-
-    public void programar(Disciplina disciplina, Periodo periodo) throws ErroValidacaoException {
-        validarProgramarDisciplina(disciplina, periodo);
-        validarPreRequisitos(disciplina, periodo);
-        grade.programar(disciplina, periodo);
-    }
-
-    public void programar(Disciplina disciplina, int periodo) throws ErroValidacaoException {
-        programar(disciplina, grade.getPeriodo(periodo));
-    }
-
-    public void desprogramar(Disciplina disciplina, Periodo periodo) throws ErroValidacaoException {
-        validarDesprogramarDisciplina(disciplina, periodo);
-        grade.desprogramarRecursivamente(disciplina, periodo);
-    }
-
-    public void desprogramar(Disciplina disciplina, int periodo) throws ErroValidacaoException {
-        desprogramar(disciplina, grade.getPeriodo(periodo));
-    }
-
-    public void mover(Disciplina disciplina, Periodo de, Periodo para) throws ErroValidacaoException  {
-        if (!de.equals(para) && de.getDisciplinas().contains(disciplina)) {
-            validarDesprogramarDisciplina(disciplina, de);
-            validarProgramarDisciplina(disciplina, para);
-
-            grade.desprogramar(disciplina, de);
-            grade.programar(disciplina, para);
-        }
-    }
-
-    public void mover(Disciplina disciplina, int de, int para) throws ErroValidacaoException {
-        mover(disciplina, grade.getPeriodo(de), grade.getPeriodo(para));
-    }
-
-    private void validarProgramarDisciplina(Disciplina disciplina, Periodo periodo) throws ErroValidacaoException {
-        setPoliticaDeCreditos();
-        if (!periodo.podeProgramar(disciplina)) {
-            String template = "%s ultrapassa o máximo de créditos.";
-            String message = String.format(template, periodo.getNome());
-            throw new ErroValidacaoException(message);
-        }
-    }
-
-    private void validarDesprogramarDisciplina(Disciplina disciplina, Periodo periodo) throws ErroValidacaoException {
-        setPoliticaDeCreditos();
-        if (!periodo.podeDesprogramar(disciplina)) {
-            String template = "%s não atinge o mínimo de créditos.";
-            String message = String.format(template, periodo.getNome());
-            throw new ErroValidacaoException(message);
-        }
-    }
-
-    private void validarPreRequisitos(Disciplina disciplina, Periodo periodo) throws ErroValidacaoException {
-        new ValidadorPreRequisitos(this).validar(disciplina, periodo);
-    }
-
-    private void setPoliticaDeCreditos() {
-        for (Periodo periodo : getPeriodos()) {
-            if (periodo.getSemestre() < periodoAtual) {
-                periodo.setPoliticaDeCreditos(new PoliticaMaxDeCreditos(curriculo));
+        for (Periodo periodo : grade.getPeriodos()) {
+            if (periodo.compareTo(periodoAtual) < 0) {
+                periodo.setPoliticaDeCreditos(max);
             } else {
-                periodo.setPoliticaDeCreditos(new PoliticaMinMaxDeCreditos(curriculo));
+                periodo.setPoliticaDeCreditos(minMax);
             }
         }
     }
 
-    public static Finder<Long,Plano> find =
-        new Finder<Long,Plano>(Long.class, Plano.class);
+    /**
+     * @return a lista de períodos nesse plano
+     */
+    @Transient
+    public List<Periodo> getPeriodos() {
+        return grade.getPeriodos();
+    }
+
+    /**
+     * Retorna um período pelo semestre.
+     *
+     * @param semestre o semestre correspondente ao período
+     * @return o periodo correspondente ao semestre ou null se não houver
+     * @throws IllegalArgumentException se {@code periodo < 1}
+     * @throws NoSuchElementException se o período não for encontrado
+     */
+    @Transient
+    public Periodo getPeriodo(int semestre) {
+        Parametro.maiorQueZero("semestre", semestre);
+
+        return grade.getPeriodo(semestre);
+    }
+
+    /**
+     * @return a lista de disciplinas do plano
+     */
+    @Transient
+    public List<Disciplina> getDisciplinas() {
+        List<Disciplina> todas = new LinkedList<Disciplina>();
+        for (Periodo periodo : getPeriodos()) {
+            todas.addAll(periodo.getDisciplinas());
+        }
+        return todas;
+    }
+
+    /**
+     * Programa uma disciplina para o período dado.
+     *
+     * @param disciplina a disciplina para ser programada
+     * @param periodo o periodo para programar a disciplina
+     * @throws NullPointerException se algum parâmetro for nulo
+     * @throws PoliticaDeCreditosException se exceder o máximo de créditos
+     * @throws RequisitosException se a disciplina tem requisitos insatisfeitos
+     */
+    public void programar(Disciplina disciplina, Periodo periodo)
+        throws PoliticaDeCreditosException, RequisitosException {
+        Parametro.naoNulo("disciplina", disciplina);
+        Parametro.naoNulo("periodo", periodo);
+
+        validarRequisitos(disciplina, periodo);
+
+        grade.programar(disciplina, periodo);
+    }
+
+    /**
+     * Desprograma uma disciplina no período dado.
+     *
+     * @param disciplina a disciplina para ser programada
+     * @param periodo o periodo para programar a disciplina
+     * @throws NullPointerException se algum parâmetro for nulo
+     * @throws PoliticaDeCreditosException se exceder o máximo de créditos
+     * @throws RequisitosException se a disciplina tem requisitos insatisfeitos
+     */
+    public void desprogramar(Disciplina disciplina, Periodo periodo)
+        throws PoliticaDeCreditosException {
+        Parametro.naoNulo("disciplina", disciplina);
+        Parametro.naoNulo("periodo", periodo);
+
+        grade.desprogramarRecursivamente(disciplina, periodo);
+    }
+
+    /**
+     * Move a programação de uma disciplina entre períodos.
+     *
+     * @param disciplina a disciplina para ser programada
+     * @param de o periodo de origem
+     * @param para o periodo de destino
+     * @throws NullPointerException se algum parâmetro for nulo
+     * @throws PoliticaDeCreditosException se exceder o máximo de créditos
+     */
+    public void mover(Disciplina disciplina, Periodo de, Periodo para)
+        throws PoliticaDeCreditosException {
+        Parametro.naoNulo("disciplina", disciplina);
+        Parametro.naoNulo("de", de);
+        Parametro.naoNulo("para", para);
+
+        if (de.equals(para))
+            return;
+        else if (!de.getDisciplinas().contains(disciplina))
+            return;
+
+        grade.desprogramar(disciplina, de);
+        grade.programar(disciplina, para);
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Plano (%s períodos)", getPeriodos().size());
+    }
+
+    private void validarRequisitos(Disciplina disciplina, Periodo periodo)
+        throws RequisitosException {
+        new ValidarRequisitos().validar(this, disciplina, periodo);
+    }
+
+    /** Finder para o Ebean */
+    public static Finder<Long,Plano> find = new Finder<Long,Plano>(Long.class, Plano.class);
 }

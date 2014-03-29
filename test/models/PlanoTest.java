@@ -5,126 +5,158 @@ import java.util.*;
 import org.junit.*;
 import static org.junit.Assert.*;
 
-import play.libs.*;
-
-import com.fasterxml.jackson.databind.JsonNode;
-
 public class PlanoTest {
 
     Disciplina d1;
     Disciplina d2;
     Disciplina d3;
-    Disciplina d4;
-    Disciplina d5;
-    Disciplina d6;
-    Disciplina d7;
 
     Curriculo c1;
 
     Grade g1;
 
-    Plano p1;
+    Periodo p1;
+    Periodo p2;
+    Periodo p3;
+
+    Plano plano;
 
     @Before
-    public void setUp() {
-        d1 = new Disciplina("Disciplina 1", 4, "MyString");
-        d2 = new Disciplina("Disciplina 2", 4, "MyString");
-        d3 = new Disciplina("Disciplina 3", 4, "MyString");
-        d4 = new Disciplina("Disciplina 4", 4, "MyString");
-        d5 = new Disciplina("Disciplina 5", 4, "MyString");
-        d6 = new Disciplina("Disciplina 6", 4, "MyString", new Disciplina[]{d5});
-        d7 = new Disciplina("Disciplina 7", 4, "MyString");
+    public void setUp() throws Exception {
+        d1 = new Disciplina("D1", 4);
+        d2 = new Disciplina("D2", 4);
+        d2.setRequisitos(new HashSet<Disciplina>(Arrays.asList(new Disciplina[]{
+                        d1
+                    })));
+        d3 = new Disciplina("D3", 4);
 
-        c1 = new Curriculo.Builder("Curriculo 1")
-            .maxPeriodos(4)
-            .minCreditosPeriodo(4)
-            .maxCreditosPeriodo(8)
-            .disciplina(d1)
-            .disciplina(d2)
-            .disciplina(d3)
-            .disciplina(d4)
-            .disciplina(d5)
-            .disciplina(d6)
-            .disciplina(d7)
-            .build();
+        c1 = new Curriculo(new HashSet<Disciplina>(Arrays.asList(new Disciplina[]{
+                        d1, d2, d3
+                    })));
+        c1.setMaxPeriodos(3);
+        c1.setMinCreditosPeriodo(4);
+        c1.setMaxCreditosPeriodo(8);
 
-        g1 = new Grade("Grade 1", c1);
-        g1.programar(d1, 1);
-        g1.programar(d2, 1);
-        g1.programar(d3, 2);
+        g1 = new Grade(3);
 
-        p1 = new Plano(c1, g1, 2);
+        p1 = g1.getPeriodo(1);
+        p2 = g1.getPeriodo(2);
+        p3 = g1.getPeriodo(3);
+
+        g1.programar(d1, p2);
+
+        plano = new Plano(c1, g1);
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void invariantesDoConstrutor1() {
+        new Plano(null, g1);
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void invariantesDoConstrutor2() {
+        new Plano(c1, null);
     }
 
     @Test
-    public void construtor() {
-        assertNotEquals(g1, p1.getGrade());
+    public void setPeriodoAtualSetaPoliticaDeCreditos() {
+        assertTrue(p1.getPoliticaDeCreditos() instanceof PoliticaDeCreditosNula);
+        assertTrue(p2.getPoliticaDeCreditos() instanceof PoliticaDeCreditosNula);
+        assertTrue(p3.getPoliticaDeCreditos() instanceof PoliticaDeCreditosNula);
+
+        plano.setPeriodoAtual(p2);
+        assertEquals(p2, plano.getPeriodoAtual());
+
+        assertTrue(p1.getPoliticaDeCreditos() instanceof PoliticaMaxDeCreditos);
+        assertTrue(p2.getPoliticaDeCreditos() instanceof PoliticaMinMaxDeCreditos);
+        assertTrue(p3.getPoliticaDeCreditos() instanceof PoliticaMinMaxDeCreditos);
     }
 
     @Test
-    public void getPeriodos() {
-        assertEquals(4, p1.getPeriodos().size());
+    public void programar() throws Exception {
+        plano.programar(d2, p3);
+        assertTrue(p3.getDisciplinas().contains(d2));
     }
 
     @Test
-    public void programar() throws ErroValidacaoException {
-        assertFalse(p1.getDisciplinas(2).contains(d4));
-        p1.programar(d4, 2);
-        assertTrue(p1.getDisciplinas(2).contains(d4));
+    public void programarIdempotente() throws Exception {
+        plano.programar(d2, p3);
+        plano.programar(d2, p3);
+        plano.programar(d2, p3);
+        assertTrue(p3.getDisciplinas().contains(d2));
     }
 
-    @Test(expected = ErroValidacaoException.class)
-    public void programarErroMaxCreditos() throws ErroValidacaoException {
-        p1.programar(d4, 1);
+    @Test(expected = RequisitosException.class)
+    public void programarVerificaRequisitos() throws Exception {
+        plano.programar(d2, p1);
     }
 
-    @Test(expected = ErroValidacaoException.class)
-    public void programarErroPreRequisitosInsatisfeitos() throws ErroValidacaoException {
-        p1.programar(d6, 2);
-    }
-
-    @Test
-    public void desprogramar() throws ErroValidacaoException {
-        assertTrue(p1.getDisciplinas(1).contains(d2));
-        p1.desprogramar(d2, 1);
-        assertFalse(p1.getDisciplinas(1).contains(d2));
-    }
-
-    public void desprogramarPassadoMinCreditos() throws ErroValidacaoException {
-        p1.desprogramar(d1, 1);
-        p1.desprogramar(d2, 1);
-    }
-
-    @Test(expected = ErroValidacaoException.class)
-    public void desprogramarFuturoErroMinCreditos() throws ErroValidacaoException {
-        p1.desprogramar(d3, 2);
+    @Test(expected = PoliticaDeCreditosException.class)
+    public void programarVerificaMaxDeCreditos() throws Exception {
+        plano.setPeriodoAtual(p2);
+        d3.setCreditos(100);
+        plano.programar(d3, p1);
     }
 
     @Test
-    public void mover() throws ErroValidacaoException {
-        assertTrue(p1.getDisciplinas(1).contains(d2));
-        assertFalse(p1.getDisciplinas(2).contains(d2));
-        p1.mover(d2, 1, 2);
-        assertFalse(p1.getDisciplinas(1).contains(d2));
-        assertTrue(p1.getDisciplinas(2).contains(d2));
-    }
-
-    @Test(expected = ErroValidacaoException.class)
-    public void moverErroMinCreditos() throws ErroValidacaoException {
-        p1.mover(d3, 2, 3);
-    }
-
-    @Test(expected = ErroValidacaoException.class)
-    public void moverErroMaxCreditos() throws ErroValidacaoException {
-        p1.mover(d3, 2, 1);
+    public void desprogramar() throws Exception {
+        plano.desprogramar(d1, p2);
+        assertFalse(p2.getDisciplinas().contains(d1));
     }
 
     @Test
-    public void moverPreRequisitosInsatisfeitos() throws ErroValidacaoException {
-        p1.programar(d5, 3);
-        p1.programar(d6, 4);
-        p1.programar(d7, 4);
-        p1.mover(d6, 4, 2);
+    public void desprogramarIdempotente() throws Exception {
+        plano.desprogramar(d1, p2);
+        plano.desprogramar(d1, p2);
+        plano.desprogramar(d1, p2);
+        assertFalse(p2.getDisciplinas().contains(d1));
+    }
+
+    @Test(expected = PoliticaDeCreditosException.class)
+    public void desprogramarVerificaMinDeCreditos() throws Exception {
+        plano.setPeriodoAtual(p2);
+        plano.desprogramar(d1, p2);
+    }
+
+    @Test
+    public void desprogramarRecursivo() throws Exception {
+        plano.programar(d2, p3);
+        plano.desprogramar(d1, p2);
+        assertFalse(p2.getDisciplinas().contains(d1));
+        assertFalse(p3.getDisciplinas().contains(d2));
+    }
+
+    @Test
+    public void mover() throws Exception {
+        assertTrue(p2.getDisciplinas().contains(d1));
+        plano.mover(d1, p2, p3);
+        assertFalse(p2.getDisciplinas().contains(d1));
+        assertTrue(p3.getDisciplinas().contains(d1));
+    }
+
+    @Test
+    public void moverNaoVerificaRequisitos() throws Exception {
+        plano.programar(d2, p3);
+        plano.mover(d2, p3, p1);
+    }
+
+    @Test(expected = PoliticaDeCreditosException.class)
+    public void moverVerificaMinCreditos() throws Exception {
+        plano.setPeriodoAtual(p2);
+        plano.mover(d1, p2, p3);
+    }
+
+    @Test(expected = PoliticaDeCreditosException.class)
+    public void moverVerificaMaxCreditos() throws Exception {
+        plano.setPeriodoAtual(p2);
+        plano.programar(d3, p2);
+        d3.setCreditos(100);
+        plano.mover(d3, p2, p3);
+    }
+
+    @Test
+    public void toStringOverride() {
+        assertEquals("Plano (3 períodos)", plano.toString());
     }
 
 }
