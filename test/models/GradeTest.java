@@ -5,107 +5,91 @@ import java.util.*;
 import org.junit.*;
 import static org.junit.Assert.*;
 
-import play.libs.*;
-
-import com.fasterxml.jackson.databind.JsonNode;
-
 public class GradeTest {
 
     Grade g1;
 
+    Periodo p1;
+    Periodo p2;
+    Periodo p3;
+
     Disciplina d1;
     Disciplina d2;
+    Disciplina d3;
 
     @Before
     public void setUp() {
-        d1 = new Disciplina("d1", 4, "MyString");
-        d2 = new Disciplina("d2", 4, "MyString", new Disciplina[]{d1});
+        g1 = new Grade(3);
 
-        Curriculo c1 = new Curriculo.Builder("MyString")
-            .maxPeriodos(3)
-            .minCreditosPeriodo(4)
-            .maxCreditosPeriodo(8)
-            .disciplina(d1)
-            .disciplina(d2)
-            .build();
+        p1 = g1.getPeriodo(1);
+        p2 = g1.getPeriodo(2);
+        p3 = g1.getPeriodo(3);
 
-        g1 = new Grade("MyString", c1);
+        d1 = new Disciplina("d1", 4);
+        d2 = new Disciplina("d2", 4);
+        d3 = new Disciplina("d3", 4);
+
+        d2.setRequisitos(new HashSet<Disciplina>(Arrays.asList(new Disciplina[]{d1})));
+        d3.setRequisitos(new HashSet<Disciplina>(Arrays.asList(new Disciplina[]{d2})));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void invariantesDoConstrutor() {
+        new Grade(0);
     }
 
     @Test
-    public void construtor(){
-        assertEquals("MyString", g1.getNome());
-        assertEquals(3, g1.getPeriodos().size());
+    public void getSize() {
+        assertEquals(3, g1.getSize());
     }
 
     @Test
-    public void getMaxPeriodos() {
-        assertEquals(3, g1.getMaxPeriodos());
-    }
-
-    @Test
-    public void getPeriodo() {
+    public void getPeriodoPreservaOrdem() {
         assertEquals(1, g1.getPeriodo(1).getSemestre());
         assertEquals(2, g1.getPeriodo(2).getSemestre());
         assertEquals(3, g1.getPeriodo(3).getSemestre());
     }
 
     @Test
-    public void programar() {
-        assertTrue(g1.getDisciplinas(1).isEmpty());
-        g1.programar(d1, 1);
-        assertTrue(g1.getDisciplinas(1).contains(d1));
+    public void getDisciplinas() throws Exception {
+        g1.programar(d1, p1);
+        g1.programar(d2, p2);
+        g1.programar(d3, p3);
+
+        assertEquals(Arrays.asList(new Disciplina[] {d1,d2,d3}),
+                     g1.getDisciplinas());
     }
 
     @Test
-    public void desprogramar() {
-        g1.programar(d1, 1);
-        assertTrue(g1.getDisciplinas(1).contains(d1));
-        g1.desprogramar(d1, 1);
-        assertFalse(g1.getDisciplinas(1).contains(d1));
+    public void desprogramarRecursivamente() throws Exception {
+        g1.programar(d1, p1);
+        g1.programar(d2, p2);
+        g1.programar(d3, p3);
+
+        g1.desprogramarRecursivamente(d1, p1);
+
+        assertFalse(p1.getDisciplinas().contains(d1));
+        assertFalse(p2.getDisciplinas().contains(d2));
+        assertFalse(p3.getDisciplinas().contains(d3));
     }
 
     @Test
-    public void desprogramarRecursivamente() {
-        Disciplina d3 = new Disciplina("d3", 4, "MyString", new Disciplina[]{d2});
-        g1.programar(d1, 1);
-        g1.programar(d2, 2);
-        g1.programar(d3, 3);
-
-        g1.desprogramarRecursivamente(d1, 1);
-
-        assertFalse(g1.getDisciplinas(1).contains(d1));
-        assertFalse(g1.getDisciplinas(2).contains(d2));
-        assertFalse(g1.getDisciplinas(3).contains(d3));
+    public void toStringOverride() {
+        assertEquals("Grade Sem Nome (3 períodos)", g1.toString());
     }
 
     @Test
-    public void toJson() {
-        g1.programar(d1, 1);
-        g1.programar(d2, 2);
+    public void copiar() throws Exception {
+        g1.programar(d1, p2);
+        g1.programar(d2, p3);
 
-        JsonNode node = Json.toJson(g1);
+        Grade g2 = Grade.copiar(g1);
 
-        assertEquals("MyString", g1.getNome());
+        assertEquals(3, g2.getSize());
 
-        assertTrue(node.get("periodos").isArray());
-
-        assertEquals(3, node.get("maxPeriodos").numberValue());
-    }
-
-    @Test
-    public void copiar() {
-        g1.programar(d1, 2);
-        g1.programar(d2, 3);
-
-        Grade g2 = Grade.copiar("MyString2", g1);
-
-        assertEquals("MyString2", g2.getNome());
-        assertEquals(3, g2.getPeriodos().size());
-
-        assertTrue(g2.getDisciplinas(1).isEmpty());
-        assertTrue(g2.getDisciplinas(2).contains(d1));
-        assertTrue(g2.getDisciplinas(3).contains(d2));
+        assertTrue(p1.getDisciplinas().isEmpty());
+        assertTrue(p2.getDisciplinas().contains(d1));
+        assertTrue(p3.getDisciplinas().contains(d2));
     }
 
 }

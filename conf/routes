@@ -17,10 +17,6 @@ GET     /home                                           controllers.PlanoDeCurso
 GET     /curriculos                                     controllers.Curriculos.listar()
 GET     /curriculos/:id                                 controllers.Curriculos.exibir(id: Integer)
 
-# Grades
-GET     /grades                                         controllers.Grades.listar()
-GET     /grades/:id                                     controllers.Grades.exibir(id: Long)
-
 # Planos
 GET     /planos                                         controllers.Planos.listar()
 POST    /planos                                         controllers.Planos.configurar(curriculo: Integer, grade: Long, periodo: Integer)
