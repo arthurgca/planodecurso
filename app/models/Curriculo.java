@@ -6,92 +6,162 @@ import javax.persistence.*;
 import play.db.ebean.*;
 import com.fasterxml.jackson.annotation.*;
 
+/**
+ * Currículo contém as disciplinas e especifíca regras para um curso.
+ */
 @Entity
 public class Curriculo extends Model {
 
     @Id
     private int id;
 
-    private String nome;
+    private int maxPeriodos = 14;
 
-    private int maxPeriodos;
+    private int minCreditosPeriodo = 14;
 
-    private int minCreditosPeriodo;
-
-    private int maxCreditosPeriodo;
+    private int maxCreditosPeriodo= 28;
 
     @OneToMany(cascade = CascadeType.ALL)
     private Set<Disciplina> disciplinas = new HashSet<Disciplina>();
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "curriculo")
-    private List<Grade> grades = new LinkedList<Grade>();
+    @OneToMany(cascade = CascadeType.ALL)
+    private Set<Grade> grades = new HashSet<Grade>();
 
-    private Curriculo(Builder builder) {
-        this.nome = builder.nome;
-        this.maxPeriodos = builder.maxPeriodos;
-        this.minCreditosPeriodo = builder.minCreditosPeriodo;
-        this.maxCreditosPeriodo = builder.maxCreditosPeriodo;
-        this.disciplinas = builder.disciplinas;
+    private String nome;
+
+    /**
+     * Constrói um currículo com as disciplinas dadas.
+     */
+    public Curriculo(Set<Disciplina> disciplinas) {
+        setDisciplinas(disciplinas);
     }
 
+    /**
+     * @return o id do currículo
+     */
     public int getId() {
         return id;
     }
 
+    /**
+     * @param id o id para o currículo
+     * @throws IllegalArgumentException se {@code id < 1}
+     */
     public void setId(int id) {
+        Parametro.maiorQueZero("id", id);
+
         this.id = id;
     }
 
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-
+    /**
+     * @return o máximo de períodos desse currículo
+     */
     public int getMaxPeriodos() {
         return maxPeriodos;
     }
 
+    /**
+     * @param maxPeriodos o máximo de períodos para esse currículo
+     * @throws IllegalArgumentException se {@code maxPeriodos < 1}
+     */
     public void setMaxPeriodos(int maxPeriodos) {
+        Parametro.maiorQueZero("maxPeriodos", maxPeriodos);
+
         this.maxPeriodos = maxPeriodos;
     }
 
+    /**
+     * @return o mínimo de créditos para os períodos do curso
+     */
     public int getMinCreditosPeriodo() {
         return minCreditosPeriodo;
     }
 
+    /**
+     * @param minCreditosPeriodo o mínimo de créditos para os períodos do curso
+     * @throws IllegalArgumentException se {@code minCreditosPeriodo < 1}
+     */
     public void setMinCreditosPeriodo(int minCreditosPeriodo) {
+        Parametro.maiorQueZero("minCreditosPeriodo", minCreditosPeriodo);
+
         this.minCreditosPeriodo = minCreditosPeriodo;
     }
 
+    /**
+     * @return o máximo de créditos dos períodos do curso
+     */
     public int getMaxCreditosPeriodo() {
         return maxCreditosPeriodo;
     }
 
+    /**
+     * @param maxCreditosPeriodo o máximo de créditos para os períodos do curso
+     * @throws IllegalArgumentException se {@code maxCreditosPeriodo < 1}
+     */
     public void setMaxCreditosPeriodo(int maxCreditosPeriodo) {
+        Parametro.maiorQueZero("maxCreditosPeriodo", maxCreditosPeriodo);
+
         this.maxCreditosPeriodo = maxCreditosPeriodo;
     }
 
+    /**
+     * @return o conjunto de disciplinas do currículo
+     */
     public Set<Disciplina> getDisciplinas() {
         return disciplinas;
     }
 
+    /**
+     * @param disciplinas um conjunto de disciplinas para o curso
+     * @throws NullPointerException se {@code disciplinas == null}
+     */
     public void setDisciplinas(Set<Disciplina> disciplinas) {
+        Parametro.naoNulo("disciplinas", disciplinas);
+
         this.disciplinas = disciplinas;
     }
 
-    public List<Grade> getGrades() {
+    /**
+     * @return o conjunto de grades do currículo
+     */
+    public Set<Grade> getGrades() {
         return grades;
     }
 
-    public void setGrades(List<Grade> grades) {
+    /**
+     * @param grades o conjunto de grades do currículo
+     * @throws NullPointerException se {@code grades == null}
+     */
+    public void setGrades(Set<Grade> grades) {
+        Parametro.naoNulo("grades", grades);
+
         this.grades = grades;
     }
 
+    /**
+     * @return o nome do currículo
+     */
+    public String getNome() {
+        return nome;
+    }
+
+    /**
+     * @param nome o nome para o currículo
+     * @throws NullPointerException se {@nome == null}
+     * @throws IllegalArgumentException se {@nome == ""}
+     */
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    /**
+     * Retorna a disciplina com o id dado.
+     *
+     * @param id o id da disciplina para encontrar
+     * @throws NullPointerException se {@code id == null}
+     * @throws IllegalArgumentException se {@code id < 1}
+     * @throws NoSuchElementException se a disciplina não for encontrada
+     */
     public Disciplina getDisciplina(Long id) {
         for (Disciplina disciplina : disciplinas) {
             if (disciplina.getId().equals(id)) {
@@ -99,70 +169,17 @@ public class Curriculo extends Model {
             }
         }
 
-        return null;
+        throw new NoSuchElementException(id.toString());
     }
 
-    public Disciplina getDisciplina(String nome) {
-        for (Disciplina d : disciplinas) {
-            if (d.getNome().equals(nome)) {
-                return d;
-            }
-        }
-
-        return null;
+    @Override
+    public String toString() {
+        return String.format("%s (%s disciplinas)",
+                             getNome() == null ? "Currículo Sem Nome" : getNome(),
+                             getDisciplinas().size());
     }
 
-    public List<Grade> getGradesOriginais() {
-        List<Grade> resultado = new LinkedList<Grade>();
-        for (Grade g : grades) {
-            if (g.isOriginal()) {
-                resultado.add(g);
-            }
-        }
-        return resultado;
-    }
+    /** Finder para o Ebean */
+    public static Finder<Integer, Curriculo> find = new Finder<Integer,Curriculo>(Integer.class, Curriculo.class);
 
-    public static Finder<Integer,Curriculo> find =
-        new Finder<Integer,Curriculo>(Integer.class, Curriculo.class);
-
-    public static class Builder {
-
-        public String nome;
-
-        public int maxPeriodos = 14;
-
-        public int minCreditosPeriodo = 14;
-
-        public int maxCreditosPeriodo = 28;
-
-        public Set<Disciplina> disciplinas = new HashSet<Disciplina>();
-
-        public Builder(String nome) {
-            this.nome = nome;
-        }
-
-        public Builder maxPeriodos(int maxPeriodos) {
-            this.maxPeriodos = maxPeriodos;
-            return this;
-        }
-
-        public Builder minCreditosPeriodo(int minCreditosPeriodo) {
-            this.minCreditosPeriodo = minCreditosPeriodo;
-            return this;
-        }
-
-        public Builder maxCreditosPeriodo(int maxCreditosPeriodo) {
-            this.maxCreditosPeriodo = maxCreditosPeriodo;
-            return this;
-        }
-
-        public Builder disciplina(Disciplina disciplina) {
-            disciplinas.add(disciplina);
-            return this;
-        }
-
-        public Curriculo build() {
-            return new Curriculo(this);
-        }
-    }
 }
