@@ -26,11 +26,11 @@ public class PlanoJsonTest {
         Curriculo c1 = new Curriculo(new HashSet<Disciplina>(Arrays.asList(new Disciplina[]{
                         d0, d1, d2, d3
                     })));
-        c1.setMaxPeriodos(3);
+        c1.setMaxPeriodos(4);
         c1.setMinCreditosPeriodo(4);
         c1.setMaxPeriodos(8);
 
-        Grade g1 = new Grade(3);
+        Grade g1 = new Grade(4);
         g1.programar(d1, g1.getPeriodo(1));
         g1.programar(d2, g1.getPeriodo(2));
         g1.programar(d3, g1.getPeriodo(3));
@@ -54,7 +54,7 @@ public class PlanoJsonTest {
     @Test
     public void periodos() {
         assertTrue(plano.get("periodos").isArray());
-        assertEquals(3, plano.get("periodos").size());
+        assertEquals(4, plano.get("periodos").size());
 
         Iterator<JsonNode> periodos = plano.get("periodos").elements();
 
@@ -69,17 +69,27 @@ public class PlanoJsonTest {
         assertFalse(periodo.get("isAtual").booleanValue());
         assertFalse(periodo.get("isFuturo").booleanValue());
 
+        assertNull(periodo.get("erroPoliticaDeCreditos").textValue());
+
         periodo = periodos.next();
 
         assertFalse(periodo.get("isPassado").booleanValue());
         assertTrue(periodo.get("isAtual").booleanValue());
         assertFalse(periodo.get("isFuturo").booleanValue());
 
+        assertNull(periodo.get("erroPoliticaDeCreditos").textValue());
+
         periodo = periodos.next();
 
         assertFalse(periodo.get("isPassado").booleanValue());
         assertFalse(periodo.get("isAtual").booleanValue());
         assertTrue(periodo.get("isFuturo").booleanValue());
+
+        assertNull(periodo.get("erroPoliticaDeCreditos").textValue());
+
+        periodo = periodos.next();
+
+        assertNotNull(periodo.get("erroPoliticaDeCreditos").textValue());
     }
 
     @Test

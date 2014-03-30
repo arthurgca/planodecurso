@@ -82,6 +82,8 @@ public class PlanoJson {
             node.put("isAtual", true);
         }
 
+        node.put("erroPoliticaDeCreditos", periodo.getErroPoliticaDeCreditos());
+
         return node;
     }
 

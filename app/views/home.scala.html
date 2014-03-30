@@ -52,6 +52,9 @@
 </script>
 
 <script id="periodo/periodo-body.html" type="text/ng-template">
+  <div ng-if="periodo.erroPoliticaDeCreditos && periodo.disciplinas.length" class="alert alert-danger">
+    {{periodo.erroPoliticaDeCreditos}}
+  </div>
   <div class="list-group"
        ng-model="periodo.disciplinas"
        x-lvl-drop-target="true"
