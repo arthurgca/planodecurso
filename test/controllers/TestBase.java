@@ -23,7 +23,7 @@ public abstract class TestBase extends WithApplication {
         Curriculo curriculo = Curriculo.find.all().get(0);
         Grade grade = Grade.find.all().get(0);
         Plano plano = new Plano(curriculo, grade);
-        plano.setPeriodoAtual(grade.getPeriodo(1));
+        plano.setPeriodoAtual(grade.getPeriodo(2));
         plano.save();
 
         Estudante bob = Estudante.find.byId("bob@example.com");
@@ -49,14 +49,6 @@ public abstract class TestBase extends WithApplication {
         for (Object curriculo : all.get("curriculos")) {
             for(Disciplina disciplina : ((Curriculo) curriculo).getDisciplinas()) {
                 Ebean.saveManyToManyAssociations(disciplina, "requisitos");
-            }
-        }
-
-        Ebean.save(all.get("grades"));
-
-        for (Object grade : all.get("grades")) {
-            for(Periodo periodo : ((Grade) grade).getPeriodos()) {
-                Ebean.saveManyToManyAssociations(periodo, "disciplinas");
             }
         }
     }

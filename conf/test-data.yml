@@ -1,5 +1,5 @@
 usuarios:
-  - !!models.Usuario
+  - !!models.Estudante
       email:    bob@example.com
       nome:     Bob
       senha:    $2a$10$/YpEmkGGY7vME7S938CMYuOVWthnvand0ByZ/6EBcRPzAK.dSMI9C
@@ -50,31 +50,24 @@ curriculos:
             requisitos:
               - !!models.Disciplina
                   id:   5
+      grades:
+          - !!models.Grade
+              nome:       Grade 1
+              periodos:
+                - !!models.Periodo
+                    semestre:   1
+                    disciplinas:
+                      - !!models.Disciplina
+                          id:   1
+                      - !!models.Disciplina
+                          id:   2
+                - !!models.Periodo
+                    semestre:    2
+                    disciplinas:
+                      - !!models.Disciplina
+                          id:   3
+                - !!models.Periodo
+                    semestre:    3
 
-grades:
-  - !!models.Grade
-      nome:       Grade 1
-      curriculo:  !!models.Curriculo
-        id:             1
-      periodos:
-        - !!models.Periodo
-            semestre:   1
-            disciplinas:
-              - !!models.Disciplina
-                  id:   1
-              - !!models.Disciplina
-                  id:   2
-
-        - !!models.Periodo
-            semestre:    2
-            disciplinas:
-              - !!models.Disciplina
-                  id:   3
-
-        - !!models.Periodo
-            semestre:    3
-            disciplinas:
-
-        - !!models.Periodo
-            semestre:    4
-            disciplinas:
+                - !!models.Periodo
+                    semestre:    4

@@ -31,14 +31,6 @@ public class Global extends GlobalSettings {
                     Ebean.saveManyToManyAssociations(disciplina, "requisitos");
                 }
             }
-
-            Ebean.save(all.get("grades"));
-
-            for (Object grade : all.get("grades")) {
-                for(Periodo periodo : ((Grade) grade).getPeriodos()) {
-                    Ebean.saveManyToManyAssociations(periodo, "disciplinas");
-                }
-            }
         }
     }
 
