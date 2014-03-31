@@ -13,7 +13,7 @@
   }
 </script>
 
-<div ng-controller="PlanoCtrl">
+<div>
   <ng-include ng-repeat="periodo in plano.periodos"
               src="'periodo/periodo.html'">
   </ng-include>
@@ -42,7 +42,7 @@
   <button class="dropdown-toggle pull-right btn btn-default btn-xs">
     <span class="glyphicon glyphicon-cog"></span>
   </button>
-  <ul class="dropdown-menu pull-right">
+  <ul class="dropdown-menu dropdown-menu-right">
     <li>
       <a href="#" ng-click="programar(periodo)">
         Programar Disciplina...
@@ -142,14 +142,16 @@
         <label for="curriculo">Currículo que você está cursando:</label>
         <select class="form-control"
                 ng-model="curriculo"
-                ng-options="c.nome for c in curriculos">
+                ng-options="c.nome for c in curriculos"
+                ng-disabled="!criarNovo">
         </select>
       </div>
       <div class="form-group">
         <label for="grade">Grade que você está cursando:</label>
         <select class="form-control"
                 ng-model="grade"
-                ng-options="g.nome for g in curriculo.grades">
+                ng-options="g.nome for g in curriculo.grades"
+                ng-disabled="!criarNovo">
         </select>
       </div>
       <div class="form-group">

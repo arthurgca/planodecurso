@@ -17,17 +17,22 @@ public class Planos extends AreaPrivada {
     }
 
     public static Result configurar(int curriculoId, Long gradeId, int periodo) {
-        Curriculo curriculo = Curriculo.find.byId(curriculoId);
-        Grade grade = Grade.copiar(Grade.find.byId(gradeId));
-        Plano plano = new Plano(curriculo, grade);
+        Plano plano = getPlano();
 
-        plano.setPeriodoAtual(grade.getPeriodo(periodo));
+        if (plano == null) {
+            Curriculo curriculo = Curriculo.find.byId(curriculoId);
+            Grade grade = Grade.copiar(Grade.find.byId(gradeId));
+
+            plano = new Plano(curriculo, grade);
+
+            Estudante estudante = getUsuarioAtual();
+            estudante.setPlano(plano);
+            estudante.save();
+        }
+
+        plano.setPeriodoAtual(plano.getGrade().getPeriodo(periodo));
 
         plano.save();
-
-        Estudante estudante = getUsuarioAtual();
-        estudante.setPlano(plano);
-        estudante.save();
 
         return ok(new PlanoJson().toJson(plano));
     }

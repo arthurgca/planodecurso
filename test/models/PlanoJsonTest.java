@@ -48,7 +48,7 @@ public class PlanoJsonTest {
 
     @Test
     public void periodoAtual() {
-        assertEquals(2, plano.get("periodoAtual").numberValue());
+        assertEquals(2, plano.get("periodoAtual").get("semestre").numberValue());
     }
 
     @Test

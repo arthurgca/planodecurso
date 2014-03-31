@@ -12,9 +12,19 @@ mainApp.controller "PlanoCtrl", (
 
   $scope.plano = undefined
 
+  $scope.criarPlano = () ->
+    modal = ModalConfigurarPlano.abrir
+      plano: -> undefined
+      curriculos: -> Curriculos.query()
+      criarNovo: -> true
+    modal.result.then (response) ->
+      configurarPlanoDeCurso response.curriculo, response.grade, response.periodo
+
   $scope.configurarPlano = () ->
     modal = ModalConfigurarPlano.abrir
+      plano: -> $scope.plano
       curriculos: -> Curriculos.query()
+      criarNovo: -> false
     modal.result.then (response) ->
       configurarPlanoDeCurso response.curriculo, response.grade, response.periodo
 
@@ -131,7 +141,7 @@ mainApp.controller "PlanoCtrl", (
 
   bootstrap = () ->
     if PLANO_CACHE is undefined
-      $scope.configurarPlano()
+      $scope.criarPlano()
     else
       $scope.plano = PLANO_CACHE
 

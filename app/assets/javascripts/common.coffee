@@ -57,13 +57,21 @@ mainApp.service "ModalConfigurarPlano", ($modal) ->
 mainApp.controller "ModalConfigurarPlanoCtrl", (
   $scope,
   $modalInstance,
-  curriculos) ->
+  plano,
+  curriculos,
+  criarNovo) ->
 
   curriculos.$promise.then (response) ->
     $scope.curriculos = response
     $scope.curriculo = $scope.curriculos[0]
     $scope.grade = $scope.curriculos[0].grades[0]
-    $scope.periodo = $scope.grade.periodos[0]
+
+    if (plano isnt undefined)
+      $scope.periodo = $scope.grade.periodos[plano.periodoAtual.semestre - 1]
+    else
+      $scope.periodo = $scope.grade.periodos[0]
+
+  $scope.criarNovo = criarNovo
 
   $scope.ok = (curriculo, grade, periodo) ->
     $modalInstance.close curriculo: curriculo, grade: grade, periodo: periodo
