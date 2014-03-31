@@ -1,10 +1,16 @@
 curriculos:
   - !!models.Curriculo
-      id:                 1
-      nome:               Currículo Atual
-      maxPeriodos:        14
-      minCreditosPeriodo: 14
-      maxCreditosPeriodo: 28
+      id:                           1
+      nome:                         Currículo Atual
+      maxPeriodos:                  14
+      minCreditosPeriodo:           14
+      maxCreditosPeriodo:           28
+      minCreditosObrigatorias:      114
+      minDisciplinasObrigatorias:   30
+      minCreditosOptativas:         42
+      minDisciplinasOptativas:      10
+      minCreditosComplementares:    52
+      minDisciplinasComplementares: 15
       disciplinas:
         - !!models.Disciplina
             id:         1

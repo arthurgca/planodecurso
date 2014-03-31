@@ -8,6 +8,12 @@ create table curriculo (
   max_periodos              integer,
   min_creditos_periodo      integer,
   max_creditos_periodo      integer,
+  min_creditos_obrigatorias integer,
+  min_disciplinas_obrigatorias integer,
+  min_creditos_optativas    integer,
+  min_disciplinas_optativas integer,
+  min_creditos_complementares integer,
+  min_disciplinas_complementares integer,
   nome                      varchar(255),
   constraint pk_curriculo primary key (id))
 ;
@@ -57,8 +63,8 @@ create table plano (
 create table politica_de_creditos (
   dtype                     varchar(10) not null,
   id                        integer not null,
-  min_creditos              integer,
   max_creditos              integer,
+  min_creditos              integer,
   constraint pk_politica_de_creditos primary key (id))
 ;
 

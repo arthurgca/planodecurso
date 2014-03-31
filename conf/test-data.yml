@@ -6,11 +6,17 @@ usuarios:
 
 curriculos:
   - !!models.Curriculo
-      id:                  1
-      nome:                Currículo 1
-      maxPeriodos:         4
-      minCreditosPeriodo:  4
-      maxCreditosPeriodo:  8
+      id:                           1
+      nome:                         Currículo 1
+      maxPeriodos:                  4
+      minCreditosPeriodo:           4
+      maxCreditosPeriodo:           8
+      minCreditosObrigatorias:      8
+      minDisciplinasObrigatorias:   2
+      minCreditosOptativas:         8
+      minDisciplinasOptativas:      2
+      minCreditosComplementares:    8
+      minDisciplinasComplementares: 2
       disciplinas:
         - !!models.Disciplina
             id:         1

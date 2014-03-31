@@ -21,6 +21,18 @@ public class Curriculo extends Model {
 
     private int maxCreditosPeriodo= 28;
 
+    private int minCreditosObrigatorias = 114;
+
+    private int minDisciplinasObrigatorias = 30;
+
+    private int minCreditosOptativas = 42;
+
+    private int minDisciplinasOptativas = 10;
+
+    private int minCreditosComplementares = 52;
+
+    private int minDisciplinasComplementares = 15;
+
     @OneToMany(cascade = CascadeType.ALL)
     private Set<Disciplina> disciplinas = new HashSet<Disciplina>();
 
@@ -102,6 +114,108 @@ public class Curriculo extends Model {
         Parametro.maiorQueZero("maxCreditosPeriodo", maxCreditosPeriodo);
 
         this.maxCreditosPeriodo = maxCreditosPeriodo;
+    }
+
+    /**
+     * @return o mínimo de créditos de disciplinas obrigatórias para concluir o curso
+     */
+    public int getMinCreditosObrigatorias() {
+        return minCreditosObrigatorias;
+    }
+
+    /**
+     * @param minCreditosObrigatorias o mínimo de créditos de disciplinas obrigatórias para concluir o curso
+     * @throws IllegalArgumentException se {@code minCreditosObrigatorias < 1}
+     */
+    public void setMinCreditosObrigatorias(int minCreditosObrigatorias) {
+        Parametro.maiorQueZero("minCreditosObrigatorias", minCreditosObrigatorias);
+
+        this.minCreditosObrigatorias = minCreditosObrigatorias;
+    }
+
+    /**
+     * @return o mínimo de disciplinas obrigatórias para concluir o curso
+     */
+    public int getMinDisciplinasObrigatorias() {
+        return minDisciplinasObrigatorias;
+    }
+
+    /**
+     * @param minDisciplinasObrigatorias o mínimo de disciplinas obrigatórias para concluir o curso
+     * @throws IllegalArgumentException se {@code minDisciplinasObrigatorias < 1}
+     */
+    public void setMinDisciplinasObrigatorias(int minDisciplinasObrigatorias) {
+        Parametro.maiorQueZero("minDisciplinasObrigatorias", minDisciplinasObrigatorias);
+
+        this.minDisciplinasObrigatorias = minDisciplinasObrigatorias;
+    }
+
+    /**
+     * @return o mínimo de créditos de disciplinas optativas para concluir o curso
+     */
+    public int getMinCreditosOptativas() {
+        return minCreditosOptativas;
+    }
+
+    /**
+     * @param minCreditosOptativas o mínimo de créditos de disciplinas optativas para concluir o curso
+     * @throws IllegalArgumentException se {@code minCreditosOptativas < 1}
+     */
+    public void setMinCreditosOptativas(int minCreditosOptativas) {
+        Parametro.maiorQueZero("minCreditosOptativas", minCreditosOptativas);
+
+        this.minCreditosOptativas = minCreditosOptativas;
+    }
+
+    /**
+     * @return o mínimo de disciplinas optativas para concluir o curso
+     */
+    public int getMinDisciplinasOptativas() {
+        return minDisciplinasOptativas;
+    }
+
+    /**
+     * @param minDisciplinasOptativas o mínimo de disciplinas optativas para concluir o curso
+     * @throws IllegalArgumentException se {@code minDisciplinasOptativas < 1}
+     */
+    public void setMinDisciplinasOptativas(int minDisciplinasOptativas) {
+        Parametro.maiorQueZero("minDisciplinasOptativas", minDisciplinasOptativas);
+
+        this.minDisciplinasOptativas = minDisciplinasOptativas;
+    }
+
+    /**
+     * @return o mínimo de créditos de disciplinas complementares para concluir o curso
+     */
+    public int getMinCreditosComplementares() {
+        return minCreditosComplementares;
+    }
+
+    /**
+     * @param minCreditosComplementares o mínimo de créditos de disciplinas complementares para concluir o curso
+     * @throws IllegalArgumentException se {@code minCreditosComplementares < 1}
+     */
+    public void setMinCreditosComplementares(int minCreditosComplementares) {
+        Parametro.maiorQueZero("minCreditosComplementares", minCreditosComplementares);
+
+        this.minCreditosComplementares = minCreditosComplementares;
+    }
+
+    /**
+     * @return o mínimo de disciplinas complementares para concluir o curso
+     */
+    public int getMinDisciplinasComplementares() {
+        return minDisciplinasComplementares;
+    }
+
+    /**
+     * @param minDisciplinasComplementares o mínimo de disciplinas complementares para concluir o curso
+     * @throws IllegalArgumentException se {@code minDisciplinasComplementares < 1}
+     */
+    public void setMinDisciplinasComplementares(int minDisciplinasComplementares) {
+        Parametro.maiorQueZero("minDisciplinasComplementares", minDisciplinasComplementares);
+
+        this.minDisciplinasComplementares = minDisciplinasComplementares;
     }
 
     /**
