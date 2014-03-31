@@ -11,42 +11,49 @@ curriculos:
             nome:       Programação I
             creditos:   4
             categoria:  Primeiro Semestre
+            tipo:       OBRIGATORIA
 
         - !!models.Disciplina
             id:         2
             nome:       Leitura e Prod. de Textos
             creditos:   4
             categoria:  Primeiro Semestre
+            tipo:       OBRIGATORIA
 
         - !!models.Disciplina
             id:         3
             nome:       Cálculo I
             creditos:   4
             categoria:  Primeiro Semestre
+            tipo:       OBRIGATORIA
 
         - !!models.Disciplina
             id:         4
             nome:       Álgebra Vetorial
             creditos:   4
             categoria:  Primeiro Semestre
+            tipo:       OBRIGATORIA
 
         - !!models.Disciplina
             id:         5
             nome:       Int. à Computação
             creditos:   4
             categoria:  Primeiro Semestre
+            tipo:       OBRIGATORIA
 
         - !!models.Disciplina
             id:         6
             nome:       Lab. de Programação I
             creditos:   4
             categoria:  Primeiro Semestre
+            tipo:       OBRIGATORIA
 
         - !!models.Disciplina
             id:         7
             nome:       Programação II
             creditos:   4
             categoria:  Segundo Semestre
+            tipo:       OBRIGATORIA
             requisitos:
               - !!models.Disciplina
                   id:   1
@@ -60,6 +67,7 @@ curriculos:
             nome:       Lab. de Programação II
             creditos:   4
             categoria:  Segundo Semestre
+            tipo:       OBRIGATORIA
             requisitos:
               - !!models.Disciplina
                   id:   1
@@ -73,18 +81,21 @@ curriculos:
             nome:       Matemática Discreta
             creditos:   4
             categoria:  Segundo Semestre
+            tipo:       OBRIGATORIA
 
         - !!models.Disciplina
             id:         10
             nome:       Metodologia Científica
             creditos:   4
             categoria:  Segundo Semestre
+            tipo:       OBRIGATORIA
 
         - !!models.Disciplina
             id:         11
             nome:       Teoria dos Grafos
             creditos:   2
             categoria:  Segundo Semestre
+            tipo:       OBRIGATORIA
             requisitos:
               - !!models.Disciplina
                   id:   1
@@ -96,6 +107,7 @@ curriculos:
             nome:       Fund. de Física Clássica
             creditos:   4
             categoria:  Segundo Semestre
+            tipo:       OBRIGATORIA
             requisitos:
               - !!models.Disciplina
                   id:   3
@@ -107,6 +119,7 @@ curriculos:
             nome:       Cálculo II
             creditos:   4
             categoria:  Segundo Semestre
+            tipo:       OBRIGATORIA
             requisitos:
               - !!models.Disciplina
                   id:   3
@@ -116,6 +129,7 @@ curriculos:
             nome:       Estrutura de Dados
             creditos:   4
             categoria:  Terceiro Semestre
+            tipo:       OBRIGATORIA
             requisitos:
               - !!models.Disciplina
                   id:   7
@@ -129,6 +143,7 @@ curriculos:
             nome:       Lab. de Estrutura de Dados
             creditos:   4
             categoria:  Terceiro Semestre
+            tipo:       OBRIGATORIA
             requisitos:
               - !!models.Disciplina
                   id:   7
@@ -142,6 +157,7 @@ curriculos:
             nome:       Álgebra Linear
             creditos:   4
             categoria:  Terceiro Semestre
+            tipo:       OBRIGATORIA
             requisitos:
               - !!models.Disciplina
                   id:   4
@@ -151,6 +167,7 @@ curriculos:
             nome:       Probabilidade e Est.
             creditos:   4
             categoria:  Terceiro Semestre
+            tipo:       OBRIGATORIA
             requisitos:
               - !!models.Disciplina
                   id:   13
@@ -160,6 +177,7 @@ curriculos:
             nome:       Teoria da Computação
             creditos:   4
             categoria:  Terceiro Semestre
+            tipo:       OBRIGATORIA
             requisitos:
               - !!models.Disciplina
                   id:   5
@@ -173,6 +191,7 @@ curriculos:
             nome:       Fund. de Física Moderna
             creditos:   4
             categoria:  Terceiro Semestre
+            tipo:       OBRIGATORIA
             requisitos:
               - !!models.Disciplina
                   id:   12
@@ -184,12 +203,14 @@ curriculos:
             nome:       Gerência da Informação
             creditos:   4
             categoria:  Terceiro Semestre
+            tipo:       OBRIGATORIA
 
         - !!models.Disciplina
             id:         21
             nome:       Métodos Estatísticos
             creditos:   4
             categoria:  Quarto Semestre
+            tipo:       OBRIGATORIA
             requisitos:
               - !!models.Disciplina
                   id:   16
@@ -201,6 +222,7 @@ curriculos:
             nome:       Paradigmas de Linguagens de Programação
             creditos:   4
             categoria:  Quarto Semestre
+            tipo:       OBRIGATORIA
             requisitos:
               - !!models.Disciplina
                   id:   14
@@ -214,6 +236,7 @@ curriculos:
             nome:       Org. e Arquitetura de Computadores I
             creditos:   4
             categoria:  Quarto Semestre
+            tipo:       OBRIGATORIA
             requisitos:
               - !!models.Disciplina
                   id:   14
@@ -227,6 +250,7 @@ curriculos:
             nome:       Lab. de Org. e Arquitetura de Computadores
             creditos:   4
             categoria:  Quarto Semestre
+            tipo:       OBRIGATORIA
             requisitos:
               - !!models.Disciplina
                   id:   14
@@ -240,6 +264,7 @@ curriculos:
             nome:       Lógica Matemática
             creditos:   4
             categoria:  Quarto Semestre
+            tipo:       OBRIGATORIA
             requisitos:
               - !!models.Disciplina
                   id:   18
@@ -249,6 +274,7 @@ curriculos:
             nome:       Sistemas de Informação I
             creditos:   4
             categoria:  Quarto Semestre
+            tipo:       OBRIGATORIA
             requisitos:
               - !!models.Disciplina
                   id:   20
@@ -258,6 +284,7 @@ curriculos:
             nome:       Engenharia de Software I
             creditos:   4
             categoria:  Quarto Semestre
+            tipo:       OBRIGATORIA
             requisitos:
               - !!models.Disciplina
                   id:   7
@@ -271,6 +298,7 @@ curriculos:
             nome:       Análise e Técnicas de Algoritmos
             creditos:   4
             categoria:  Quinto Semestre
+            tipo:       OBRIGATORIA
             requisitos:
               - !!models.Disciplina
                   id:   13
@@ -286,6 +314,7 @@ curriculos:
             nome:       Redes de Computadores
             creditos:   4
             categoria:  Quinto Semestre
+            tipo:       OBRIGATORIA
             requisitos:
               - !!models.Disciplina
                   id:   23
@@ -297,6 +326,7 @@ curriculos:
             nome:       Compiladores
             creditos:   4
             categoria:  Quinto Semestre
+            tipo:       OBRIGATORIA
             requisitos:
               - !!models.Disciplina
                   id:   22
@@ -310,6 +340,7 @@ curriculos:
             nome:       Banco de Dados I
             creditos:   4
             categoria:  Quinto Semestre
+            tipo:       OBRIGATORIA
             requisitos:
               - !!models.Disciplina
                   id:   26
@@ -319,6 +350,7 @@ curriculos:
             nome:       Sistemas de Informação II
             creditos:   4
             categoria:  Quinto Semestre
+            tipo:       OBRIGATORIA
             requisitos:
               - !!models.Disciplina
                   id:   26
@@ -328,6 +360,7 @@ curriculos:
             nome:       Laboratório de Engenharia de Software
             creditos:   4
             categoria:  Quinto Semestre
+            tipo:       OBRIGATORIA
             requisitos:
               - !!models.Disciplina
                   id:   27
@@ -337,12 +370,14 @@ curriculos:
             nome:       Informática e Sociedade
             creditos:   2
             categoria:  Quinto Semestre
+            tipo:       COMPLEMENTAR
 
         - !!models.Disciplina
             id:         35
             nome:       Sistemas Operacionais
             creditos:   4
             categoria:  Sexto Semestre
+            tipo:       OBRIGATORIA
             requisitos:
               - !!models.Disciplina
                   id:   23
@@ -354,6 +389,7 @@ curriculos:
             nome:       Interconexão de Redes de Computadores
             creditos:   4
             categoria:  Sexto Semestre
+            tipo:       OBRIGATORIA
             requisitos:
               - !!models.Disciplina
                   id:   29
@@ -363,6 +399,7 @@ curriculos:
             nome:       Lab. de Interconexão de Redes de Computadores
             creditos:   4
             categoria:  Sexto Semestre
+            tipo:       OBRIGATORIA
             requisitos:
               - !!models.Disciplina
                   id:   29
@@ -372,6 +409,7 @@ curriculos:
             nome:       Inteligência Artificial I
             creditos:   4
             categoria:  Sexto Semestre
+            tipo:       OBRIGATORIA
             requisitos:
               - !!models.Disciplina
                   id:   21
@@ -385,6 +423,7 @@ curriculos:
             nome:       Banco de Dados II
             creditos:   4
             categoria:  Sexto Semestre
+            tipo:       OBRIGATORIA
             requisitos:
               - !!models.Disciplina
                   id:   31
@@ -396,12 +435,14 @@ curriculos:
             nome:       Direito e Cidadania
             creditos:   4
             categoria:  Sexto Semestre
+            tipo:       COMPLEMENTAR
 
         - !!models.Disciplina
             id:         41
             nome:       Métodos e Software Numéricos
             creditos:   4
             categoria:  Sétimo Semestre
+            tipo:       OBRIGATORIA
             requisitos:
               - !!models.Disciplina
                   id:   16
@@ -413,6 +454,7 @@ curriculos:
             nome:       Aval. de Desempenho de Sist. Discretos
             creditos:   4
             categoria:  Sétimo Semestre
+            tipo:       OBRIGATORIA
             requisitos:
               - !!models.Disciplina
                   id:   17
@@ -422,6 +464,7 @@ curriculos:
             nome:       Projeto em Computação I
             creditos:   4
             categoria:  Sétimo Semestre
+            tipo:       OBRIGATORIA
             requisitos:
               - !!models.Disciplina
                   id:   10
@@ -433,6 +476,7 @@ curriculos:
             nome:       Projeto em Computação II
             creditos:   6
             categoria:  Oitavo Semestre
+            tipo:       OBRIGATORIA
             requisitos:
               - !!models.Disciplina
                   id:   43
@@ -442,42 +486,49 @@ curriculos:
             nome:       Futsal
             creditos:   2
             categoria:  Disciplinas Optativas
+            tipo:       OPTATIVA
 
         - !!models.Disciplina
             id:         46
             nome:       Sociologia Industrial
             creditos:   3
-            categoria:   Disciplinas Optativas
+            categoria:  Disciplinas Optativas
+            tipo:       OPTATIVA
 
         - !!models.Disciplina
             id:         47
             nome:       Basquete
             creditos:   2
             categoria:  Disciplinas Optativas
+            tipo:       OPTATIVA
 
         - !!models.Disciplina
             id:         48
             nome:       Administração
             creditos:   4
             categoria:  Disciplinas Optativas
+            tipo:       OPTATIVA
 
         - !!models.Disciplina
             id:         49
             nome:       Economia
             creditos:   4
             categoria:  Disciplinas Optativas
+            tipo:       OPTATIVA
 
         - !!models.Disciplina
             id:         50
             nome:       Inglês
             creditos:   4
             categoria:  Disciplinas Optativas
+            tipo:       OPTATIVA
 
         - !!models.Disciplina
             id:         51
             nome:       Cálculo III
             creditos:   5
             categoria:  Disciplinas Optativas
+            tipo:       OPTATIVA
             requisitos:
               - !!models.Disciplina
                   id:   4
@@ -489,12 +540,14 @@ curriculos:
             nome:       TECC (Princípios de Administração Financeira)
             creditos:   4
             categoria:  TECC
+            tipo:       OPTATIVA
 
         - !!models.Disciplina
             id:         53
             nome:       TECC (Fundamentos e Aplicações de Realidade Virtual)
             creditos:   4
             categoria:  TECC
+            tipo:       OPTATIVA
             requisitos:
               - !!models.Disciplina
                   id:   26
@@ -504,12 +557,14 @@ curriculos:
             nome:       TECC (Administração de Sistemas)
             creditos:   4
             categoria:  TECC
+            tipo:       OPTATIVA
 
         - !!models.Disciplina
             id:         55
             nome:       TECC (Análise de Dados I)
             creditos:   4
             categoria:  TECC
+            tipo:       OPTATIVA
             requisitos:
               - !!models.Disciplina
                   id:   17
@@ -519,6 +574,7 @@ curriculos:
             nome:       TECC (Arquitetura de Software)
             creditos:   4
             categoria:  TECC
+            tipo:       OPTATIVA
             requisitos:
               - !!models.Disciplina
                   id:   26
@@ -530,6 +586,7 @@ curriculos:
             nome:       TECC (Desenvolvimento Dirigido a Modelos)
             creditos:   4
             categoria:  TECC
+            tipo:       OPTATIVA
             requisitos:
               - !!models.Disciplina
                   id:   27
@@ -539,6 +596,7 @@ curriculos:
             nome:       TECC (Desenvolvimento de Aplicações Corporativas Avançadas)
             creditos:   4
             categoria:  TECC
+            tipo:       OPTATIVA
             requisitos:
               - !!models.Disciplina
                   id:   26
@@ -550,36 +608,42 @@ curriculos:
             nome:       TECC (Didática em Ciência da Computação)
             creditos:   2
             categoria:  TECC
+            tipo:       OPTATIVA
 
         - !!models.Disciplina
             id:         60
             nome:       TECC (Economia de TI)
             creditos:   4
             categoria:  TECC
+            tipo:       OPTATIVA
 
         - !!models.Disciplina
             id:         61
             nome:       TECC (Empreendedorismo em Software I)
             creditos:   4
             categoria:  TECC
+            tipo:       OPTATIVA
 
         - !!models.Disciplina
             id:         62
             nome:       TECC (Estágio Integrado II)
             creditos:   4
             categoria:  TECC
+            tipo:       OPTATIVA
 
         - !!models.Disciplina
             id:         63
             nome:       TECC (Fluxo de Trabalho Informatizado)
             creditos:   4
             categoria:  TECC
+            tipo:       OPTATIVA
 
         - !!models.Disciplina
             id:         64
             nome:       TECC (Fundamentos de Programação Concorrente)
             creditos:   4
             categoria:  TECC
+            tipo:       OPTATIVA
             requisitos:
               - !!models.Disciplina
                   id:   23
@@ -591,6 +655,7 @@ curriculos:
             nome:       TECC (Introdução ao Desenvolvimento de Software para Dispositivos Móveis)
             creditos:   4
             categoria:  TECC
+            tipo:       OPTATIVA
             requisitos:
               - !!models.Disciplina
                   id:   8
@@ -600,6 +665,7 @@ curriculos:
             nome:       TECC (Métodos Estatísticos e de Previsão de Tendências em Grandes Massas de Dados Históricos)
             creditos:   6
             categoria:  TECC
+            tipo:       OPTATIVA
             requisitos:
               - !!models.Disciplina
                   id:   17
@@ -609,12 +675,14 @@ curriculos:
             nome:       TECC (Metodologia Científica para Pesquisa em Ciência da Computação)
             creditos:   4
             categoria:  TECC
+            tipo:       OPTATIVA
 
         - !!models.Disciplina
             id:         68
             nome:       TECC (Métodos Formais)
             creditos:   4
             categoria:  TECC
+            tipo:       OPTATIVA
             requisitos:
               - !!models.Disciplina
                   id:   14
@@ -624,6 +692,7 @@ curriculos:
             nome:       TECC (Modelagem de Ambientes Virtuais)
             creditos:   4
             categoria:  TECC
+            tipo:       OPTATIVA
             requisitos:
               - !!models.Disciplina
                   id:   26
@@ -635,6 +704,7 @@ curriculos:
             nome:       TECC (Programação em Banco de Dados)
             creditos:   4
             categoria:  TECC
+            tipo:       OPTATIVA
             requisitos:
               - !!models.Disciplina
                   id:   7
@@ -646,6 +716,7 @@ curriculos:
             nome:       TECC (Programação III)
             creditos:   4
             categoria:  TECC
+            tipo:       OPTATIVA
             requisitos:
               - !!models.Disciplina
                   id:   7
@@ -657,6 +728,7 @@ curriculos:
             nome:       TECC (Redes Ad Hoc Sem Fio)
             creditos:   4
             categoria:  TECC
+            tipo:       OPTATIVA
             requisitos:
               - !!models.Disciplina
                   id:   29
@@ -666,6 +738,7 @@ curriculos:
             nome:       TECC (Segurança em Redes de Computadores)
             creditos:   4
             categoria:  TECC
+            tipo:       OPTATIVA
             requisitos:
               - !!models.Disciplina
                   id:   29
@@ -677,6 +750,7 @@ curriculos:
             nome:       TECC (Sistemas Cooperativos)
             creditos:   4
             categoria:  TECC
+            tipo:       OPTATIVA
             requisitos:
               - !!models.Disciplina
                   id:   27
@@ -686,6 +760,7 @@ curriculos:
             nome:       TECC (Sistemas de Recuperação da Informação)
             creditos:   4
             categoria:  TECC
+            tipo:       OPTATIVA
             requisitos:
               - !!models.Disciplina
                   id:   9
@@ -697,6 +772,7 @@ curriculos:
             nome:       TECC (Visão Computacional)
             creditos:   4
             categoria:  TECC
+            tipo:       OPTATIVA
             requisitos:
               - !!models.Disciplina
                   id:   21
@@ -708,6 +784,7 @@ curriculos:
             nome:       TECC (Mineração de Dados)
             creditos:   2
             categoria:  TECC
+            tipo:       OPTATIVA
             requisitos:
               - !!models.Disciplina
                   id:   31
@@ -717,6 +794,7 @@ curriculos:
             nome:       TECC (Tecnologias de Comunicação sem Fio)
             creditos:   4
             categoria:  TECC
+            tipo:       OPTATIVA
             requisitos:
               - !!models.Disciplina
                   id:   29
@@ -726,6 +804,7 @@ curriculos:
             nome:       TECC (Jogos Digitais)
             creditos:   4
             categoria:  TECC
+            tipo:       OPTATIVA
             requisitos:
               - !!models.Disciplina
                   id:   14
@@ -735,6 +814,7 @@ curriculos:
             nome:       TECC (Projeto em Computação Gráfica)
             creditos:   4
             categoria:  TECC
+            tipo:       OPTATIVA
             requisitos:
               - !!models.Disciplina
                   id:   13

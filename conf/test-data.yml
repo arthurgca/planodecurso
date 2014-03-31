@@ -17,39 +17,46 @@ curriculos:
             nome:       Disciplina 1
             creditos:   4
             categoria:  MyString
+            tipo:       OBRIGATORIA
 
         - !!models.Disciplina
             id:         2
             nome:       Disciplina 2
             creditos:   4
             categoria:  MyString
+            tipo:       OBRIGATORIA
 
         - !!models.Disciplina
             id:         3
             nome:       Disciplina 3
             creditos:   4
             categoria:  MyString
+            tipo:       OPTATIVA
 
         - !!models.Disciplina
             id:         4
             nome:       Disciplina 4
             creditos:   4
             categoria:  MyString
+            tipo:       OPTATIVA
 
         - !!models.Disciplina
             id:         5
             nome:       Disciplina 5
             creditos:   4
             categoria:  MyString
+            tipo:       COMPLEMENTAR
 
         - !!models.Disciplina
             id:         6
             nome:       Disciplina 6
             creditos:   4
             categoria:  MyString
+            tipo:       COMPLEMENTAR
             requisitos:
               - !!models.Disciplina
                   id:   5
+
       grades:
           - !!models.Grade
               nome:       Grade 1

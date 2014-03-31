@@ -11,6 +11,15 @@ import play.db.ebean.*;
 @Entity
 public class Disciplina extends Model {
 
+    /**
+     * Designa o tipo da disciplina, ex: OBRIGATORIA, OPTATIVA, etc
+     */
+    public enum Tipo {
+        OBRIGATORIA,
+        OPTATIVA,
+        COMPLEMENTAR
+    }
+
     @Id
     private Long id;
 
@@ -19,6 +28,9 @@ public class Disciplina extends Model {
     private int creditos;
 
     private String categoria;
+
+    @Enumerated
+    private Tipo tipo = Tipo.OBRIGATORIA;
 
     @ManyToMany
     @JoinTable(name="disciplina_requisitos",
@@ -108,6 +120,23 @@ public class Disciplina extends Model {
         Parametro.naoVazio("categoria", categoria);
 
         this.categoria = categoria;
+    }
+
+    /**
+     * @return o tipo da disciplina
+     */
+    public Tipo getTipo() {
+        return tipo;
+    }
+
+    /**
+     * @param tipo o tipo para a disciplina
+     * @throws NullPointerException se {@code tipo == null}
+     */
+    public void setTipo(Tipo tipo) {
+        Parametro.naoNulo("tipo", tipo);
+
+        this.tipo = tipo;
     }
 
     /**

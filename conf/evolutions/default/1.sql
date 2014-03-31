@@ -18,6 +18,8 @@ create table disciplina (
   nome                      varchar(255),
   creditos                  integer,
   categoria                 varchar(255),
+  tipo                      integer,
+  constraint ck_disciplina_tipo check (tipo in (0,1,2)),
   constraint pk_disciplina primary key (id))
 ;
 
@@ -55,8 +57,8 @@ create table plano (
 create table politica_de_creditos (
   dtype                     varchar(10) not null,
   id                        integer not null,
-  max_creditos              integer,
   min_creditos              integer,
+  max_creditos              integer,
   constraint pk_politica_de_creditos primary key (id))
 ;
 
