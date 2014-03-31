@@ -226,6 +226,30 @@ public class Plano extends Model {
         grade.programar(disciplina, para);
     }
 
+    /**
+     * @return estatísticas para disciplinas pagas
+     */
+    public Estatisticas getEstatisticasPagas() {
+        Estatisticas resultado = new Estatisticas(getCurriculo());
+        for (Periodo periodo : getPeriodos()) {
+            if (periodo.compareTo(getPeriodoAtual()) < 0) {
+                resultado.add(periodo);
+            }
+        }
+        return resultado;
+    }
+
+    /**
+     * @return estatísticas para todas as disciplinas planejadas
+     */
+    public Estatisticas getEstatisticasPlanejadas() {
+        Estatisticas resultado = new Estatisticas(getCurriculo());
+        for (Periodo periodo : getPeriodos()) {
+            resultado.add(periodo);
+        }
+        return resultado;
+    }
+
     @Override
     public String toString() {
         return String.format("Plano (%s períodos)", getPeriodos().size());

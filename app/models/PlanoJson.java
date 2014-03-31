@@ -45,6 +45,10 @@ public class PlanoJson {
 
         node.put("periodos", Json.toJson(periodos));
 
+        node.put("estatisticasPagas", Json.toJson(plano.getEstatisticasPagas()));
+
+        node.put("estatisticasPlanejadas", Json.toJson(plano.getEstatisticasPlanejadas()));
+
         return node;
     }
 

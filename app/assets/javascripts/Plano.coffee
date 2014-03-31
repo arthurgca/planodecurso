@@ -7,8 +7,9 @@ mainApp.controller "PlanoCtrl", (
   Planos,
   Curriculos,
   Grades,
-  ModalProgramarDisciplina
-  ModalConfigurarPlano) ->
+  ModalProgramarDisciplina,
+  ModalConfigurarPlano,
+  ModalEstatisticas) ->
 
   $scope.plano = undefined
 
@@ -27,6 +28,11 @@ mainApp.controller "PlanoCtrl", (
       criarNovo: -> false
     modal.result.then (response) ->
       configurarPlanoDeCurso response.curriculo, response.grade, response.periodo
+
+  $scope.mostrarEstatisticas = () ->
+    modal = ModalEstatisticas.abrir
+      estatisticasPagas: -> $scope.plano.estatisticasPagas
+      estatisticasPlanejadas: -> $scope.plano.estatisticasPlanejadas
 
   $scope.programar = (periodo) ->
     modal = ModalProgramarDisciplina.abrir

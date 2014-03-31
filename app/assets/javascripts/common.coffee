@@ -75,3 +75,36 @@ mainApp.controller "ModalConfigurarPlanoCtrl", (
 
   $scope.ok = (curriculo, grade, periodo) ->
     $modalInstance.close curriculo: curriculo, grade: grade, periodo: periodo
+
+mainApp.service "ModalEstatisticas", ($modal) ->
+
+  @abrir = (resolve) ->
+    $modal.open
+      resolve: resolve
+      controller: "ModalEstatisticasCtrl"
+      templateUrl: "modal-estatisticas.html"
+
+  this
+
+mainApp.controller "ModalEstatisticasCtrl", (
+  $scope,
+  $modalInstance,
+  estatisticasPagas,
+  estatisticasPlanejadas) ->
+
+  $scope.estatisticasPagas =
+    "Disciplinas Obrigatórias": estatisticasPagas.estatisticasObrigatorias
+    "Disciplinas Optativas": estatisticasPagas.estatisticasOptativas
+    "Disciplinas Complementares": estatisticasPagas.estatisticasComplementares
+
+  $scope.estatisticasPlanejadas =
+    "Disciplinas Obrigatórias": estatisticasPlanejadas.estatisticasObrigatorias
+    "Disciplinas Optativas": estatisticasPlanejadas.estatisticasOptativas
+    "Disciplinas Complementares": estatisticasPlanejadas.estatisticasComplementares
+
+  $scope.estatisticas = {
+    'Pagas': $scope.estatisticasPagas,
+    'Planejadas': $scope.estatisticasPlanejadas }
+
+  $scope.ok = () ->
+    $modalInstance.close()

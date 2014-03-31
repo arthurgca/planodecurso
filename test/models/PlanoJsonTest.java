@@ -52,6 +52,16 @@ public class PlanoJsonTest {
     }
 
     @Test
+    public void estatisticasPagas() {
+        assertNotNull(plano.get("estatisticasPagas"));
+    }
+
+    @Test
+    public void estatisticasPlanejadas() {
+        assertNotNull(plano.get("estatisticasPlanejadas"));
+    }
+
+    @Test
     public void periodos() {
         assertTrue(plano.get("periodos").isArray());
         assertEquals(4, plano.get("periodos").size());
