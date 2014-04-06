@@ -12,6 +12,9 @@ POST    /cadastrar                                      controllers.Application.
 
 # App
 GET     /home                                           controllers.PlanoDeCursoApp.index()
+GET     /busca                                          controllers.PlanoDeCursoApp.busca()
+GET     /busca/:id                                      controllers.PlanoDeCursoApp.verPlano(id: Long)
+POST    /busca                                          controllers.PlanoDeCursoApp.buscaNome()
 
 # Curriculos
 GET     /curriculos                                     controllers.Curriculos.listar()

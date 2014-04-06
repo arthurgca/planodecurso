@@ -1,0 +1,84 @@
+@(estudante: Estudante, estudanteBusca: Estudante)
+
+@import helper._
+@import play.libs.Json
+
+@main("Plano de Curso", estudante, false) {
+
+<script type="text/javascript">
+  @if(estudanteBusca.getPlano != null) {
+  var PLANO_CACHE = @Html(new PlanoJson().toJson(estudanteBusca.getPlano()).toString());
+  } else {
+  var PLANO_CACHE = undefined;
+  }
+</script>
+<div class="alert alert-success">
+Você está vendo o plano de curso de @estudanteBusca.getNome
+</div>
+<div>
+  <ng-include ng-repeat="periodo in plano.periodos"
+              src="'periodo/periodo.html'">
+  </ng-include>
+</div>
+
+<script id="periodo/periodo.html"
+        type="text/ng-template">
+  <div class="periodo panel"
+       ng-class="{'panel-primary': periodo.isAtual, 'panel-default': periodo.isPassado, 'panel-info': periodo.isFuturo}"
+       ng-controller="PeriodoCtrl">
+    <div class="panel-heading dropdown"
+         ng-include="'periodo/periodo-heading.html'">
+    </div>
+    <div class="panel-body"
+         ng-include="'periodo/periodo-body.html'">
+    </div>
+  </div>
+</script>
+
+<script id="periodo/periodo-heading.html"
+        type="text/ng-template">
+  {{periodo.semestre}}º Período
+  <span class="label label-default">
+    {{periodo.totalCreditos}} créditos
+  </span>
+</script>
+
+<script id="periodo/periodo-body.html" type="text/ng-template">
+  <div ng-if="periodo.erroPoliticaDeCreditos && periodo.disciplinas.length" class="alert alert-danger">
+    {{periodo.erroPoliticaDeCreditos}}
+  </div>
+  <div class="list-group"
+       ng-model="periodo.disciplinas">
+    <div ng-if="periodo.disciplinas.length==0" class="blank-slate">
+      <h2>
+        Período Vazio<br/>
+        <small>
+          
+        </small>
+      </h2>
+    </div>
+    <a class="list-group-item disciplina"
+       ng-repeat="disciplina in periodo.disciplinas"
+       ng-include="'periodo/disciplina.html'"
+       href="#">
+    </a>
+  </div>
+</script>
+
+<script id="periodo/disciplina.html"
+        type="text/ng-template">
+  <h4>
+    {{disciplina.nome}}
+    <span class="badge">{{disciplina.creditos}}</span>
+  </h4>
+  <ul class="small list-inline">
+    <li ng-repeat="requisito in disciplina.requisitos">
+      <span class="label"
+            ng-class="requisito.isSatisfeito?'label-primary':'label-danger'">
+        {{requisito.nome}}
+      </span>
+    </li>
+  </ul>
+</script>
+
+}

@@ -1,4 +1,4 @@
-@(title: String, estudante: Estudante)(content: Html)
+@(title: String, estudante: Estudante, isHome: Boolean)(content: Html)
 <!DOCTYPE html>
 <html style="height: 100%;" ng-app="mainApp">
     <head>
@@ -39,8 +39,11 @@
                 <span class="glyphicon glyphicon-user"></span>
               </a>
               <ul class="dropdown-menu dropdown-menu-right">
+                <li><a href="@routes.PlanoDeCursoApp.busca()">Buscar</a></li>
+                @if(isHome) {
                 <li><a ng-click="mostrarEstatisticas()">Estatísticas</a></li>
-                <li><a ng-click="configurarPlano()">Configurações</a></li>
+                <li><a ng-click="configurarPlano()">Configurações</a></li> 
+                }
                 <li class="divider"></li>
                 <li><a href="@routes.Application.logout()">Sair</a></li>
               </ul>

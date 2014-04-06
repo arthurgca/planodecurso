@@ -63,8 +63,8 @@ create table plano (
 create table politica_de_creditos (
   dtype                     varchar(10) not null,
   id                        integer not null,
-  max_creditos              integer,
   min_creditos              integer,
+  max_creditos              integer,
   constraint pk_politica_de_creditos primary key (id))
 ;
 
