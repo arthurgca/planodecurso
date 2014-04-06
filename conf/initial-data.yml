@@ -1111,3 +1111,869 @@ curriculos:
 
               - !!models.Periodo
                   semestre:    14
+  - !!models.Curriculo
+      id:                           2
+      nome:                         Novo Currículo
+      maxPeriodos:                  16
+      minCreditosPeriodo:           14
+      maxCreditosPeriodo:           28
+      minCreditosObrigatorias:      132
+      minDisciplinasObrigatorias:   33
+      minCreditosOptativas:         56
+      minDisciplinasOptativas:      14
+      minCreditosComplementares:    26
+      minDisciplinasComplementares: 7
+      disciplinas:
+        - !!models.Disciplina
+            id:         81
+            nome:       Programação I
+            creditos:   4
+            categoria:  Primeiro Semestre
+            tipo:       OBRIGATORIA
+
+        - !!models.Disciplina
+            id:         82
+            nome:       Lab. de Programação I
+            creditos:   4
+            categoria:  Primeiro Semestre
+            tipo:       OBRIGATORIA
+
+        - !!models.Disciplina
+            id:         83
+            nome:       Int. à Computação
+            creditos:   4
+            categoria:  Primeiro Semestre
+            tipo:       OBRIGATORIA
+
+        - !!models.Disciplina
+            id:         84
+            nome:       Matemática Discreta I
+            creditos:   4
+            categoria:  Primeiro Semestre
+            tipo:       OBRIGATORIA
+
+        - !!models.Disciplina
+            id:         85
+            nome:       Matemática Discreta II
+            creditos:   4
+            categoria:  Segundo Semestre
+            tipo:       OBRIGATORIA
+            requisitos:
+              - !!models.Disciplina
+                  id:   84
+
+        - !!models.Disciplina
+            id:         86
+            nome:       Cálculo I
+            creditos:   4
+            categoria:  Segundo Semestre
+            tipo:       OBRIGATORIA
+
+        - !!models.Disciplina
+            id:         87
+            nome:       Programação II
+            creditos:   4
+            categoria:  Segundo Semestre
+            tipo:       OBRIGATORIA
+            requisitos:
+              - !!models.Disciplina
+                  id:   81
+              - !!models.Disciplina
+                  id:   82
+
+        - !!models.Disciplina
+            id:         88
+            nome:       Lab. de Programação II
+            creditos:   4
+            categoria:  Segundo Semestre
+            tipo:       OBRIGATORIA
+            requisitos:
+              - !!models.Disciplina
+                  id:   81
+              - !!models.Disciplina
+                  id:   82
+
+        - !!models.Disciplina
+            id:         89
+            nome:       Teoria dos Grafos
+            creditos:   4
+            categoria:  Terceiro Semestre
+            tipo:       OBRIGATORIA
+
+        - !!models.Disciplina
+            id:         90
+            nome:       Álgebra Linear
+            creditos:   4
+            categoria:  Terceiro Semestre
+            tipo:       OBRIGATORIA
+            requisitos:
+              - !!models.Disciplina
+                  id:   84
+
+        - !!models.Disciplina
+            id:         91
+            nome:       Cálculo II
+            creditos:   4
+            categoria:  Segundo Semestre
+            tipo:       OBRIGATORIA
+            requisitos:
+              - !!models.Disciplina
+                  id:   83
+
+        - !!models.Disciplina
+            id:         92
+            nome:       Estrutura de Dados
+            creditos:   4
+            categoria:  Terceiro Semestre
+            tipo:       OBRIGATORIA
+            requisitos:
+              - !!models.Disciplina
+                  id:   87
+              - !!models.Disciplina
+                  id:   88
+
+        - !!models.Disciplina
+            id:         93
+            nome:       Lab. de Estrutura de Dados
+            creditos:   4
+            categoria:  Terceiro Semestre
+            tipo:       OBRIGATORIA
+            requisitos:
+              - !!models.Disciplina
+                  id:   87
+              - !!models.Disciplina
+                  id:   88
+
+        - !!models.Disciplina
+            id:         94
+            nome:       Lógica para Computação
+            creditos:   4
+            categoria:  Terceiro Semestre
+            tipo:       OBRIGATORIA
+            requisitos:
+              - !!models.Disciplina
+                  id:   84
+
+        - !!models.Disciplina
+            id:         95
+            nome:       Introdução à Probabilidade
+            creditos:   4
+            categoria:  Quarto Semestre
+            tipo:       OBRIGATORIA
+            requisitos:
+              - !!models.Disciplina
+                  id:   85
+              - !!models.Disciplina
+                  id:   86
+
+        - !!models.Disciplina
+            id:         96
+            nome:       Projeto de Software
+            creditos:   4
+            categoria:  Quarto Semestre
+            tipo:       OBRIGATORIA
+
+        - !!models.Disciplina
+            id:         97
+            nome:       Paradigmas de Linguagens de Programação
+            creditos:   4
+            categoria:  Quarto Semestre
+            tipo:       OBRIGATORIA
+
+        - !!models.Disciplina
+            id:         98
+            nome:       Banco de Dados I
+            creditos:   4
+            categoria:  Quarto Semestre
+            tipo:       OBRIGATORIA
+            requisitos:
+              - !!models.Disciplina
+                  id:   92
+
+        - !!models.Disciplina
+            id:         99
+            nome:       Org. e Arquitetura de Computadores
+            creditos:   4
+            categoria:  Quarto Semestre
+            tipo:       OBRIGATORIA
+
+        - !!models.Disciplina
+            id:         100
+            nome:       Lab. de Org. e Arquitetura de Computadores 
+            creditos:   4
+            categoria:  Quarto Semestre
+            tipo:       OBRIGATORIA
+
+        - !!models.Disciplina
+            id:         101
+            nome:       Estatística Aplicada
+            creditos:   4
+            categoria:  Quinto Semestre
+            tipo:       OBRIGATORIA
+            requisitos:
+              - !!models.Disciplina
+                  id:   95
+
+        - !!models.Disciplina
+            id:         102
+            nome:       Análise de Sistemas
+            creditos:   4
+            categoria:  Quinto Semestre
+            tipo:       OBRIGATORIA
+
+        - !!models.Disciplina
+            id:         103
+            nome:       Engenharia de Software
+            creditos:   4
+            categoria:  Quinto Semestre
+            tipo:       OBRIGATORIA
+
+        - !!models.Disciplina
+            id:         104
+            nome:       Redes de Computadores
+            creditos:   4
+            categoria:  Quinto Semestre
+            tipo:       OBRIGATORIA
+
+        - !!models.Disciplina
+            id:         105
+            nome:       Sistemas Operacionais
+            creditos:   4
+            categoria:  Quinto Semestre
+            tipo:       OBRIGATORIA
+
+        - !!models.Disciplina
+            id:         106
+            nome:       Teoria da Computação
+            creditos:   4
+            categoria:  Quinto Semestre
+            tipo:       OBRIGATORIA
+            requisitos:
+              - !!models.Disciplina
+                  id:   97
+
+        - !!models.Disciplina
+            id:         107
+            nome:       Metodologia Científica
+            creditos:   4
+            categoria:  Sexto Semestre
+            tipo:       OBRIGATORIA
+
+        - !!models.Disciplina
+            id:         108
+            nome:       Programação Concorrente
+            creditos:   4
+            categoria:  Sexto Semestre
+            tipo:       OBRIGATORIA
+            requisitos:
+              - !!models.Disciplina
+                  id:   105
+
+        - !!models.Disciplina
+            id:         109
+            nome:       Inteligência Artificial
+            creditos:   4
+            categoria:  Sexto Semestre
+            tipo:       OBRIGATORIA
+            requisitos:
+              - !!models.Disciplina
+                  id:   106
+
+        - !!models.Disciplina
+            id:         110
+            nome:       Análise e Técnicas de Algoritmos
+            creditos:   4
+            categoria:  Sétimo Semestre
+            tipo:       OBRIGATORIA
+
+        - !!models.Disciplina
+            id:         111
+            nome:       Compiladores
+            creditos:   4
+            categoria:  Sétimo Semestre
+            tipo:       OBRIGATORIA
+
+        - !!models.Disciplina
+            id:         112
+            nome:       Projeto em Computação
+            creditos:   4
+            categoria:  Oitavo Semestre
+            tipo:       OBRIGATORIA
+            requisitos:
+              - !!models.Disciplina
+                  id:   103
+
+        - !!models.Disciplina
+            id:         113
+            nome:       Trabalho de Conclusão do Curso I
+            creditos:   4
+            categoria:  Oitavo Semestre
+            tipo:       OBRIGATORIA
+
+        - !!models.Disciplina
+            id:         114
+            nome:       Projeto em Computação II
+            creditos:   4
+            categoria:  Nono Semestre
+            tipo:       OBRIGATORIA
+            requisitos:
+              - !!models.Disciplina
+                  id:   112
+
+        - !!models.Disciplina
+            id:         115
+            nome:       Trabalho de Conclusão do Curso II
+            creditos:   4
+            categoria:  Nono Semestre
+            tipo:       OBRIGATORIA
+            requisitos:
+              - !!models.Disciplina
+                  id:   113
+
+        - !!models.Disciplina
+            id:         116
+            nome:       Administração de Sistemas Gerenciadores de Bancos de Dados
+            creditos:   4
+            categoria:  Optativa Específica
+            tipo:       OPTATIVA
+            requisitos:
+              - !!models.Disciplina
+                  id:   98
+
+        - !!models.Disciplina
+            id:         117
+            nome:       Algoritmos Avançados I
+            creditos:   4
+            categoria:  Optativa Específica
+            tipo:       OPTATIVA
+
+        - !!models.Disciplina
+            id:         118
+            nome:       Algoritmos Avançados II
+            creditos:   4
+            categoria:  Optativa Específica
+            tipo:       OPTATIVA
+
+        - !!models.Disciplina
+            id:         119
+            nome:       Algoritmos Avançados III
+            creditos:   4
+            categoria:  Optativa Específica
+            tipo:       OPTATIVA
+
+        - !!models.Disciplina
+            id:         120
+            nome:       Algoritmos Avançados IV
+            creditos:   4
+            categoria:  Optativa Específica
+            tipo:       OPTATIVA
+
+        - !!models.Disciplina
+            id:         121
+            nome:       Arquitetura de Software
+            creditos:   4
+            categoria:  Optativa Específica
+            tipo:       OPTATIVA
+            requisitos:
+              - !!models.Disciplina
+                  id:   96
+
+        - !!models.Disciplina
+            id:         122
+            nome:       Avaliação de Desempenho de Sistemas Discretos
+            creditos:   4
+            categoria:  Optativa Específica
+            tipo:       OPTATIVA
+            requisitos:
+              - !!models.Disciplina
+                  id:   95
+
+        - !!models.Disciplina
+            id:         123
+            nome:       Banco de Dados II
+            creditos:   4
+            categoria:  Optativa Específica
+            tipo:       OPTATIVA
+            requisitos:
+              - !!models.Disciplina
+                  id:   98
+
+        - !!models.Disciplina
+            id:         124
+            nome:       Computação Gráfica
+            creditos:   4
+            categoria:  Optativa Específica
+            tipo:       OPTATIVA
+
+        - !!models.Disciplina
+            id:         125
+            nome:       Computação e Música
+            creditos:   4
+            categoria:  Optativa Específica
+            tipo:       OPTATIVA
+            requisitos:
+              - !!models.Disciplina
+                  id:   92
+
+        - !!models.Disciplina
+            id:         126
+            nome:       Economia de Tecnologia da Informação
+            creditos:   4
+            categoria:  Optativa Específica
+            tipo:       OPTATIVA
+
+        - !!models.Disciplina
+            id:         127
+            nome:       Empreendedorismo em Software
+            creditos:   4
+            categoria:  Optativa Específica
+            tipo:       OPTATIVA
+
+        - !!models.Disciplina
+            id:         128
+            nome:       Gerência de Redes
+            creditos:   4
+            categoria:  Optativa Específica
+            tipo:       OPTATIVA
+            requisitos:
+              - !!models.Disciplina
+                  id:   104
+
+        - !!models.Disciplina
+            id:         129
+            nome:       Interconexão de Redes de Computadores
+            creditos:   4
+            categoria:  Optativa Específica
+            tipo:       OPTATIVA
+            requisitos:
+              - !!models.Disciplina
+                  id:   104
+
+        - !!models.Disciplina
+            id:         130
+            nome:       Interface Homem-Máquina
+            creditos:   4
+            categoria:  Optativa Específica
+            tipo:       OPTATIVA
+
+        - !!models.Disciplina
+            id:         131
+            nome:       Otimização
+            creditos:   4
+            categoria:  Optativa Específica
+            tipo:       OPTATIVA
+
+        - !!models.Disciplina
+            id:         132
+            nome:       Métodos e Software Numéricos´
+            creditos:   4
+            categoria:  Optativa Específica
+            tipo:       OPTATIVA
+
+        - !!models.Disciplina
+            id:         133
+            nome:       Métodos Formais
+            creditos:   4
+            categoria:  Optativa Específica
+            tipo:       OPTATIVA
+
+        - !!models.Disciplina
+            id:         134
+            nome:       Prática de Ensino em Computação I
+            creditos:   2
+            categoria:  Optativa Específica
+            tipo:       OPTATIVA
+
+        - !!models.Disciplina
+            id:         135
+            nome:       Prática de Ensino em Computação II
+            creditos:   2
+            categoria:  Optativa Específica
+            tipo:       OPTATIVA
+            requisitos:
+              - !!models.Disciplina
+                  id:   134
+
+        - !!models.Disciplina
+            id:         136
+            nome:       Princípios de Desenvolvimento Web
+            creditos:   4
+            categoria:  Optativa Específica
+            tipo:       OPTATIVA
+            requisitos:
+              - !!models.Disciplina
+                  id:   87
+              - !!models.Disciplina
+                  id:   88
+
+        - !!models.Disciplina
+            id:         137
+            nome:       Programação em Banco de Dados
+            creditos:   4
+            categoria:  Optativa Específica
+            tipo:       OPTATIVA
+            requisitos:
+              - !!models.Disciplina
+                  id:   98
+
+        - !!models.Disciplina
+            id:         138
+            nome:       Projeto de Redes de Computadores
+            creditos:   4
+            categoria:  Optativa Específica
+            tipo:       OPTATIVA
+            requisitos:
+              - !!models.Disciplina
+                  id:   104
+
+        - !!models.Disciplina
+            id:         139
+            nome:       Reconhecimento de Padrões e Redes Neurais
+            creditos:   4
+            categoria:  Optativa Específica
+            tipo:       OPTATIVA
+            requisitos:
+              - !!models.Disciplina
+                  id:   101
+              - !!models.Disciplina
+                  id:   110
+
+        - !!models.Disciplina
+            id:         140
+            nome:       Recuperação da Informação e Busca na Web
+            creditos:   4
+            categoria:  Optativa Específica
+            tipo:       OPTATIVA
+
+        - !!models.Disciplina
+            id:         141
+            nome:       Segurança de Redes
+            creditos:   4
+            categoria:  Optativa Específica
+            tipo:       OPTATIVA
+            requisitos:
+              - !!models.Disciplina
+                  id:   104
+
+        - !!models.Disciplina
+            id:         142
+            nome:       Sistemas de Apoio à Decisão
+            creditos:   4
+            categoria:  Optativa Específica
+            tipo:       OPTATIVA
+
+        - !!models.Disciplina
+            id:         143
+            nome:       Sistemas de Informação Geográfica
+            creditos:   4
+            categoria:  Optativa Específica
+            tipo:       OPTATIVA
+
+        - !!models.Disciplina
+            id:         144
+            nome:       Sistemas Distribuiídos
+            creditos:   4
+            categoria:  Optativa Específica
+            tipo:       OPTATIVA
+
+        - !!models.Disciplina
+            id:         145
+            nome:       Tópicos em Ciência da Computação I
+            creditos:   4
+            categoria:  Optativa Específica
+            tipo:       OPTATIVA
+
+        - !!models.Disciplina
+            id:         146
+            nome:       Tópicos em Ciência da Computação II
+            creditos:   4
+            categoria:  Optativa Específica
+            tipo:       OPTATIVA
+
+        - !!models.Disciplina
+            id:         147
+            nome:       Tópicos em Ciência da Computação III
+            creditos:   4
+            categoria:  Optativa Específica
+            tipo:       OPTATIVA
+
+        - !!models.Disciplina
+            id:         148
+            nome:       Tópicos em Ciência da Computação IV
+            creditos:   4
+            categoria:  Optativa Específica
+            tipo:       OPTATIVA
+
+        - !!models.Disciplina
+            id:         149
+            nome:       Verificação e Validação de Software
+            creditos:   4
+            categoria:  Optativa Específica
+            tipo:       OPTATIVA
+            requisitos:
+              - !!models.Disciplina
+                  id:   103
+
+        - !!models.Disciplina
+            id:         150
+            nome:       Visão Computacional
+            creditos:   4
+            categoria:  Optativa Específica
+            tipo:       OPTATIVA
+
+        - !!models.Disciplina
+            id:         151
+            nome:       Administração e Empreendedorismo
+            creditos:   4
+            categoria:  Optativa Geral
+            tipo:       OPTATIVA
+
+        - !!models.Disciplina
+            id:         152
+            nome:       Álgebra Vetorial e Geometria Análitica
+            creditos:   4
+            categoria:  Optativa Geral
+            tipo:       OPTATIVA
+
+        - !!models.Disciplina
+            id:         153
+            nome:       Cálculo III
+            creditos:   4
+            categoria:  Optativa Geral
+            tipo:       OPTATIVA
+            requisitos:
+              - !!models.Disciplina
+                  id:   85
+              - !!models.Disciplina
+                  id:   91
+
+        - !!models.Disciplina
+            id:         154
+            nome:       Direito e Cidadania
+            creditos:   4
+            categoria:  Optativa Geral
+            tipo:       OPTATIVA
+
+        - !!models.Disciplina
+            id:         155
+            nome:       Economia
+            creditos:   4
+            categoria:  Optativa Geral
+            tipo:       OPTATIVA
+
+        - !!models.Disciplina
+            id:         156
+            nome:       Física Geral I
+            creditos:   4
+            categoria:  Optativa Geral
+            tipo:       OPTATIVA
+
+        - !!models.Disciplina
+            id:         157
+            nome:       Física Geral II
+            creditos:   4
+            categoria:  Optativa Geral
+            tipo:       OPTATIVA
+            requisitos:
+              - !!models.Disciplina
+                  id:   84
+              - !!models.Disciplina
+                  id:   86
+              - !!models.Disciplina
+                  id:   156
+
+        - !!models.Disciplina
+            id:         158
+            nome:       Física Geral III
+            creditos:   4
+            categoria:  Optativa Geral
+            tipo:       OPTATIVA
+            requisitos:
+              - !!models.Disciplina
+                  id:   91
+              - !!models.Disciplina
+                  id:   157
+
+        - !!models.Disciplina
+            id:         159
+            nome:       Física Geral IV
+            creditos:   4
+            categoria:  Optativa Geral
+            tipo:       OPTATIVA
+            requisitos:
+              - !!models.Disciplina
+                  id:   153
+              - !!models.Disciplina
+                  id:   158
+
+        - !!models.Disciplina
+            id:         160
+            nome:       Informática e Sociedade
+            creditos:   4
+            categoria:  Optativa Geral
+            tipo:       OPTATIVA
+
+        - !!models.Disciplina
+            id:         161
+            nome:       Inglês
+            creditos:   4
+            categoria:  Optativa Geral
+            tipo:       OPTATIVA
+
+        - !!models.Disciplina
+            id:         162
+            nome:       Libras
+            creditos:   4
+            categoria:  Optativa Geral
+            tipo:       OPTATIVA
+
+        - !!models.Disciplina
+            id:         163
+            nome:       Língua Portuguesa
+            creditos:   4
+            categoria:  Optativa Geral
+            tipo:       OPTATIVA
+
+        - !!models.Disciplina
+            id:         164
+            nome:       Tópicos em Humanidades I
+            creditos:   4
+            categoria:  Optativa Geral
+            tipo:       OPTATIVA
+
+        - !!models.Disciplina
+            id:         165
+            nome:       Tópicos em Humanidades II
+            creditos:   4
+            categoria:  Optativa Geral
+            tipo:       OPTATIVA
+      grades:
+        - !!models.Grade
+            nome:       Grade Novo Currículo
+            periodos:
+              - !!models.Periodo
+                  semestre:    1
+                  disciplinas:
+                    - !!models.Disciplina
+                        id:   81
+                    - !!models.Disciplina
+                        id:   82
+                    - !!models.Disciplina
+                        id:   83
+                    - !!models.Disciplina
+                        id:   84
+
+              - !!models.Periodo
+                  semestre:    2
+                  disciplinas:
+                    - !!models.Disciplina
+                        id:   85
+                    - !!models.Disciplina
+                        id:   86
+                    - !!models.Disciplina
+                        id:   87
+                    - !!models.Disciplina
+                        id:   88
+
+              - !!models.Periodo
+                  semestre:    3
+                  disciplinas:
+                    - !!models.Disciplina
+                        id:   89
+                    - !!models.Disciplina
+                        id:   90
+                    - !!models.Disciplina
+                        id:   91
+                    - !!models.Disciplina
+                        id:   92
+                    - !!models.Disciplina
+                        id:   93
+                    - !!models.Disciplina
+                        id:   94
+
+              - !!models.Periodo
+                  semestre:    4
+                  disciplinas:
+                    - !!models.Disciplina
+                        id:   95
+                    - !!models.Disciplina
+                        id:   96
+                    - !!models.Disciplina
+                        id:   97
+                    - !!models.Disciplina
+                        id:   98
+                    - !!models.Disciplina
+                        id:   99
+                    - !!models.Disciplina
+                        id:   100
+
+              - !!models.Periodo
+                  semestre:    5
+                  disciplinas:
+                    - !!models.Disciplina
+                        id:   101
+                    - !!models.Disciplina
+                        id:   102
+                    - !!models.Disciplina
+                        id:   103
+                    - !!models.Disciplina
+                        id:   104
+                    - !!models.Disciplina
+                        id:   105
+                    - !!models.Disciplina
+                        id:   106
+
+              - !!models.Periodo
+                  semestre:    6
+                  disciplinas:
+                    - !!models.Disciplina
+                        id:   107
+                    - !!models.Disciplina
+                        id:   108
+                    - !!models.Disciplina
+                        id:   109
+
+              - !!models.Periodo
+                  semestre:    7
+                  disciplinas:
+                    - !!models.Disciplina
+                        id:   110
+                    - !!models.Disciplina
+                        id:   111
+
+              - !!models.Periodo
+                  semestre:    8
+                  disciplinas:
+                    - !!models.Disciplina
+                        id:   112
+                    - !!models.Disciplina
+                        id:   113
+
+              - !!models.Periodo
+                  semestre:    9
+                  disciplinas:
+                    - !!models.Disciplina
+                        id:   114
+                    - !!models.Disciplina
+                        id:   115
+
+              - !!models.Periodo
+                  semestre:    10
+
+              - !!models.Periodo
+                  semestre:    11
+
+              - !!models.Periodo
+                  semestre:    12
+
+              - !!models.Periodo
+                  semestre:    13
+
+              - !!models.Periodo
+                  semestre:    14
+
+              - !!models.Periodo
+                  semestre:    15
+
+              - !!models.Periodo
+                  semestre:    16
